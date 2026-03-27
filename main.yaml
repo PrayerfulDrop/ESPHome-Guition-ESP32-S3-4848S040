@@ -64,14 +64,6 @@ substitutions:
 #           start_time: "{{ events[2].start   if events | length > 2 else '' }}"
 #           end_time:   "{{ events[2].end     if events | length > 2 else '' }}"
 
-#       - name: "Calendar Upcoming Event 4"
-#         unique_id: calendar_upcoming_event_4
-#         state: "{{ events[3].summary if events | length > 3 else 'No event' }}"
-#         attributes:
-#           message:    "{{ events[3].summary if events | length > 3 else '' }}"
-#           start_time: "{{ events[3].start   if events | length > 3 else '' }}"
-#           end_time:   "{{ events[3].end     if events | length > 3 else '' }}"
-# 
 
   calendar_entity:        "sensor.calendar_upcoming_event_1" #calendar event 1
   calendar_entity_2:      "sensor.calendar_upcoming_event_2" #calendar event 2

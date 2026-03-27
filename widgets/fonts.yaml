@@ -66,6 +66,14 @@
     - GF_Cyrillic_Core
 
 - file: "fonts/Nunito-SemiBold.ttf"
+  id: nunito_44
+  size: 44
+  bpp: 4
+  glyphsets:
+    - GF_Latin_Core
+    - GF_Cyrillic_Core
+
+- file: "fonts/Nunito-SemiBold.ttf"
   id: nunito_48
   size: 48
   bpp: 4
@@ -152,6 +160,9 @@
     "\U0000e908", # lightbulb
     "\U0000e91a", # swipe
     "\U0000e92e", # lock
+    "\U0000e936", # heating
+    "\U0000e93b", # air_conditioner
+    "\U0000e909", # power (off)
   ]
 
 - file: "fonts/icons_v2.ttf"
@@ -259,6 +270,7 @@
     "\U000F06BB", # shield plane
     "\U000F099E", # shield off
     "\U000F0498", # shield
+    "\U000F00ED", # calendar
   ]
 
 - file: "fonts/materialdesignicons-webfont.ttf"

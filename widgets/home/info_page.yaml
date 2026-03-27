@@ -154,6 +154,8 @@ lvgl:
   pages:
     - id: system_info_page
       bg_color: color_slate_blue_gray
+      on_load:
+        - lvgl.widget.show: menu_controls_main
       widgets:
         - obj:
             id: system_info_container

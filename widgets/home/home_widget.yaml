@@ -3,8 +3,9 @@ substitutions:
   air_conditioner_icon:    "\U0000e93b"
   heating_icon:            "\U0000e936"
   hvac_icon:               "\U0000e925"  # thermostat-dial
-  info_icon:               "\U0000e904" 
+  info_icon:               "\U0000e904"
   ha_icon:                 "\U0000e935" # home assistant
+  calendar_icon:           "\U000F00ED" # mdi-calendar
   wifi_25_icon:            "\U0000e931" # wifi signal from 25% to 1%
   wifi_50_icon:            "\U0000e932" # wifi signal from 50% to 25%
   wifi_75_icon:            "\U0000e933" # wifi signal from 75% to 50%
@@ -304,10 +305,10 @@ lvgl:
         # weather – clickable → forecast page
         - obj:
             id: home_bg_weather
-            x: 20
-            y: 210
-            width: 220
-            height: 150
+            x: 250
+            y: 80
+            width: 210
+            height: 110
             align: TOP_LEFT
             pad_all: 0
             bg_color: color_steel_blue
@@ -329,147 +330,123 @@ lvgl:
               - image:
                   id: weather_sunny_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: sunny_img
               - image:
                   id: weather_clear_night_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: clear_night_img
               - image:
                   id: weather_cloudy_image
                   hidden: true
-                  y: 20
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: cloudy_img
               - image:
                   id: weather_partlycloudy_sun_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: partlycloudy_sun_img
               - image:
                   id: weather_partlycloudy_moon_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: partlycloudy_moon_img
               - image:
                   id: weather_rainy_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: rainy_img
               - image:
                   id: weather_pouring_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: pouring_img
               - image:
                   id: weather_snowy_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: snowy_img
               - image:
                   id: weather_snowy_rainy_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: snowy_rainy_img
               - image:
                   id: weather_fog_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: fog_img
               - image:
                   id: weather_hail_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: hail_img
               - image:
                   id: weather_lightning_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: lightning_img
               - image:
                   id: weather_lightning_rainy_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: lightning_rainy_img
               - image:
                   id: weather_windy_image
                   hidden: true
-                  y: 10
-                  x: 25
-                  align: TOP_LEFT
+                  align: LEFT_MID
+                  x: 10
                   src: windy_img
               - image:
                   id: weather_windy_variant_image
                   hidden: true
-                  y: 10
+                  align: LEFT_MID
                   x: 10
-                  align: TOP_LEFT
                   src: windy_variant_img
 
               - label:
+                  id: weather_temperature
                   x: -10
                   y: 10
                   align: TOP_RIGHT
-                  id: weather_temperature
-                  text_font: nunito_48
+                  text_font: nunito_44
                   text_color: color_misty_blue
                   text: "-25°"
 
               - label:
                   id: weather_state_label
-                  y: -10
-                  width: 180
-                  height: 30
-                  align:  BOTTOM_MID
-                  text_font: nunito_16
-                  text_color: color_misty_blue
-                  long_mode: SCROLL_CIRCULAR
-                  text: " "
-
-              # Tap hint – subtle chevron at bottom-right
-              - label:
-                  id: weather_tap_hint
-                  x: -6
-                  y: -6
+                  x: -10
+                  y: -8
+                  width: 110
+                  height: 20
                   align: BOTTOM_RIGHT
                   text_font: nunito_16
-                  text_color: color_steel_blue
-                  text: "›"
+                  text_color: color_misty_blue
+                  long_mode: CLIP
+                  text: " "
 
-        # calendar events — 4 upcoming events
+        # calendar events — 3 upcoming events
         - obj:
             id: home_bg_calendar
-            x: -20
-            y: 80
-            width: 200
-            height: 215
-            align: TOP_RIGHT
+            x: 20
+            y: 200
+            width: 440
+            height: 175
+            align: TOP_LEFT
             pad_all: 0
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -479,29 +456,52 @@ lvgl:
             radius: 10
             widgets:
 
-              # header
+              # header: calendar icon + label
+              - label:
+                  id: calendar_header_icon
+                  x: 8
+                  y: 5
+                  align: TOP_LEFT
+                  text_font: mdi_icons_24
+                  text_color: color_steel_blue
+                  text: "${calendar_icon}"
               - label:
                   id: calendar_header_label
-                  y: 6
-                  width: 184
-                  align: TOP_MID
+                  x: 36
+                  y: 9
+                  align: TOP_LEFT
                   text_font: nunito_16
                   text_color: color_steel_blue
-                  text: "Upcoming"
+                  text: "Next Events"
+
+              # header separator
+              - obj:
+                  x: 8
+                  y: 30
+                  width: 424
+                  height: 1
+                  align: TOP_LEFT
+                  pad_all: 0
+                  bg_color: color_steel_blue
+                  bg_opa: 40%
+                  border_opa: TRANSP
+                  border_width: 0
+                  shadow_opa: TRANSP
+                  radius: 0
 
               # ── event 1 ──
               - label:
                   id: cal_datetime_label_1
                   x: 8
-                  y: 26
+                  y: 40
                   align: TOP_LEFT
                   text_font: nunito_16
                   text_color: color_steel_blue
                   text: " "
               - obj:
                   x: 8
-                  y: 43
-                  width: 184
+                  y: 57
+                  width: 424
                   height: 20
                   align: TOP_LEFT
                   pad_all: 0
@@ -513,7 +513,7 @@ lvgl:
                     - label:
                         id: cal_title_label_1
                         align: LEFT_MID
-                        width: 180
+                        width: 416
                         text_font: nunito_16
                         text_color: color_misty_blue
                         long_mode: SCROLL_CIRCULAR
@@ -523,15 +523,15 @@ lvgl:
               - label:
                   id: cal_datetime_label_2
                   x: 8
-                  y: 70
+                  y: 84
                   align: TOP_LEFT
                   text_font: nunito_16
                   text_color: color_steel_blue
                   text: " "
               - obj:
                   x: 8
-                  y: 87
-                  width: 184
+                  y: 101
+                  width: 424
                   height: 20
                   align: TOP_LEFT
                   pad_all: 0
@@ -543,7 +543,7 @@ lvgl:
                     - label:
                         id: cal_title_label_2
                         align: LEFT_MID
-                        width: 180
+                        width: 416
                         text_font: nunito_16
                         text_color: color_misty_blue
                         long_mode: SCROLL_CIRCULAR
@@ -553,15 +553,15 @@ lvgl:
               - label:
                   id: cal_datetime_label_3
                   x: 8
-                  y: 114
+                  y: 128
                   align: TOP_LEFT
                   text_font: nunito_16
                   text_color: color_steel_blue
                   text: " "
               - obj:
                   x: 8
-                  y: 131
-                  width: 184
+                  y: 145
+                  width: 424
                   height: 20
                   align: TOP_LEFT
                   pad_all: 0
@@ -573,101 +573,13 @@ lvgl:
                     - label:
                         id: cal_title_label_3
                         align: LEFT_MID
-                        width: 180
+                        width: 416
                         text_font: nunito_16
                         text_color: color_misty_blue
                         long_mode: SCROLL_CIRCULAR
                         text: " "
 
-              # ── event 4 ──
-              - label:
-                  id: cal_datetime_label_4
-                  x: 8
-                  y: 158
-                  align: TOP_LEFT
-                  text_font: nunito_16
-                  text_color: color_steel_blue
-                  text: " "
-              - obj:
-                  x: 8
-                  y: 175
-                  width: 184
-                  height: 20
-                  align: TOP_LEFT
-                  pad_all: 0
-                  bg_opa: TRANSP
-                  border_opa: TRANSP
-                  border_width: 0
-                  shadow_opa: TRANSP
-                  widgets:
-                    - label:
-                        id: cal_title_label_4
-                        align: LEFT_MID
-                        width: 180
-                        text_font: nunito_16
-                        text_color: color_misty_blue
-                        long_mode: SCROLL_CIRCULAR
-                        text: " "
 
-        # display lock
-        - obj:
-            id: home_bg_display_lock
-            x: 260
-            y: 300
-            width: 90
-            height: 60
-            align: TOP_LEFT
-            pad_all: 0
-            bg_color: color_steel_blue
-            bg_opa: 20%
-            border_opa: TRANSP
-            border_width: 0
-            shadow_opa: TRANSP
-            radius: 10
-            widgets:
-              - label:
-                  id: display_lock_btn
-                  align: CENTER
-                  text_font: icons_36
-                  text_color: color_misty_blue
-                  text: "${lock_icon}"
-            on_long_press:
-              then:
-                - if:
-                    condition:
-                      lambda: 'return id(display_lock) == false;'
-                    then:
-                      - switch.turn_on: display_lock_switch
-                    else:
-                      - switch.turn_off: display_lock_switch
-
-        # display info
-        - obj:
-            id: home_bg_display_info
-            x: 370
-            y: 300
-            width: 90
-            height: 60
-            align: TOP_LEFT
-            pad_all: 0
-            bg_color: color_steel_blue
-            bg_opa: 20%
-            border_opa: TRANSP
-            border_width: 0
-            shadow_opa: TRANSP
-            radius: 10
-            widgets:
-              - label:
-                  id: display_info_btn
-                  align: CENTER
-                  text_font: icons_36
-                  text_color: color_misty_blue
-                  text: "${info_icon}"
-            on_press:
-              - lvgl.page.show: 
-                  id: system_info_page
-                  animation: OUT_RIGHT
-                  time: 300ms
 
 
 time:
@@ -809,17 +721,16 @@ script:
             { id(cal_title_1).state, id(cal_start_1).state, id(cal_end_1).state },
             { id(cal_title_2).state, id(cal_start_2).state, id(cal_end_2).state },
             { id(cal_title_3).state, id(cal_start_3).state, id(cal_end_3).state },
-            { id(cal_title_4).state, id(cal_start_4).state, id(cal_end_4).state },
           };
           lv_obj_t* dt_labels[] = {
             id(cal_datetime_label_1), id(cal_datetime_label_2),
-            id(cal_datetime_label_3), id(cal_datetime_label_4)
+            id(cal_datetime_label_3)
           };
           lv_obj_t* title_labels[] = {
             id(cal_title_label_1), id(cal_title_label_2),
-            id(cal_title_label_3), id(cal_title_label_4)
+            id(cal_title_label_3)
           };
-          for (int i = 0; i < 4; i++) {
+          for (int i = 0; i < 3; i++) {
             const auto &ev = events[i];
             std::string date_str = fmt_date(ev.start);
             std::string t_start  = fmt_time(ev.start);
