@@ -419,7 +419,7 @@ lvgl:
               - label:
                   id: weather_temperature
                   x: -10
-                  y: 10
+                  y: 15
                   align: TOP_RIGHT
                   text_font: nunito_44
                   text_color: color_misty_blue
@@ -428,7 +428,7 @@ lvgl:
               - label:
                   id: weather_state_label
                   x: -10
-                  y: 60
+                  y: 75
                   width: 110
                   height: 20
                   align: TOP_RIGHT
