@@ -5,16 +5,79 @@ substitutions:
   ha_server:              "http://homeassistant.local:8123"  #ip address of HomeAssistant
 
   # entity information
-  weather_entity:         "weather.forecast_home" #current outdoor weather/forecast
-  temperature_entity:     "sensor.upstairs_temperature" #indoor temperature entity
-  humidity_entity:        "sensor.upstairs_humidity" #indoor humidity entity
-  co2_entity:             "sensor.upstairs_co2" #indoor CO2 entity
-  hvac_entity:            "climate.upstairs" #hvac entity
-  vacuum_entity:          "vacuum.x30_ultra"
-  media_player_entity:    "media_player.master_bedroom"
-  alarm_panel_entity:     "alarm_control_panel.system"
-  calendar_entity:        "calendar.familycalendar_calendar"
-  pin_code:               !secret security_pin_code
+  weather_entity:         "weather.forecast" #current outdoor weather/forecast
+  temperature_entity:     "sensor.yourinternaltemperature" #indoor temperature entity
+  humidity_entity:        "sensor.yourinternalhumidity" #indoor humidity entity
+  co2_entity:             "sensor.yourinternalco2" #indoor CO2 entity
+ 
+  vacuum_entity:          "vacuum.d10s_plus" # vacuum entity
+  media_player_entity:    "media_player.evelyn_room" # media player entity
+  alarm_panel_entity:     "alarm_control_panel.system" # alarm panel entity
+  pin_code:               !secret security_pin_code # alarm panel security pin code for alarm panel (if used)
+
+  # -- Calendar entities for upcoming events
+# add the following code to your configuration.yaml to create the calendar event sensors, then update the calendar_entity substitutions above with the matching sensor entity_id
+# change the calendar.yourcalendar to your calendar entity_id and adjust
+#
+# template:
+#   - trigger:
+#       - platform: time_pattern
+#         minutes: "/15"
+#       - platform: homeassistant
+#         event: start
+#     action:
+#       - action: calendar.get_events
+#         target:
+#           entity_id: calendar.yourcalendar
+#         data:
+#           start_date_time: "{{ now().isoformat() }}"
+#           duration:
+#             days: 30
+#         response_variable: agenda
+#       - variables:
+#           events: >
+#             {{ agenda['calendar.yourcalendar']['events']
+#                | selectattr('start', 'search', 'T')
+#                | list }}
+#     sensor:
+#       - name: "Calendar Upcoming Event 1"
+#         unique_id: calendar_upcoming_event_1
+#         state: "{{ events[0].summary if events | length > 0 else 'No event' }}"
+#         attributes:
+#           message:    "{{ events[0].summary if events | length > 0 else '' }}"
+#           start_time: "{{ events[0].start   if events | length > 0 else '' }}"
+#           end_time:   "{{ events[0].end     if events | length > 0 else '' }}"
+
+#       - name: "Calendar Upcoming Event 2"
+#         unique_id: calendar_upcoming_event_2
+#         state: "{{ events[1].summary if events | length > 1 else 'No event' }}"
+#         attributes:
+#           message:    "{{ events[1].summary if events | length > 1 else '' }}"
+#           start_time: "{{ events[1].start   if events | length > 1 else '' }}"
+#           end_time:   "{{ events[1].end     if events | length > 1 else '' }}"
+
+#       - name: "Calendar Upcoming Event 3"
+#         unique_id: calendar_upcoming_event_3
+#         state: "{{ events[2].summary if events | length > 2 else 'No event' }}"
+#         attributes:
+#           message:    "{{ events[2].summary if events | length > 2 else '' }}"
+#           start_time: "{{ events[2].start   if events | length > 2 else '' }}"
+#           end_time:   "{{ events[2].end     if events | length > 2 else '' }}"
+
+#       - name: "Calendar Upcoming Event 4"
+#         unique_id: calendar_upcoming_event_4
+#         state: "{{ events[3].summary if events | length > 3 else 'No event' }}"
+#         attributes:
+#           message:    "{{ events[3].summary if events | length > 3 else '' }}"
+#           start_time: "{{ events[3].start   if events | length > 3 else '' }}"
+#           end_time:   "{{ events[3].end     if events | length > 3 else '' }}"
+# 
+
+  calendar_entity:        "sensor.calendar_upcoming_event_1" #calendar event 1
+  calendar_entity_2:      "sensor.calendar_upcoming_event_2" #calendar event 2
+  calendar_entity_3:      "sensor.calendar_upcoming_event_3" #calendar event 3
+  calendar_entity_4:      "sensor.calendar_upcoming_event_4" #calendar event 4
+
 
   # ── HVAC widget mode ──────────────────────────────────────────────────────
   # Choose which HVAC widget(s) appear in the Devices menu.
@@ -22,6 +85,7 @@ substitutions:
   # Step 2: In widgets/devices.yaml, uncomment the matching package include(s).
   #
   # ── OPTION 1: Combined HVAC — heating + cooling on one page (DEFAULT) ─────
+  hvac_entity:            "climate.hvac" #hvac entity
   hvac_slot_1_icon:        "\U0000e925"   # thermostat-dial icon
   hvac_slot_1_page:        hvac_page
   hvac_slot_2_hidden:      "true"
@@ -173,6 +237,7 @@ esphome:
   includes:
     - <sstream>
     - <algorithm>
+    - <ctime>
   platformio_options:
     board_build.flash_mode: dio
 

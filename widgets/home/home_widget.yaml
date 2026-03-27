@@ -1,7 +1,8 @@
 substitutions:
   lock_icon:               "\U0000e92e"
-  air_conditioner_icon:    "\U0000e93b" 
+  air_conditioner_icon:    "\U0000e93b"
   heating_icon:            "\U0000e936"
+  hvac_icon:               "\U0000e925"  # thermostat-dial
   info_icon:               "\U0000e904" 
   ha_icon:                 "\U0000e935" # home assistant
   wifi_25_icon:            "\U0000e931" # wifi signal from 25% to 1%
@@ -87,102 +88,105 @@ text_sensor:
             state_str: !lambda 'return id(weather_state_sensor).state;'
         - script.execute: update_weather_image
 
-  # Calendar next event title
+  # ── Calendar event 1 ──────────────────────────────────────────────────────
   - platform: homeassistant
-    id: calendar_event_title
+    id: cal_title_1
     entity_id: "${calendar_entity}"
     attribute: message
     on_value:
       then:
-        - lvgl.label.update:
-            id: calendar_title_label
-            text: !lambda return x;
+        - script.execute: cal_update_all
 
-  # Calendar next event start time
   - platform: homeassistant
-    id: calendar_event_start
+    id: cal_start_1
     entity_id: "${calendar_entity}"
     attribute: start_time
     on_value:
       then:
-        - lvgl.label.update:
-            id: calendar_start_label
-            text: !lambda |-
-              if (x.length() < 10) return x;
-              int month = std::stoi(x.substr(5, 2));
-              int day   = std::stoi(x.substr(8, 2));
-              static const char* months[] = {
-                "Jan","Feb","Mar","Apr","May","Jun",
-                "Jul","Aug","Sep","Oct","Nov","Dec"
-              };
-              char buf[32];
-              if (x.length() >= 19 && x[10] == ' ') {
-                int hour = std::stoi(x.substr(11, 2));
-                int min  = std::stoi(x.substr(14, 2));
-                const char* ap = (hour >= 12) ? "pm" : "am";
-                if (hour > 12) hour -= 12;
-                if (hour == 0) hour = 12;
-                if (min == 0)
-                  snprintf(buf, sizeof(buf), "%s %d  %d%s", months[month-1], day, hour, ap);
-                else
-                  snprintf(buf, sizeof(buf), "%s %d  %d:%02d%s", months[month-1], day, hour, min, ap);
-              } else {
-                snprintf(buf, sizeof(buf), "%s %d  (all day)", months[month-1], day);
-              }
-              return std::string(buf);
+        - script.execute: cal_update_all
 
-  # Calendar next event end time
   - platform: homeassistant
-    id: calendar_event_end
+    id: cal_end_1
     entity_id: "${calendar_entity}"
     attribute: end_time
     on_value:
       then:
-        - lvgl.label.update:
-            id: calendar_end_label
-            text: !lambda |-
-              if (x.length() < 10) return x;
-              int month = std::stoi(x.substr(5, 2));
-              int day   = std::stoi(x.substr(8, 2));
-              static const char* months[] = {
-                "Jan","Feb","Mar","Apr","May","Jun",
-                "Jul","Aug","Sep","Oct","Nov","Dec"
-              };
-              char buf[32];
-              if (x.length() >= 19 && x[10] == ' ') {
-                int hour = std::stoi(x.substr(11, 2));
-                int min  = std::stoi(x.substr(14, 2));
-                const char* ap = (hour >= 12) ? "pm" : "am";
-                if (hour > 12) hour -= 12;
-                if (hour == 0) hour = 12;
-                if (min == 0)
-                  snprintf(buf, sizeof(buf), "%s %d  %d%s", months[month-1], day, hour, ap);
-                else
-                  snprintf(buf, sizeof(buf), "%s %d  %d:%02d%s", months[month-1], day, hour, min, ap);
-              } else {
-                snprintf(buf, sizeof(buf), "%s %d  (all day)", months[month-1], day);
-              }
-              return std::string(buf);
+        - script.execute: cal_update_all
 
-  # Calendar active state (on = event happening now, off = next upcoming)
+  # ── Calendar event 2 ──────────────────────────────────────────────────────
   - platform: homeassistant
-    id: calendar_state
-    entity_id: "${calendar_entity}"
+    id: cal_title_2
+    entity_id: "${calendar_entity_2}"
+    attribute: message
     on_value:
       then:
-        - if:
-            condition:
-              lambda: 'return id(calendar_state).state == "on";'
-            then:
-              - lvgl.label.update:
-                  id: calendar_status_label
-                  text: "Now Active"
-                  text_color: color_green
-            else:
-              - lvgl.label.update:
-                  id: calendar_status_label
-                  text: "Upcoming"
-                  text_color: color_steel_blue
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_start_2
+    entity_id: "${calendar_entity_2}"
+    attribute: start_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_end_2
+    entity_id: "${calendar_entity_2}"
+    attribute: end_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  # ── Calendar event 3 ──────────────────────────────────────────────────────
+  - platform: homeassistant
+    id: cal_title_3
+    entity_id: "${calendar_entity_3}"
+    attribute: message
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_start_3
+    entity_id: "${calendar_entity_3}"
+    attribute: start_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_end_3
+    entity_id: "${calendar_entity_3}"
+    attribute: end_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  # ── Calendar event 4 ──────────────────────────────────────────────────────
+  - platform: homeassistant
+    id: cal_title_4
+    entity_id: "${calendar_entity_4}"
+    attribute: message
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_start_4
+    entity_id: "${calendar_entity_4}"
+    attribute: start_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_end_4
+    entity_id: "${calendar_entity_4}"
+    attribute: end_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
 
 lvgl:
   pages:
@@ -234,31 +238,12 @@ lvgl:
                   text_font: icons_24
 
 
-              # Heating status
+              # HVAC status — color changes: heating=orange, cooling=sky-blue, off=gray
               - label:
-                  id: heating_status
+                  id: hvac_status
                   align: RIGHT_MID
                   x: -100
-                  text: "${heating_icon}"
-                  text_color: color_steel_blue
-                  text_font: icons_24
-
-              # AC status
-              - label:
-                  id: ac_status
-                  align: RIGHT_MID
-                  x: -140
-                  y: 2
-                  text: "${air_conditioner_icon}"
-                  text_color: color_steel_blue
-                  text_font: icons_24
-
-              # Lock status
-              - label:
-                  id: lock_status
-                  align: RIGHT_MID
-                  x: -180
-                  text: "${lock_icon}"
+                  text: "${hvac_icon}"
                   text_color: color_steel_blue
                   text_font: icons_24
 
@@ -266,7 +251,7 @@ lvgl:
               - label:
                   id: alarm_panel_status
                   align: RIGHT_MID
-                  x: -220
+                  x: -140
                   text: "${shield_arming_icon}"
                   text_color: color_steel_blue
                   text_font: mdi_icons_24
@@ -456,13 +441,13 @@ lvgl:
                   text_color: color_steel_blue
                   text: "›"
 
-        # calendar events
+        # calendar events — 4 upcoming events
         - obj:
             id: home_bg_calendar
             x: -20
             y: 80
             width: 200
-            height: 200
+            height: 215
             align: TOP_RIGHT
             pad_all: 0
             bg_color: color_steel_blue
@@ -476,19 +461,28 @@ lvgl:
               # header
               - label:
                   id: calendar_header_label
-                  y: 10
-                  width: 180
+                  y: 6
+                  width: 184
                   align: TOP_MID
                   text_font: nunito_16
                   text_color: color_steel_blue
-                  text: "Next Event"
+                  text: "Upcoming"
 
-              # event title — scrolls if too long
+              # ── event 1 ──
+              - label:
+                  id: cal_datetime_label_1
+                  x: 8
+                  y: 26
+                  align: TOP_LEFT
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: " "
               - obj:
-                  y: 36
-                  width: 180
-                  height: 48
-                  align: TOP_MID
+                  x: 8
+                  y: 43
+                  width: 184
+                  height: 20
+                  align: TOP_LEFT
                   pad_all: 0
                   bg_opa: TRANSP
                   border_opa: TRANSP
@@ -496,42 +490,103 @@ lvgl:
                   shadow_opa: TRANSP
                   widgets:
                     - label:
-                        id: calendar_title_label
+                        id: cal_title_label_1
                         align: LEFT_MID
-                        width: 176
-                        text_font: nunito_18
+                        width: 180
+                        text_font: nunito_16
                         text_color: color_misty_blue
                         long_mode: SCROLL_CIRCULAR
                         text: " "
 
-              # start time
+              # ── event 2 ──
               - label:
-                  id: calendar_start_label
-                  x: 10
-                  y: 96
+                  id: cal_datetime_label_2
+                  x: 8
+                  y: 70
                   align: TOP_LEFT
-                  text_font: nunito_16
-                  text_color: color_misty_blue
-                  text: " "
-
-              # end time
-              - label:
-                  id: calendar_end_label
-                  x: 10
-                  y: 126
-                  align: TOP_LEFT
-                  text_font: nunito_16
-                  text_color: color_misty_blue
-                  text: " "
-
-              # status badge
-              - label:
-                  id: calendar_status_label
-                  y: -8
-                  align: BOTTOM_MID
                   text_font: nunito_16
                   text_color: color_steel_blue
                   text: " "
+              - obj:
+                  x: 8
+                  y: 87
+                  width: 184
+                  height: 20
+                  align: TOP_LEFT
+                  pad_all: 0
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: cal_title_label_2
+                        align: LEFT_MID
+                        width: 180
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: SCROLL_CIRCULAR
+                        text: " "
+
+              # ── event 3 ──
+              - label:
+                  id: cal_datetime_label_3
+                  x: 8
+                  y: 114
+                  align: TOP_LEFT
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: " "
+              - obj:
+                  x: 8
+                  y: 131
+                  width: 184
+                  height: 20
+                  align: TOP_LEFT
+                  pad_all: 0
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: cal_title_label_3
+                        align: LEFT_MID
+                        width: 180
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: SCROLL_CIRCULAR
+                        text: " "
+
+              # ── event 4 ──
+              - label:
+                  id: cal_datetime_label_4
+                  x: 8
+                  y: 158
+                  align: TOP_LEFT
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: " "
+              - obj:
+                  x: 8
+                  y: 175
+                  width: 184
+                  height: 20
+                  align: TOP_LEFT
+                  pad_all: 0
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: cal_title_label_4
+                        align: LEFT_MID
+                        width: 180
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: SCROLL_CIRCULAR
+                        text: " "
 
         # display lock
         - obj:
@@ -705,6 +760,59 @@ script:
             lv_obj_clear_flag(id(weather_windy_variant_image), LV_OBJ_FLAG_HIDDEN);
           }
 
+  - id: cal_update_all
+    then:
+      - lambda: |-
+          auto fmt_time = [](const std::string &s) -> std::string {
+            if (s.empty() || s.find('T') == std::string::npos) return "";
+            struct tm t = {};
+            if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &t) == nullptr)
+              strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &t);
+            char buf[9];
+            strftime(buf, sizeof(buf), "%I:%M%p", &t);
+            return std::string(buf);
+          };
+          auto fmt_date = [](const std::string &s) -> std::string {
+            if (s.empty()) return "";
+            struct tm t = {};
+            if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &t) == nullptr)
+              if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &t) == nullptr)
+                if (strptime(s.c_str(), "%Y-%m-%d", &t) == nullptr)
+                  return s.substr(0, std::min((int)s.size(), 10));
+            char buf[12];
+            strftime(buf, sizeof(buf), "%b %d", &t);
+            return std::string(buf);
+          };
+          struct CalEvent { std::string title, start, end_t; };
+          std::vector<CalEvent> events = {
+            { id(cal_title_1).state, id(cal_start_1).state, id(cal_end_1).state },
+            { id(cal_title_2).state, id(cal_start_2).state, id(cal_end_2).state },
+            { id(cal_title_3).state, id(cal_start_3).state, id(cal_end_3).state },
+            { id(cal_title_4).state, id(cal_start_4).state, id(cal_end_4).state },
+          };
+          lv_obj_t* dt_labels[] = {
+            id(cal_datetime_label_1), id(cal_datetime_label_2),
+            id(cal_datetime_label_3), id(cal_datetime_label_4)
+          };
+          lv_obj_t* title_labels[] = {
+            id(cal_title_label_1), id(cal_title_label_2),
+            id(cal_title_label_3), id(cal_title_label_4)
+          };
+          for (int i = 0; i < 4; i++) {
+            const auto &ev = events[i];
+            std::string date_str = fmt_date(ev.start);
+            std::string t_start  = fmt_time(ev.start);
+            std::string t_end    = fmt_time(ev.end_t);
+            char buf[64];
+            if (t_start.empty()) {
+              snprintf(buf, sizeof(buf), "%s  all day", date_str.c_str());
+            } else {
+              snprintf(buf, sizeof(buf), "%s  %s-%s", date_str.c_str(), t_start.c_str(), t_end.c_str());
+            }
+            lv_label_set_text(dt_labels[i], ev.start.empty() ? " " : buf);
+            lv_label_set_text(title_labels[i], ev.title.empty() ? " " : ev.title.c_str());
+          }
+
 select:
   - platform: lvgl
     widget: language_dropdown
@@ -795,23 +903,17 @@ switch:
       - lvgl.button.update: 
           id: settings_page_btn
           clickable: false
-      - lvgl.label.update:
-          id: lock_status
-          text_color: color_green
     turn_off_action:
-      - lambda: 'id(display_lock) = false;' 
-      - lvgl.button.update: 
+      - lambda: 'id(display_lock) = false;'
+      - lvgl.button.update:
           id: home_page_btn
           clickable: true
-      - lvgl.button.update: 
+      - lvgl.button.update:
           id: lights_group_page_btn
           clickable: true
-      - lvgl.button.update: 
+      - lvgl.button.update:
           id: devices_page_btn
           clickable: true
-      - lvgl.button.update: 
+      - lvgl.button.update:
           id: settings_page_btn
           clickable: true
-      - lvgl.label.update:
-          id: lock_status
-          text_color: color_steel_blue

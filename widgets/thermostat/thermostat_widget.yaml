@@ -49,7 +49,7 @@ switch:
           text_color: color_deep_orange
 
       - lvgl.label.update:
-          id: heating_status
+          id: hvac_status
           text_color: color_deep_orange
 
       - lvgl.label.update:
@@ -83,7 +83,7 @@ switch:
           text_color: color_steel_blue
 
       - lvgl.label.update:
-          id: heating_status
+          id: hvac_status
           text_color: color_steel_blue
 
       - lvgl.label.update:

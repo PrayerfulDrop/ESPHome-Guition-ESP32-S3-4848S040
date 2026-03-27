@@ -48,7 +48,7 @@ switch:
           text_color: color_sky_blue
 
       - lvgl.label.update:
-          id: ac_status
+          id: hvac_status
           text_color: color_sky_blue
 
       - lvgl.label.update:
@@ -82,7 +82,7 @@ switch:
           text_color: color_steel_blue
 
       - lvgl.label.update:
-          id: ac_status
+          id: hvac_status
           text_color: color_steel_blue
 
       - lvgl.label.update:
