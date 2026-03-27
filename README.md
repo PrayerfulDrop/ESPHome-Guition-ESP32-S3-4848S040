@@ -5,12 +5,13 @@ Changes:
 - New home screen interface
 - 5-day Weather Forecast
 - Upcoming calendar events
-- Addition of HVAC widget
+- Addition of HVAC widget (heating and cooling in one location)
 - Icon color changes based on HVAC, Air Conditioning or Thermostat state in Home Assistant
-- Fan control
-- Light additions
+- Fan controls
+- Light controls
 - Ability to add lights and fans quickly without significant code revision
-- Support for multiple unique device deployment
+- Support for multiple unique device deployments
+- Color themes
 - and much, much more
 
 Installation:
