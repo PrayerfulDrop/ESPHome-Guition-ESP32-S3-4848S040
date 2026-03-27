@@ -624,7 +624,7 @@ lvgl:
                   text_color: color_misty_blue
                   text: "${exit_icon}"
             on_press:
-              - lvgl.page.show: devices_page
+              - lvgl.page.show: home_page
               - lvgl.widget.show: menu_controls_main
 
 

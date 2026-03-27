@@ -85,7 +85,7 @@ lvgl:
                   text: "\U0000e902"
             on_press:
               - lvgl.page.show:
-                  id: devices_page
+                  id: home_page
                   animation: OUT_RIGHT
                   time: 300ms
               - lvgl.widget.show: menu_controls_main
