@@ -10,8 +10,48 @@ substitutions:
   humidity_entity:        "sensor.upstairs_humidity" #indoor humidity entity
   co2_entity:             "sensor.upstairs_co2" #indoor CO2 entity
   hvac_entity:            "climate.upstairs" #hvac entity
-  thermostat_entity:      "climate.upstairs"
-  air_conditioner_entity: "climate.upstairs"  
+
+  # ── HVAC widget mode ──────────────────────────────────────────────────────
+  # Choose which HVAC widget(s) appear in the Devices menu.
+  # Step 1: Uncomment ONE of the options below (keep the others commented).
+  # Step 2: In widgets/devices.yaml, uncomment the matching package include(s).
+  #
+  # ── OPTION 1: Combined HVAC — heating + cooling on one page (DEFAULT) ─────
+  hvac_slot_1_icon:        "\U0000e925"   # thermostat-dial icon
+  hvac_slot_1_page:        hvac_page
+  hvac_slot_2_hidden:      "true"
+  hvac_slot_2_icon:        "\U0000e925"   # placeholder (slot hidden)
+  hvac_slot_2_page:        hvac_page      # placeholder (slot hidden)
+  fans_btn_x:              "170"
+  #
+  # ── OPTION 2: Thermostat only (heating) ───────────────────────────────────
+  # thermostat_entity:       "climate.upstairs"
+  # hvac_slot_1_icon:        "\U0000e925"
+  # hvac_slot_1_page:        thermostat_page
+  # hvac_slot_2_hidden:      "true"
+  # hvac_slot_2_icon:        "\U0000e925"   # placeholder
+  # hvac_slot_2_page:        thermostat_page # placeholder
+  # fans_btn_x:              "170"
+  #
+  # ── OPTION 3: Air conditioner only (cooling) ──────────────────────────────
+  # air_conditioner_entity:  "climate.upstairs"
+  # hvac_slot_1_icon:        "\U0000e93b"
+  # hvac_slot_1_page:        air_conditioner_page
+  # hvac_slot_2_hidden:      "true"
+  # hvac_slot_2_icon:        "\U0000e93b"   # placeholder
+  # hvac_slot_2_page:        air_conditioner_page # placeholder
+  # fans_btn_x:              "170"
+  #
+  # ── OPTION 4: Separate thermostat + air conditioner pages ─────────────────
+  # thermostat_entity:       "climate.upstairs"
+  # air_conditioner_entity:  "climate.upstairs"
+  # hvac_slot_1_icon:        "\U0000e925"
+  # hvac_slot_1_page:        thermostat_page
+  # hvac_slot_2_hidden:      "false"
+  # hvac_slot_2_icon:        "\U0000e93b"
+  # hvac_slot_2_page:        air_conditioner_page
+  # fans_btn_x:              "305"
+
   vacuum_entity:          "vacuum.x30_ultra"
   media_player_entity:    "media_player.master_bedroom"
   alarm_panel_entity:     "alarm_control_panel.system"
