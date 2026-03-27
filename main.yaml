@@ -1,8 +1,8 @@
 substitutions:
   # esphome info
-  esphome_name:           "mbdisplayaaron"
-  esphome_friendly_name:  "MB Display Aaron"
-  ha_server:              "http://192.168.6.59:8123"  #ip address of HomeAssistant
+  esphome_name:           "yourdisplayname"
+  esphome_friendly_name:  "Your Display Name"
+  ha_server:              "http://homeassistant.local:8123"  #ip address of HomeAssistant
 
   # entity information
   weather_entity:         "weather.forecast_home" #current outdoor weather/forecast
@@ -10,6 +10,11 @@ substitutions:
   humidity_entity:        "sensor.upstairs_humidity" #indoor humidity entity
   co2_entity:             "sensor.upstairs_co2" #indoor CO2 entity
   hvac_entity:            "climate.upstairs" #hvac entity
+  vacuum_entity:          "vacuum.x30_ultra"
+  media_player_entity:    "media_player.master_bedroom"
+  alarm_panel_entity:     "alarm_control_panel.system"
+  calendar_entity:        "calendar.familycalendar_calendar"
+  pin_code:               !secret security_pin_code
 
   # ── HVAC widget mode ──────────────────────────────────────────────────────
   # Choose which HVAC widget(s) appear in the Devices menu.
@@ -52,10 +57,6 @@ substitutions:
   # hvac_slot_2_page:        air_conditioner_page
   # fans_btn_x:              "305"
 
-  vacuum_entity:          "vacuum.x30_ultra"
-  media_player_entity:    "media_player.master_bedroom"
-  alarm_panel_entity:     "alarm_control_panel.system"
-  pin_code:               !secret security_pin_code
 
 # ── Light and Fan icon substitutions for main2.yaml ──────────────────────────
 #
@@ -146,7 +147,7 @@ substitutions:
   fan_icon_6: "ceiling_fan"
 
 
-
+# Do not modify below this line unless you know what you're doing! The rest of the code is the engine that powers the display and is not meant to be customized.
 packages:
   home: !include widgets/home/home.yaml
   lights_config: !include widgets/light/lights_config.yaml
@@ -261,15 +262,6 @@ touchscreen:
             - lvgl.resume:
             - lvgl.widget.redraw:
             - light.turn_on: display_backlight
-
-  # on_touch:
-  #   - lambda: |-
-  #         ESP_LOGI("cal", "x=%d, y=%d, x_raw=%d, y_raw=%0d",
-  #             touch.x,
-  #             touch.y,
-  #             touch.x_raw,
-  #             touch.y_raw
-  #             );
 
 spi:
   - id: lcd_spi

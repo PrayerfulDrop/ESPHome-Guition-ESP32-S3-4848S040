@@ -63,42 +63,10 @@ sensor:
               format: "%.0f°"
               args: [id(weather_temp).state]
 
-  # Temperature Home Sensor
+  # Indoor temperature — kept for HVAC climate component
   - platform: homeassistant
     id: temperature_sensor
     entity_id: "${temperature_entity}"
-    on_value:
-      then:   
-        - lvgl.label.update:
-            id: temperature_sensor_label
-            text:
-              format: "%.1f °C"
-              args: [id(temperature_sensor).state]
-
-  # Humidity Home Sensor
-  - platform: homeassistant
-    id: humidity_sensor
-    entity_id: "${humidity_entity}"
-    on_value:
-      then:
-        - lvgl.label.update:
-            id: humidity_sensor_label
-            text:
-              format: "%.1f %%" 
-              args: [id(humidity_sensor).state]
-
-
-  # CO2 Home Sensor 
-  - platform: homeassistant
-    id: co2_sensor
-    entity_id: "${co2_entity}"
-    on_value:
-      then:
-        - lvgl.label.update:
-            id: co2_sensor_label
-            text:
-              format: "%.0f PPM"
-              args: [id(co2_sensor).state]
 
 
 text_sensor:
@@ -119,7 +87,104 @@ text_sensor:
             state_str: !lambda 'return id(weather_state_sensor).state;'
         - script.execute: update_weather_image
 
-lvgl:  
+  # Calendar next event title
+  - platform: homeassistant
+    id: calendar_event_title
+    entity_id: "${calendar_entity}"
+    attribute: message
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: calendar_title_label
+            text: !lambda return x;
+
+  # Calendar next event start time
+  - platform: homeassistant
+    id: calendar_event_start
+    entity_id: "${calendar_entity}"
+    attribute: start_time
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: calendar_start_label
+            text: !lambda |-
+              if (x.length() < 10) return x;
+              int month = std::stoi(x.substr(5, 2));
+              int day   = std::stoi(x.substr(8, 2));
+              static const char* months[] = {
+                "Jan","Feb","Mar","Apr","May","Jun",
+                "Jul","Aug","Sep","Oct","Nov","Dec"
+              };
+              char buf[32];
+              if (x.length() >= 19 && x[10] == ' ') {
+                int hour = std::stoi(x.substr(11, 2));
+                int min  = std::stoi(x.substr(14, 2));
+                const char* ap = (hour >= 12) ? "pm" : "am";
+                if (hour > 12) hour -= 12;
+                if (hour == 0) hour = 12;
+                if (min == 0)
+                  snprintf(buf, sizeof(buf), "%s %d  %d%s", months[month-1], day, hour, ap);
+                else
+                  snprintf(buf, sizeof(buf), "%s %d  %d:%02d%s", months[month-1], day, hour, min, ap);
+              } else {
+                snprintf(buf, sizeof(buf), "%s %d  (all day)", months[month-1], day);
+              }
+              return std::string(buf);
+
+  # Calendar next event end time
+  - platform: homeassistant
+    id: calendar_event_end
+    entity_id: "${calendar_entity}"
+    attribute: end_time
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: calendar_end_label
+            text: !lambda |-
+              if (x.length() < 10) return x;
+              int month = std::stoi(x.substr(5, 2));
+              int day   = std::stoi(x.substr(8, 2));
+              static const char* months[] = {
+                "Jan","Feb","Mar","Apr","May","Jun",
+                "Jul","Aug","Sep","Oct","Nov","Dec"
+              };
+              char buf[32];
+              if (x.length() >= 19 && x[10] == ' ') {
+                int hour = std::stoi(x.substr(11, 2));
+                int min  = std::stoi(x.substr(14, 2));
+                const char* ap = (hour >= 12) ? "pm" : "am";
+                if (hour > 12) hour -= 12;
+                if (hour == 0) hour = 12;
+                if (min == 0)
+                  snprintf(buf, sizeof(buf), "%s %d  %d%s", months[month-1], day, hour, ap);
+                else
+                  snprintf(buf, sizeof(buf), "%s %d  %d:%02d%s", months[month-1], day, hour, min, ap);
+              } else {
+                snprintf(buf, sizeof(buf), "%s %d  (all day)", months[month-1], day);
+              }
+              return std::string(buf);
+
+  # Calendar active state (on = event happening now, off = next upcoming)
+  - platform: homeassistant
+    id: calendar_state
+    entity_id: "${calendar_entity}"
+    on_value:
+      then:
+        - if:
+            condition:
+              lambda: 'return id(calendar_state).state == "on";'
+            then:
+              - lvgl.label.update:
+                  id: calendar_status_label
+                  text: "Now Active"
+                  text_color: color_green
+            else:
+              - lvgl.label.update:
+                  id: calendar_status_label
+                  text: "Upcoming"
+                  text_color: color_steel_blue
+
+lvgl:
   pages:
     - id: home_page
       bg_color: color_slate_blue_gray 
@@ -391,9 +456,9 @@ lvgl:
                   text_color: color_steel_blue
                   text: "›"
 
-        # sensors
+        # calendar events
         - obj:
-            id: home_bg_sensors
+            id: home_bg_calendar
             x: -20
             y: 80
             width: 200
@@ -408,38 +473,21 @@ lvgl:
             radius: 10
             widgets:
 
-              # temperature
-              - obj:
-                  y: 20
-                  width: 160
-                  height: 40
+              # header
+              - label:
+                  id: calendar_header_label
+                  y: 10
+                  width: 180
                   align: TOP_MID
-                  pad_all: 0
-                  bg_opa: TRANSP
-                  border_opa: TRANSP
-                  border_width: 0
-                  shadow_opa: TRANSP
-                  widgets:
-                    - label:
-                        id: temperature_sensor_icon
-                        align: LEFT_MID
-                        x: 20
-                        text: "${temperature_icon}"
-                        text_color: color_green
-                        text_font: icons_28
-                    - label:
-                        id: temperature_sensor_label
-                        align: LEFT_MID
-                        x: 55
-                        text: " "
-                        text_color: color_misty_blue
-                        text_font: nunito_16
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: "Next Event"
 
-              # humidity
+              # event title — scrolls if too long
               - obj:
-                  y: 80
-                  width: 160
-                  height: 40
+                  y: 36
+                  width: 180
+                  height: 48
                   align: TOP_MID
                   pad_all: 0
                   bg_opa: TRANSP
@@ -448,46 +496,42 @@ lvgl:
                   shadow_opa: TRANSP
                   widgets:
                     - label:
-                        id: humidity_sensor_icon
+                        id: calendar_title_label
                         align: LEFT_MID
-                        x: 20
-                        text: "${humidity_icon}"
-                        text_color: color_blue
-                        text_font: icons_28
-                    - label:
-                        id: humidity_sensor_label
-                        align: LEFT_MID
-                        x: 55
-                        text: " "
+                        width: 176
+                        text_font: nunito_18
                         text_color: color_misty_blue
-                        text_font: nunito_16
+                        long_mode: SCROLL_CIRCULAR
+                        text: " "
 
-              # co2
-              - obj:
-                  y: 140
-                  width: 160
-                  height: 40
-                  align: TOP_MID
-                  pad_all: 0
-                  bg_opa: TRANSP
-                  border_opa: TRANSP
-                  border_width: 0
-                  shadow_opa: TRANSP
-                  widgets:
-                    - label:
-                        id: co2_sensor_icon
-                        align: LEFT_MID
-                        x: 20
-                        text: "${co2_icon}"
-                        text_color: color_yellow
-                        text_font: icons_28
-                    - label:
-                        id: co2_sensor_label
-                        align: LEFT_MID
-                        x: 55
-                        text: " "
-                        text_color: color_misty_blue
-                        text_font: nunito_16
+              # start time
+              - label:
+                  id: calendar_start_label
+                  x: 10
+                  y: 96
+                  align: TOP_LEFT
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: " "
+
+              # end time
+              - label:
+                  id: calendar_end_label
+                  x: 10
+                  y: 126
+                  align: TOP_LEFT
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: " "
+
+              # status badge
+              - label:
+                  id: calendar_status_label
+                  y: -8
+                  align: BOTTOM_MID
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: " "
 
         # display lock
         - obj:
