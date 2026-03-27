@@ -10,8 +10,6 @@ substitutions:
   wifi_50_icon:            "\U0000e932" # wifi signal from 50% to 25%
   wifi_75_icon:            "\U0000e933" # wifi signal from 75% to 50%
   wifi_100_icon:           "\U0000e934" # wifi signal from 100% to 75% or disable
-  humidity_icon:           "\U0000e938" 
-  co2_icon:                "\U0000e937" 
   tvoc:                    "\U0000e93a" # air quality
   temperature_icon:        "\U0000e939" 
   illumination:            "\U0000e92f" # lux
@@ -430,12 +428,13 @@ lvgl:
               - label:
                   id: weather_state_label
                   x: -10
-                  y: -8
+                  y: 60
                   width: 110
                   height: 20
-                  align: BOTTOM_RIGHT
+                  align: TOP_RIGHT
                   text_font: nunito_16
                   text_color: color_misty_blue
+                  text_align: CENTER
                   long_mode: CLIP
                   text: " "
 

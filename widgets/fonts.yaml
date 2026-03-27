@@ -126,8 +126,6 @@
     "\U0000e902", # exit
     "\U0000e926", # fan
     "\U0000e927", # room_plan
-    "\U0000e938", # humidity 
-    "\U0000e937", # co2
     "\U0000e93a", # air quality (tvoc)
     "\U0000e939", # temperature 
     "\U0000e92f", # illumination (lux)

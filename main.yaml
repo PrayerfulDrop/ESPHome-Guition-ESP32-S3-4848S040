@@ -7,8 +7,6 @@ substitutions:
   # entity information
   weather_entity:         "weather.forecast" #current outdoor weather/forecast
   temperature_entity:     "sensor.yourinternaltemperature" #indoor temperature entity
-  humidity_entity:        "sensor.yourinternalhumidity" #indoor humidity entity
-  co2_entity:             "sensor.yourinternalco2" #indoor CO2 entity
  
   vacuum_entity:          "vacuum.yourvacuum" # vacuum entity
   media_player_entity:    "media_player.yourmediaplayer" # media player entity
