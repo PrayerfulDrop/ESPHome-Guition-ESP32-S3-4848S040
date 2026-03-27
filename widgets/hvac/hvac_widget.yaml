@@ -66,9 +66,6 @@ switch:
       - lvgl.label.update:
           id: hvac_target_temperature_measurement
           text_color: color_deep_orange
-      - lvgl.obj.update:
-          id: hvac_temp_arc_bg
-          bg_color: color_deep_orange
     on_turn_off:
       - lvgl.meter.update:
           id: hvac_meter
@@ -91,9 +88,6 @@ switch:
       - lvgl.label.update:
           id: hvac_target_temperature_measurement
           text_color: color_steel_blue
-      - lvgl.obj.update:
-          id: hvac_temp_arc_bg
-          bg_color: color_slate_blue_gray
 
   - platform: gpio
     id: hvac_cool_relay
@@ -122,9 +116,6 @@ switch:
       - lvgl.label.update:
           id: hvac_target_temperature_measurement
           text_color: color_sky_blue
-      - lvgl.obj.update:
-          id: hvac_temp_arc_bg
-          bg_color: color_sky_blue
     on_turn_off:
       - lvgl.meter.update:
           id: hvac_meter
@@ -147,9 +138,6 @@ switch:
       - lvgl.label.update:
           id: hvac_target_temperature_measurement
           text_color: color_steel_blue
-      - lvgl.obj.update:
-          id: hvac_temp_arc_bg
-          bg_color: color_slate_blue_gray
 
 
 sensor:
@@ -240,50 +228,39 @@ text_sensor:
     on_value:
       - lambda: |-
           std::string state = id(hvac_sensor_state).state;
+          const int sel = LV_PART_MAIN | LV_STATE_DEFAULT;
 
-          // Update mode button highlight opacities
           if (state == "heat") {
             lv_obj_set_style_bg_opa(id(hvac_mode_heat_btn), LV_OPA_60, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_cool_btn), LV_OPA_20, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_off_btn),  LV_OPA_20, LV_PART_MAIN);
             lv_label_set_text(id(hvac_state_icon), "${heating_icon}");
+            // arc background: yellow (low/cool) → red (high/hot), bottom to top
+            lv_obj_set_style_bg_color(id(hvac_temp_arc_bg),      lv_color_hex(0xFF2000), sel);
+            lv_obj_set_style_bg_grad_color(id(hvac_temp_arc_bg), lv_color_hex(0xFFD700), sel);
+            lv_obj_set_style_bg_grad_dir(id(hvac_temp_arc_bg),   LV_GRAD_DIR_VER,        sel);
           } else if (state == "cool") {
             lv_obj_set_style_bg_opa(id(hvac_mode_heat_btn), LV_OPA_20, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_cool_btn), LV_OPA_60, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_off_btn),  LV_OPA_20, LV_PART_MAIN);
             lv_label_set_text(id(hvac_state_icon), "${air_conditioner_icon}");
+            // arc background: light-blue (high/warm) → dark-blue (low/cold), top to bottom
+            lv_obj_set_style_bg_color(id(hvac_temp_arc_bg),      lv_color_hex(0x87CEEB), sel);
+            lv_obj_set_style_bg_grad_color(id(hvac_temp_arc_bg), lv_color_hex(0x0047AB), sel);
+            lv_obj_set_style_bg_grad_dir(id(hvac_temp_arc_bg),   LV_GRAD_DIR_VER,        sel);
           } else {
             lv_obj_set_style_bg_opa(id(hvac_mode_heat_btn), LV_OPA_20, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_cool_btn), LV_OPA_20, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_off_btn),  LV_OPA_60, LV_PART_MAIN);
+            lv_label_set_text(id(hvac_state_icon), "${power_icon}");
+            // arc background: gray gradient
+            lv_obj_set_style_bg_color(id(hvac_temp_arc_bg),      lv_color_hex(0x607080), sel);
+            lv_obj_set_style_bg_grad_color(id(hvac_temp_arc_bg), lv_color_hex(0x303848), sel);
+            lv_obj_set_style_bg_grad_dir(id(hvac_temp_arc_bg),   LV_GRAD_DIR_VER,        sel);
           }
 
 
 lvgl:
-
-  gradients:
-    - id: hvac_heat_gradient
-      direction: ver
-      dither: none
-      stops:
-        - color: 0xFF0000
-          position: 0
-        - color: 0xFF3300
-          position: 32
-        - color: 0xFF6600
-          position: 64
-        - color: 0xFF8000
-          position: 96
-        - color: 0xFF9900
-          position: 128
-        - color: 0xFFB300
-          position: 160
-        - color: 0xFFCC00
-          position: 192
-        - color: 0xFFE600
-          position: 224
-        - color: 0xFFFF00
-          position: 255
 
   pages:
     - id: hvac_page
@@ -471,7 +448,9 @@ lvgl:
                   width: 460
                   height: 460
                   align: RIGHT_MID
-                  bg_color: color_slate_blue_gray
+                  bg_color: 0x607080
+                  bg_grad_color: 0x303848
+                  bg_grad_dir: VER
                   pad_all: 0
                   border_opa: TRANSP
                   border_width: 0

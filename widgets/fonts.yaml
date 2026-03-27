@@ -184,8 +184,9 @@
     "\U0000e91c", # stop
     "\U0000e923", # locate
     "\U0000e924", # docked
-    "\U0000e93b", # air_conditioner 
+    "\U0000e93b", # air_conditioner
     "\U0000e936", # heating
+    "\U0000e909", # power (off)
   ]
 
 - file: "fonts/icons_v2.ttf"

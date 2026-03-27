@@ -219,7 +219,7 @@ lvgl:
                   text_color: color_misty_blue
                   text: "31.01"
 
-              # Wi-Fi status
+              # Wi-Fi status — tap to open system info
               - label:
                   id: wifi_status
                   align: RIGHT_MID
@@ -227,6 +227,13 @@ lvgl:
                   text: "${wifi_100_icon}"
                   text_color: color_steel_blue
                   text_font: icons_24
+                  clickable: true
+                  on_click:
+                    - lvgl.widget.hide: menu_controls_main
+                    - lvgl.page.show:
+                        id: system_info_page
+                        animation: OUT_RIGHT
+                        time: 300ms
 
               # Home Assistant status
               - label:
@@ -238,7 +245,7 @@ lvgl:
                   text_font: icons_24
 
 
-              # HVAC status — color changes: heating=orange, cooling=sky-blue, off=gray
+              # HVAC status — color: heating=orange, cooling=sky-blue, off=gray; tap to open HVAC
               - label:
                   id: hvac_status
                   align: RIGHT_MID
@@ -246,8 +253,15 @@ lvgl:
                   text: "${hvac_icon}"
                   text_color: color_steel_blue
                   text_font: icons_24
+                  clickable: true
+                  on_click:
+                    - lvgl.widget.hide: menu_controls_main
+                    - lvgl.page.show:
+                        id: ${hvac_slot_1_page}
+                        animation: OUT_RIGHT
+                        time: 300ms
 
-              # Alarm panel status
+              # Alarm panel status — color/icon match alarm state; tap to open alarm panel
               - label:
                   id: alarm_panel_status
                   align: RIGHT_MID
@@ -255,6 +269,13 @@ lvgl:
                   text: "${shield_arming_icon}"
                   text_color: color_steel_blue
                   text_font: mdi_icons_24
+                  clickable: true
+                  on_click:
+                    - lvgl.widget.hide: menu_controls_main
+                    - lvgl.page.show:
+                        id: alarm_panel_page
+                        animation: OUT_RIGHT
+                        time: 300ms
 
         # time
         - obj:

@@ -728,7 +728,8 @@ text_sensor:
 
               - lvgl.label.update:
                   id: alarm_panel_status
-                  text_color: color_steel_blue
+                  text: "${shield_disarm_icon}"
+                  text_color: color_blue
               - lvgl.label.update:
                   id: alarm_panel_state_icon
                   text_color: color_blue
@@ -740,6 +741,7 @@ text_sensor:
             else:
               - lvgl.label.update:
                   id: alarm_panel_status
+                  text: "${shield_arming_icon}"
                   text_color: color_crimson
               - lvgl.widget.hide: alarm_panel_button_home
               - lvgl.widget.hide: alarm_panel_button_away
@@ -751,6 +753,10 @@ text_sensor:
             condition:
               lambda: 'return x == "arming";'
             then:
+              - lvgl.label.update:
+                  id: alarm_panel_status
+                  text: "${shield_arming_icon}"
+                  text_color: color_gray
               - lvgl.label.update:
                   id: alarm_panel_state_icon
                   text_color: color_gray
@@ -764,6 +770,10 @@ text_sensor:
               lambda: 'return x == "armed_home";'
             then:
               - lvgl.label.update:
+                  id: alarm_panel_status
+                  text: "${shield_home_icon}"
+                  text_color: color_green
+              - lvgl.label.update:
                   id: alarm_panel_state_icon
                   text_color: color_green
                   text: "${shield_home_icon}"
@@ -775,6 +785,10 @@ text_sensor:
             condition:
               lambda: 'return x == "armed_away";'
             then:
+              - lvgl.label.update:
+                  id: alarm_panel_status
+                  text: "${shield_away_icon}"
+                  text_color: color_green
               - lvgl.label.update:
                   id: alarm_panel_state_icon
                   text_color: color_green
@@ -788,6 +802,10 @@ text_sensor:
               lambda: 'return x == "armed_night";'
             then:
               - lvgl.label.update:
+                  id: alarm_panel_status
+                  text: "${shield_night_icon}"
+                  text_color: color_green
+              - lvgl.label.update:
                   id: alarm_panel_state_icon
                   text_color: color_green
                   text: "${shield_night_icon}"
@@ -799,6 +817,10 @@ text_sensor:
             condition:
               lambda: 'return x == "armed_vacation";'
             then:
+              - lvgl.label.update:
+                  id: alarm_panel_status
+                  text: "${shield_vacation_icon}"
+                  text_color: color_green
               - lvgl.label.update:
                   id: alarm_panel_state_icon
                   text_color: color_green
