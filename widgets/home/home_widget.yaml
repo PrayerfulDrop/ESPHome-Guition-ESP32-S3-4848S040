@@ -1,0 +1,850 @@
+substitutions:
+  lock_icon:               "\U0000e92e"
+  air_conditioner_icon:    "\U0000e93b"
+  heating_icon:            "\U0000e936"
+  hvac_icon:               "\U0000e925"  # thermostat-dial
+  info_icon:               "\U0000e904"
+  ha_icon:                 "\U0000e935" # home assistant
+  calendar_icon:           "\U000F00ED" # mdi-calendar
+  wifi_25_icon:            "\U0000e931" # wifi signal from 25% to 1%
+  wifi_50_icon:            "\U0000e932" # wifi signal from 50% to 25%
+  wifi_75_icon:            "\U0000e933" # wifi signal from 75% to 50%
+  wifi_100_icon:           "\U0000e934" # wifi signal from 100% to 75% or disable
+  tvoc:                    "\U0000e93a" # air quality
+  temperature_icon:        "\U0000e939" 
+  illumination:            "\U0000e92f" # lux
+
+globals:
+  - id: display_lock
+    type: bool
+    restore_value: true
+    initial_value: "false"
+
+
+sensor:
+  # WI-FI Signal
+  - platform: wifi_signal
+    id: wifi_signal_percent
+    update_interval: 30s
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "%"
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: wifi_status
+            text_color: !lambda |-
+              if (id(wifi_signal_percent).state > 0) {
+              return lv_color_hex(0x5CA848);
+              }
+              return lv_color_hex(0xFF0000);
+            text: !lambda |-
+              if (id(wifi_signal_percent).state > 0 && id(wifi_signal_percent).state < 26) {
+              return "${wifi_25_icon}";
+              } else if (id(wifi_signal_percent).state > 25 && id(wifi_signal_percent).state < 51) {
+              return "${wifi_50_icon}";
+              } else if (id(wifi_signal_percent).state > 50 && id(wifi_signal_percent).state < 76) {
+              return "${wifi_75_icon}";
+              } else if (id(wifi_signal_percent).state > 75) {
+              return "${wifi_100_icon}";
+              }
+              return "${wifi_100_icon}";
+
+  # Weather temperature sensor
+  - platform: homeassistant
+    id: weather_temp
+    entity_id: "${weather_entity}"
+    attribute: temperature
+    on_value: 
+      then:
+        - lvgl.label.update:
+            id: weather_temperature
+            text:
+              format: "%.0f°"
+              args: [id(weather_temp).state]
+
+  # Indoor temperature — kept for HVAC climate component
+  - platform: homeassistant
+    id: temperature_sensor
+    entity_id: "${temperature_entity}"
+
+
+text_sensor:
+  # Sun horizon sensor
+  - platform: homeassistant
+    id: sun_state_sensor
+    entity_id: sun.sun
+
+  # Weather state sensor
+  - platform: homeassistant
+    id: weather_state_sensor
+    entity_id: "${weather_entity}"
+    on_value: 
+      then:
+        - delay: 1s
+        - script.execute:
+            id: weather_get_and_set_translated_state
+            state_str: !lambda 'return id(weather_state_sensor).state;'
+        - script.execute: update_weather_image
+
+  # ── Calendar event 1 ──────────────────────────────────────────────────────
+  - platform: homeassistant
+    id: cal_title_1
+    entity_id: "${calendar_entity}"
+    attribute: message
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_start_1
+    entity_id: "${calendar_entity}"
+    attribute: start_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_end_1
+    entity_id: "${calendar_entity}"
+    attribute: end_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  # ── Calendar event 2 ──────────────────────────────────────────────────────
+  - platform: homeassistant
+    id: cal_title_2
+    entity_id: "${calendar_entity_2}"
+    attribute: message
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_start_2
+    entity_id: "${calendar_entity_2}"
+    attribute: start_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_end_2
+    entity_id: "${calendar_entity_2}"
+    attribute: end_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  # ── Calendar event 3 ──────────────────────────────────────────────────────
+  - platform: homeassistant
+    id: cal_title_3
+    entity_id: "${calendar_entity_3}"
+    attribute: message
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_start_3
+    entity_id: "${calendar_entity_3}"
+    attribute: start_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_end_3
+    entity_id: "${calendar_entity_3}"
+    attribute: end_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  # ── Calendar event 4 ──────────────────────────────────────────────────────
+  - platform: homeassistant
+    id: cal_title_4
+    entity_id: "${calendar_entity_4}"
+    attribute: message
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_start_4
+    entity_id: "${calendar_entity_4}"
+    attribute: start_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+  - platform: homeassistant
+    id: cal_end_4
+    entity_id: "${calendar_entity_4}"
+    attribute: end_time
+    on_value:
+      then:
+        - script.execute: cal_update_all
+
+lvgl:
+  pages:
+    - id: home_page
+      bg_color: color_slate_blue_gray 
+      widgets:
+
+        # indicators
+        - obj:
+            id: home_bg_indicators
+            y: 20
+            width: 440
+            height: 40
+            align: TOP_MID
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+
+              # date
+              - label:
+                  id: display_date
+                  x: 20
+                  align: LEFT_MID
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "31.01"
+
+              # Wi-Fi status — tap to open system info
+              - label:
+                  id: wifi_status
+                  align: RIGHT_MID
+                  x: -20
+                  text: "${wifi_100_icon}"
+                  text_color: color_steel_blue
+                  text_font: icons_24
+                  clickable: true
+                  on_click:
+                    - lvgl.widget.hide: menu_controls_main
+                    - lvgl.page.show:
+                        id: system_info_page
+                        animation: OUT_RIGHT
+                        time: 300ms
+
+              # Home Assistant status
+              - label:
+                  id: ha_status
+                  align: RIGHT_MID
+                  x: -60
+                  text: "${ha_icon}"
+                  text_color: color_steel_blue
+                  text_font: icons_24
+
+
+              # HVAC status — color: heating=orange, cooling=sky-blue, off=gray; tap to open HVAC
+              - label:
+                  id: hvac_status
+                  align: RIGHT_MID
+                  x: -100
+                  text: "${hvac_icon}"
+                  text_color: color_steel_blue
+                  text_font: icons_24
+                  clickable: true
+                  on_click:
+                    - lvgl.widget.hide: menu_controls_main
+                    - lvgl.page.show:
+                        id: ${hvac_slot_1_page}
+                        animation: OUT_RIGHT
+                        time: 300ms
+
+              # Alarm panel status — color/icon match alarm state; tap to open alarm panel
+              - label:
+                  id: alarm_panel_status
+                  align: RIGHT_MID
+                  x: -140
+                  text: "${shield_arming_icon}"
+                  text_color: color_steel_blue
+                  text_font: mdi_icons_24
+                  clickable: true
+                  on_click:
+                    - lvgl.widget.hide: menu_controls_main
+                    - lvgl.page.show:
+                        id: alarm_panel_page
+                        animation: OUT_RIGHT
+                        time: 300ms
+
+        # time
+        - obj:
+            id: home_bg_weather_time
+            x: 20
+            y: 80
+            width: 220
+            height: 110
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+
+              - label:
+                  id: display_time
+                  align: CENTER
+                  text_font: nunito_36
+                  text_color: color_misty_blue
+                  text: "23:59"
+
+        # weather – clickable → forecast page
+        - obj:
+            id: home_bg_weather
+            x: 250
+            y: 80
+            width: 210
+            height: 110
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            clickable: true
+            on_press:
+              then:
+                - lvgl.widget.hide: menu_controls_main
+                - script.execute: fetch_weather_forecast
+                - lvgl.page.show:
+                    id: weather_forecast_page
+                    animation: OUT_RIGHT
+                    time: 300ms
+            widgets:
+              - image:
+                  id: weather_sunny_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: sunny_img
+              - image:
+                  id: weather_clear_night_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: clear_night_img
+              - image:
+                  id: weather_cloudy_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: cloudy_img
+              - image:
+                  id: weather_partlycloudy_sun_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: partlycloudy_sun_img
+              - image:
+                  id: weather_partlycloudy_moon_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: partlycloudy_moon_img
+              - image:
+                  id: weather_rainy_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: rainy_img
+              - image:
+                  id: weather_pouring_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: pouring_img
+              - image:
+                  id: weather_snowy_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: snowy_img
+              - image:
+                  id: weather_snowy_rainy_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: snowy_rainy_img
+              - image:
+                  id: weather_fog_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: fog_img
+              - image:
+                  id: weather_hail_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: hail_img
+              - image:
+                  id: weather_lightning_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: lightning_img
+              - image:
+                  id: weather_lightning_rainy_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: lightning_rainy_img
+              - image:
+                  id: weather_windy_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: windy_img
+              - image:
+                  id: weather_windy_variant_image
+                  hidden: true
+                  align: LEFT_MID
+                  x: 10
+                  src: windy_variant_img
+
+              - label:
+                  id: weather_temperature
+                  x: -10
+                  y: 15
+                  align: TOP_RIGHT
+                  text_font: nunito_44
+                  text_color: color_misty_blue
+                  text: "-25°"
+
+              - label:
+                  id: weather_state_label
+                  x: -10
+                  y: 75
+                  width: 110
+                  height: 20
+                  align: TOP_RIGHT
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text_align: CENTER
+                  long_mode: CLIP
+                  text: " "
+
+        # calendar events — 3 upcoming events
+        - obj:
+            id: home_bg_calendar
+            x: 20
+            y: 200
+            width: 440
+            height: 175
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+
+              # header: calendar icon + label
+              - label:
+                  id: calendar_header_icon
+                  x: 8
+                  y: 5
+                  align: TOP_LEFT
+                  text_font: mdi_icons_24
+                  text_color: color_steel_blue
+                  text: "${calendar_icon}"
+              - label:
+                  id: calendar_header_label
+                  x: 36
+                  y: 9
+                  align: TOP_LEFT
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: "Next Events"
+
+              # header separator
+              - obj:
+                  x: 8
+                  y: 30
+                  width: 424
+                  height: 1
+                  align: TOP_LEFT
+                  pad_all: 0
+                  bg_color: color_steel_blue
+                  bg_opa: 40%
+                  border_opa: TRANSP
+                  border_width: 0
+                  shadow_opa: TRANSP
+                  radius: 0
+
+              # ── event 1 ──
+              - label:
+                  id: cal_datetime_label_1
+                  x: 8
+                  y: 40
+                  align: TOP_LEFT
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: " "
+              - obj:
+                  x: 8
+                  y: 57
+                  width: 424
+                  height: 20
+                  align: TOP_LEFT
+                  pad_all: 0
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: cal_title_label_1
+                        align: LEFT_MID
+                        width: 416
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: SCROLL_CIRCULAR
+                        text: " "
+
+              # ── event 2 ──
+              - label:
+                  id: cal_datetime_label_2
+                  x: 8
+                  y: 84
+                  align: TOP_LEFT
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: " "
+              - obj:
+                  x: 8
+                  y: 101
+                  width: 424
+                  height: 20
+                  align: TOP_LEFT
+                  pad_all: 0
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: cal_title_label_2
+                        align: LEFT_MID
+                        width: 416
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: SCROLL_CIRCULAR
+                        text: " "
+
+              # ── event 3 ──
+              - label:
+                  id: cal_datetime_label_3
+                  x: 8
+                  y: 128
+                  align: TOP_LEFT
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: " "
+              - obj:
+                  x: 8
+                  y: 145
+                  width: 424
+                  height: 20
+                  align: TOP_LEFT
+                  pad_all: 0
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: cal_title_label_3
+                        align: LEFT_MID
+                        width: 416
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: SCROLL_CIRCULAR
+                        text: " "
+
+
+
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+#  - platform: sntp
+#    id: sntp_time
+#    timezone: ${time_zone}
+#    servers:
+#     - ntp0.ntp-servers.net
+#     - ntp1.ntp-servers.net
+#     - ntp2.ntp-servers.net
+    on_time_sync:
+      - script.execute: time_update
+    on_time:
+      - minutes: '*'
+        seconds: 0
+        then:
+          - script.execute: time_update
+
+script:
+
+  - id: time_update
+    then:
+      - lvgl.label.update:
+          id: display_time
+          text: !lambda |-
+            static char time_buf[16];
+            auto now = id(homeassistant_time).now();
+            const char *ampm = (now.hour >= 12) ? "PM" : "AM"; 
+            int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;           
+            snprintf(time_buf, sizeof(time_buf), "%d:%02d %s", hour_12, now.minute, ampm);
+            return time_buf;
+
+      - lvgl.label.update:
+          id: display_date
+          text: !lambda |-
+            static char date_buf[32];
+            auto now = id(homeassistant_time).now();
+            static const char* days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+            snprintf(date_buf, sizeof(date_buf), "%s, %d/%02d/%04d", days[(now.day_of_week)-1], now.month, now.day_of_month, now.year);
+            return date_buf;
+
+  - id: weather_get_and_set_translated_state
+    parameters:
+      state_str: string
+    then:   
+      - lambda: |-
+          std::string state = state_str;
+
+          auto it = id(weather_translations).find(state);
+          std::string translated_state = (it != id(weather_translations).end()) ? it->second : state;
+ 
+          lv_label_set_text(id(weather_state_label), translated_state.c_str());
+
+  - id: update_weather_image
+    then:
+      - lambda: |-
+          std::string weather = id(weather_state_sensor).state;
+          bool is_night = (id(sun_state_sensor).state == "below_horizon");
+
+          lv_obj_add_flag(id(weather_sunny_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_clear_night_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_cloudy_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_partlycloudy_sun_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_partlycloudy_moon_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_rainy_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_pouring_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_snowy_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_snowy_rainy_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_fog_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_hail_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_lightning_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_lightning_rainy_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_windy_image), LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(weather_windy_variant_image), LV_OBJ_FLAG_HIDDEN);
+
+          if (weather == "cloudy") {
+              lv_obj_clear_flag(id(weather_cloudy_image), LV_OBJ_FLAG_HIDDEN);
+          } else if (weather == "partlycloudy") {
+            if (is_night) {
+              lv_obj_clear_flag(id(weather_partlycloudy_moon_image), LV_OBJ_FLAG_HIDDEN);
+            } else {
+              lv_obj_clear_flag(id(weather_partlycloudy_sun_image), LV_OBJ_FLAG_HIDDEN);
+            }
+          } else if (weather == "sunny" || weather == "clear-night") {
+            if (is_night) {
+              lv_obj_clear_flag(id(weather_clear_night_image), LV_OBJ_FLAG_HIDDEN);
+            } else {
+              lv_obj_clear_flag(id(weather_sunny_image), LV_OBJ_FLAG_HIDDEN);
+            }
+          } else if (weather == "rainy") {
+            lv_obj_clear_flag(id(weather_rainy_image), LV_OBJ_FLAG_HIDDEN);
+          } else if (weather == "lightning-rainy") {
+            lv_obj_clear_flag(id(weather_lightning_rainy_image), LV_OBJ_FLAG_HIDDEN);
+          } else if (weather == "lightning") {
+            lv_obj_clear_flag(id(weather_lightning_image), LV_OBJ_FLAG_HIDDEN);
+          } else if (weather == "pouring") {
+            lv_obj_clear_flag(id(weather_pouring_image), LV_OBJ_FLAG_HIDDEN);
+          } else if (weather == "snowy") {
+            lv_obj_clear_flag(id(weather_snowy_image), LV_OBJ_FLAG_HIDDEN);
+          } else if (weather == "snowy-rainy") {
+            lv_obj_clear_flag(id(weather_snowy_rainy_image), LV_OBJ_FLAG_HIDDEN);
+          } else if (weather == "fog") {
+            lv_obj_clear_flag(id(weather_fog_image), LV_OBJ_FLAG_HIDDEN);
+          } else if (weather == "hail") {
+            lv_obj_clear_flag(id(weather_hail_image), LV_OBJ_FLAG_HIDDEN);
+          } else if (weather == "windy") {
+            lv_obj_clear_flag(id(weather_windy_image), LV_OBJ_FLAG_HIDDEN);
+          } else if (weather == "windy-variant") {
+            lv_obj_clear_flag(id(weather_windy_variant_image), LV_OBJ_FLAG_HIDDEN);
+          }
+
+  - id: cal_update_all
+    then:
+      - lambda: |-
+          auto fmt_time = [](const std::string &s) -> std::string {
+            if (s.empty() || s.find('T') == std::string::npos) return "";
+            struct tm t = {};
+            if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &t) == nullptr)
+              strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &t);
+            char buf[9];
+            strftime(buf, sizeof(buf), "%I:%M%p", &t);
+            return std::string(buf);
+          };
+          auto fmt_date = [](const std::string &s) -> std::string {
+            if (s.empty()) return "";
+            struct tm t = {};
+            if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &t) == nullptr)
+              if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &t) == nullptr)
+                if (strptime(s.c_str(), "%Y-%m-%d", &t) == nullptr)
+                  return s.substr(0, std::min((int)s.size(), 10));
+            char buf[12];
+            strftime(buf, sizeof(buf), "%b %d", &t);
+            return std::string(buf);
+          };
+          struct CalEvent { std::string title, start, end_t; };
+          std::vector<CalEvent> events = {
+            { id(cal_title_1).state, id(cal_start_1).state, id(cal_end_1).state },
+            { id(cal_title_2).state, id(cal_start_2).state, id(cal_end_2).state },
+            { id(cal_title_3).state, id(cal_start_3).state, id(cal_end_3).state },
+          };
+          lv_obj_t* dt_labels[] = {
+            id(cal_datetime_label_1), id(cal_datetime_label_2),
+            id(cal_datetime_label_3)
+          };
+          lv_obj_t* title_labels[] = {
+            id(cal_title_label_1), id(cal_title_label_2),
+            id(cal_title_label_3)
+          };
+          for (int i = 0; i < 3; i++) {
+            const auto &ev = events[i];
+            std::string date_str = fmt_date(ev.start);
+            std::string t_start  = fmt_time(ev.start);
+            std::string t_end    = fmt_time(ev.end_t);
+            char buf[64];
+            if (t_start.empty()) {
+              snprintf(buf, sizeof(buf), "%s  all day", date_str.c_str());
+            } else {
+              snprintf(buf, sizeof(buf), "%s  %s-%s", date_str.c_str(), t_start.c_str(), t_end.c_str());
+            }
+            lv_label_set_text(dt_labels[i], ev.start.empty() ? " " : buf);
+            lv_label_set_text(title_labels[i], ev.title.empty() ? " " : ev.title.c_str());
+          }
+
+select:
+  - platform: lvgl
+    widget: language_dropdown
+    id: weather_select_language
+    on_value: 
+      then:
+        - lambda: |-
+            ESP_LOGI("LANGUAGE", "Language changed, updating weather translations");
+        - delay: 300ms
+        - script.execute:
+            id: weather_get_and_set_translated_state
+            state_str: !lambda 'return id(weather_state_sensor).state;'
+        - lambda: |-
+            ESP_LOGI("LANGUAGE", "Weather translations updated");
+
+esphome:
+  on_boot:
+    priority: -100
+    then:
+      - if:
+          condition:
+            lambda: 'return id(weather_state_sensor).has_state();'
+          then:
+            - script.execute:
+                id: weather_get_and_set_translated_state
+                state_str: !lambda 'return id(weather_state_sensor).state;'
+
+      # - if:
+      #     condition:
+      #       lambda: 'return id(display_lock) == true;'
+      #     then:
+      #       - switch.turn_on: display_lock_switch
+      #     else:
+      #       - switch.turn_off: display_lock_switch
+
+                
+api:
+  on_client_connected:
+    - if:
+        condition:
+          lambda: 'return (0 == client_info.find("Home Assistant "));'
+        then:
+          - lvgl.label.update: 
+              id: ha_status
+              text_color: color_blue
+    - if:
+        condition:
+          lambda: 'return id(weather_state_sensor).has_state();'
+        then:
+          - script.execute:
+              id: weather_get_and_set_translated_state
+              state_str: !lambda 'return id(weather_state_sensor).state;'
+
+    # - if:
+    #     condition:
+    #       lambda: 'return id(display_lock) == true;'
+    #     then:
+    #       - switch.turn_on: display_lock_switch
+    #     else:
+    #       - switch.turn_off: display_lock_switch
+
+  on_client_disconnected:
+    - if:
+        condition:
+          lambda: 'return (0 == client_info.find("Home Assistant "));'
+        then:
+          - lvgl.label.update: 
+              id: ha_status
+              text_color: color_steel_blue
+
+switch:
+  - platform: template
+    name: "Touchscreen block"
+    id: display_lock_switch
+    lambda: |-
+      return id(display_lock);
+    turn_on_action:
+      - lambda: 'id(display_lock) = true;' 
+      - lvgl.button.update: 
+          id: home_page_btn
+          clickable: false
+      - lvgl.button.update: 
+          id: lights_group_page_btn
+          clickable: false
+      - lvgl.button.update: 
+          id: devices_page_btn
+          clickable: false
+      - lvgl.button.update: 
+          id: settings_page_btn
+          clickable: false
+    turn_off_action:
+      - lambda: 'id(display_lock) = false;'
+      - lvgl.button.update:
+          id: home_page_btn
+          clickable: true
+      - lvgl.button.update:
+          id: lights_group_page_btn
+          clickable: true
+      - lvgl.button.update:
+          id: devices_page_btn
+          clickable: true
+      - lvgl.button.update:
+          id: settings_page_btn
+          clickable: true

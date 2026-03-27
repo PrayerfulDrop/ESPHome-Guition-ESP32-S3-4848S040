@@ -1,0 +1,235 @@
+substitutions:
+
+  music_icon:             "\U0000e91b"
+  shutter_icon:           "\U0000e91d"
+  vacuum_icon:            "\U0000e922"
+
+
+packages:
+  media_player: !include media_player/media_player.yaml
+  vacuum: !include vacuum/vacuum_widget.yaml
+  #shutter: !include shutter/shutter_config.yaml
+
+  # ── HVAC widget — uncomment to match your chosen OPTION in main.yaml ──────
+  #
+  # OPTION 1: Combined HVAC (heating + cooling on one page) — DEFAULT
+  hvac: !include hvac/hvac_widget.yaml
+  #
+  # OPTION 2: Thermostat only (heating)
+  #thermostat: !include thermostat/thermostat_widget.yaml
+  #
+  # OPTION 3: Air conditioner only (cooling)
+  #air_conditioner: !include air_conditioner/air_conditioner_widget.yaml
+  #
+  # OPTION 4: Separate thermostat + air conditioner pages
+  #thermostat: !include thermostat/thermostat_widget.yaml
+  #air_conditioner: !include air_conditioner/air_conditioner_widget.yaml
+
+  alarm_panel: !include alarm_panel/alarm_panel.yaml
+
+
+lvgl:
+  pages:
+    - id: devices_page
+      bg_color: color_slate_blue_gray
+      widgets:
+        - obj:
+            id: devices_main
+            y: 20
+            width: 440
+            height: 340
+            pad_all: 0
+            align: TOP_MID
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            shadow_opa: TRANSP
+            border_opa: TRANSP
+            border_width: 0
+            radius: 10
+            widgets:
+
+              # ── Row 1: Alarm / Media player / Vacuum ─────────────────────
+              - obj:
+                  y: 10
+                  width: 440
+                  height: 150
+                  pad_all: 0
+                  align: TOP_MID
+                  bg_opa: TRANSP
+                  shadow_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  radius: 10
+                  widgets:
+
+                    - button:
+                        id: alarm_panel_page_btn
+                        x: 35
+                        align: LEFT_MID
+                        width: 100
+                        height: 100
+                        radius: 10
+                        bg_color: color_slate_blue_gray
+                        shadow_opa: TRANSP
+                        widgets:
+                          - label:
+                              align: CENTER
+                              text_color: color_steel_blue
+                              text_font: mdi_icons_72
+                              text: "${shield_away_icon}"
+                        on_press:
+                          - lvgl.widget.hide: menu_controls_main
+                          - lvgl.page.show:
+                              id: alarm_panel_page
+                              animation: OUT_RIGHT
+                              time: 300ms
+
+                    - button:
+                        id: media_player_page_btn
+                        x: 170
+                        align: LEFT_MID
+                        width: 100
+                        height: 100
+                        radius: 10
+                        bg_color: color_slate_blue_gray
+                        shadow_opa: TRANSP
+                        widgets:
+                          - label:
+                              align: CENTER
+                              text_color: color_steel_blue
+                              text_font: icons_90
+                              text: "${music_icon}"
+                        on_press:
+                          - lvgl.widget.hide: menu_controls_main
+                          - lvgl.page.show:
+                              id: media_player_page
+                              animation: OUT_RIGHT
+                              time: 300ms
+
+#                    - button:
+#                        id: shutters_page_btn
+#                        x: 170
+#                        align: LEFT_MID
+#                        width: 100
+#                        height: 100
+#                        radius: 10
+#                        bg_color: color_slate_blue_gray
+#                        shadow_opa: TRANSP
+#                        widgets:
+#                          - label:
+#                              align: CENTER
+#                              text_color: color_steel_blue
+#                              text_font: icons_72
+#                              text: "${shutter_icon}"
+#                        on_press:
+#                          - lvgl.page.show:
+#                              id: shutter_group_page
+#                              animation: OUT_RIGHT
+#                              time: 300ms
+
+                    - button:
+                        id: vacuum_page_btn
+                        x: 305
+                        align: LEFT_MID
+                        width: 100
+                        height: 100
+                        radius: 10
+                        bg_color: color_slate_blue_gray
+                        shadow_opa: TRANSP
+                        widgets:
+                          - label:
+                              align: CENTER
+                              text_color: color_steel_blue
+                              text_font: icons_72
+                              text: "${vacuum_icon}"
+                        on_press:
+                          - lvgl.widget.hide: menu_controls_main
+                          - lvgl.page.show:
+                              id: vacuum_page
+                              animation: OUT_RIGHT
+                              time: 300ms
+
+              # ── Row 2: HVAC slot 1 / HVAC slot 2 / Fans ──────────────────
+              # Driven by substitutions in main.yaml — see HVAC widget mode section.
+              # Slot 1 (x:35):  always visible; icon/page set by hvac_slot_1_* subs.
+              # Slot 2 (x:170): hidden by default; shown for OPTION 4 (thermostat+AC).
+              # Fans  (x:var):  position set by fans_btn_x sub (170 for 1 slot, 305 for 2).
+              - obj:
+                  y: 120
+                  width: 440
+                  height: 150
+                  pad_all: 0
+                  align: TOP_MID
+                  bg_opa: TRANSP
+                  shadow_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  radius: 10
+                  widgets:
+
+                    - button:
+                        id: hvac_slot_1_btn
+                        x: 35
+                        align: LEFT_MID
+                        width: 100
+                        height: 100
+                        radius: 10
+                        bg_color: color_slate_blue_gray
+                        shadow_opa: TRANSP
+                        widgets:
+                          - label:
+                              align: CENTER
+                              text_color: color_steel_blue
+                              text_font: icons_72
+                              text: "${hvac_slot_1_icon}"
+                        on_press:
+                          - lvgl.widget.hide: menu_controls_main
+                          - lvgl.page.show:
+                              id: ${hvac_slot_1_page}
+                              animation: OUT_RIGHT
+                              time: 300ms
+
+                    - button:
+                        id: hvac_slot_2_btn
+                        hidden: ${hvac_slot_2_hidden}
+                        x: 170
+                        align: LEFT_MID
+                        width: 100
+                        height: 100
+                        radius: 10
+                        bg_color: color_slate_blue_gray
+                        shadow_opa: TRANSP
+                        widgets:
+                          - label:
+                              align: CENTER
+                              text_color: color_steel_blue
+                              text_font: icons_72
+                              text: "${hvac_slot_2_icon}"
+                        on_press:
+                          - lvgl.widget.hide: menu_controls_main
+                          - lvgl.page.show:
+                              id: ${hvac_slot_2_page}
+                              animation: OUT_RIGHT
+                              time: 300ms
+
+                    - button:
+                        id: fans_page_btn
+                        x: ${fans_btn_x}
+                        align: LEFT_MID
+                        width: 100
+                        height: 100
+                        radius: 10
+                        bg_color: color_slate_blue_gray
+                        shadow_opa: TRANSP
+                        widgets:
+                          - label:
+                              align: CENTER
+                              text_color: color_steel_blue
+                              text_font: fan_icons_72
+                              text: "\U0000E901"   # ceiling-fan
+                        on_press:
+                          - lvgl.widget.hide: menu_controls_main
+                          - lvgl.page.show:
+                              id: fans_group_page
+                              animation: OUT_RIGHT
+                              time: 300ms

@@ -1,0 +1,140 @@
+
+globals:
+  - id: ha_connected
+    type: bool
+    initial_value: 'false'
+
+lvgl:
+  top_layer:
+    widgets:
+      - button:
+          id: loading_page
+          bg_color: color_slate_blue_gray
+          shadow_opa: TRANSP
+          width: 100%
+          height: 100%
+          widgets:
+            - image:
+                y: 30
+                align: TOP_MID
+                src: ha_img
+
+            - obj:
+                id: boot_homeassistant
+                y: 180
+                width: 300
+                height: 100
+                pad_all: 0
+                align: TOP_MID
+                bg_opa: TRANSP
+                shadow_opa: TRANSP
+                border_opa: TRANSP
+                border_width: 0
+                radius: 10
+                widgets:
+                  - label:
+                      id: boot_homeassistant_label
+                      align: LEFT_MID
+                      text_font: nunito_20
+                      text_color: color_misty_blue
+                      text: "Connecting to API..."
+                  - spinner:
+                      id: boot_homeassistant_spiner
+                      width: 50
+                      height: 50
+                      align: RIGHT_MID
+                      spin_time: 2s
+                      arc_length: 60deg
+                      arc_width: 5
+                      arc_color: color_steel_blue
+                      indicator:
+                        arc_color: color_misty_blue
+                        arc_width: 5
+            - obj:
+                id: boot_synchronization
+                y: 180
+                width: 300
+                height: 60
+                pad_all: 0
+                align: TOP_MID
+                bg_opa: TRANSP
+                shadow_opa: TRANSP
+                border_opa: TRANSP
+                border_width: 0
+                radius: 10
+                hidden: true
+                widgets:
+                  - label:
+                      id: boot_synchronization_label
+                      align: TOP_MID
+                      y: 0
+                      text_font: nunito_20
+                      text_color: color_misty_blue
+                      text: "Synchronizing..."
+                  - bar:
+                      id: boot_synchronization_bar
+                      y: 0
+                      width: 300
+                      value: 0
+                      align: BOTTOM_MID
+                      min_value: 0
+                      max_value: 100
+                      animated: true
+                      bg_color: color_steel_blue
+                      indicator:
+                        bg_color: color_misty_blue
+            - image:
+                y: -30
+                align: BOTTOM_MID
+                src: esphome_img
+
+
+script:
+  - id: check_boot_status
+    then:
+      - lambda: |-
+          if (id(ha_connected)) {
+            lv_obj_add_flag(id(boot_homeassistant), LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(id(boot_synchronization), LV_OBJ_FLAG_HIDDEN);
+
+            id(start_sync_animation).execute();
+          }
+
+  - id: start_sync_animation
+    then:
+      - delay: 1s
+      - lvgl.bar.update:
+          id: boot_synchronization_bar
+          value: 50
+
+      - delay: 1s
+      - lvgl.bar.update:
+          id: boot_synchronization_bar
+          value: 100
+
+      - delay: 500ms
+
+      - lvgl.widget.hide: loading_page
+
+
+  - id: on_ha_connected
+    then:
+      - lambda: |-
+          if (!id(ha_connected)) {
+            id(ha_connected) = true;
+            lv_label_set_text(id(boot_homeassistant_label), "Home Assistant Connected!");
+            lv_obj_add_flag(id(boot_homeassistant_spiner), LV_OBJ_FLAG_HIDDEN);
+            id(check_boot_status).execute();
+          }
+
+api:
+  on_client_connected:
+    - lambda: |-
+        if (0 == client_info.find("Home Assistant ")) {
+          id(on_ha_connected).execute();
+        }
+  on_client_disconnected:
+    - lambda: |-
+        if (0 == client_info.find("Home Assistant ")) {
+          id(ha_connected) = false;
+        }

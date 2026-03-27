@@ -1,0 +1,34 @@
+# ESPHome build artifacts
+.esphome/
+**/build/
+
+# Secrets and sensitive files
+secrets.yaml
+!secrets.yaml.example
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.code-workspace
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.log

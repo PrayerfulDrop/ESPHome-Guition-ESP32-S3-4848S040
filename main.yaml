@@ -1,0 +1,372 @@
+substitutions:
+  # esphome info
+  esphome_name:           "yourdisplayname"
+  esphome_friendly_name:  "Your Display Name"
+  ha_server:              "http://homeassistant.local:8123"  #ip address of HomeAssistant
+
+  # entity information
+  weather_entity:         "weather.forecast" #current outdoor weather/forecast
+  temperature_entity:     "sensor.yourinternaltemperature" #indoor temperature entity
+ 
+  vacuum_entity:          "vacuum.yourvacuum" # vacuum entity
+  media_player_entity:    "media_player.yourmediaplayer" # media player entity
+  alarm_panel_entity:     "alarm_control_panel.system" # alarm panel entity
+  pin_code:               !secret security_pin_code # alarm panel security pin code for alarm panel (if used)
+
+  # -- Calendar entities for upcoming events
+# add the following code to your configuration.yaml to create the calendar event sensors, then update the calendar_entity substitutions above with the matching sensor entity_id
+# change the calendar.yourcalendar to your calendar entity_id and adjust
+#
+# template:
+#   - trigger:
+#       - platform: time_pattern
+#         minutes: "/15"
+#       - platform: homeassistant
+#         event: start
+#     action:
+#       - action: calendar.get_events
+#         target:
+#           entity_id: calendar.yourcalendar
+#         data:
+#           start_date_time: "{{ now().isoformat() }}"
+#           duration:
+#             days: 30
+#         response_variable: agenda
+#       - variables:
+#           events: >
+#             {{ agenda['calendar.yourcalendar']['events']
+#                | selectattr('start', 'search', 'T')
+#                | list }}
+#     sensor:
+#       - name: "Calendar Upcoming Event 1"
+#         unique_id: calendar_upcoming_event_1
+#         state: "{{ events[0].summary if events | length > 0 else 'No event' }}"
+#         attributes:
+#           message:    "{{ events[0].summary if events | length > 0 else '' }}"
+#           start_time: "{{ events[0].start   if events | length > 0 else '' }}"
+#           end_time:   "{{ events[0].end     if events | length > 0 else '' }}"
+
+#       - name: "Calendar Upcoming Event 2"
+#         unique_id: calendar_upcoming_event_2
+#         state: "{{ events[1].summary if events | length > 1 else 'No event' }}"
+#         attributes:
+#           message:    "{{ events[1].summary if events | length > 1 else '' }}"
+#           start_time: "{{ events[1].start   if events | length > 1 else '' }}"
+#           end_time:   "{{ events[1].end     if events | length > 1 else '' }}"
+
+#       - name: "Calendar Upcoming Event 3"
+#         unique_id: calendar_upcoming_event_3
+#         state: "{{ events[2].summary if events | length > 2 else 'No event' }}"
+#         attributes:
+#           message:    "{{ events[2].summary if events | length > 2 else '' }}"
+#           start_time: "{{ events[2].start   if events | length > 2 else '' }}"
+#           end_time:   "{{ events[2].end     if events | length > 2 else '' }}"
+
+
+  calendar_entity:        "sensor.calendar_upcoming_event_1" #calendar event 1
+  calendar_entity_2:      "sensor.calendar_upcoming_event_2" #calendar event 2
+  calendar_entity_3:      "sensor.calendar_upcoming_event_3" #calendar event 3
+  calendar_entity_4:      "sensor.calendar_upcoming_event_4" #calendar event 4
+
+
+  # ── HVAC widget mode ──────────────────────────────────────────────────────
+  # Choose which HVAC widget(s) appear in the Devices menu.
+  # Step 1: Uncomment ONE of the options below (keep the others commented).
+  # Step 2: In widgets/devices.yaml, uncomment the matching package include(s).
+  #
+  # ── OPTION 1: Combined HVAC — heating + cooling on one page (DEFAULT) ─────
+  hvac_entity:            "climate.hvac" #hvac entity
+  hvac_slot_1_icon:        "\U0000e925"   # thermostat-dial icon
+  hvac_slot_1_page:        hvac_page
+  hvac_slot_2_hidden:      "true"
+  hvac_slot_2_icon:        "\U0000e925"   # placeholder (slot hidden)
+  hvac_slot_2_page:        hvac_page      # placeholder (slot hidden)
+  fans_btn_x:              "170"
+  #
+  # ── OPTION 2: Thermostat only (heating) ───────────────────────────────────
+  # thermostat_entity:       "climate.upstairs"
+  # hvac_slot_1_icon:        "\U0000e925"
+  # hvac_slot_1_page:        thermostat_page
+  # hvac_slot_2_hidden:      "true"
+  # hvac_slot_2_icon:        "\U0000e925"   # placeholder
+  # hvac_slot_2_page:        thermostat_page # placeholder
+  # fans_btn_x:              "170"
+  #
+  # ── OPTION 3: Air conditioner only (cooling) ──────────────────────────────
+  # air_conditioner_entity:  "climate.upstairs"
+  # hvac_slot_1_icon:        "\U0000e93b"
+  # hvac_slot_1_page:        air_conditioner_page
+  # hvac_slot_2_hidden:      "true"
+  # hvac_slot_2_icon:        "\U0000e93b"   # placeholder
+  # hvac_slot_2_page:        air_conditioner_page # placeholder
+  # fans_btn_x:              "170"
+  #
+  # ── OPTION 4: Separate thermostat + air conditioner pages ─────────────────
+  # thermostat_entity:       "climate.upstairs"
+  # air_conditioner_entity:  "climate.upstairs"
+  # hvac_slot_1_icon:        "\U0000e925"
+  # hvac_slot_1_page:        thermostat_page
+  # hvac_slot_2_hidden:      "false"
+  # hvac_slot_2_icon:        "\U0000e93b"
+  # hvac_slot_2_page:        air_conditioner_page
+  # fans_btn_x:              "305"
+
+
+# ── Light and Fan icon substitutions for main2.yaml ──────────────────────────
+#
+# Set the icon for each slot using ONE line — just the icon name, no ${} needed.
+# The font is handled automatically. Do NOT add light_icon_font_N or fan_icon_font_N.
+#
+# ── Available icon names ─────────────────────────────────────────────────────
+#
+#   Light icons (icons_90):
+#     lightbulb            spotlights_group     desk_lamp
+#     pendant_lamp         ceiling_lamp         ceiling_lamp_variant
+#     night_lamp           music                vacuum_icon
+#
+#   Special icons (mdi_90):
+#     bed                  heart                tv
+#
+#   Fan icons (fan_icons_90):
+#     ceiling_fan          floor_fan
+#
+# NOTE: If you use an icon from a different font family than the slot default
+# (e.g. "bed" on slot 1 which defaults to icons_90), also add:
+#   light_icon_font_1: "bed_font"
+# For the typical assignments below this is never needed.
+#
+# Any sensors not needed change the entity to "sensor.disabled"
+# ─────────────────────────────────────────────────────────────────────────────
+
+  #Setup Lights
+  light_entity_1: "light.yourmainlight"
+  light_label_name_1: "Main Lights"
+  light_type_1: "light"
+  light_icon_1: "ceiling_lamp"
+
+  light_entity_2: "light.yourlamps"
+  light_label_name_2: "Lamps"
+  light_type_2: "light"
+  light_icon_2: "night_lamp"
+
+  light_entity_3: "light.yournightlight"
+  light_label_name_3: "Night Light"
+  light_type_3: "switch"
+  light_icon_3: "night_lamp"
+
+  light_entity_4: "input_boolean.yourbedtime"
+  light_label_name_4: "Bedtime"
+  light_type_4: "input_boolean"
+  light_icon_4: "bed"
+
+  light_entity_5: "sensor.disabled"
+  light_label_name_5: ""
+  light_type_5: ""
+  light_icon_5: ""
+
+  light_entity_6: "sensor.disabled"
+  light_label_name_6: ""
+  light_type_6: ""
+  light_icon_6: ""
+
+  #Setup Fans
+  fan_entity_1: "fan.yourceilingfan"
+  fan_label_name_1: "Ceiling Fan"
+  fan_type_1: "fan"
+  fan_icon_1: "ceiling_fan"
+
+  fan_entity_2: "fan.yourfloorfan"
+  fan_label_name_2: "Fan"
+  fan_type_2: "fan"
+  fan_icon_2: "floor_fan"
+
+  fan_entity_3: "sensor.disabled"
+  fan_label_name_3: ""
+  fan_type_3: ""
+  fan_icon_3: ""
+
+  fan_entity_4: "sensor.disabled"
+  fan_label_name_4: ""
+  fan_type_4: ""
+  fan_icon_4: ""
+
+  fan_entity_5: "sensor.disabled"
+  fan_label_name_5: ""
+  fan_type_5: ""
+  fan_icon_5: ""
+
+  fan_entity_6: "sensor.disabled"
+  fan_label_name_6: ""
+  fan_type_6: ""
+  fan_icon_6: ""
+
+
+# Do not modify below this line unless you know what you're doing! The rest of the code is the engine that powers the display and is not meant to be customized.
+packages:
+  home: !include widgets/home/home.yaml
+  lights_config: !include widgets/light/lights_config.yaml
+  devices: !include widgets/devices.yaml
+  settings: !include widgets/settings.yaml
+  menu_controls_main: !include widgets/menu_controls_main.yaml
+  loading_page: !include widgets/loading_page.yaml
+  fans_config: !include widgets/fan/fans_config.yaml
+
+
+image: !include widgets/image.yaml
+font: !include widgets/fonts.yaml
+color: !include widgets/colors.yaml
+
+
+http_request:
+  verify_ssl: false
+
+
+esphome:
+  name: "${esphome_name}"
+  friendly_name: "${esphome_friendly_name}"
+  includes:
+    - <sstream>
+    - <algorithm>
+    - <ctime>
+  platformio_options:
+    board_build.flash_mode: dio
+
+
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
+  flash_size: 16MB
+  framework:
+    type: esp-idf
+    sdkconfig_options:
+      CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
+      CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
+      CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
+      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
+      CONFIG_SPIRAM_RODATA: y
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+
+logger:
+  level: INFO
+
+
+api:
+
+
+ota:
+  - platform: esphome
+    password: !secret display_ota
+
+wifi:
+  networks:
+    - ssid: !secret wifi_ssid
+      password: !secret wifi_password
+
+
+lvgl:
+  color_depth: 16
+  byte_order: big_endian
+  displays: my_display
+  touchscreens:
+    - touchscreen_id: my_touchscreen
+      long_press_time: 5000ms
+      long_press_repeat_time: 400ms
+  page_wrap: false
+
+
+light:
+  # Backlight
+  - platform: monochromatic
+    output: GPIO38
+    name: Backlight
+    id: display_backlight
+    restore_mode: ALWAYS_ON
+
+
+output:
+    # Backlight LED
+  - platform: ledc
+    pin: GPIO38
+    id: GPIO38
+    frequency: 100Hz
+
+
+i2c:
+  - id: bus_a
+    sda: GPIO19
+    scl: GPIO45
+    frequency: 100kHz
+
+
+touchscreen:
+  platform: gt911
+  id: my_touchscreen
+  transform:
+    mirror_x: false
+    mirror_y: false
+  display: my_display
+  on_release:
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - logger.log: "LVGL resuming"
+            - lvgl.resume:
+            - lvgl.widget.redraw:
+            - light.turn_on: display_backlight
+
+spi:
+  - id: lcd_spi
+    clk_pin: GPIO48
+    mosi_pin: GPIO47
+    
+display:
+  - platform: st7701s
+    id: my_display
+    update_interval: never
+    auto_clear_enabled: false
+    data_rate: 2MHz
+    spi_mode: MODE3
+    color_order: RGB
+    invert_colors: false
+    dimensions:
+      width: 480
+      height: 480
+    transform:
+      mirror_x: false
+      mirror_y: false
+    cs_pin: 39
+      # reset not defined 
+    de_pin: 18
+    hsync_pin: 16
+    vsync_pin: 17
+    pclk_pin: 21
+    init_sequence: 
+      - 1
+      - [0xFF, 0x77, 0x01, 0x00, 0x00, 0x10] # CMD2_BKSEL_BK0
+      - [0xCD, 0x00] # disable MDT flag
+    pclk_frequency: 12MHz
+    pclk_inverted: false
+    data_pins:
+      red:
+        - 11         # R1
+        - 12         # R2
+        - 13         # R3
+        - 14         # R4
+        - 0          # R5
+      green:
+        - 8          # G0
+        - 20         # G1
+        - 3          # G2
+        - 46         # G3
+        - 9          # G4
+        - 10         # G5 
+      blue:
+        - 4          # B1
+        - 5          # B2
+        - 6          # B3
+        - 7          # B4
+        - 15         # B5

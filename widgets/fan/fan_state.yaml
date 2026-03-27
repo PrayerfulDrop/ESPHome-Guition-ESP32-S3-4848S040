@@ -1,0 +1,42 @@
+substitutions:
+
+  # Safe default – overridden by fans_config.yaml vars
+  fan_entity:  "none"
+  widget_name: "fan_default"
+
+globals:
+  # Set true at boot when entity is "none" – suppresses all HA calls
+  - id: ${widget_name}_is_disabled
+    type: bool
+    initial_value: 'false'
+
+esphome:
+  on_boot:
+    priority: -200
+    then:
+      - lambda: |-
+          if (std::string("${fan_entity}") == "none") {
+            id(${widget_name}_is_disabled) = true;
+          }
+
+text_sensor:
+  - platform: homeassistant
+    id: ${widget_name}_fan_state
+    entity_id: "${fan_entity}"
+    on_value:
+      - if:
+          condition:
+            lambda: 'return id(${widget_name}_is_disabled);'
+          then: []
+          else:
+            - if:
+                condition:
+                  lambda: 'return x == "on";'
+                then:
+                  - lvgl.label.update:
+                      id: ${widget_name}_fan_on
+                      text_color: color_sky_blue
+                else:
+                  - lvgl.label.update:
+                      id: ${widget_name}_fan_on
+                      text_color: color_steel_blue

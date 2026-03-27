@@ -1,0 +1,201 @@
+# lights_config.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Place this file and its siblings into  widgets/light/
+#
+# Replaces the old lights_config.yaml that required manually selecting
+# light_brightness.yaml vs light_state.yaml per slot.
+# Now light_type_N drives the behaviour automatically at boot — no file changes
+# needed when adding or changing a light.
+#
+# ── HOW TO CONFIGURE ─────────────────────────────────────────────────────────
+# Define only the lights you have in main2.yaml substitutions.
+# Any slot left at the default "sensor.disabled" is hidden automatically at boot.
+# Fill slots in order (1 → N) to avoid layout gaps.
+#
+#   light_type options
+#   ─────────────────────────────────────────────────────────────────────────
+#   "light"         HA light entity – shows brightness slider on detail page
+#   "switch"        Simple on/off switch – detail page icon panel only
+#   "input_boolean" Same as switch
+#
+#   The correct HA service (light.toggle / switch.toggle / input_boolean.toggle)
+#   is called automatically based on light_type.
+#
+# ── ICON CONFIGURATION ───────────────────────────────────────────────────────
+# light_icon_N    : the glyph character (unicode escape) shown on the tile
+# light_icon_font_N: the ESPHome font id that contains that glyph
+#   icons_90  – for icons from icons_v2.ttf (ceiling_lamp, night_lamp, etc.)
+#   mdi_90    – for icons from mdi.ttf (bed, heart, TV, etc.)
+# Defaults match the original lights_panel.yaml icon assignments.
+# Override in main2.yaml substitutions to suit each physical light.
+#
+# ── EXAMPLE main2.yaml substitutions ─────────────────────────────────────────
+#
+#   light_entity_1: "light.master_bedroom"
+#   light_label_name_1: "Main Lights"
+#   light_type_1: "light"
+#   light_icon_1:      "ceiling_lamp"       # name from the icon library below
+#   light_icon_font_1: "ceiling_lamp_font"  # always pair with the matching _font
+#
+#   light_entity_2: "light.master_bedroom_lamps"
+#   light_label_name_2: "Lamps"
+#   light_type_2: "light"
+#
+#   light_entity_4: "input_boolean.master_bedroom_bedtime"
+#   light_label_name_4: "Bedtime"
+#   light_type_4: "input_boolean"
+#
+#   light_entity_5: "sensor.disabled"   # hidden automatically
+# ─────────────────────────────────────────────────────────────────────────────
+
+substitutions:
+  light_widget_name_1: "light1"
+  light_widget_name_2: "light2"
+  light_widget_name_3: "light3"
+  light_widget_name_4: "light4"
+  light_widget_name_5: "light5"
+  light_widget_name_6: "light6"
+
+  # Defaults – overridden by main2.yaml
+  light_entity_1: "sensor.disabled"
+  light_entity_2: "sensor.disabled"
+  light_entity_3: "sensor.disabled"
+  light_entity_4: "sensor.disabled"
+  light_entity_5: "sensor.disabled"
+  light_entity_6: "sensor.disabled"
+
+  light_label_name_1: ""
+  light_label_name_2: ""
+  light_label_name_3: ""
+  light_label_name_4: ""
+  light_label_name_5: ""
+  light_label_name_6: ""
+
+  light_type_1: "light"
+  light_type_2: "light"
+  light_type_3: "light"
+  light_type_4: "light"
+  light_type_5: "light"
+  light_type_6: "light"
+
+  # ── Named icon library ──────────────────────────────────────────────────────
+  # In main2.yaml, set light_icon_N to the icon name wrapped in ${}.
+  # The matching font is handled automatically — do NOT set light_icon_font_N.
+  #
+  # Example:
+  #   light_icon_1: "ceiling_lamp"
+  #
+  # icons_v2.ttf (icons_90):
+  lightbulb:                 "\U0000e908"
+  lightbulb_font:            "icons_90"
+  spotlights_group:          "\U0000e915"
+  spotlights_group_font:     "icons_90"
+  desk_lamp:                 "\U0000e916"
+  desk_lamp_font:            "icons_90"
+  pendant_lamp:              "\U0000e917"
+  pendant_lamp_font:         "icons_90"
+  ceiling_lamp:              "\U0000e918"
+  ceiling_lamp_font:         "icons_90"
+  ceiling_lamp_variant:      "\U0000e921"
+  ceiling_lamp_variant_font: "icons_90"
+  night_lamp:                "\U0000e919"
+  night_lamp_font:           "icons_90"
+  music:                     "\U0000e91b"
+  music_font:                "icons_90"
+  vacuum_icon:               "\U0000e922"
+  vacuum_icon_font:          "icons_90"
+  # mdi.ttf (mdi_90):
+  bed:                       "\U000f02e3"
+  bed_font:                  "mdi_90"
+  heart:                     "\U000F05F6"
+  heart_font:                "mdi_90"
+  tv:                        "\U000F07F4"
+  tv_font:                   "mdi_90"
+  # fan_icons.ttf (fan_icons_90):
+  ceiling_fan:               "\U0000E901"
+  ceiling_fan_font:          "fan_icons_90"
+  floor_fan:                 "\U0000E900"
+  floor_fan_font:            "fan_icons_90"
+
+  # ── Per-slot icon defaults ────────────────────────────────────────────────
+  # To change an icon, set only light_icon_N in main2.yaml:
+  #   light_icon_N: "ceiling_lamp"
+  # The font is resolved automatically. Only add light_icon_font_N if you need
+  # to use an icon from a different font than the default for that slot.
+  light_icon_1:      "ceiling_lamp"
+  light_icon_font_1: "ceiling_lamp_font"
+  light_icon_2:      "night_lamp"
+  light_icon_font_2: "night_lamp_font"
+  light_icon_3:      "ceiling_lamp"
+  light_icon_font_3: "ceiling_lamp_font"
+  light_icon_4:      "bed"
+  light_icon_font_4: "bed_font"
+  light_icon_5:      "heart"
+  light_icon_font_5: "heart_font"
+  light_icon_6:      "tv"
+  light_icon_font_6: "tv_font"
+
+packages:
+  # Grid panel – tile layout, boot-time slot hiding, binary sensors
+  lights_panel: !include lights_panel.yaml
+
+  # Each slot always includes the same unified widget file.
+  # light_type_N drives runtime behaviour:
+  #   "light"         → brightness slider shown, light.toggle / light.turn_on used
+  #   "switch"        → slider hidden, switch.toggle used
+  #   "input_boolean" → slider hidden, input_boolean.toggle used
+  # Slots whose entity is "sensor.disabled" compile safely – sensors never fire
+  # and the tile is hidden and non-clickable before the loading screen clears.
+  light_1: !include
+    file: light_widget.yaml
+    vars:
+      light_entity:    "${light_entity_1}"
+      light_type:      "${light_type_1}"
+      light_icon:      "${light_icon_1}"
+      light_icon_font: "${light_icon_font_1}"
+      widget_name:     "${light_widget_name_1}"
+
+  light_2: !include
+    file: light_widget.yaml
+    vars:
+      light_entity:    "${light_entity_2}"
+      light_type:      "${light_type_2}"
+      light_icon:      "${light_icon_2}"
+      light_icon_font: "${light_icon_font_2}"
+      widget_name:     "${light_widget_name_2}"
+
+  light_3: !include
+    file: light_widget.yaml
+    vars:
+      light_entity:    "${light_entity_3}"
+      light_type:      "${light_type_3}"
+      light_icon:      "${light_icon_3}"
+      light_icon_font: "${light_icon_font_3}"
+      widget_name:     "${light_widget_name_3}"
+
+  light_4: !include
+    file: light_widget.yaml
+    vars:
+      light_entity:    "${light_entity_4}"
+      light_type:      "${light_type_4}"
+      light_icon:      "${light_icon_4}"
+      light_icon_font: "${light_icon_font_4}"
+      widget_name:     "${light_widget_name_4}"
+
+  light_5: !include
+    file: light_widget.yaml
+    vars:
+      light_entity:    "${light_entity_5}"
+      light_type:      "${light_type_5}"
+      light_icon:      "${light_icon_5}"
+      light_icon_font: "${light_icon_font_5}"
+      widget_name:     "${light_widget_name_5}"
+
+  light_6: !include
+    file: light_widget.yaml
+    vars:
+      light_entity:    "${light_entity_6}"
+      light_type:      "${light_type_6}"
+      light_icon:      "${light_icon_6}"
+      light_icon_font: "${light_icon_font_6}"
+      widget_name:     "${light_widget_name_6}"
