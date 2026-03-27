@@ -1,0 +1,619 @@
+# weather_forecast.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# 5-day forecast page using HA's weather.get_forecasts action.
+# Uses response_template to flatten JSON in Jinja on the HA side –
+# no complex C++ parsing needed.
+#
+# Layout: hero "Today" card (full-width) + 4 equal day cards below
+# Theme:  dark – matches the rest of the project
+#
+# Auto-fetches on HA client connect and every hour.
+# Include from home.yaml:  forecast: !include weather_forecast.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Condition → image mapping ─────────────────────────────────────────────────
+# Maps HA condition strings to the image IDs already defined in image.yaml.
+# partlycloudy uses the sun variant by default; the icon update scripts swap
+# it to the moon variant at night using the sun_state_sensor already in
+# home_widget.yaml.
+
+# (No mapping block – ESPHome has no native string→image mapping type.
+#  Each icon update script below uses a C++ if/else chain with direct
+#  lv_img_set_src() calls referencing the image pointers from image.yaml.)
+
+# ── Globals – condition strings needed for icon updates ───────────────────────
+globals:
+  - id: forecast_condition_0
+    type: std::string
+    initial_value: '"unknown"'
+  - id: forecast_condition_1
+    type: std::string
+    initial_value: '"unknown"'
+  - id: forecast_condition_2
+    type: std::string
+    initial_value: '"unknown"'
+  - id: forecast_condition_3
+    type: std::string
+    initial_value: '"unknown"'
+  - id: forecast_condition_4
+    type: std::string
+    initial_value: '"unknown"'
+
+# ── Auto-fetch: every hour and on HA client connect ───────────────────────────
+time:
+  - platform: homeassistant
+    on_time:
+      - hours: '*'
+        minutes: 0
+        seconds: 30
+        then:
+          - script.execute: fetch_weather_forecast
+
+api:
+  on_client_connected:
+    - delay: 3s
+    - script.execute: fetch_weather_forecast
+
+# ── Scripts ───────────────────────────────────────────────────────────────────
+script:
+
+  - id: fetch_weather_forecast
+    then:
+      - logger.log:
+          level: INFO
+          format: "Fetching weather forecast..."
+      - homeassistant.action:
+          action: weather.get_forecasts
+          data:
+            entity_id: ${weather_entity}
+            type: daily
+          capture_response: true
+          # response_template runs Jinja on the HA side, flattening the nested
+          # forecast array into a simple flat dict that ESPHome reads cleanly.
+          response_template: >-
+            {% set f = response["${weather_entity}"].forecast %}
+            {% set result = {
+              'condition_0': f[0].condition | default('unknown'),
+              'hi_0':        f[0].temperature | default(0) | round(0) | string,
+              'lo_0':        f[0].templow     | default(0) | round(0) | string,
+              'day_0':       'Today',
+              'precip_0':    f[0].precipitation_probability | default(0) | round(0) | string,
+              'condition_1': f[1].condition | default('unknown'),
+              'hi_1':        f[1].temperature | default(0) | round(0) | string,
+              'lo_1':        f[1].templow     | default(0) | round(0) | string,
+              'day_1':       (as_timestamp(f[1].datetime) + 43200) | timestamp_custom('%a'),
+              'precip_1':    f[1].precipitation_probability | default(0) | round(0) | string,
+              'condition_2': f[2].condition | default('unknown'),
+              'hi_2':        f[2].temperature | default(0) | round(0) | string,
+              'lo_2':        f[2].templow     | default(0) | round(0) | string,
+              'day_2':       (as_timestamp(f[2].datetime) + 43200) | timestamp_custom('%a'),
+              'precip_2':    f[2].precipitation_probability | default(0) | round(0) | string,
+              'condition_3': f[3].condition | default('unknown'),
+              'hi_3':        f[3].temperature | default(0) | round(0) | string,
+              'lo_3':        f[3].templow     | default(0) | round(0) | string,
+              'day_3':       (as_timestamp(f[3].datetime) + 43200) | timestamp_custom('%a'),
+              'precip_3':    f[3].precipitation_probability | default(0) | round(0) | string,
+              'condition_4': f[4].condition | default('unknown'),
+              'hi_4':        f[4].temperature | default(0) | round(0) | string,
+              'lo_4':        f[4].templow     | default(0) | round(0) | string,
+              'day_4':       (as_timestamp(f[4].datetime) + 43200) | timestamp_custom('%a'),
+              'precip_4':    f[4].precipitation_probability | default(0) | round(0) | string
+            } %}
+            {{ result | tojson }}
+          on_success:
+            # Store condition strings for icon mapping scripts
+            - lambda: |-
+                auto d = response["response"];
+                id(forecast_condition_0) = d["condition_0"].as<std::string>();
+                id(forecast_condition_1) = d["condition_1"].as<std::string>();
+                id(forecast_condition_2) = d["condition_2"].as<std::string>();
+                id(forecast_condition_3) = d["condition_3"].as<std::string>();
+                id(forecast_condition_4) = d["condition_4"].as<std::string>();
+
+            # Today hero card
+            - lvgl.label.update:
+                id: fc_day_0
+                text: !lambda 'return response["response"]["day_0"].as<std::string>();'
+            - lvgl.label.update:
+                id: fc_hi_0
+                text: !lambda 'return response["response"]["hi_0"].as<std::string>() + "\xc2\xb0";'
+            - lvgl.label.update:
+                id: fc_lo_0
+                text: !lambda 'return response["response"]["lo_0"].as<std::string>() + "\xc2\xb0";'
+            - lvgl.label.update:
+                id: fc_precip_0
+                text: !lambda 'return response["response"]["precip_0"].as<std::string>() + "%";'
+            - script.execute: update_forecast_icon_0
+
+            # Day 1
+            - lvgl.label.update:
+                id: fc_day_1
+                text: !lambda 'return response["response"]["day_1"].as<std::string>();'
+            - lvgl.label.update:
+                id: fc_hi_1
+                text: !lambda 'return response["response"]["hi_1"].as<std::string>() + "\xc2\xb0";'
+            - lvgl.label.update:
+                id: fc_lo_1
+                text: !lambda 'return response["response"]["lo_1"].as<std::string>() + "\xc2\xb0";'
+            - script.execute: update_forecast_icon_1
+
+            # Day 2
+            - lvgl.label.update:
+                id: fc_day_2
+                text: !lambda 'return response["response"]["day_2"].as<std::string>();'
+            - lvgl.label.update:
+                id: fc_hi_2
+                text: !lambda 'return response["response"]["hi_2"].as<std::string>() + "\xc2\xb0";'
+            - lvgl.label.update:
+                id: fc_lo_2
+                text: !lambda 'return response["response"]["lo_2"].as<std::string>() + "\xc2\xb0";'
+            - script.execute: update_forecast_icon_2
+
+            # Day 3
+            - lvgl.label.update:
+                id: fc_day_3
+                text: !lambda 'return response["response"]["day_3"].as<std::string>();'
+            - lvgl.label.update:
+                id: fc_hi_3
+                text: !lambda 'return response["response"]["hi_3"].as<std::string>() + "\xc2\xb0";'
+            - lvgl.label.update:
+                id: fc_lo_3
+                text: !lambda 'return response["response"]["lo_3"].as<std::string>() + "\xc2\xb0";'
+            - script.execute: update_forecast_icon_3
+
+            # Day 4
+            - lvgl.label.update:
+                id: fc_day_4
+                text: !lambda 'return response["response"]["day_4"].as<std::string>();'
+            - lvgl.label.update:
+                id: fc_hi_4
+                text: !lambda 'return response["response"]["hi_4"].as<std::string>() + "\xc2\xb0";'
+            - lvgl.label.update:
+                id: fc_lo_4
+                text: !lambda 'return response["response"]["lo_4"].as<std::string>() + "\xc2\xb0";'
+            - script.execute: update_forecast_icon_4
+
+          on_error:
+            - logger.log:
+                level: ERROR
+                format: "Failed to fetch weather forecast"
+
+  # ── Icon update scripts ───────────────────────────────────────────────────────
+  # partlycloudy picks sun or moon based on sun_state_sensor (from home_widget.yaml).
+  # All other conditions use a direct if/else chain with image.yaml pointers.
+
+  - id: update_forecast_icon_0
+    then:
+      - lambda: |-
+          std::string cond = id(forecast_condition_0);
+          bool night = (id(sun_state_sensor).state == "below_horizon");
+          const lv_img_dsc_t* src = cloudy_img->get_lv_img_dsc(); // fallback
+          if      (cond == "sunny")            src = sunny_img->get_lv_img_dsc();
+          else if (cond == "clear-night")      src = clear_night_img->get_lv_img_dsc();
+          else if (cond == "cloudy")           src = cloudy_img->get_lv_img_dsc();
+          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_img_dsc() : partlycloudy_sun_img->get_lv_img_dsc();
+          else if (cond == "rainy")            src = rainy_img->get_lv_img_dsc();
+          else if (cond == "pouring")          src = pouring_img->get_lv_img_dsc();
+          else if (cond == "lightning")        src = lightning_img->get_lv_img_dsc();
+          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_img_dsc();
+          else if (cond == "snowy")            src = snowy_img->get_lv_img_dsc();
+          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_img_dsc();
+          else if (cond == "fog")              src = fog_img->get_lv_img_dsc();
+          else if (cond == "hail")             src = hail_img->get_lv_img_dsc();
+          else if (cond == "windy")            src = windy_img->get_lv_img_dsc();
+          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_img_dsc();
+          lv_img_set_src(id(fc_icon_0), src);
+
+  - id: update_forecast_icon_1
+    then:
+      - lambda: |-
+          std::string cond = id(forecast_condition_1);
+          bool night = (id(sun_state_sensor).state == "below_horizon");
+          const lv_img_dsc_t* src = cloudy_img->get_lv_img_dsc(); // fallback
+          if      (cond == "sunny")            src = sunny_img->get_lv_img_dsc();
+          else if (cond == "clear-night")      src = clear_night_img->get_lv_img_dsc();
+          else if (cond == "cloudy")           src = cloudy_img->get_lv_img_dsc();
+          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_img_dsc() : partlycloudy_sun_img->get_lv_img_dsc();
+          else if (cond == "rainy")            src = rainy_img->get_lv_img_dsc();
+          else if (cond == "pouring")          src = pouring_img->get_lv_img_dsc();
+          else if (cond == "lightning")        src = lightning_img->get_lv_img_dsc();
+          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_img_dsc();
+          else if (cond == "snowy")            src = snowy_img->get_lv_img_dsc();
+          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_img_dsc();
+          else if (cond == "fog")              src = fog_img->get_lv_img_dsc();
+          else if (cond == "hail")             src = hail_img->get_lv_img_dsc();
+          else if (cond == "windy")            src = windy_img->get_lv_img_dsc();
+          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_img_dsc();
+          lv_img_set_src(id(fc_icon_1), src);
+
+  - id: update_forecast_icon_2
+    then:
+      - lambda: |-
+          std::string cond = id(forecast_condition_2);
+          bool night = (id(sun_state_sensor).state == "below_horizon");
+          const lv_img_dsc_t* src = cloudy_img->get_lv_img_dsc(); // fallback
+          if      (cond == "sunny")            src = sunny_img->get_lv_img_dsc();
+          else if (cond == "clear-night")      src = clear_night_img->get_lv_img_dsc();
+          else if (cond == "cloudy")           src = cloudy_img->get_lv_img_dsc();
+          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_img_dsc() : partlycloudy_sun_img->get_lv_img_dsc();
+          else if (cond == "rainy")            src = rainy_img->get_lv_img_dsc();
+          else if (cond == "pouring")          src = pouring_img->get_lv_img_dsc();
+          else if (cond == "lightning")        src = lightning_img->get_lv_img_dsc();
+          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_img_dsc();
+          else if (cond == "snowy")            src = snowy_img->get_lv_img_dsc();
+          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_img_dsc();
+          else if (cond == "fog")              src = fog_img->get_lv_img_dsc();
+          else if (cond == "hail")             src = hail_img->get_lv_img_dsc();
+          else if (cond == "windy")            src = windy_img->get_lv_img_dsc();
+          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_img_dsc();
+          lv_img_set_src(id(fc_icon_2), src);
+
+  - id: update_forecast_icon_3
+    then:
+      - lambda: |-
+          std::string cond = id(forecast_condition_3);
+          bool night = (id(sun_state_sensor).state == "below_horizon");
+          const lv_img_dsc_t* src = cloudy_img->get_lv_img_dsc(); // fallback
+          if      (cond == "sunny")            src = sunny_img->get_lv_img_dsc();
+          else if (cond == "clear-night")      src = clear_night_img->get_lv_img_dsc();
+          else if (cond == "cloudy")           src = cloudy_img->get_lv_img_dsc();
+          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_img_dsc() : partlycloudy_sun_img->get_lv_img_dsc();
+          else if (cond == "rainy")            src = rainy_img->get_lv_img_dsc();
+          else if (cond == "pouring")          src = pouring_img->get_lv_img_dsc();
+          else if (cond == "lightning")        src = lightning_img->get_lv_img_dsc();
+          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_img_dsc();
+          else if (cond == "snowy")            src = snowy_img->get_lv_img_dsc();
+          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_img_dsc();
+          else if (cond == "fog")              src = fog_img->get_lv_img_dsc();
+          else if (cond == "hail")             src = hail_img->get_lv_img_dsc();
+          else if (cond == "windy")            src = windy_img->get_lv_img_dsc();
+          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_img_dsc();
+          lv_img_set_src(id(fc_icon_3), src);
+
+  - id: update_forecast_icon_4
+    then:
+      - lambda: |-
+          std::string cond = id(forecast_condition_4);
+          bool night = (id(sun_state_sensor).state == "below_horizon");
+          const lv_img_dsc_t* src = cloudy_img->get_lv_img_dsc(); // fallback
+          if      (cond == "sunny")            src = sunny_img->get_lv_img_dsc();
+          else if (cond == "clear-night")      src = clear_night_img->get_lv_img_dsc();
+          else if (cond == "cloudy")           src = cloudy_img->get_lv_img_dsc();
+          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_img_dsc() : partlycloudy_sun_img->get_lv_img_dsc();
+          else if (cond == "rainy")            src = rainy_img->get_lv_img_dsc();
+          else if (cond == "pouring")          src = pouring_img->get_lv_img_dsc();
+          else if (cond == "lightning")        src = lightning_img->get_lv_img_dsc();
+          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_img_dsc();
+          else if (cond == "snowy")            src = snowy_img->get_lv_img_dsc();
+          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_img_dsc();
+          else if (cond == "fog")              src = fog_img->get_lv_img_dsc();
+          else if (cond == "hail")             src = hail_img->get_lv_img_dsc();
+          else if (cond == "windy")            src = windy_img->get_lv_img_dsc();
+          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_img_dsc();
+          lv_img_set_src(id(fc_icon_4), src);
+
+# ── LVGL forecast page ────────────────────────────────────────────────────────
+# Canvas: 480×480 display, 440px usable width (20px margins each side)
+#
+#  y=20   h=40  ── Title bar ─────────────────────────────────────────────────
+#  y=70   h=130 ── Hero card (Today): icon + hi/lo/precip ────────────────────
+#  y=210  h=170 ── Four day cards in a row ──────────────────────────────────
+#  y=430  h=50  ── Back / Refresh buttons ────────────────────────────────────
+
+lvgl:
+  pages:
+    - id: weather_forecast_page
+      bg_color: color_slate_blue_gray
+      widgets:
+
+        # ── Title bar ─────────────────────────────────────────────────────────
+        - obj:
+            id: forecast_title_bar
+            y: 20
+            width: 440
+            height: 40
+            align: TOP_MID
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  align: CENTER
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "5-Day Forecast"
+
+        # ── Hero card: Today ──────────────────────────────────────────────────
+        - obj:
+            id: forecast_today_card
+            x: 20
+            y: 70
+            width: 440
+            height: 130
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 12
+            widgets:
+              # Weather icon left side – reuses existing 100×100 images, scaled via position
+              - image:
+                  id: fc_icon_0
+                  x: 15
+                  y: 0
+                  align: LEFT_MID
+                  src: sunny_img
+
+              # "Today" label
+              - label:
+                  id: fc_day_0
+                  x: 130
+                  y: -28
+                  align: LEFT_MID
+                  text_font: nunito_20
+                  text_color: color_sky_blue
+                  text: "Today"
+
+              # High temperature – large
+              - label:
+                  id: fc_hi_0
+                  x: 130
+                  y: 4
+                  align: LEFT_MID
+                  text_font: nunito_36
+                  text_color: color_white
+                  text: "--°"
+
+              # Low temperature – smaller, offset right
+              - label:
+                  id: fc_lo_0
+                  x: 230
+                  y: 14
+                  align: LEFT_MID
+                  text_font: nunito_20
+                  text_color: color_misty_blue
+                  text: "--°"
+
+              # Rain probability – top right
+              - label:
+                  id: fc_precip_0
+                  x: -14
+                  y: -18
+                  align: RIGHT_MID
+                  text_font: nunito_20
+                  text_color: color_sky_blue
+                  text: "--%"
+              - label:
+                  x: -14
+                  y: 12
+                  align: RIGHT_MID
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: "rain"
+
+        # ── Four day cards (equal width, full row) ────────────────────────────
+        # 4 cards × 100px + 3 gaps × 8px + 20px left margin + 8px right margin = 448 ≈ fits
+        # x: 20, 128, 236, 344   width: 100 each
+
+        # Day 1
+        - obj:
+            id: forecast_day1_card
+            x: 20
+            y: 210
+            width: 100
+            height: 170
+            align: TOP_LEFT
+            pad_all: 6
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 12
+            widgets:
+              - label:
+                  id: fc_day_1
+                  align: TOP_MID
+                  y: 2
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "---"
+              - image:
+                  id: fc_icon_1
+                  align: TOP_MID
+                  y: 24
+                  src: cloudy_img
+              - label:
+                  id: fc_hi_1
+                  align: TOP_MID
+                  y: 108
+                  text_font: nunito_20
+                  text_color: color_white
+                  text: "--°"
+              - label:
+                  id: fc_lo_1
+                  align: TOP_MID
+                  y: 136
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "--°"
+
+        # Day 2
+        - obj:
+            id: forecast_day2_card
+            x: 128
+            y: 210
+            width: 100
+            height: 170
+            align: TOP_LEFT
+            pad_all: 6
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 12
+            widgets:
+              - label:
+                  id: fc_day_2
+                  align: TOP_MID
+                  y: 2
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "---"
+              - image:
+                  id: fc_icon_2
+                  align: TOP_MID
+                  y: 24
+                  src: cloudy_img
+              - label:
+                  id: fc_hi_2
+                  align: TOP_MID
+                  y: 108
+                  text_font: nunito_20
+                  text_color: color_white
+                  text: "--°"
+              - label:
+                  id: fc_lo_2
+                  align: TOP_MID
+                  y: 136
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "--°"
+
+        # Day 3
+        - obj:
+            id: forecast_day3_card
+            x: 236
+            y: 210
+            width: 100
+            height: 170
+            align: TOP_LEFT
+            pad_all: 6
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 12
+            widgets:
+              - label:
+                  id: fc_day_3
+                  align: TOP_MID
+                  y: 2
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "---"
+              - image:
+                  id: fc_icon_3
+                  align: TOP_MID
+                  y: 24
+                  src: cloudy_img
+              - label:
+                  id: fc_hi_3
+                  align: TOP_MID
+                  y: 108
+                  text_font: nunito_20
+                  text_color: color_white
+                  text: "--°"
+              - label:
+                  id: fc_lo_3
+                  align: TOP_MID
+                  y: 136
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "--°"
+
+        # Day 4
+        - obj:
+            id: forecast_day4_card
+            x: 344
+            y: 210
+            width: 100
+            height: 170
+            align: TOP_LEFT
+            pad_all: 6
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 12
+            widgets:
+              - label:
+                  id: fc_day_4
+                  align: TOP_MID
+                  y: 2
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "---"
+              - image:
+                  id: fc_icon_4
+                  align: TOP_MID
+                  y: 24
+                  src: cloudy_img
+              - label:
+                  id: fc_hi_4
+                  align: TOP_MID
+                  y: 108
+                  text_font: nunito_20
+                  text_color: color_white
+                  text: "--°"
+              - label:
+                  id: fc_lo_4
+                  align: TOP_MID
+                  y: 136
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "--°"
+
+        # ── Back button ───────────────────────────────────────────────────────
+        - button:
+            id: forecast_back_btn
+            x: 20
+            y: -20
+            width: 200
+            height: 50
+            align: BOTTOM_LEFT
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  align: CENTER
+                  text_font: icons_28
+                  text_color: color_misty_blue
+                  text: "\U0000e902"
+            on_press:
+              then:
+                - lvgl.widget.show: menu_controls_main
+                - lvgl.page.show:
+                    id: home_page
+                    animation: OUT_RIGHT
+                    time: 300ms
+
+        # ── Refresh button ────────────────────────────────────────────────────
+        - button:
+            id: forecast_refresh_btn
+            x: -20
+            y: -20
+            width: 200
+            height: 50
+            align: BOTTOM_RIGHT
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  align: CENTER
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "Refresh"
+            on_press:
+              then:
+                - script.execute: fetch_weather_forecast

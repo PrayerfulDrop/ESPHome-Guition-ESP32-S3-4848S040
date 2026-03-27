@@ -1,0 +1,200 @@
+# fans_config.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Place this file and its siblings into  widgets/fan/
+#
+# Add to main2.yaml packages block:
+#   fans_config: !include widgets/fan/fans_config.yaml
+#
+# ── HOW TO CONFIGURE ─────────────────────────────────────────────────────────
+# In main2.yaml substitutions, define only the fans you have.
+# Unused slots default to "sensor.disabled" and are hidden automatically at boot.
+# Fill slots in order (1 → N) to avoid layout gaps.
+#
+#   fan_type options
+#   ─────────────────────────────────────────────────────────────────────────
+#   "fan"           HA fan entity – shows speed slider on detail page
+#   "switch"        Simple on/off switch – detail page shows icon panel only
+#   "input_boolean" Same as switch
+#
+#   The correct HA service (fan.toggle / switch.toggle / input_boolean.toggle)
+#   is called automatically based on fan_type. No manual file selection needed.
+#
+# ── EXAMPLE main2.yaml substitutions ─────────────────────────────────────────
+#
+#   fan_entity_1: "fan.master_bedroom_ceiling"
+#   fan_label_name_1: "Ceiling Fan"
+#   fan_type_1: "fan"
+#
+#   fan_entity_2: "fan.living_room"
+#   fan_label_name_2: "Living Room"
+#   fan_type_2: "fan"
+#
+#   fan_entity_3: "switch.bathroom_exhaust"
+#   fan_label_name_3: "Bath Exhaust"
+#   fan_type_3: "switch"
+#
+#   fan_entity_4: "sensor.disabled"   # hidden automatically – no need to define the rest
+#
+# ── ICON CONFIGURATION ───────────────────────────────────────────────────────
+# Use the named icon library (defined in the substitutions block below).
+# Set both the icon name and its matching font in main2.yaml, e.g.:
+#
+#   fan_icon_1:      "ceiling_fan"
+#   fan_icon_font_1: "ceiling_fan_font"
+#
+#   fan_icon_2:      "floor_fan"
+#   fan_icon_font_2: "floor_fan_font"
+#
+#   fan_icon_3:      "ceiling_lamp"   # mix-and-match from the full library
+#   fan_icon_font_3: "ceiling_lamp_font"
+# ─────────────────────────────────────────────────────────────────────────────
+
+substitutions:
+  fan_widget_name_1: "fan1"
+  fan_widget_name_2: "fan2"
+  fan_widget_name_3: "fan3"
+  fan_widget_name_4: "fan4"
+  fan_widget_name_5: "fan5"
+  fan_widget_name_6: "fan6"
+
+  # Defaults – overridden by main2.yaml
+  fan_entity_1: "sensor.disabled"
+  fan_entity_2: "sensor.disabled"
+  fan_entity_3: "sensor.disabled"
+  fan_entity_4: "sensor.disabled"
+  fan_entity_5: "sensor.disabled"
+  fan_entity_6: "sensor.disabled"
+
+  fan_label_name_1: ""
+  fan_label_name_2: ""
+  fan_label_name_3: ""
+  fan_label_name_4: ""
+  fan_label_name_5: ""
+  fan_label_name_6: ""
+
+  fan_type_1: "fan"
+  fan_type_2: "fan"
+  fan_type_3: "fan"
+  fan_type_4: "fan"
+  fan_type_5: "fan"
+  fan_type_6: "fan"
+
+  # ── Named icon library ──────────────────────────────────────────────────────
+  # In main2.yaml, set fan_icon_N to the icon name wrapped in ${}.
+  # The matching font is handled automatically — do NOT set fan_icon_font_N.
+  #
+  # Example:
+  #   fan_icon_1: "ceiling_fan"
+  #
+  # fan_icons.ttf (fan_icons_90):
+  ceiling_fan:               "\U0000E901"
+  ceiling_fan_font:          "fan_icons_90"
+  floor_fan:                 "\U0000E900"
+  floor_fan_font:            "fan_icons_90"
+  # icons_v2.ttf (icons_90):
+  lightbulb:                 "\U0000e908"
+  lightbulb_font:            "icons_90"
+  spotlights_group:          "\U0000e915"
+  spotlights_group_font:     "icons_90"
+  desk_lamp:                 "\U0000e916"
+  desk_lamp_font:            "icons_90"
+  pendant_lamp:              "\U0000e917"
+  pendant_lamp_font:         "icons_90"
+  ceiling_lamp:              "\U0000e918"
+  ceiling_lamp_font:         "icons_90"
+  ceiling_lamp_variant:      "\U0000e921"
+  ceiling_lamp_variant_font: "icons_90"
+  night_lamp:                "\U0000e919"
+  night_lamp_font:           "icons_90"
+  music:                     "\U0000e91b"
+  music_font:                "icons_90"
+  vacuum_icon:               "\U0000e922"
+  vacuum_icon_font:          "icons_90"
+  # mdi.ttf (mdi_90):
+  bed:                       "\U000f02e3"
+  bed_font:                  "mdi_90"
+  heart:                     "\U000F05F6"
+  heart_font:                "mdi_90"
+  tv:                        "\U000F07F4"
+  tv_font:                   "mdi_90"
+
+  # ── Per-slot icon defaults ────────────────────────────────────────────────
+  # To change an icon, set only fan_icon_N in main2.yaml:
+  #   fan_icon_N: "ceiling_fan"
+  # The font is resolved automatically. Only add fan_icon_font_N if you need
+  # to use an icon from a different font than the default for that slot.
+  fan_icon_1:      "ceiling_fan"
+  fan_icon_font_1: "ceiling_fan_font"
+  fan_icon_2:      "ceiling_fan"
+  fan_icon_font_2: "ceiling_fan_font"
+  fan_icon_3:      "ceiling_fan"
+  fan_icon_font_3: "ceiling_fan_font"
+  fan_icon_4:      "floor_fan"
+  fan_icon_font_4: "floor_fan_font"
+  fan_icon_5:      "floor_fan"
+  fan_icon_font_5: "floor_fan_font"
+  fan_icon_6:      "floor_fan"
+  fan_icon_font_6: "floor_fan_font"
+
+packages:
+  # Grid panel – tile layout, boot-time slot hiding, binary sensors
+  fans_panel: !include fans_panel.yaml
+
+  # Each slot always includes the same unified widget file.
+  # fan_type_N passed as `fan_type` drives the runtime behaviour:
+  #   "fan"           → speed slider shown, fan.toggle / fan.turn_on used
+  #   "switch"        → speed panel hidden, switch.toggle used
+  #   "input_boolean" → speed panel hidden, input_boolean.toggle used
+  fan_1: !include
+    file: fan_widget.yaml
+    vars:
+      fan_entity:    "${fan_entity_1}"
+      fan_type:      "${fan_type_1}"
+      fan_icon:      "${fan_icon_1}"
+      fan_icon_font: "${fan_icon_font_1}"
+      widget_name:   "${fan_widget_name_1}"
+
+  fan_2: !include
+    file: fan_widget.yaml
+    vars:
+      fan_entity:    "${fan_entity_2}"
+      fan_type:      "${fan_type_2}"
+      fan_icon:      "${fan_icon_2}"
+      fan_icon_font: "${fan_icon_font_2}"
+      widget_name:   "${fan_widget_name_2}"
+
+  fan_3: !include
+    file: fan_widget.yaml
+    vars:
+      fan_entity:    "${fan_entity_3}"
+      fan_type:      "${fan_type_3}"
+      fan_icon:      "${fan_icon_3}"
+      fan_icon_font: "${fan_icon_font_3}"
+      widget_name:   "${fan_widget_name_3}"
+
+  fan_4: !include
+    file: fan_widget.yaml
+    vars:
+      fan_entity:    "${fan_entity_4}"
+      fan_type:      "${fan_type_4}"
+      fan_icon:      "${fan_icon_4}"
+      fan_icon_font: "${fan_icon_font_4}"
+      widget_name:   "${fan_widget_name_4}"
+
+  fan_5: !include
+    file: fan_widget.yaml
+    vars:
+      fan_entity:    "${fan_entity_5}"
+      fan_type:      "${fan_type_5}"
+      fan_icon:      "${fan_icon_5}"
+      fan_icon_font: "${fan_icon_font_5}"
+      widget_name:   "${fan_widget_name_5}"
+
+  fan_6: !include
+    file: fan_widget.yaml
+    vars:
+      fan_entity:    "${fan_entity_6}"
+      fan_type:      "${fan_type_6}"
+      fan_icon:      "${fan_icon_6}"
+      fan_icon_font: "${fan_icon_font_6}"
+      widget_name:   "${fan_widget_name_6}"
