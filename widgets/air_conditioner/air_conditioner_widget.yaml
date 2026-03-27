@@ -48,10 +48,6 @@ switch:
           text_color: color_sky_blue
 
       - lvgl.label.update:
-          id: hvac_status
-          text_color: color_sky_blue
-
-      - lvgl.label.update:
           id: air_conditioner_state_icon
           text_color: color_sky_blue
 
@@ -79,10 +75,6 @@ switch:
 
       - lvgl.meter.update:
           id: air_conditioner_meter
-          text_color: color_steel_blue
-
-      - lvgl.label.update:
-          id: hvac_status
           text_color: color_steel_blue
 
       - lvgl.label.update:
@@ -184,6 +176,17 @@ text_sensor:
       - script.execute:
           id: air_conditioner_get_and_set_translated_state
           state_str: !lambda 'return id(air_conditioner_sensor_hvac_mode).state;'
+      - if:
+          condition:
+            lambda: 'return id(air_conditioner_sensor_hvac_mode).state == "cooling";'
+          then:
+            - lvgl.label.update:
+                id: hvac_status
+                text_color: color_sky_blue
+          else:
+            - lvgl.label.update:
+                id: hvac_status
+                text_color: color_steel_blue
 
 lvgl:
 

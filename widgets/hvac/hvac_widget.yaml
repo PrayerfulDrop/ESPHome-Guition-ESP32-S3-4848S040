@@ -49,9 +49,6 @@ switch:
           id: hvac_meter
           text_color: color_deep_orange
       - lvgl.label.update:
-          id: hvac_status
-          text_color: color_deep_orange
-      - lvgl.label.update:
           id: hvac_state_icon
           text_color: color_deep_orange
       - lvgl.label.update:
@@ -75,9 +72,6 @@ switch:
     on_turn_off:
       - lvgl.meter.update:
           id: hvac_meter
-          text_color: color_steel_blue
-      - lvgl.label.update:
-          id: hvac_status
           text_color: color_steel_blue
       - lvgl.label.update:
           id: hvac_state_icon
@@ -111,9 +105,6 @@ switch:
           id: hvac_meter
           text_color: color_sky_blue
       - lvgl.label.update:
-          id: hvac_status
-          text_color: color_sky_blue
-      - lvgl.label.update:
           id: hvac_state_icon
           text_color: color_sky_blue
       - lvgl.label.update:
@@ -137,9 +128,6 @@ switch:
     on_turn_off:
       - lvgl.meter.update:
           id: hvac_meter
-          text_color: color_steel_blue
-      - lvgl.label.update:
-          id: hvac_status
           text_color: color_steel_blue
       - lvgl.label.update:
           id: hvac_state_icon
@@ -226,6 +214,25 @@ text_sensor:
       - script.execute:
           id: hvac_get_and_set_translated_state
           state_str: !lambda 'return id(hvac_sensor_hvac_action).state;'
+      - if:
+          condition:
+            lambda: 'return id(hvac_sensor_hvac_action).state == "heating";'
+          then:
+            - lvgl.label.update:
+                id: hvac_status
+                text_color: color_deep_orange
+          else:
+            - if:
+                condition:
+                  lambda: 'return id(hvac_sensor_hvac_action).state == "cooling";'
+                then:
+                  - lvgl.label.update:
+                      id: hvac_status
+                      text_color: color_sky_blue
+                else:
+                  - lvgl.label.update:
+                      id: hvac_status
+                      text_color: color_steel_blue
 
   - platform: homeassistant
     id: hvac_sensor_state
@@ -404,144 +411,6 @@ lvgl:
                         data:
                           entity_id: "${hvac_entity}"
                           hvac_mode: "off"
-
-        # Temperature up button
-        - obj:
-            x: 5
-            y: -60
-            width: 90
-            height: 90
-            align: left_mid
-            pad_all: 0
-            bg_opa: transp
-            shadow_opa: transp
-            border_opa: transp
-            widgets:
-              - obj:
-                  width: 70
-                  height: 70
-                  align: center
-                  clickable: true
-                  radius: 50
-                  pad_all: 0
-                  bg_opa: transp
-                  border_opa: transp
-                  border_width: 0
-                  shadow_width: 8
-                  shadow_spread: 2
-                  shadow_color: color_black
-                  pressed:
-                    bg_color: 0x3A3A4C
-                    shadow_width: 5
-                  on_press:
-                    then:
-                      - lambda: |-
-                          auto temp = id(hvac_sensor_target_temp).state + 0.5;
-                          id(hvac_sensor_target_temp).publish_state(temp);
-                      - homeassistant.service:
-                          service: climate.set_temperature
-                          data:
-                            entity_id: "${hvac_entity}"
-                            temperature: !lambda 'return id(hvac_sensor_target_temp).state;'
-              - obj:
-                  width: 60
-                  height: 60
-                  align: center
-                  clickable: false
-                  radius: 45
-                  pad_all: 0
-                  bg_opa: transp
-                  border_opa: transp
-                  shadow_width: 4
-                  shadow_color: 0xFFFFFF
-                  shadow_ofs_x: -4
-                  shadow_ofs_y: -2
-                  shadow_opa: 30%
-              - obj:
-                  width: 65
-                  height: 65
-                  pad_all: 0
-                  align: center
-                  clickable: false
-                  radius: 50
-                  border_opa: transp
-                  bg_color: color_slate_blue_gray
-                  widgets:
-                    - label:
-                        y: -2
-                        align: center
-                        text_font: nunito_48
-                        text_color: color_misty_blue
-                        text: "+"
-
-        # Temperature down button
-        - obj:
-            x: 5
-            y: 60
-            width: 90
-            height: 90
-            align: left_mid
-            pad_all: 0
-            bg_opa: transp
-            shadow_opa: transp
-            border_opa: transp
-            widgets:
-              - obj:
-                  width: 70
-                  height: 70
-                  align: center
-                  clickable: true
-                  radius: 50
-                  pad_all: 0
-                  bg_opa: transp
-                  border_opa: transp
-                  border_width: 0
-                  shadow_width: 8
-                  shadow_spread: 2
-                  shadow_color: color_black
-                  pressed:
-                    bg_color: 0x3A3A4C
-                    shadow_width: 5
-                  on_press:
-                    then:
-                      - lambda: |-
-                          auto temp = id(hvac_sensor_target_temp).state - 0.5;
-                          id(hvac_sensor_target_temp).publish_state(temp);
-                      - homeassistant.service:
-                          service: climate.set_temperature
-                          data:
-                            entity_id: "${hvac_entity}"
-                            temperature: !lambda 'return id(hvac_sensor_target_temp).state;'
-              - obj:
-                  width: 60
-                  height: 60
-                  align: center
-                  clickable: false
-                  radius: 45
-                  pad_all: 0
-                  bg_opa: transp
-                  border_opa: transp
-                  shadow_width: 4
-                  shadow_color: 0xFFFFFF
-                  shadow_ofs_x: -4
-                  shadow_ofs_y: -2
-                  shadow_opa: 30%
-              - obj:
-                  width: 65
-                  height: 65
-                  pad_all: 0
-                  align: center
-                  clickable: false
-                  radius: 50
-                  border_opa: transp
-                  bg_color: color_slate_blue_gray
-                  widgets:
-                    - label:
-                        y: -2
-                        align: CENTER
-                        text_font: nunito_48
-                        text_color: color_misty_blue
-                        text: "-"
 
         # Name
         - obj:
