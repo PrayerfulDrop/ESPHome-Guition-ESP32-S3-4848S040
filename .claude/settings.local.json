@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"from fontTools.ttLib import TTFont; f=TTFont\\(''fonts/fan_icons.ttf''\\); print\\(''UPM:'', f[''head''].unitsPerEm\\); print\\(''Glyphs:'', list\\(f.getBestCmap\\(\\).keys\\(\\)\\)\\)\")",
+      "Bash(pip install:*)"
+    ]
+  }
+}

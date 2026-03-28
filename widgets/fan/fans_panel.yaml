@@ -66,32 +66,6 @@ lvgl:
         - lvgl.widget.show: menu_controls_main
       widgets:
 
-        # ── Back button – returns to devices_page and restores nav bar ────
-        - button:
-            id: fans_panel_exit_btn
-            x: 20
-            y: 400
-            width: 60
-            height: 60
-            align: TOP_LEFT
-            bg_color: color_steel_blue
-            bg_opa: 20%
-            border_opa: TRANSP
-            shadow_opa: TRANSP
-            radius: 10
-            widgets:
-              - label:
-                  align: CENTER
-                  text_font: icons_28
-                  text_color: color_misty_blue
-                  text: "\U0000e902"
-            on_press:
-              - lvgl.page.show:
-                  id: home_page
-                  animation: OUT_RIGHT
-                  time: 300ms
-              - lvgl.widget.show: menu_controls_main
-
         # ── Slot 1 ──────────────────────────────────────────────────────────
         - button:
             id: ${fan_widget_name_1}_btn
@@ -108,6 +82,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_1}_fan_on
                   align: CENTER
+                  y: 30
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_1}}
                   text: "${${fan_icon_1}}"
@@ -135,6 +110,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_2}_fan_on
                   align: CENTER
+                  y: 30
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_2}}
                   text: "${${fan_icon_2}}"
@@ -162,6 +138,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_3}_fan_on
                   align: CENTER
+                  y: 30
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_3}}
                   text: "${${fan_icon_3}}"
@@ -189,6 +166,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_4}_fan_on
                   align: CENTER
+                  y: 30
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_4}}
                   text: "${${fan_icon_4}}"
@@ -216,6 +194,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_5}_fan_on
                   align: CENTER
+                  y: 30
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_5}}
                   text: "${${fan_icon_5}}"
@@ -243,6 +222,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_6}_fan_on
                   align: CENTER
+                  y: 30
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_6}}
                   text: "${${fan_icon_6}}"

@@ -13,7 +13,7 @@ globals:
   - id: current_theme
     type: int
     restore_value: true
-    initial_value: '0'   # 0 = Dark, 1 = Light, 2 = Ocean, 3 = Bubble Gum, 4 = Gun Metal
+    initial_value: '0'   # 0 = Dark, 1 = Light, 2 = Ocean, 3 = Bubble Gum, 4 = Gun Metal, 5 = Paris
 
   - id: vacuum_translations
     type: std::map<std::string, std::string>
@@ -191,6 +191,11 @@ script:
             surface  = lv_color_hex(0x2E3C44);
             text     = lv_color_hex(0x8BAAB8);
             surf_opa = LV_OPA_70;
+          } else if (theme == 5) { // Paris Theme
+            bg       = lv_color_hex(0x221832);
+            surface  = lv_color_hex(0xA07828);
+            text     = lv_color_hex(0xF2E8D0);
+            surf_opa = LV_OPA_45;
           } else {                 // Dark Theme (default)
             bg       = lv_color_hex(0x343645);
             surface  = lv_color_hex(0x606682);
@@ -459,6 +464,7 @@ lvgl:
                     - Ocean Theme
                     - Bubble Gum
                     - Gun Metal
+                    - Paris
                   bg_opa: TRANSP
                   shadow_opa: TRANSP
                   border_opa: TRANSP
