@@ -191,7 +191,7 @@ text_sensor:
 lvgl:
 
   pages:
-    - id: air_conditioner_page
+    - id: hvac_page
       bg_color: color_slate_blue_gray
       widgets:
 

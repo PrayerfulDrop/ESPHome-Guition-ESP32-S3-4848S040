@@ -1,0 +1,135 @@
+# settings_scripts.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# apply_theme  : updates all LVGL widget colours to match the selected theme.
+# get_translation : looks up a localised string from the translation maps.
+# Included automatically by settings.yaml — do not include directly.
+# ─────────────────────────────────────────────────────────────────────────────
+
+script:
+
+  # ── apply_theme ──────────────────────────────────────────────────────────
+  # Called on boot and whenever the user changes the theme dropdown.
+  # Reads id(current_theme) and repaints every themed widget.
+  - id: apply_theme
+    then:
+      - lambda: |-
+          int theme = id(current_theme);
+
+          // ── Palette ──────────────────────────────────────────────────────
+          lv_color_t bg, surface, text;
+          lv_opa_t   surf_opa;
+          if (theme == 1) {        // Light Theme
+            bg       = lv_color_hex(0xF0F2F8);
+            surface  = lv_color_hex(0xB8BEDB);
+            text     = lv_color_hex(0x2D3154);
+            surf_opa = LV_OPA_50;
+          } else if (theme == 2) { // Ocean Theme
+            bg       = lv_color_hex(0x0A2235);
+            surface  = lv_color_hex(0x174B70);
+            text     = lv_color_hex(0x88CCE8);
+            surf_opa = LV_OPA_70;
+          } else if (theme == 3) { // Gun Metal Theme
+            bg       = lv_color_hex(0x1A1F22);
+            surface  = lv_color_hex(0x2E3C44);
+            text     = lv_color_hex(0x8BAAB8);
+            surf_opa = LV_OPA_70;
+          } else if (theme == 4) { // Paris Theme
+            bg       = lv_color_hex(0x0E0C1A);
+            surface  = lv_color_hex(0x3A2608);
+            text     = lv_color_hex(0xF4DFA8);
+            surf_opa = LV_OPA_60;
+          } else if (theme == 5) { // Espeon Theme
+            bg       = lv_color_hex(0x180D2E);
+            surface  = lv_color_hex(0x4A2475);
+            text     = lv_color_hex(0xF2DDFF);
+            surf_opa = LV_OPA_60;
+          } else {                 // Dark Theme (default, theme == 0)
+            bg       = lv_color_hex(0x343645);
+            surface  = lv_color_hex(0x606682);
+            text     = lv_color_hex(0x9BA2BC);
+            surf_opa = LV_OPA_20;
+          }
+
+          // ── Page backgrounds ─────────────────────────────────────────────
+          lv_obj_t* pages[] = {
+            id(home_page)->obj, id(settings_page)->obj, id(system_info_page)->obj,
+            id(alarm_panel_page)->obj, id(hvac_page)->obj, id(weather_forecast_page)->obj,
+            id(devices_page)->obj, id(lights_group_page)->obj, id(fans_group_page)->obj,
+          };
+          for (auto* p : pages) {
+            lv_obj_set_style_bg_color(p, bg, LV_PART_MAIN);
+          }
+
+          // ── Home page panels ─────────────────────────────────────────────
+          lv_obj_t* home_panels[] = {
+            id(home_bg_indicators), id(home_bg_weather_time),
+            id(home_bg_weather),    id(home_bg_calendar),
+          };
+          for (auto* panel : home_panels) {
+            lv_obj_set_style_bg_color(panel, surface, LV_PART_MAIN);
+            lv_obj_set_style_bg_opa(panel, surf_opa, LV_PART_MAIN);
+          }
+
+          // ── Settings page panels ─────────────────────────────────────────
+          lv_obj_t* settings_panels[] = {
+            id(theme_bg), id(language_bg), id(backlight_bg), id(sleep_mode_bg),
+          };
+          for (auto* panel : settings_panels) {
+            lv_obj_set_style_bg_color(panel, surface, LV_PART_MAIN);
+            lv_obj_set_style_bg_opa(panel, surf_opa, LV_PART_MAIN);
+          }
+
+          // ── Key text labels ──────────────────────────────────────────────
+          lv_obj_t* labels[] = {
+            id(display_time), id(display_date),
+            id(theme_label), id(language_label),
+            id(display_backlight_label), id(display_timeout_label),
+          };
+          for (auto* lbl : labels) {
+            lv_obj_set_style_text_color(lbl, text, LV_PART_MAIN);
+          }
+
+          // ── Theme dropdown sync ──────────────────────────────────────────
+          lv_dropdown_set_selected(id(theme_dropdown)->obj, id(current_theme));
+
+          // ── Theme background images ──────────────────────────────────────
+          if (theme == 4) {        // Paris
+            lv_obj_clear_flag(id(paris_tower_bg), LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(id(espeon_bg),        LV_OBJ_FLAG_HIDDEN);
+          } else if (theme == 5) { // Espeon
+            lv_obj_add_flag(id(paris_tower_bg),   LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(id(espeon_bg),      LV_OBJ_FLAG_HIDDEN);
+          } else {
+            lv_obj_add_flag(id(paris_tower_bg),   LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(id(espeon_bg),        LV_OBJ_FLAG_HIDDEN);
+          }
+
+  # ── get_translation ──────────────────────────────────────────────────────
+  # Looks up a translated string for a given component + key.
+  # Returns the key itself as a fallback if no translation is found.
+  - id: get_translation
+    parameters:
+      component_param: string
+      key_param: string
+    then:
+      - lambda: |-
+          std::string component = component_param;
+          std::string key = key_param;
+          std::string result = key;
+
+          if (component == "vacuum") {
+            auto it = id(vacuum_translations).find(key);
+            if (it != id(vacuum_translations).end()) result = it->second;
+          } else if (component == "cover") {
+            auto it = id(cover_translations).find(key);
+            if (it != id(cover_translations).end()) result = it->second;
+          } else if (component == "climate") {
+            auto it = id(climate_translations).find(key);
+            if (it != id(climate_translations).end()) result = it->second;
+          } else if (component == "weather") {
+            auto it = id(weather_translations).find(key);
+            if (it != id(weather_translations).end()) result = it->second;
+          } else if (component == "alarm_panel") {
+            auto it = id(alarm_panel_translations).find(key);
+            if (it != id(alarm_panel_translations).end()) result = it->second;
+          }

@@ -1,0 +1,340 @@
+# settings_page.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# LVGL settings page: Language, Theme, Backlight, Sleep mode.
+# Also defines the display idle / auto-sleep handler.
+# Included automatically by settings.yaml — do not include directly.
+# ─────────────────────────────────────────────────────────────────────────────
+
+lvgl:
+
+  # ── Auto-sleep on idle ────────────────────────────────────────────────────
+  on_idle:
+    timeout: !lambda "return (id(display_timeout_number).state * 1000);"
+    then:
+      - logger.log: "LVGL is idle — dimming display"
+      - light.turn_off: display_backlight
+      - lvgl.pause:
+
+  pages:
+    - id: settings_page
+      bg_color: color_slate_blue_gray
+      widgets:
+
+        # ── Language ───────────────────────────────────────────────────────
+        - obj:
+            id: language_bg
+            x: 20
+            y: 20
+            width: 440
+            height: 80
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+
+              - label:
+                  id: language_label
+                  x: 20
+                  align: LEFT_MID
+                  text_font: nunito_20
+                  text_color: color_misty_blue
+                  text: "Language"
+
+              - image:
+                  id: flag_language_image
+                  x: 160
+                  align: LEFT_MID
+                  src: !lambda return id(flag_icon_mapping_image)[id(current_language)];
+
+              - dropdown:
+                  id: language_dropdown
+                  x: 240
+                  width: 200
+                  align: LEFT_MID
+                  options:
+                    - Deutsch         # de
+                    - Español         # es
+                    - Français        # fr
+                    - English (GB)    # en-GB
+                    - Italiano        # it
+                    - Português       # pt
+                    - Русский         # ru
+                    - English (US)    # en
+                    - Polski          # pl
+                  bg_opa: TRANSP
+                  shadow_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  text_font: nunito_20
+                  text_color: color_misty_blue
+                  dropdown_list:
+                    bg_color: color_slate_blue_gray
+                    shadow_opa: TRANSP
+                    border_color: color_misty_blue
+                    border_width: 2
+                    text_font: nunito_20
+                    text_color: color_misty_blue
+                    text_line_space: 7
+                    pad_all: 8
+                    max_height: 280
+                    selected:
+                      checked:
+                        bg_color: color_steel_blue
+                        bg_opa: 20%
+                        text_color: color_misty_blue
+                      pressed:
+                        bg_opa: TRANSP
+                        text_color: color_misty_blue
+                  indicator:
+                    text_opa: TRANSP
+                  on_value:
+                    - lvgl.image.update:
+                        id: flag_language_image
+                        src: !lambda return id(flag_icon_mapping_image)[x];
+                    - homeassistant.action:
+                        action: display_tools.get_translations_esphome
+                        data:
+                          language: !lambda return id(flag_icon_mapping_name)[x];
+                          category: entity_component
+                          keys: '[
+                            "component.vacuum.entity_component._.state.cleaning",
+                            "component.vacuum.entity_component._.state.docked",
+                            "component.vacuum.entity_component._.state.error",
+                            "component.vacuum.entity_component._.state.idle",
+                            "component.vacuum.entity_component._.state.off",
+                            "component.vacuum.entity_component._.state.on",
+                            "component.vacuum.entity_component._.state.paused",
+                            "component.vacuum.entity_component._.state.returning",
+                            "component.cover.entity_component._.state.closed",
+                            "component.cover.entity_component._.state.closing",
+                            "component.cover.entity_component._.state.open",
+                            "component.cover.entity_component._.state.opening",
+                            "component.cover.entity_component._.state.stopped",
+                            "component.climate.entity_component._.state_attributes.hvac_action.state.cooling",
+                            "component.climate.entity_component._.state_attributes.hvac_action.state.defrosting",
+                            "component.climate.entity_component._.state_attributes.hvac_action.state.drying",
+                            "component.climate.entity_component._.state_attributes.hvac_action.state.fan",
+                            "component.climate.entity_component._.state_attributes.hvac_action.state.heating",
+                            "component.climate.entity_component._.state_attributes.hvac_action.state.idle",
+                            "component.climate.entity_component._.state_attributes.hvac_action.state.off",
+                            "component.weather.entity_component._.state.clear-night",
+                            "component.weather.entity_component._.state.cloudy",
+                            "component.weather.entity_component._.state.exceptional",
+                            "component.weather.entity_component._.state.fog",
+                            "component.weather.entity_component._.state.hail",
+                            "component.weather.entity_component._.state.lightning",
+                            "component.weather.entity_component._.state.lightning-rainy",
+                            "component.weather.entity_component._.state.partlycloudy",
+                            "component.weather.entity_component._.state.pouring",
+                            "component.weather.entity_component._.state.rainy",
+                            "component.weather.entity_component._.state.snowy",
+                            "component.weather.entity_component._.state.snowy-rainy",
+                            "component.weather.entity_component._.state.sunny",
+                            "component.weather.entity_component._.state.windy",
+                            "component.weather.entity_component._.state.windy-variant",
+                            "component.alarm_control_panel.entity_component._.state.armed",
+                            "component.alarm_control_panel.entity_component._.state.armed_away",
+                            "component.alarm_control_panel.entity_component._.state.armed_custom_bypass",
+                            "component.alarm_control_panel.entity_component._.state.armed_home",
+                            "component.alarm_control_panel.entity_component._.state.armed_night",
+                            "component.alarm_control_panel.entity_component._.state.armed_vacation",
+                            "component.alarm_control_panel.entity_component._.state.arming",
+                            "component.alarm_control_panel.entity_component._.state.disarmed",
+                            "component.alarm_control_panel.entity_component._.state.disarming",
+                            "component.alarm_control_panel.entity_component._.state.pending",
+                            "component.alarm_control_panel.entity_component._.state.triggered"]'
+
+        # ── Theme ─────────────────────────────────────────────────────────
+        - obj:
+            id: theme_bg
+            x: 20
+            y: 110
+            width: 440
+            height: 80
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  id: theme_label
+                  x: 20
+                  align: LEFT_MID
+                  text_font: nunito_20
+                  text_color: color_misty_blue
+                  text: "Theme"
+
+              - dropdown:
+                  id: theme_dropdown
+                  x: 240
+                  width: 200
+                  align: LEFT_MID
+                  selected_index: !lambda return id(current_theme);
+                  options:
+                    - Dark Theme
+                    - Light Theme
+                    - Ocean Theme
+                    - Gun Metal
+                    - Paris
+                    - Espeon
+                  bg_opa: TRANSP
+                  shadow_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  text_font: nunito_20
+                  text_color: color_misty_blue
+                  dropdown_list:
+                    bg_color: color_slate_blue_gray
+                    shadow_opa: TRANSP
+                    border_color: color_misty_blue
+                    border_width: 2
+                    text_font: nunito_20
+                    text_color: color_misty_blue
+                    text_line_space: 7
+                    pad_all: 8
+                    max_height: 280
+                    selected:
+                      checked:
+                        bg_color: color_steel_blue
+                        bg_opa: 20%
+                        text_color: color_misty_blue
+                      pressed:
+                        bg_opa: TRANSP
+                        text_color: color_misty_blue
+                  indicator:
+                    text_opa: TRANSP
+                  on_value:
+                    - globals.set:
+                        id: current_theme
+                        value: !lambda return x;
+                    - script.execute: apply_theme
+
+        # ── Backlight ─────────────────────────────────────────────────────
+        - obj:
+            id: backlight_bg
+            x: 20
+            y: 200
+            width: 440
+            height: 80
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+
+              - label:
+                  id: display_backlight_label
+                  x: 20
+                  align: LEFT_MID
+                  text_font: nunito_20
+                  text_color: color_misty_blue
+                  text: "Backlight"
+
+              - slider:
+                  id: display_backlight_brightness_slider
+                  x: -20
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  align: RIGHT_MID
+                  width: 260
+                  height: 48
+                  min_value: 35
+                  max_value: 100
+                  value: 100
+                  indicator:
+                    bg_color: color_misty_blue
+                    radius: 10
+                  knob:
+                    bg_opa: TRANSP
+                  on_release:
+                    then:
+                      - light.turn_on:
+                          id: display_backlight
+                          brightness: !lambda return int(x) / 100.0;
+
+        # ── Sleep mode ────────────────────────────────────────────────────
+        - obj:
+            id: sleep_mode_bg
+            x: 20
+            y: 290
+            width: 440
+            height: 80
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  id: display_timeout_label
+                  x: 20
+                  align: LEFT_MID
+                  text_font: nunito_20
+                  text_color: color_misty_blue
+                  text: "Sleep mode (sec)"
+
+              - dropdown:
+                  id: display_timeout_dropdown
+                  x: 220
+                  width: 200
+                  align: LEFT_MID
+                  selected_index: !lambda return id(display_timeout);
+                  options:
+                    - 60
+                    - 120
+                    - 180
+                    - 300
+                    - 600
+                  bg_opa: TRANSP
+                  shadow_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  text_font: nunito_20
+                  text_color: color_misty_blue
+                  dropdown_list:
+                    align: CENTER
+                    bg_color: color_slate_blue_gray
+                    shadow_opa: TRANSP
+                    border_color: color_misty_blue
+                    border_width: 2
+                    text_font: nunito_20
+                    text_color: color_misty_blue
+                    text_line_space: 10
+                    pad_all: 8
+                    max_height: 360
+                    selected:
+                      checked:
+                        bg_color: color_steel_blue
+                        bg_opa: 20%
+                        text_color: color_misty_blue
+                      pressed:
+                        bg_opa: TRANSP
+                        text_color: color_misty_blue
+                  indicator:
+                    text_opa: TRANSP
+                  on_value:
+                    then:
+                      - number.set:
+                          id: display_timeout_number
+                          value: !lambda |-
+                            static const int backlight_time[] = {60, 120, 180, 300, 600};
+                            return backlight_time[x];
+                      - globals.set:
+                          id: display_timeout
+                          value: !lambda return x;

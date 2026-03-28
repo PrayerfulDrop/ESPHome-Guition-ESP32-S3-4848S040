@@ -262,7 +262,7 @@ lvgl:
           position: 255
 
   pages:
-    - id: thermostat_page
+    - id: hvac_page
       bg_color: color_slate_blue_gray
       widgets:
 

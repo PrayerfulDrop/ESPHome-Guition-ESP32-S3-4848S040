@@ -1,0 +1,20 @@
+# settings.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Settings sub-system entry point.
+# Included by main.yaml as the "settings" package.
+# Pulls in each settings module as a nested package so the code stays
+# organised without exposing implementation details to main.yaml.
+#
+#   settings_globals.yaml  — persistent global variables
+#   settings_sensors.yaml  — HA text sensors (translation strings)
+#   settings_scripts.yaml  — apply_theme + get_translation scripts
+#   settings_page.yaml     — LVGL settings page + auto-sleep handler
+#   settings_display.yaml  — timeout number, language maps, boot hooks
+# ─────────────────────────────────────────────────────────────────────────────
+
+packages:
+  settings_globals:  !include settings_globals.yaml
+  settings_sensors:  !include settings_sensors.yaml
+  settings_scripts:  !include settings_scripts.yaml
+  settings_page:     !include settings_page.yaml
+  settings_display:  !include settings_display.yaml

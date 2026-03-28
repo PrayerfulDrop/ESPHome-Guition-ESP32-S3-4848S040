@@ -1,74 +1,83 @@
 substitutions:
 
-  # fan_icons.ttf glyphs
-  ceiling_fan_icon: "\U0000E901"   # ceiling-fan  (U+E901)
-  floor_fan_icon:   "\U0000E900"   # floor-fan    (U+E900)
+  exit_icon:                 "\U0000e902"
+  settings_icon:             "\U0000e903"
+  info_icon:                 "\U0000e904"
+  devices_icon:              "\U0000e905"
+  home_icon:                 "\U0000e906"
+  ceiling_icon:              "\U0000e907"
+  lightbulb_icon:            "\U0000e908"
+  spotlight_group_icon:      "\U0000e915"
+  desk_lamp_icon:            "\U0000e916"
+  pendant_lamp_icon:         "\U0000e917"
+  ceiling_lamp_icon:         "\U0000e918"
+  ceiling_lamp_variant_icon: "\U0000e921"
+  night_lamp_icon:           "\U0000e919"
+  swipe_icon:                "\U0000e91a"
+  bed_icon:                  "\U000F02E3"
+  love_making_icon:          "\U000F05F6"
+  watching_tv_icon:          "\U000F07F4"
 
-  # Per-slot icon defaults – use named icons from fans_config.yaml, e.g.:
-  #   fan_icon_1:      "ceiling_fan"
-  #   fan_icon_font_1: "${ceiling_fan_font}"
-  # Named icons and their fonts are defined in fans_config.yaml substitutions.
-  fan_icon_1:      "\U0000E901"
-  fan_icon_font_1: "fan_icons_90"
-  fan_icon_2:      "\U0000E901"
-  fan_icon_font_2: "fan_icons_90"
-  fan_icon_3:      "\U0000E901"
-  fan_icon_font_3: "fan_icons_90"
-  fan_icon_4:      "\U0000E900"
-  fan_icon_font_4: "fan_icons_90"
-  fan_icon_5:      "\U0000E900"
-  fan_icon_font_5: "fan_icons_90"
-  fan_icon_6:      "\U0000E900"
-  fan_icon_font_6: "fan_icons_90"
+  # Sentinel – leave unused slots as "sensor.disabled" in main.yaml
+  light_entity_1: "sensor.disabled"
+  light_entity_2: "sensor.disabled"
+  light_entity_3: "sensor.disabled"
+  light_entity_4: "sensor.disabled"
+  light_entity_5: "sensor.disabled"
+  light_entity_6: "sensor.disabled"
 
-  # Sentinel – leave unused slots as "sensor.disabled" in main2.yaml and
-  # this file will hide those buttons automatically on boot.
-  fan_entity_1: "sensor.disabled"
-  fan_entity_2: "sensor.disabled"
-  fan_entity_3: "sensor.disabled"
-  fan_entity_4: "sensor.disabled"
-  fan_entity_5: "sensor.disabled"
-  fan_entity_6: "sensor.disabled"
+  light_label_name_1: ""
+  light_label_name_2: ""
+  light_label_name_3: ""
+  light_label_name_4: ""
+  light_label_name_5: ""
+  light_label_name_6: ""
 
-  fan_label_name_1: ""
-  fan_label_name_2: ""
-  fan_label_name_3: ""
-  fan_label_name_4: ""
-  fan_label_name_5: ""
-  fan_label_name_6: ""
+  light_widget_name_1: "light1"
+  light_widget_name_2: "light2"
+  light_widget_name_3: "light3"
+  light_widget_name_4: "light4"
+  light_widget_name_5: "light5"
+  light_widget_name_6: "light6"
 
-  fan_widget_name_1: "fan1"
-  fan_widget_name_2: "fan2"
-  fan_widget_name_3: "fan3"
-  fan_widget_name_4: "fan4"
-  fan_widget_name_5: "fan5"
-  fan_widget_name_6: "fan6"
+  light_type_1: "light"
+  light_type_2: "light"
+  light_type_3: "light"
+  light_type_4: "light"
+  light_type_5: "light"
+  light_type_6: "light"
 
-  fan_type_1: "fan"
-  fan_type_2: "fan"
-  fan_type_3: "fan"
-  fan_type_4: "fan"
-  fan_type_5: "fan"
-  fan_type_6: "fan"
+  # Per-slot icon defaults – use named icons from lights_config.yaml, e.g.:
+  #   light_icon_1:      "ceiling_lamp"
+  #   light_icon_font_1: "${ceiling_lamp_font}"
+  # Named icons and their fonts are defined in lights_config.yaml substitutions.
+  light_icon_1:      ""
+  light_icon_font_1: "icons_90"
+  light_icon_2:      ""
+  light_icon_font_2: "icons_90"
+  light_icon_3:      ""
+  light_icon_font_3: "icons_90"
+  light_icon_4:      "󰋣"
+  light_icon_font_4: "mdi_90"
+  light_icon_5:      "󰗶"
+  light_icon_font_5: "mdi_90"
+  light_icon_6:      "󰟴"
+  light_icon_font_6: "mdi_90"
 
 # ── Grid layout ─────────────────────────────────────────────────────────────
 # Row 1 (y=20):  slot1 x=20  slot2 x=170  slot3 x=320
 # Row 2 (y=200): slot4 x=20  slot5 x=170  slot6 x=320
-# Unused slots are hidden at boot – they leave a visual gap.
-# To avoid gaps, define your fans in order (1→6) and only leave
-# trailing slots as "sensor.disabled".
+# Unused slots are hidden at boot. Fill slots in order (1→N).
 
 lvgl:
   pages:
-    - id: fans_group_page
+    - id: lights_group_page
       bg_color: color_slate_blue_gray
-      on_load:
-        - lvgl.widget.show: menu_controls_main
       widgets:
 
         # ── Slot 1 ──────────────────────────────────────────────────────────
         - button:
-            id: ${fan_widget_name_1}_btn
+            id: ${light_widget_name_1}_btn
             x: 20
             y: 20
             width: 140
@@ -80,23 +89,21 @@ lvgl:
             radius: 10
             widgets:
               - label:
-                  id: ${fan_widget_name_1}_fan_on
+                  id: ${light_widget_name_1}_light_on
                   align: CENTER
-                  y: 30
                   text_color: color_steel_blue
-                  text_font: ${${fan_icon_font_1}}
-                  text: "${${fan_icon_1}}"
+                  text_font: ${${light_icon_font_1}}
+                  text: "${${light_icon_1}}"
               - label:
-                  id: ${fan_widget_name_1}_label_name
+                  id: ${light_widget_name_1}_lable_name
                   align: TOP_MID
-                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
-                  text: "${fan_label_name_1}"
+                  text: "${light_label_name_1}"
 
         # ── Slot 2 ──────────────────────────────────────────────────────────
         - button:
-            id: ${fan_widget_name_2}_btn
+            id: ${light_widget_name_2}_btn
             x: 170
             y: 20
             width: 140
@@ -108,23 +115,21 @@ lvgl:
             radius: 10
             widgets:
               - label:
-                  id: ${fan_widget_name_2}_fan_on
+                  id: ${light_widget_name_2}_light_on
                   align: CENTER
-                  y: 30
                   text_color: color_steel_blue
-                  text_font: ${${fan_icon_font_2}}
-                  text: "${${fan_icon_2}}"
+                  text_font: ${${light_icon_font_2}}
+                  text: "${${light_icon_2}}"
               - label:
-                  id: ${fan_widget_name_2}_label_name
+                  id: ${light_widget_name_2}_lable_name
                   align: TOP_MID
-                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
-                  text: "${fan_label_name_2}"
+                  text: "${light_label_name_2}"
 
         # ── Slot 3 ──────────────────────────────────────────────────────────
         - button:
-            id: ${fan_widget_name_3}_btn
+            id: ${light_widget_name_3}_btn
             x: 320
             y: 20
             width: 140
@@ -136,23 +141,21 @@ lvgl:
             radius: 10
             widgets:
               - label:
-                  id: ${fan_widget_name_3}_fan_on
+                  id: ${light_widget_name_3}_light_on
                   align: CENTER
-                  y: 30
                   text_color: color_steel_blue
-                  text_font: ${${fan_icon_font_3}}
-                  text: "${${fan_icon_3}}"
+                  text_font: ${${light_icon_font_3}}
+                  text: "${${light_icon_3}}"
               - label:
-                  id: ${fan_widget_name_3}_label_name
+                  id: ${light_widget_name_3}_lable_name
                   align: TOP_MID
-                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
-                  text: "${fan_label_name_3}"
+                  text: "${light_label_name_3}"
 
         # ── Slot 4 ──────────────────────────────────────────────────────────
         - button:
-            id: ${fan_widget_name_4}_btn
+            id: ${light_widget_name_4}_btn
             x: 20
             y: 200
             width: 140
@@ -164,23 +167,21 @@ lvgl:
             radius: 10
             widgets:
               - label:
-                  id: ${fan_widget_name_4}_fan_on
+                  id: ${light_widget_name_4}_light_on
                   align: CENTER
-                  y: 30
                   text_color: color_steel_blue
-                  text_font: ${${fan_icon_font_4}}
-                  text: "${${fan_icon_4}}"
+                  text_font: ${${light_icon_font_4}}
+                  text: "${${light_icon_4}}"
               - label:
-                  id: ${fan_widget_name_4}_label_name
+                  id: ${light_widget_name_4}_lable_name
                   align: TOP_MID
-                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
-                  text: "${fan_label_name_4}"
+                  text: "${light_label_name_4}"
 
         # ── Slot 5 ──────────────────────────────────────────────────────────
         - button:
-            id: ${fan_widget_name_5}_btn
+            id: ${light_widget_name_5}_btn
             x: 170
             y: 200
             width: 140
@@ -192,23 +193,21 @@ lvgl:
             radius: 10
             widgets:
               - label:
-                  id: ${fan_widget_name_5}_fan_on
+                  id: ${light_widget_name_5}_light_on
                   align: CENTER
-                  y: 30
                   text_color: color_steel_blue
-                  text_font: ${${fan_icon_font_5}}
-                  text: "${${fan_icon_5}}"
+                  text_font: ${${light_icon_font_5}}
+                  text: "${${light_icon_5}}"
               - label:
-                  id: ${fan_widget_name_5}_label_name
+                  id: ${light_widget_name_5}_lable_name
                   align: TOP_MID
-                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
-                  text: "${fan_label_name_5}"
+                  text: "${light_label_name_5}"
 
         # ── Slot 6 ──────────────────────────────────────────────────────────
         - button:
-            id: ${fan_widget_name_6}_btn
+            id: ${light_widget_name_6}_btn
             x: 320
             y: 200
             width: 140
@@ -220,25 +219,20 @@ lvgl:
             radius: 10
             widgets:
               - label:
-                  id: ${fan_widget_name_6}_fan_on
+                  id: ${light_widget_name_6}_light_on
                   align: CENTER
-                  y: 30
                   text_color: color_steel_blue
-                  text_font: ${${fan_icon_font_6}}
-                  text: "${${fan_icon_6}}"
+                  text_font: ${${light_icon_font_6}}
+                  text: "${${light_icon_6}}"
               - label:
-                  id: ${fan_widget_name_6}_label_name
+                  id: ${light_widget_name_6}_lable_name
                   align: TOP_MID
-                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
-                  text: "${fan_label_name_6}"
+                  text: "${light_label_name_6}"
 
 
 # ── Hide unused slots at boot ───────────────────────────────────────────────
-# ESPHome substitutions are compile-time string replacements, so the entity
-# strings are baked into the binary. This lambda reads those baked-in strings
-# at runtime and hides any slot whose entity resolved to "sensor.disabled".
 esphome:
   on_boot:
     priority: -200
@@ -250,12 +244,12 @@ esphome:
           };
 
           SlotInfo slots[] = {
-            { "${fan_entity_1}", id(${fan_widget_name_1}_btn) },
-            { "${fan_entity_2}", id(${fan_widget_name_2}_btn) },
-            { "${fan_entity_3}", id(${fan_widget_name_3}_btn) },
-            { "${fan_entity_4}", id(${fan_widget_name_4}_btn) },
-            { "${fan_entity_5}", id(${fan_widget_name_5}_btn) },
-            { "${fan_entity_6}", id(${fan_widget_name_6}_btn) },
+            { "${light_entity_1}", id(${light_widget_name_1}_btn) },
+            { "${light_entity_2}", id(${light_widget_name_2}_btn) },
+            { "${light_entity_3}", id(${light_widget_name_3}_btn) },
+            { "${light_entity_4}", id(${light_widget_name_4}_btn) },
+            { "${light_entity_5}", id(${light_widget_name_5}_btn) },
+            { "${light_entity_6}", id(${light_widget_name_6}_btn) },
           };
 
           for (auto& slot : slots) {
@@ -266,126 +260,126 @@ esphome:
           }
 
 
-# ── Binary sensors – short-press = toggle, long-press = speed page ─────────
-# Hidden / non-clickable buttons never fire events, so all 6 handlers are
-# safe to compile in regardless of how many fans are actually defined.
+# ── Binary sensors – short-press = toggle, long-press = detail page ─────────
+# Hidden / non-clickable buttons never fire, so all 6 handlers compile safely
+# regardless of how many lights are actually defined.
 binary_sensor:
   - platform: lvgl
-    id: ${fan_widget_name_1}_btn_sensor
-    widget: ${fan_widget_name_1}_btn
+    id: ${light_widget_name_1}_btn_sensor
+    widget: ${light_widget_name_1}_btn
     on_click:
     - min_length: 50ms
       max_length: 500ms
       then:
         - homeassistant.service:
-            service: ${fan_type_1}.toggle
+            service: ${light_type_1}.toggle
             data:
-              entity_id: "${fan_entity_1}"
+              entity_id: "${light_entity_1}"
     - min_length: 800ms
       max_length: 3000ms
       then:
         - lvgl.widget.hide: menu_controls_main
         - lvgl.page.show:
-            id: ${fan_widget_name_1}_fan_detail_page
+            id: ${light_widget_name_1}_light_rgb_page
             animation: OUT_RIGHT
             time: 300ms
 
   - platform: lvgl
-    id: ${fan_widget_name_2}_btn_sensor
-    widget: ${fan_widget_name_2}_btn
+    id: ${light_widget_name_2}_btn_sensor
+    widget: ${light_widget_name_2}_btn
     on_click:
     - min_length: 50ms
       max_length: 500ms
       then:
         - homeassistant.service:
-            service: ${fan_type_2}.toggle
+            service: ${light_type_2}.toggle
             data:
-              entity_id: "${fan_entity_2}"
+              entity_id: "${light_entity_2}"
     - min_length: 800ms
       max_length: 3000ms
       then:
         - lvgl.widget.hide: menu_controls_main
         - lvgl.page.show:
-            id: ${fan_widget_name_2}_fan_detail_page
+            id: ${light_widget_name_2}_light_rgb_page
             animation: OUT_RIGHT
             time: 300ms
 
   - platform: lvgl
-    id: ${fan_widget_name_3}_btn_sensor
-    widget: ${fan_widget_name_3}_btn
+    id: ${light_widget_name_3}_btn_sensor
+    widget: ${light_widget_name_3}_btn
     on_click:
     - min_length: 50ms
       max_length: 500ms
       then:
         - homeassistant.service:
-            service: ${fan_type_3}.toggle
+            service: ${light_type_3}.toggle
             data:
-              entity_id: "${fan_entity_3}"
+              entity_id: "${light_entity_3}"
     - min_length: 800ms
       max_length: 3000ms
       then:
         - lvgl.widget.hide: menu_controls_main
         - lvgl.page.show:
-            id: ${fan_widget_name_3}_fan_detail_page
+            id: ${light_widget_name_3}_light_rgb_page
             animation: OUT_RIGHT
             time: 300ms
 
   - platform: lvgl
-    id: ${fan_widget_name_4}_btn_sensor
-    widget: ${fan_widget_name_4}_btn
+    id: ${light_widget_name_4}_btn_sensor
+    widget: ${light_widget_name_4}_btn
     on_click:
     - min_length: 50ms
       max_length: 500ms
       then:
         - homeassistant.service:
-            service: ${fan_type_4}.toggle
+            service: ${light_type_4}.toggle
             data:
-              entity_id: "${fan_entity_4}"
+              entity_id: "${light_entity_4}"
     - min_length: 800ms
       max_length: 3000ms
       then:
         - lvgl.widget.hide: menu_controls_main
         - lvgl.page.show:
-            id: ${fan_widget_name_4}_fan_detail_page
+            id: ${light_widget_name_4}_light_rgb_page
             animation: OUT_RIGHT
             time: 300ms
 
   - platform: lvgl
-    id: ${fan_widget_name_5}_btn_sensor
-    widget: ${fan_widget_name_5}_btn
+    id: ${light_widget_name_5}_btn_sensor
+    widget: ${light_widget_name_5}_btn
     on_click:
     - min_length: 50ms
       max_length: 500ms
       then:
         - homeassistant.service:
-            service: ${fan_type_5}.toggle
+            service: ${light_type_5}.toggle
             data:
-              entity_id: "${fan_entity_5}"
+              entity_id: "${light_entity_5}"
     - min_length: 800ms
       max_length: 3000ms
       then:
         - lvgl.widget.hide: menu_controls_main
         - lvgl.page.show:
-            id: ${fan_widget_name_5}_fan_detail_page
+            id: ${light_widget_name_5}_light_rgb_page
             animation: OUT_RIGHT
             time: 300ms
 
   - platform: lvgl
-    id: ${fan_widget_name_6}_btn_sensor
-    widget: ${fan_widget_name_6}_btn
+    id: ${light_widget_name_6}_btn_sensor
+    widget: ${light_widget_name_6}_btn
     on_click:
     - min_length: 50ms
       max_length: 500ms
       then:
         - homeassistant.service:
-            service: ${fan_type_6}.toggle
+            service: ${light_type_6}.toggle
             data:
-              entity_id: "${fan_entity_6}"
+              entity_id: "${light_entity_6}"
     - min_length: 800ms
       max_length: 3000ms
       then:
         - lvgl.widget.hide: menu_controls_main
         - lvgl.page.show:
-            id: ${fan_widget_name_6}_fan_detail_page
+            id: ${light_widget_name_6}_light_rgb_page
             animation: OUT_RIGHT
             time: 300ms

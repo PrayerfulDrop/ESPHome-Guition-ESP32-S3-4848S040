@@ -193,6 +193,24 @@ lvgl:
       bg_color: color_slate_blue_gray 
       widgets:
 
+        # Paris theme background — hidden by default, shown via apply_theme script
+        - image:
+            id: paris_tower_bg
+            src: paris_tower_img
+            align: TOP_LEFT
+            x: 0
+            y: 0
+            hidden: true
+
+        # Espeon theme background — hidden by default, shown via apply_theme script
+        - image:
+            id: espeon_bg
+            src: espeon_bg_img
+            align: TOP_LEFT
+            x: 0
+            y: 0
+            hidden: true
+
         # indicators
         - obj:
             id: home_bg_indicators
@@ -256,7 +274,7 @@ lvgl:
                   on_click:
                     - lvgl.widget.hide: menu_controls_main
                     - lvgl.page.show:
-                        id: ${hvac_slot_1_page}
+                        id: hvac_page
                         animation: OUT_RIGHT
                         time: 300ms
 

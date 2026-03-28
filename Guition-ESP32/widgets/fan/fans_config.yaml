@@ -2,11 +2,11 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # Place this file and its siblings into  widgets/fan/
 #
-# Add to main2.yaml packages block:
+# Add to main.yaml packages block:
 #   fans_config: !include widgets/fan/fans_config.yaml
 #
 # ── HOW TO CONFIGURE ─────────────────────────────────────────────────────────
-# In main2.yaml substitutions, define only the fans you have.
+# In main.yaml substitutions, define only the fans you have.
 # Unused slots default to "sensor.disabled" and are hidden automatically at boot.
 # Fill slots in order (1 → N) to avoid layout gaps.
 #
@@ -19,7 +19,7 @@
 #   The correct HA service (fan.toggle / switch.toggle / input_boolean.toggle)
 #   is called automatically based on fan_type. No manual file selection needed.
 #
-# ── EXAMPLE main2.yaml substitutions ─────────────────────────────────────────
+# ── EXAMPLE main.yaml substitutions ─────────────────────────────────────────
 #
 #   fan_entity_1: "fan.master_bedroom_ceiling"
 #   fan_label_name_1: "Ceiling Fan"
@@ -37,7 +37,7 @@
 #
 # ── ICON CONFIGURATION ───────────────────────────────────────────────────────
 # Use the named icon library (defined in the substitutions block below).
-# Set both the icon name and its matching font in main2.yaml, e.g.:
+# Set both the icon name and its matching font in main.yaml, e.g.:
 #
 #   fan_icon_1:      "ceiling_fan"
 #   fan_icon_font_1: "ceiling_fan_font"
@@ -57,7 +57,7 @@ substitutions:
   fan_widget_name_5: "fan5"
   fan_widget_name_6: "fan6"
 
-  # Defaults – overridden by main2.yaml
+  # Defaults – overridden by main.yaml
   fan_entity_1: "sensor.disabled"
   fan_entity_2: "sensor.disabled"
   fan_entity_3: "sensor.disabled"
@@ -80,46 +80,16 @@ substitutions:
   fan_type_6: "fan"
 
   # ── Named icon library ──────────────────────────────────────────────────────
-  # In main2.yaml, set fan_icon_N to the icon name wrapped in ${}.
-  # The matching font is handled automatically — do NOT set fan_icon_font_N.
-  #
-  # Example:
+  # Icon codepoints and font IDs are defined in icon_library.yaml (shared with
+  # lights_config).  In main.yaml, set fan_icon_N to the icon name, e.g.:
   #   fan_icon_1: "ceiling_fan"
-  #
-  # fan_icons.ttf (fan_icons_90):
-  ceiling_fan:               "\U0000E901"
-  ceiling_fan_font:          "fan_icons_90"
-  floor_fan:                 "\U0000E900"
-  floor_fan_font:            "fan_icons_90"
-  # icons_v2.ttf (icons_90):
-  lightbulb:                 "\U0000e908"
-  lightbulb_font:            "icons_90"
-  spotlights_group:          "\U0000e915"
-  spotlights_group_font:     "icons_90"
-  desk_lamp:                 "\U0000e916"
-  desk_lamp_font:            "icons_90"
-  pendant_lamp:              "\U0000e917"
-  pendant_lamp_font:         "icons_90"
-  ceiling_lamp:              "\U0000e918"
-  ceiling_lamp_font:         "icons_90"
-  ceiling_lamp_variant:      "\U0000e921"
-  ceiling_lamp_variant_font: "icons_90"
-  night_lamp:                "\U0000e919"
-  night_lamp_font:           "icons_90"
-  music:                     "\U0000e91b"
-  music_font:                "icons_90"
-  vacuum_icon:               "\U0000e922"
-  vacuum_icon_font:          "icons_90"
-  # mdi.ttf (mdi_90):
-  bed:                       "\U000f02e3"
-  bed_font:                  "mdi_90"
-  heart:                     "\U000F05F6"
-  heart_font:                "mdi_90"
-  tv:                        "\U000F07F4"
-  tv_font:                   "mdi_90"
+  # The matching font resolves automatically via icon_library.yaml.
+  # Available icons: ceiling_fan, floor_fan, ceiling_lamp, ceiling_lamp_variant,
+  #   night_lamp, lightbulb, spotlights_group, desk_lamp, pendant_lamp,
+  #   music, bed, heart, tv
 
   # ── Per-slot icon defaults ────────────────────────────────────────────────
-  # To change an icon, set only fan_icon_N in main2.yaml:
+  # To change an icon, set only fan_icon_N in main.yaml:
   #   fan_icon_N: "ceiling_fan"
   # The font is resolved automatically. Only add fan_icon_font_N if you need
   # to use an icon from a different font than the default for that slot.
@@ -137,6 +107,9 @@ substitutions:
   fan_icon_font_6: "floor_fan_font"
 
 packages:
+  # Shared icon codepoints and font IDs (also used by lights_config)
+  icon_library: !include ../icon_library.yaml
+
   # Grid panel – tile layout, boot-time slot hiding, binary sensors
   fans_panel: !include fans_panel.yaml
 
