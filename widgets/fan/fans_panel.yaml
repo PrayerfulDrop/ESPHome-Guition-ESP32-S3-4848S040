@@ -62,6 +62,8 @@ lvgl:
   pages:
     - id: fans_group_page
       bg_color: color_slate_blue_gray
+      on_load:
+        - lvgl.widget.show: menu_controls_main
       widgets:
 
         # ── Back button – returns to devices_page and restores nav bar ────
@@ -112,6 +114,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_1}_label_name
                   align: TOP_MID
+                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_1}"
@@ -138,6 +141,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_2}_label_name
                   align: TOP_MID
+                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_2}"
@@ -164,6 +168,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_3}_label_name
                   align: TOP_MID
+                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_3}"
