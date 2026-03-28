@@ -44,6 +44,11 @@ script:
             surface  = lv_color_hex(0x7B1113);   // dark flag red
             text     = lv_color_hex(0xF5F5F0);   // star white
             surf_opa = LV_OPA_60;
+          } else if (theme == 5) { // Cherry Blossom Theme
+            bg       = lv_color_hex(0x1A0610);   // deep cherry night
+            surface  = lv_color_hex(0x8B2252);   // dark rose
+            text     = lv_color_hex(0xFFD6E8);   // petal white-pink
+            surf_opa = LV_OPA_60;
           } else {                 // Dark Theme (default, theme == 0)
             bg       = lv_color_hex(0x343645);
             surface  = lv_color_hex(0x606682);
@@ -98,12 +103,15 @@ script:
           lv_obj_add_flag(id(paris_tower_bg), LV_OBJ_FLAG_HIDDEN);
           lv_obj_add_flag(id(espeon_bg),      LV_OBJ_FLAG_HIDDEN);
           lv_obj_add_flag(id(patriotic_bg),   LV_OBJ_FLAG_HIDDEN);
+          lv_obj_add_flag(id(cherry_bg),      LV_OBJ_FLAG_HIDDEN);
           if (theme == 2) {        // Paris
             lv_obj_clear_flag(id(paris_tower_bg), LV_OBJ_FLAG_HIDDEN);
           } else if (theme == 3) { // Espeon
             lv_obj_clear_flag(id(espeon_bg),      LV_OBJ_FLAG_HIDDEN);
           } else if (theme == 4) { // Patriotic
             lv_obj_clear_flag(id(patriotic_bg),   LV_OBJ_FLAG_HIDDEN);
+          } else if (theme == 5) { // Cherry Blossom
+            lv_obj_clear_flag(id(cherry_bg),      LV_OBJ_FLAG_HIDDEN);
           }
 
   # ── get_translation ──────────────────────────────────────────────────────

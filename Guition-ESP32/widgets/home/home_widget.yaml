@@ -220,6 +220,15 @@ lvgl:
             y: 0
             hidden: true
 
+        # Cherry Blossom theme background — hidden by default, shown via apply_theme script
+        - image:
+            id: cherry_bg
+            src: cherry_bg_img
+            align: TOP_LEFT
+            x: 0
+            y: 0
+            hidden: true
+
         # indicators
         - obj:
             id: home_bg_indicators
