@@ -19,7 +19,7 @@ globals:
     initial_value: '7'    # 7 = English (US)
 
   # Current colour theme index
-  # 0 = Dark  1 = Ocean  2 = Paris  3 = Espeon  4 = Patriotic
+  # 0 = Dark  1 = Ocean  2 = Paris  3 = Espeon  4 = Patriotic  5 = Cherry Blossom
   - id: current_theme
     type: int
     restore_value: true

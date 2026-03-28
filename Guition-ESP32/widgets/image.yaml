@@ -363,3 +363,12 @@
   type: rgb565
   transparency: alpha_channel
 
+  #############################
+  ##### CHERRY BLOSSOM #########
+  #############################
+
+- file: 'Guition-ESP32/img/cherry_bg.png'
+  id: cherry_bg_img
+  type: rgb565
+  transparency: alpha_channel
+
