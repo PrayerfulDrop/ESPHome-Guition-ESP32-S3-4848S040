@@ -195,6 +195,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_4}_label_name
                   align: TOP_MID
+                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_4}"
@@ -221,6 +222,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_5}_label_name
                   align: TOP_MID
+                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_5}"
@@ -247,6 +249,7 @@ lvgl:
               - label:
                   id: ${fan_widget_name_6}_label_name
                   align: TOP_MID
+                  y: 8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_6}"
