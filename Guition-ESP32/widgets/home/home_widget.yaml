@@ -620,6 +620,7 @@ lvgl:
 time:
   - platform: homeassistant
     id: homeassistant_time
+    timezone: "${time_zone}"
 #  - platform: sntp
 #    id: sntp_time
 #    timezone: ${time_zone}

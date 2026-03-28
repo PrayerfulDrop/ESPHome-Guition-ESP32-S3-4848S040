@@ -10,13 +10,17 @@
 
 
 substitutions:
-
   # ── 1 │ DEVICE ───────────────────────────────────────────────────────────────
   # esphome_name : lowercase letters, numbers and hyphens only (used as hostname)
   # ha_server    : full URL to your Home Assistant instance
+  # time_zone    : IANA timezone name — https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  #                Examples: America/New_York  America/Chicago  America/Denver  America/Los_Angeles
+  #                          Europe/London  Europe/Paris  Asia/Tokyo  Australia/Sydney
+  #
   esphome_name:          "yourdisplayname"
   esphome_friendly_name: "Your Display Name"
   ha_server:             "http://homeassistant.local:8123"
+  time_zone:             "America/New_York" 
 
 
   # ── 2 │ CORE ENTITIES ────────────────────────────────────────────────────────
@@ -204,12 +208,8 @@ esp32:
       CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
       CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
       CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
-      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
-      CONFIG_SPIRAM_RODATA: y
-      # Optimize binary for size rather than speed — reduces flash usage 5-10%
-      CONFIG_COMPILER_OPTIMIZATION_SIZE: "y"
-      # Use compact printf (removes %f / %e / %g support — safe for this project)
-      CONFIG_NEWLIB_NANO_FORMAT: "y"
+      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: "y"
+      CONFIG_SPIRAM_RODATA: "y"
 
 
 psram:
