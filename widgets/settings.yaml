@@ -195,7 +195,7 @@ script:
             bg       = lv_color_hex(0x221832);
             surface  = lv_color_hex(0xA07828);
             text     = lv_color_hex(0xF2E8D0);
-            surf_opa = LV_OPA_45;
+            surf_opa = LV_OPA_50;
           } else {                 // Dark Theme (default)
             bg       = lv_color_hex(0x343645);
             surface  = lv_color_hex(0x606682);
