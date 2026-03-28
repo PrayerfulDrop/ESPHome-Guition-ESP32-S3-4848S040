@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(python -c \"from fontTools.ttLib import TTFont; f=TTFont\\(''fonts/fan_icons.ttf''\\); print\\(''UPM:'', f[''head''].unitsPerEm\\); print\\(''Glyphs:'', list\\(f.getBestCmap\\(\\).keys\\(\\)\\)\\)\")",
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Read(///192.168.6.59/config//**)",
+      "Read(///192.168.6.59/config/esphome/**)",
+      "Bash(/dev/null find:*)"
     ]
   }
 }

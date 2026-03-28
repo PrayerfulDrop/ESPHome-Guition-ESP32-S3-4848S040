@@ -181,11 +181,10 @@ lvgl:
                   selected_index: !lambda return id(current_theme);
                   options:
                     - Dark Theme
-                    - Light Theme
                     - Ocean Theme
-                    - Gun Metal
                     - Paris
                     - Espeon
+                    - Patriotic
                   bg_opa: TRANSP
                   shadow_opa: TRANSP
                   border_opa: TRANSP
