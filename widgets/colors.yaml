@@ -74,3 +74,11 @@
   hex: 2E3C44
 - id: color_gm_text
   hex: 8BAAB8
+
+# ── Paris theme base colors ───────────────────────────────────────────────────
+- id: color_pa_bg
+  hex: 221832
+- id: color_pa_surface
+  hex: A07828
+- id: color_pa_text
+  hex: F2E8D0
