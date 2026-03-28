@@ -9,7 +9,15 @@
       "Bash(ROOT=\"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040\" __NEW_LINE_5c018fdf7f91f813__ echo \"=== Icon font sizes used in widgets \\(which font IDs are actually referenced\\) ===\" grep -rh \"text_font:\" \"$ROOT/Guition-ESP32/widgets\" --include=\"*.yaml\")",
       "Bash(ROOT=\"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040\" __NEW_LINE_bf4bd1e63effc506__ echo \"=== All font IDs referenced \\(full list\\) ===\" grep -rh \"text_font:\" \"$ROOT/Guition-ESP32/widgets\" --include=\"*.yaml\")",
       "Bash(ROOT=\"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040\" __NEW_LINE_c92250faa49a6ec0__ echo \"=== All referenced font IDs ===\" grep -rh \"text_font:\" \"$ROOT/Guition-ESP32/widgets\" --include=\"*.yaml\")",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(__NEW_LINE_dd39b284d5af0bef__ echo:*)",
+      "Read(//c/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/$ROOT/Guition-ESP32/img/**)",
+      "Read(//c/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/$ROOT/Guition-ESP32/widgets/**)",
+      "Read(//c/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/$ROOT/Guition-ESP32/widgets/home/**)",
+      "Read(//c/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/$ROOT/Guition-ESP32/widgets/settings/**)",
+      "Bash(__NEW_LINE_6d448995f8caf7cb__ echo:*)",
+      "Read(//c/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/$ROOT/Guition-ESP32/**)",
+      "Read(//c//**)"
     ]
   }
 }

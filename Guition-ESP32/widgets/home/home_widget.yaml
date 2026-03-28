@@ -211,6 +211,15 @@ lvgl:
             y: 0
             hidden: true
 
+        # Patriotic theme background — hidden by default, shown via apply_theme script
+        - image:
+            id: patriotic_bg
+            src: patriotic_bg_img
+            align: TOP_LEFT
+            x: 0
+            y: 0
+            hidden: true
+
         # indicators
         - obj:
             id: home_bg_indicators

@@ -39,20 +39,27 @@ substitutions:
 
   # ── 4 │ HVAC ─────────────────────────────────────────────────────────────────
   #
-  #  Step 1 ▸  Set the entity and icon for your system (one option only).
-  #  Step 2 ▸  In the packages block below, uncomment the matching HVAC package.
+  #  Pick ONE configuration.  Set the entity/entities below, then uncomment the
+  #  matching packages in the ENGINE block further down this file.
   #
-  # ── Option 1: Combined HVAC  (heating + cooling)  ──────────── DEFAULT ────────
+  # ── Option 1: Combined HVAC  (heating + cooling via HA entity) ── DEFAULT ────
   hvac_entity: "climate.hvac"
-  hvac_icon:   "\U0000e925"   # thermostat icon
+  hvac_icon:   "\U0000e925"
   #
-  # ── Option 2: Thermostat only  (heating) ────────────────────────────────────
+  # ── Option 2: Thermostat only  (heating) ─────────────────────────────────────
   # thermostat_entity: "climate.upstairs"
   # hvac_icon:         "\U0000e925"
   #
   # ── Option 3: Air conditioner only  (cooling) ────────────────────────────────
-  # air_conditioner_entity: "climate.upstairs"
-  # hvac_icon:              "\U0000e93b"   # air conditioner icon
+  # air_conditioner_entity: "climate.downstairs"
+  # hvac_icon:              "\U0000e93b"
+  #
+  # ── Option 4: Thermostat + Air conditioner  (separate units) ─────────────────
+  # thermostat_entity:      "climate.upstairs_heat"
+  # air_conditioner_entity: "climate.downstairs_cool"
+  # thermostat_page_id:     "thermostat_page"
+  # ac_page_id:             "ac_page"
+  # hvac_page_ref:          "id(thermostat_page)->obj, id(ac_page)->obj"
 
 
   # ── 5 │ LIGHTS  (up to 6 slots) ──────────────────────────────────────────────
@@ -143,21 +150,28 @@ packages:
   home:               !include Guition-ESP32/widgets/home/home.yaml
   lights_config:      !include Guition-ESP32/widgets/light/lights_config.yaml
   fans_config:        !include Guition-ESP32/widgets/fan/fans_config.yaml
-  devices:            !include Guition-ESP32/widgets/devices.yaml
   settings:           !include Guition-ESP32/widgets/settings/settings.yaml
   menu_controls_main: !include Guition-ESP32/widgets/menu_controls_main.yaml
   loading_page:       !include Guition-ESP32/widgets/loading_page.yaml
 
-  # ── HVAC — uncomment ONE option to match your system (Section 4 above) ────────
+  # ── HVAC + Devices layout — activate ONE block to match Section 4 above ───────
   #
-  # Option 1: Combined HVAC  (heating + cooling on one page)  ── DEFAULT
-  hvac: !include Guition-ESP32/widgets/hvac/hvac_widget.yaml
+  # Option 1 (DEFAULT): Combined HVAC from Home Assistant
+  devices: !include Guition-ESP32/widgets/devices.yaml
+  hvac:    !include Guition-ESP32/widgets/hvac/hvac_widget.yaml
   #
-  # Option 2: Thermostat only  (heating)
-  # hvac: !include Guition-ESP32/widgets/thermostat/thermostat_widget.yaml
+  # Option 2: Thermostat only
+  # devices: !include Guition-ESP32/widgets/devices.yaml
+  # hvac:    !include Guition-ESP32/widgets/thermostat/thermostat_widget.yaml
   #
-  # Option 3: Air conditioner only  (cooling)
-  # hvac: !include Guition-ESP32/widgets/air_conditioner/air_conditioner_widget.yaml
+  # Option 3: Air conditioner only
+  # devices: !include Guition-ESP32/widgets/devices.yaml
+  # hvac:    !include Guition-ESP32/widgets/air_conditioner/air_conditioner_widget.yaml
+  #
+  # Option 4: Thermostat + Air conditioner  (two separate units)
+  # devices:      !include Guition-ESP32/widgets/devices_thermostat_ac.yaml
+  # thermostat:   !include Guition-ESP32/widgets/thermostat/thermostat_widget.yaml
+  # ac:           !include Guition-ESP32/widgets/air_conditioner/air_conditioner_widget.yaml
 
 
 image: !include Guition-ESP32/widgets/image.yaml

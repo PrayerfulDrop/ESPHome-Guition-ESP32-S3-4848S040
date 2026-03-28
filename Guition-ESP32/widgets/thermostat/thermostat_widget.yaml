@@ -10,6 +10,10 @@ substitutions:
   pm_home_icon:       "\U000F0826"
   pm_away_icon:       "\U000F1A46"
 
+  # Page ID — override to "thermostat_page" when using the thermostat+AC combo
+  # (see Section 4 of main.yaml).  Leave as "hvac_page" for single-unit use.
+  thermostat_page_id: "hvac_page"
+
 climate:
   - platform: thermostat
     name: "${thermostat_name}"
@@ -206,11 +210,11 @@ text_sensor:
             lambda: 'return id(thermostat_sensor_hvac_mode).state == "heating";'
           then:
             - lvgl.label.update:
-                id: hvac_status
+                id: thermostat_status
                 text_color: color_deep_orange
           else:
             - lvgl.label.update:
-                id: hvac_status
+                id: thermostat_status
                 text_color: color_steel_blue
 
   # Thermostat state
@@ -262,7 +266,7 @@ lvgl:
           position: 255
 
   pages:
-    - id: hvac_page
+    - id: ${thermostat_page_id}
       bg_color: color_slate_blue_gray
       widgets:
 

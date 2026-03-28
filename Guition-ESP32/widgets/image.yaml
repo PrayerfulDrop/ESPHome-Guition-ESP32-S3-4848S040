@@ -354,3 +354,12 @@
   type: rgb565
   transparency: alpha_channel
 
+  #############################
+  ####### PATRIOTIC ############
+  #############################
+
+- file: 'Guition-ESP32/img/patriotic_bg.png'
+  id: patriotic_bg_img
+  type: rgb565
+  transparency: alpha_channel
+
