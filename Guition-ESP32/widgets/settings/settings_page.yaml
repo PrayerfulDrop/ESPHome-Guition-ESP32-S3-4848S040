@@ -180,12 +180,12 @@ lvgl:
                   align: LEFT_MID
                   selected_index: !lambda return id(current_theme);
                   options:
+                    - Cherry Blossom
                     - Dark Theme
+                    - Espeon
                     - Ocean Theme
                     - Paris
-                    - Espeon
                     - Patriotic
-                    - Cherry Blossom
                   bg_opa: TRANSP
                   shadow_opa: TRANSP
                   border_opa: TRANSP
