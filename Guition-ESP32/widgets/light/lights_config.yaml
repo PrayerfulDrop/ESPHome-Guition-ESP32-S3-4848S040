@@ -8,7 +8,7 @@
 # needed when adding or changing a light.
 #
 # ── HOW TO CONFIGURE ─────────────────────────────────────────────────────────
-# Define only the lights you have in main2.yaml substitutions.
+# Define only the lights you have in main.yaml substitutions.
 # Any slot left at the default "sensor.disabled" is hidden automatically at boot.
 # Fill slots in order (1 → N) to avoid layout gaps.
 #
@@ -27,9 +27,9 @@
 #   icons_90  – for icons from icons_v2.ttf (ceiling_lamp, night_lamp, etc.)
 #   mdi_90    – for icons from mdi.ttf (bed, heart, TV, etc.)
 # Defaults match the original lights_panel.yaml icon assignments.
-# Override in main2.yaml substitutions to suit each physical light.
+# Override in main.yaml substitutions to suit each physical light.
 #
-# ── EXAMPLE main2.yaml substitutions ─────────────────────────────────────────
+# ── EXAMPLE main.yaml substitutions ─────────────────────────────────────────
 #
 #   light_entity_1: "light.master_bedroom"
 #   light_label_name_1: "Main Lights"
@@ -56,7 +56,7 @@ substitutions:
   light_widget_name_5: "light5"
   light_widget_name_6: "light6"
 
-  # Defaults – overridden by main2.yaml
+  # Defaults – overridden by main.yaml
   light_entity_1: "sensor.disabled"
   light_entity_2: "sensor.disabled"
   light_entity_3: "sensor.disabled"
@@ -79,46 +79,16 @@ substitutions:
   light_type_6: "light"
 
   # ── Named icon library ──────────────────────────────────────────────────────
-  # In main2.yaml, set light_icon_N to the icon name wrapped in ${}.
-  # The matching font is handled automatically — do NOT set light_icon_font_N.
-  #
-  # Example:
+  # Icon codepoints and font IDs are defined in icon_library.yaml (shared with
+  # fans_config).  In main.yaml, set light_icon_N to the icon name, e.g.:
   #   light_icon_1: "ceiling_lamp"
-  #
-  # icons_v2.ttf (icons_90):
-  lightbulb:                 "\U0000e908"
-  lightbulb_font:            "icons_90"
-  spotlights_group:          "\U0000e915"
-  spotlights_group_font:     "icons_90"
-  desk_lamp:                 "\U0000e916"
-  desk_lamp_font:            "icons_90"
-  pendant_lamp:              "\U0000e917"
-  pendant_lamp_font:         "icons_90"
-  ceiling_lamp:              "\U0000e918"
-  ceiling_lamp_font:         "icons_90"
-  ceiling_lamp_variant:      "\U0000e921"
-  ceiling_lamp_variant_font: "icons_90"
-  night_lamp:                "\U0000e919"
-  night_lamp_font:           "icons_90"
-  music:                     "\U0000e91b"
-  music_font:                "icons_90"
-  vacuum_icon:               "\U0000e922"
-  vacuum_icon_font:          "icons_90"
-  # mdi.ttf (mdi_90):
-  bed:                       "\U000f02e3"
-  bed_font:                  "mdi_90"
-  heart:                     "\U000F05F6"
-  heart_font:                "mdi_90"
-  tv:                        "\U000F07F4"
-  tv_font:                   "mdi_90"
-  # fan_icons.ttf (fan_icons_90):
-  ceiling_fan:               "\U0000E901"
-  ceiling_fan_font:          "fan_icons_90"
-  floor_fan:                 "\U0000E900"
-  floor_fan_font:            "fan_icons_90"
+  # The matching font resolves automatically via icon_library.yaml.
+  # Available icons: ceiling_lamp, ceiling_lamp_variant, night_lamp, lightbulb,
+  #   spotlights_group, desk_lamp, pendant_lamp, music, bed, heart, tv,
+  #   ceiling_fan, floor_fan
 
   # ── Per-slot icon defaults ────────────────────────────────────────────────
-  # To change an icon, set only light_icon_N in main2.yaml:
+  # To change an icon, set only light_icon_N in main.yaml:
   #   light_icon_N: "ceiling_lamp"
   # The font is resolved automatically. Only add light_icon_font_N if you need
   # to use an icon from a different font than the default for that slot.
@@ -136,6 +106,9 @@ substitutions:
   light_icon_font_6: "tv_font"
 
 packages:
+  # Shared icon codepoints and font IDs (also used by fans_config)
+  icon_library: !include ../icon_library.yaml
+
   # Grid panel – tile layout, boot-time slot hiding, binary sensors
   lights_panel: !include lights_panel.yaml
 

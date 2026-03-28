@@ -1,0 +1,141 @@
+# settings_display.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Display number entity, language/flag mapping tables,
+# and boot / HA-connect hooks that initialise the UI.
+# Included automatically by settings.yaml — do not include directly.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Screen timeout number entity ─────────────────────────────────────────────
+# Exposed to Home Assistant so the timeout can be adjusted remotely.
+number:
+  - platform: template
+    id: display_timeout_number
+    name: LVGL screen timeout
+    optimistic: true
+    unit_of_measurement: "s"
+    initial_value: 180
+    restore_value: true
+    min_value: 60
+    max_value: 600
+    step: 5
+    mode: box
+
+# ── Language / flag mapping tables ───────────────────────────────────────────
+# Add or reorder languages here; update the dropdown options in settings_page.yaml
+# to match (same order, same count).
+mapping:
+  - id: flag_icon_mapping_image
+    from: int
+    to: image
+    entries:
+      0: flags_de_img
+      1: flags_es_img
+      2: flags_fr_img
+      3: flags_gb_img
+      4: flags_it_img
+      5: flags_pt_img
+      6: flags_ru_img
+      7: flags_us_img
+      8: flags_pl_img
+
+  - id: flag_icon_mapping_name
+    from: int
+    to: string
+    entries:
+      0: de
+      1: es
+      2: fr
+      3: en-GB
+      4: it
+      5: pt
+      6: ru
+      7: en
+      8: pl
+
+  - id: flag_icon_mapping_index
+    from: string
+    to: int
+    entries:
+      de: 0
+      es: 1
+      fr: 2
+      en-GB: 3
+      it: 4
+      pt: 5
+      ru: 6
+      en: 7
+      pl: 8
+
+# ── Boot initialisation ──────────────────────────────────────────────────────
+# Runs after all entities are available. Fetches translations for the saved
+# language and applies the saved theme before the loading screen clears.
+esphome:
+  on_boot:
+    - priority: -100
+      then:
+        - homeassistant.action:
+            action: display_tools.get_translations_esphome
+            data:
+              language: !lambda return id(flag_icon_mapping_name)[id(current_language)];
+              category: entity_component
+              keys: '[
+                "component.vacuum.entity_component._.state.cleaning",
+                "component.vacuum.entity_component._.state.docked",
+                "component.vacuum.entity_component._.state.error",
+                "component.vacuum.entity_component._.state.idle",
+                "component.vacuum.entity_component._.state.off",
+                "component.vacuum.entity_component._.state.on",
+                "component.vacuum.entity_component._.state.paused",
+                "component.vacuum.entity_component._.state.returning",
+                "component.cover.entity_component._.state.closed",
+                "component.cover.entity_component._.state.closing",
+                "component.cover.entity_component._.state.open",
+                "component.cover.entity_component._.state.opening",
+                "component.cover.entity_component._.state.stopped",
+                "component.climate.entity_component._.state_attributes.hvac_action.state.cooling",
+                "component.climate.entity_component._.state_attributes.hvac_action.state.defrosting",
+                "component.climate.entity_component._.state_attributes.hvac_action.state.drying",
+                "component.climate.entity_component._.state_attributes.hvac_action.state.fan",
+                "component.climate.entity_component._.state_attributes.hvac_action.state.heating",
+                "component.climate.entity_component._.state_attributes.hvac_action.state.idle",
+                "component.climate.entity_component._.state_attributes.hvac_action.state.off",
+                "component.weather.entity_component._.state.clear-night",
+                "component.weather.entity_component._.state.cloudy",
+                "component.weather.entity_component._.state.exceptional",
+                "component.weather.entity_component._.state.fog",
+                "component.weather.entity_component._.state.hail",
+                "component.weather.entity_component._.state.lightning",
+                "component.weather.entity_component._.state.lightning-rainy",
+                "component.weather.entity_component._.state.partlycloudy",
+                "component.weather.entity_component._.state.pouring",
+                "component.weather.entity_component._.state.rainy",
+                "component.weather.entity_component._.state.snowy",
+                "component.weather.entity_component._.state.snowy-rainy",
+                "component.weather.entity_component._.state.sunny",
+                "component.weather.entity_component._.state.windy",
+                "component.weather.entity_component._.state.windy-variant",
+                "component.alarm_control_panel.entity_component._.state.armed",
+                "component.alarm_control_panel.entity_component._.state.armed_away",
+                "component.alarm_control_panel.entity_component._.state.armed_custom_bypass",
+                "component.alarm_control_panel.entity_component._.state.armed_home",
+                "component.alarm_control_panel.entity_component._.state.armed_night",
+                "component.alarm_control_panel.entity_component._.state.armed_vacation",
+                "component.alarm_control_panel.entity_component._.state.arming",
+                "component.alarm_control_panel.entity_component._.state.disarmed",
+                "component.alarm_control_panel.entity_component._.state.disarming",
+                "component.alarm_control_panel.entity_component._.state.pending",
+                "component.alarm_control_panel.entity_component._.state.triggered"
+              ]'
+
+        - lvgl.dropdown.update:
+            id: display_timeout_dropdown
+            selected_index: !lambda return id(display_timeout);
+        - script.execute: apply_theme
+
+# ── Re-apply theme on HA reconnect ──────────────────────────────────────────
+api:
+  on_client_connected:
+    - lvgl.dropdown.update:
+        id: display_timeout_dropdown
+        selected_index: !lambda return id(display_timeout);
+    - script.execute: apply_theme

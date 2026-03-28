@@ -1,0 +1,38 @@
+# settings_globals.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Persistent global variables that survive reboots.
+# Included automatically by settings.yaml — do not include directly.
+# ─────────────────────────────────────────────────────────────────────────────
+
+globals:
+
+  # Display auto-sleep timeout index (maps to seconds via the dropdown)
+  - id: display_timeout
+    type: int
+    restore_value: true
+    initial_value: "2"
+
+  # Current UI language index (matches flag_icon_mapping_name order)
+  - id: current_language
+    type: int
+    restore_value: yes
+    initial_value: '7'    # 7 = English (US)
+
+  # Current colour theme index
+  # 0 = Dark  1 = Light  2 = Ocean  3 = Gun Metal  4 = Paris  5 = Espeon
+  - id: current_theme
+    type: int
+    restore_value: true
+    initial_value: '0'
+
+  # Translation lookup tables (populated at boot from Home Assistant)
+  - id: vacuum_translations
+    type: std::map<std::string, std::string>
+  - id: cover_translations
+    type: std::map<std::string, std::string>
+  - id: climate_translations
+    type: std::map<std::string, std::string>
+  - id: weather_translations
+    type: std::map<std::string, std::string>
+  - id: alarm_panel_translations
+    type: std::map<std::string, std::string>

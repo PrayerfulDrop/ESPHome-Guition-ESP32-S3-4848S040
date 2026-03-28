@@ -1,0 +1,144 @@
+# settings_sensors.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Home Assistant text sensors that pull translation strings for each component.
+# They populate the globals defined in settings_globals.yaml at runtime.
+# Requires the display_tools HA integration / custom sensor to be configured.
+# Included automatically by settings.yaml — do not include directly.
+# ─────────────────────────────────────────────────────────────────────────────
+
+text_sensor:
+
+  # ── Language / flag ───────────────────────────────────────────────────────
+  - platform: homeassistant
+    id: translations_lang
+    entity_id: sensor.display_tools
+    on_value:
+      - lambda: |-
+          std::string lang_code = x;
+          int lang_index = 7; // default: English (US)
+          for (int i = 0; i <= 8; i++) {
+            if (id(flag_icon_mapping_name)[i] == lang_code) {
+              lang_index = i;
+              break;
+            }
+          }
+          id(current_language) = lang_index;
+
+      - lvgl.dropdown.update:
+          id: language_dropdown
+          selected_index: !lambda |-
+            int lang_index = 7;
+            for (int i = 0; i <= 8; i++) {
+              if (id(flag_icon_mapping_name)[i] == x) {
+                lang_index = i;
+                break;
+              }
+            }
+            return lang_index;
+
+      - lvgl.image.update:
+          id: flag_language_image
+          src: !lambda |-
+            int lang_index = 7;
+            for (int i = 0; i <= 8; i++) {
+              if (id(flag_icon_mapping_name)[i] == x) {
+                lang_index = i;
+                break;
+              }
+            }
+            return id(flag_icon_mapping_image)[lang_index];
+
+  # ── Vacuum state translations ─────────────────────────────────────────────
+  - platform: homeassistant
+    id: translations_vacuum
+    entity_id: sensor.display_tools
+    attribute: vacuum
+    on_value:
+      then:
+        - lambda: |-
+            if (x.length() > 0) {
+              JsonDocument doc;
+              DeserializationError error = deserializeJson(doc, x);
+              if (!error) {
+                id(vacuum_translations).clear();
+                for (auto kv : doc.as<JsonObject>()) {
+                  id(vacuum_translations)[kv.key().c_str()] = kv.value().as<std::string>();
+                }
+              }
+            }
+
+  # ── Cover state translations ──────────────────────────────────────────────
+  - platform: homeassistant
+    id: translations_cover
+    entity_id: sensor.display_tools
+    attribute: cover
+    on_value:
+      then:
+        - lambda: |-
+            if (x.length() > 0) {
+              JsonDocument doc;
+              DeserializationError error = deserializeJson(doc, x);
+              if (!error) {
+                id(cover_translations).clear();
+                for (auto kv : doc.as<JsonObject>()) {
+                  id(cover_translations)[kv.key().c_str()] = kv.value().as<std::string>();
+                }
+              }
+            }
+
+  # ── Climate state translations ────────────────────────────────────────────
+  - platform: homeassistant
+    id: translations_climate
+    entity_id: sensor.display_tools
+    attribute: climate
+    on_value:
+      then:
+        - lambda: |-
+            if (x.length() > 0) {
+              JsonDocument doc;
+              DeserializationError error = deserializeJson(doc, x);
+              if (!error) {
+                id(climate_translations).clear();
+                for (auto kv : doc.as<JsonObject>()) {
+                  id(climate_translations)[kv.key().c_str()] = kv.value().as<std::string>();
+                }
+              }
+            }
+
+  # ── Weather state translations ────────────────────────────────────────────
+  - platform: homeassistant
+    id: translations_weather
+    entity_id: sensor.display_tools
+    attribute: weather
+    on_value:
+      then:
+        - lambda: |-
+            if (x.length() > 0) {
+              JsonDocument doc;
+              DeserializationError error = deserializeJson(doc, x);
+              if (!error) {
+                id(weather_translations).clear();
+                for (auto kv : doc.as<JsonObject>()) {
+                  id(weather_translations)[kv.key().c_str()] = kv.value().as<std::string>();
+                }
+              }
+            }
+
+  # ── Alarm panel state translations ───────────────────────────────────────
+  - platform: homeassistant
+    id: translations_alarm_panel
+    entity_id: sensor.display_tools
+    attribute: alarm_control_panel
+    on_value:
+      then:
+        - lambda: |-
+            if (x.length() > 0) {
+              JsonDocument doc;
+              DeserializationError error = deserializeJson(doc, x);
+              if (!error) {
+                id(alarm_panel_translations).clear();
+                for (auto kv : doc.as<JsonObject>()) {
+                  id(alarm_panel_translations)[kv.key().c_str()] = kv.value().as<std::string>();
+                }
+              }
+            }

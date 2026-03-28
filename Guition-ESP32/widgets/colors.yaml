@@ -59,14 +59,6 @@
 - id: color_oc_text
   hex: 88CCE8
 
-# ── Bubble Gum theme base colors ─────────────────────────────────────────────
-- id: color_bg_bg
-  hex: FAE0F0
-- id: color_bg_surface
-  hex: D4449E
-- id: color_bg_text
-  hex: 5C0D3A
-
 # ── Gun Metal theme base colors ───────────────────────────────────────────────
 - id: color_gm_bg
   hex: 1A1F22
@@ -77,8 +69,16 @@
 
 # ── Paris theme base colors ───────────────────────────────────────────────────
 - id: color_pa_bg
-  hex: 221832
+  hex: 0E0C1A
 - id: color_pa_surface
-  hex: A07828
+  hex: 3A2608
 - id: color_pa_text
-  hex: F2E8D0
+  hex: F4DFA8
+
+# ── Espeon theme base colors ──────────────────────────────────────────────────
+- id: color_es_bg
+  hex: 180D2E
+- id: color_es_surface
+  hex: 4A2475
+- id: color_es_text
+  hex: F2DDFF

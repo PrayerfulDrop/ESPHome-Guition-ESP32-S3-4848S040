@@ -1,31 +1,27 @@
-substitutions:
+# devices.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Devices page — navigation hub for Alarm, Media Player, Vacuum, HVAC, Fans.
+#
+# The HVAC package is NOT included here.  It is included directly in main.yaml
+# so the user can choose between hvac_widget, thermostat_widget, or
+# air_conditioner_widget with a single commented/uncommented line.
+#
+# All three HVAC widgets use the page id "hvac_page", so the button below
+# always navigates to the correct page regardless of which widget is active.
+# ─────────────────────────────────────────────────────────────────────────────
 
-  music_icon:             "\U0000e91b"
-  shutter_icon:           "\U0000e91d"
-  vacuum_icon:            "\U0000e922"
+substitutions:
+  music_icon:  "\U0000e91b"    # music note  (icons_72)
+  vacuum_icon: "\U0000e922"    # vacuum      (icons_72)
+  # hvac_icon is defined in main.yaml — set it to match your HVAC type:
+  #   "\U0000e925"  thermostat / combined HVAC
+  #   "\U0000e93b"  air conditioner only
 
 
 packages:
   media_player: !include media_player/media_player.yaml
-  vacuum: !include vacuum/vacuum_widget.yaml
-  #shutter: !include shutter/shutter_config.yaml
-
-  # ── HVAC widget — uncomment to match your chosen OPTION in main.yaml ──────
-  #
-  # OPTION 1: Combined HVAC (heating + cooling on one page) — DEFAULT
-  hvac: !include hvac/hvac_widget.yaml
-  #
-  # OPTION 2: Thermostat only (heating)
-  #thermostat: !include thermostat/thermostat_widget.yaml
-  #
-  # OPTION 3: Air conditioner only (cooling)
-  #air_conditioner: !include air_conditioner/air_conditioner_widget.yaml
-  #
-  # OPTION 4: Separate thermostat + air conditioner pages
-  #thermostat: !include thermostat/thermostat_widget.yaml
-  #air_conditioner: !include air_conditioner/air_conditioner_widget.yaml
-
-  alarm_panel: !include alarm_panel/alarm_panel.yaml
+  vacuum:       !include vacuum/vacuum_widget.yaml
+  alarm_panel:  !include alarm_panel/alarm_panel.yaml
 
 
 lvgl:
@@ -48,7 +44,7 @@ lvgl:
             radius: 10
             widgets:
 
-              # ── Row 1: Alarm / Media player / Vacuum ─────────────────────
+              # ── Row 1: Alarm · Media Player · Vacuum ─────────────────────
               - obj:
                   y: 10
                   width: 440
@@ -106,27 +102,6 @@ lvgl:
                               animation: OUT_RIGHT
                               time: 300ms
 
-#                    - button:
-#                        id: shutters_page_btn
-#                        x: 170
-#                        align: LEFT_MID
-#                        width: 100
-#                        height: 100
-#                        radius: 10
-#                        bg_color: color_slate_blue_gray
-#                        shadow_opa: TRANSP
-#                        widgets:
-#                          - label:
-#                              align: CENTER
-#                              text_color: color_steel_blue
-#                              text_font: icons_72
-#                              text: "${shutter_icon}"
-#                        on_press:
-#                          - lvgl.page.show:
-#                              id: shutter_group_page
-#                              animation: OUT_RIGHT
-#                              time: 300ms
-
                     - button:
                         id: vacuum_page_btn
                         x: 305
@@ -149,11 +124,9 @@ lvgl:
                               animation: OUT_RIGHT
                               time: 300ms
 
-              # ── Row 2: HVAC slot 1 / HVAC slot 2 / Fans ──────────────────
-              # Driven by substitutions in main.yaml — see HVAC widget mode section.
-              # Slot 1 (x:35):  always visible; icon/page set by hvac_slot_1_* subs.
-              # Slot 2 (x:170): hidden by default; shown for OPTION 4 (thermostat+AC).
-              # Fans  (x:var):  position set by fans_btn_x sub (170 for 1 slot, 305 for 2).
+              # ── Row 2: HVAC · Fans ────────────────────────────────────────
+              # hvac_icon is set in main.yaml to match your HVAC system type.
+              # All three HVAC widget options use page id "hvac_page".
               - obj:
                   y: 120
                   width: 440
@@ -168,7 +141,7 @@ lvgl:
                   widgets:
 
                     - button:
-                        id: hvac_slot_1_btn
+                        id: hvac_btn
                         x: 35
                         align: LEFT_MID
                         width: 100
@@ -181,17 +154,16 @@ lvgl:
                               align: CENTER
                               text_color: color_steel_blue
                               text_font: icons_72
-                              text: "${hvac_slot_1_icon}"
+                              text: "${hvac_icon}"
                         on_press:
                           - lvgl.widget.hide: menu_controls_main
                           - lvgl.page.show:
-                              id: ${hvac_slot_1_page}
+                              id: hvac_page
                               animation: OUT_RIGHT
                               time: 300ms
 
                     - button:
-                        id: hvac_slot_2_btn
-                        hidden: ${hvac_slot_2_hidden}
+                        id: fans_page_btn
                         x: 170
                         align: LEFT_MID
                         width: 100
@@ -203,30 +175,8 @@ lvgl:
                           - label:
                               align: CENTER
                               text_color: color_steel_blue
-                              text_font: icons_72
-                              text: "${hvac_slot_2_icon}"
-                        on_press:
-                          - lvgl.widget.hide: menu_controls_main
-                          - lvgl.page.show:
-                              id: ${hvac_slot_2_page}
-                              animation: OUT_RIGHT
-                              time: 300ms
-
-                    - button:
-                        id: fans_page_btn
-                        x: ${fans_btn_x}
-                        align: LEFT_MID
-                        width: 100
-                        height: 100
-                        radius: 10
-                        bg_color: color_slate_blue_gray
-                        shadow_opa: TRANSP
-                        widgets:
-                          - label:
-                              align: CENTER
-                              text_color: color_steel_blue
                               text_font: fan_icons_72
-                              text: "\U0000E901"   # ceiling-fan
+                              text: "\U0000E901"    # ceiling-fan
                         on_press:
                           - lvgl.widget.hide: menu_controls_main
                           - lvgl.page.show:
