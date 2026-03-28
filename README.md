@@ -23,3 +23,5 @@ Other installation notes:
 - You must enable the "Allow the device to perform Home Assistant actions." option in the ESPHome integration to Home Assistant to control devices.
 - Install custom component for translations and covers for media player from https://github.com/alaltitov/homeassistant-display-tools"
 - Add the code in the configuration.yaml into your homeassistant configuration.yaml template section.
+
+For the 3d Print Stand: https://makerworld.com/en/models/1587503-guition-esp32-se-4848s040-desk-stand#profileId-1671461
