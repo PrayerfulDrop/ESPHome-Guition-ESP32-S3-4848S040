@@ -42,3 +42,35 @@
   hex: 4867aa
 - id: color_deep_purple
   hex: 543D72
+
+# ── Light theme base colors ──────────────────────────────────────────────────
+- id: color_lt_bg
+  hex: F0F2F8
+- id: color_lt_surface
+  hex: B8BEDB
+- id: color_lt_text
+  hex: 2D3154
+
+# ── Ocean theme base colors ───────────────────────────────────────────────────
+- id: color_oc_bg
+  hex: 0A2235
+- id: color_oc_surface
+  hex: 174B70
+- id: color_oc_text
+  hex: 88CCE8
+
+# ── Bubble Gum theme base colors ─────────────────────────────────────────────
+- id: color_bg_bg
+  hex: FAE0F0
+- id: color_bg_surface
+  hex: D4449E
+- id: color_bg_text
+  hex: 5C0D3A
+
+# ── Gun Metal theme base colors ───────────────────────────────────────────────
+- id: color_gm_bg
+  hex: 1A1F22
+- id: color_gm_surface
+  hex: 2E3C44
+- id: color_gm_text
+  hex: 8BAAB8
