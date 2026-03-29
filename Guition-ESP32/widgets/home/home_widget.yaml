@@ -97,6 +97,21 @@ text_sensor:
             text_color: !lambda |-
               if (x == "home") return lv_color_hex(0x5CA848);
               return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_avatar_1
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_status_dot_1
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.label.update:
+            id: people_status_text_1
+            text: !lambda |-
+              if (x == "home") return "Home";
+              return "Away";
   - platform: homeassistant
     id: person_state_2
     entity_id: "${person_entity_2}"
@@ -107,6 +122,21 @@ text_sensor:
             text_color: !lambda |-
               if (x == "home") return lv_color_hex(0x5CA848);
               return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_avatar_2
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_status_dot_2
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.label.update:
+            id: people_status_text_2
+            text: !lambda |-
+              if (x == "home") return "Home";
+              return "Away";
   - platform: homeassistant
     id: person_state_3
     entity_id: "${person_entity_3}"
@@ -117,6 +147,21 @@ text_sensor:
             text_color: !lambda |-
               if (x == "home") return lv_color_hex(0x5CA848);
               return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_avatar_3
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_status_dot_3
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.label.update:
+            id: people_status_text_3
+            text: !lambda |-
+              if (x == "home") return "Home";
+              return "Away";
   - platform: homeassistant
     id: person_state_4
     entity_id: "${person_entity_4}"
@@ -127,6 +172,21 @@ text_sensor:
             text_color: !lambda |-
               if (x == "home") return lv_color_hex(0x5CA848);
               return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_avatar_4
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_status_dot_4
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.label.update:
+            id: people_status_text_4
+            text: !lambda |-
+              if (x == "home") return "Home";
+              return "Away";
 
   # Notification banner — triggered by writing to input_text.display_notification in HA
   - platform: homeassistant
@@ -360,6 +420,24 @@ lvgl:
                   text_font: nunito_16
                   text_color: color_steel_blue
                   text: "${person_initials_4}"
+
+              # Transparent touch target over person indicators — opens people page
+              - obj:
+                  x: 155
+                  align: LEFT_MID
+                  width: 120
+                  height: 40
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  clickable: true
+                  on_press:
+                    - lvgl.widget.hide: menu_controls_main
+                    - lvgl.page.show:
+                        id: people_page
+                        animation: OUT_RIGHT
+                        time: 300ms
 
               # Wi-Fi status — tap to open system info
               - label:

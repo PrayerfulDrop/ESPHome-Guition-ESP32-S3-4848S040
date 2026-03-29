@@ -61,6 +61,7 @@ script:
             id(home_page)->obj, id(settings_page)->obj, id(system_info_page)->obj,
             id(alarm_panel_page)->obj, ${hvac_page_ref}, id(weather_forecast_page)->obj,
             id(devices_page)->obj, id(lights_group_page)->obj, id(fans_group_page)->obj,
+            id(people_page)->obj,
           };
           for (auto* p : pages) {
             lv_obj_set_style_bg_color(p, bg, LV_PART_MAIN);

@@ -1,4 +1,5 @@
 packages:
-  home: !include home_widget.yaml
-  info: !include info_page.yaml
+  home:   !include home_widget.yaml
+  info:   !include info_page.yaml
   forecast: !include weather_forecast.yaml
+  people: !include people_widget.yaml

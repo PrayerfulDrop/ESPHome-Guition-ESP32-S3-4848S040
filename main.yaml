@@ -468,7 +468,7 @@ lvgl:
                 x: 12
                 y: 8
                 width: 416
-                text_font: nunito_14
+                text_font: nunito_16
                 text_color: color_steel_blue
                 text: "Home Assistant Notification:"
             - obj:

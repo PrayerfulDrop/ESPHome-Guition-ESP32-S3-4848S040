@@ -7,8 +7,7 @@
 
 A complete, production-ready smart home dashboard for the **Guition ESP32-S3-4848S040** 480×480 touch display. Built on top of ESPHome and LVGL, this firmware turns the panel into a rich control center for Home Assistant — with real-time weather, calendar, HVAC, lights with colour temperature, fans, covers/blinds, media, vacuum, alarm, scene shortcuts, presence indicators, screensaver, and notification banners.
 
-> Original baseline credit: [alaltitov](https://github.com/alaltitov/Guition-ESP32-S3-4848S040).
-> This repository is a major fork — approximately 70% of the code has been rewritten or added from scratch.
+> Original credit: [alaltitov](https://github.com/alaltitov/Guition-ESP32-S3-4848S040).
 
 ---
 
