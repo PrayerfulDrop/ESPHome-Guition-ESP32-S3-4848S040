@@ -1,0 +1,421 @@
+# people_widget.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# People presence detail page — shown when the person indicators bar is tapped.
+# Displays up to 4 person cards with a coloured status bubble (green=home,
+# grey=away).  Status is updated live by the person_state_N sensors in
+# home_widget.yaml.  Person name is fetched from HA as a subtitle.
+# Cards for sensor.disabled slots are hidden at boot.
+# ─────────────────────────────────────────────────────────────────────────────
+
+substitutions:
+  # Safe defaults — overridden by main.yaml
+  person_entity_1:   "sensor.disabled"
+  person_initials_1: ""
+  person_entity_2:   "sensor.disabled"
+  person_initials_2: ""
+  person_entity_3:   "sensor.disabled"
+  person_initials_3: ""
+  person_entity_4:   "sensor.disabled"
+  person_initials_4: ""
+
+
+# ── Boot: hide disabled person cards ─────────────────────────────────────────
+esphome:
+  on_boot:
+    priority: -200
+    then:
+      - lambda: |-
+          if (std::string("${person_entity_1}") == "sensor.disabled")
+            lv_obj_add_flag(id(people_card_1), LV_OBJ_FLAG_HIDDEN);
+          if (std::string("${person_entity_2}") == "sensor.disabled")
+            lv_obj_add_flag(id(people_card_2), LV_OBJ_FLAG_HIDDEN);
+          if (std::string("${person_entity_3}") == "sensor.disabled")
+            lv_obj_add_flag(id(people_card_3), LV_OBJ_FLAG_HIDDEN);
+          if (std::string("${person_entity_4}") == "sensor.disabled")
+            lv_obj_add_flag(id(people_card_4), LV_OBJ_FLAG_HIDDEN);
+
+
+# ── Person name text sensors (friendly_name attribute from HA) ────────────────
+text_sensor:
+  - platform: homeassistant
+    id: people_name_sensor_1
+    entity_id: "${person_entity_1}"
+    attribute: friendly_name
+    on_value:
+      - if:
+          condition:
+            lambda: 'return std::string("${person_entity_1}") != "sensor.disabled";'
+          then:
+            - lvgl.label.update:
+                id: people_name_1
+                text: !lambda return x;
+
+  - platform: homeassistant
+    id: people_name_sensor_2
+    entity_id: "${person_entity_2}"
+    attribute: friendly_name
+    on_value:
+      - if:
+          condition:
+            lambda: 'return std::string("${person_entity_2}") != "sensor.disabled";'
+          then:
+            - lvgl.label.update:
+                id: people_name_2
+                text: !lambda return x;
+
+  - platform: homeassistant
+    id: people_name_sensor_3
+    entity_id: "${person_entity_3}"
+    attribute: friendly_name
+    on_value:
+      - if:
+          condition:
+            lambda: 'return std::string("${person_entity_3}") != "sensor.disabled";'
+          then:
+            - lvgl.label.update:
+                id: people_name_3
+                text: !lambda return x;
+
+  - platform: homeassistant
+    id: people_name_sensor_4
+    entity_id: "${person_entity_4}"
+    attribute: friendly_name
+    on_value:
+      - if:
+          condition:
+            lambda: 'return std::string("${person_entity_4}") != "sensor.disabled";'
+          then:
+            - lvgl.label.update:
+                id: people_name_4
+                text: !lambda return x;
+
+
+lvgl:
+  pages:
+    - id: people_page
+      bg_color: color_slate_blue_gray
+      widgets:
+
+        # ── Page title ───────────────────────────────────────────────────────
+        - label:
+            align: TOP_MID
+            y: 20
+            text_font: nunito_20
+            text_color: color_misty_blue
+            text: "People"
+
+        # ── Divider under title ──────────────────────────────────────────────
+        - obj:
+            align: TOP_MID
+            y: 50
+            width: 440
+            height: 1
+            pad_all: 0
+            bg_color: color_misty_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 0
+
+        # ── Card 1 (top-left) ────────────────────────────────────────────────
+        - obj:
+            id: people_card_1
+            x: 20
+            y: 62
+            width: 208
+            height: 168
+            radius: 16
+            bg_color: color_steel_blue
+            bg_opa: 25%
+            border_color: color_misty_blue
+            border_width: 1
+            border_opa: 20%
+            shadow_opa: TRANSP
+            pad_all: 0
+            widgets:
+
+              # Avatar circle — bg_color reflects presence state
+              - obj:
+                  id: people_avatar_1
+                  align: TOP_MID
+                  y: 12
+                  width: 72
+                  height: 72
+                  radius: 36
+                  bg_color: 0x606682
+                  bg_opa: 100%
+                  border_color: color_misty_blue
+                  border_width: 2
+                  border_opa: 25%
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_font: nunito_30
+                        text_color: 0xFFFFFF
+                        text: "${person_initials_1}"
+
+              # Person name subtitle
+              - label:
+                  id: people_name_1
+                  align: TOP_MID
+                  y: 90
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: " "
+
+              # Status row — dot + text
+              - obj:
+                  align: BOTTOM_MID
+                  y: -12
+                  width: 170
+                  height: 26
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  widgets:
+                    - obj:
+                        id: people_status_dot_1
+                        align: LEFT_MID
+                        x: 0
+                        width: 12
+                        height: 12
+                        radius: 6
+                        bg_color: 0x606682
+                        bg_opa: 100%
+                        border_opa: TRANSP
+                        shadow_opa: TRANSP
+                    - label:
+                        id: people_status_text_1
+                        align: LEFT_MID
+                        x: 20
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        text: "Away"
+
+        # ── Card 2 (top-right) ───────────────────────────────────────────────
+        - obj:
+            id: people_card_2
+            x: 252
+            y: 62
+            width: 208
+            height: 168
+            radius: 16
+            bg_color: color_steel_blue
+            bg_opa: 25%
+            border_color: color_misty_blue
+            border_width: 1
+            border_opa: 20%
+            shadow_opa: TRANSP
+            pad_all: 0
+            widgets:
+
+              - obj:
+                  id: people_avatar_2
+                  align: TOP_MID
+                  y: 12
+                  width: 72
+                  height: 72
+                  radius: 36
+                  bg_color: 0x606682
+                  bg_opa: 100%
+                  border_color: color_misty_blue
+                  border_width: 2
+                  border_opa: 25%
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_font: nunito_30
+                        text_color: 0xFFFFFF
+                        text: "${person_initials_2}"
+
+              - label:
+                  id: people_name_2
+                  align: TOP_MID
+                  y: 90
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: " "
+
+              - obj:
+                  align: BOTTOM_MID
+                  y: -12
+                  width: 170
+                  height: 26
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  widgets:
+                    - obj:
+                        id: people_status_dot_2
+                        align: LEFT_MID
+                        x: 0
+                        width: 12
+                        height: 12
+                        radius: 6
+                        bg_color: 0x606682
+                        bg_opa: 100%
+                        border_opa: TRANSP
+                        shadow_opa: TRANSP
+                    - label:
+                        id: people_status_text_2
+                        align: LEFT_MID
+                        x: 20
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        text: "Away"
+
+        # ── Card 3 (bottom-left) ─────────────────────────────────────────────
+        - obj:
+            id: people_card_3
+            x: 20
+            y: 248
+            width: 208
+            height: 168
+            radius: 16
+            bg_color: color_steel_blue
+            bg_opa: 25%
+            border_color: color_misty_blue
+            border_width: 1
+            border_opa: 20%
+            shadow_opa: TRANSP
+            pad_all: 0
+            widgets:
+
+              - obj:
+                  id: people_avatar_3
+                  align: TOP_MID
+                  y: 12
+                  width: 72
+                  height: 72
+                  radius: 36
+                  bg_color: 0x606682
+                  bg_opa: 100%
+                  border_color: color_misty_blue
+                  border_width: 2
+                  border_opa: 25%
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_font: nunito_30
+                        text_color: 0xFFFFFF
+                        text: "${person_initials_3}"
+
+              - label:
+                  id: people_name_3
+                  align: TOP_MID
+                  y: 90
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: " "
+
+              - obj:
+                  align: BOTTOM_MID
+                  y: -12
+                  width: 170
+                  height: 26
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  widgets:
+                    - obj:
+                        id: people_status_dot_3
+                        align: LEFT_MID
+                        x: 0
+                        width: 12
+                        height: 12
+                        radius: 6
+                        bg_color: 0x606682
+                        bg_opa: 100%
+                        border_opa: TRANSP
+                        shadow_opa: TRANSP
+                    - label:
+                        id: people_status_text_3
+                        align: LEFT_MID
+                        x: 20
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        text: "Away"
+
+        # ── Card 4 (bottom-right) ────────────────────────────────────────────
+        - obj:
+            id: people_card_4
+            x: 252
+            y: 248
+            width: 208
+            height: 168
+            radius: 16
+            bg_color: color_steel_blue
+            bg_opa: 25%
+            border_color: color_misty_blue
+            border_width: 1
+            border_opa: 20%
+            shadow_opa: TRANSP
+            pad_all: 0
+            widgets:
+
+              - obj:
+                  id: people_avatar_4
+                  align: TOP_MID
+                  y: 12
+                  width: 72
+                  height: 72
+                  radius: 36
+                  bg_color: 0x606682
+                  bg_opa: 100%
+                  border_color: color_misty_blue
+                  border_width: 2
+                  border_opa: 25%
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_font: nunito_30
+                        text_color: 0xFFFFFF
+                        text: "${person_initials_4}"
+
+              - label:
+                  id: people_name_4
+                  align: TOP_MID
+                  y: 90
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: " "
+
+              - obj:
+                  align: BOTTOM_MID
+                  y: -12
+                  width: 170
+                  height: 26
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  widgets:
+                    - obj:
+                        id: people_status_dot_4
+                        align: LEFT_MID
+                        x: 0
+                        width: 12
+                        height: 12
+                        radius: 6
+                        bg_color: 0x606682
+                        bg_opa: 100%
+                        border_opa: TRANSP
+                        shadow_opa: TRANSP
+                    - label:
+                        id: people_status_text_4
+                        align: LEFT_MID
+                        x: 20
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        text: "Away"

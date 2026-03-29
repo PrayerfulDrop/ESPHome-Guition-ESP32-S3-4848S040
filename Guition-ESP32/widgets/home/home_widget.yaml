@@ -1,4 +1,17 @@
 substitutions:
+  # Person presence — safe defaults overridden by main.yaml
+  person_entity_1:   "sensor.disabled"
+  person_initials_1: ""
+  person_entity_2:   "sensor.disabled"
+  person_initials_2: ""
+  person_entity_3:   "sensor.disabled"
+  person_initials_3: ""
+  person_entity_4:   "sensor.disabled"
+  person_initials_4: ""
+
+  # Notification banner entity — safe default
+  notification_entity: "sensor.disabled"
+
   lock_icon:               "\U0000e92e"
   air_conditioner_icon:    "\U0000e93b"
   heating_icon:            "\U0000e936"
@@ -55,13 +68,16 @@ sensor:
     id: weather_temp
     entity_id: "${weather_entity}"
     attribute: temperature
-    on_value: 
+    on_value:
       then:
         - lvgl.label.update:
             id: weather_temperature
-            text:
-              format: "%.0f°"
-              args: [id(weather_temp).state]
+            text: !lambda |-
+              static char buf[10];
+              float t = id(weather_temp).state;
+              if (id(temp_unit) == 1) t = (t - 32.0f) * 5.0f / 9.0f;
+              snprintf(buf, sizeof(buf), "%.0f°", t);
+              return buf;
 
   # Indoor temperature — kept for HVAC climate component
   - platform: homeassistant
@@ -70,6 +86,127 @@ sensor:
 
 
 text_sensor:
+  # Person presence sensors
+  - platform: homeassistant
+    id: person_state_1
+    entity_id: "${person_entity_1}"
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: person_indicator_1
+            text_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_avatar_1
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_status_dot_1
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.label.update:
+            id: people_status_text_1
+            text: !lambda |-
+              if (x == "home") return "Home";
+              return "Away";
+  - platform: homeassistant
+    id: person_state_2
+    entity_id: "${person_entity_2}"
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: person_indicator_2
+            text_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_avatar_2
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_status_dot_2
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.label.update:
+            id: people_status_text_2
+            text: !lambda |-
+              if (x == "home") return "Home";
+              return "Away";
+  - platform: homeassistant
+    id: person_state_3
+    entity_id: "${person_entity_3}"
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: person_indicator_3
+            text_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_avatar_3
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_status_dot_3
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.label.update:
+            id: people_status_text_3
+            text: !lambda |-
+              if (x == "home") return "Home";
+              return "Away";
+  - platform: homeassistant
+    id: person_state_4
+    entity_id: "${person_entity_4}"
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: person_indicator_4
+            text_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_avatar_4
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.obj.update:
+            id: people_status_dot_4
+            bg_color: !lambda |-
+              if (x == "home") return lv_color_hex(0x5CA848);
+              return lv_color_hex(0x606682);
+        - lvgl.label.update:
+            id: people_status_text_4
+            text: !lambda |-
+              if (x == "home") return "Home";
+              return "Away";
+
+  # Notification banner — triggered by writing to input_text.display_notification in HA
+  - platform: homeassistant
+    id: notification_sensor
+    entity_id: "${notification_entity}"
+    on_value:
+      then:
+        - if:
+            condition:
+              lambda: return !x.empty() && x != "unknown" && x != "unavailable";
+            then:
+              - lvgl.label.update:
+                  id: notification_text
+                  text: !lambda return x;
+              - lvgl.widget.show: notification_banner
+              - script.execute: notification_dismiss
+            else:
+              - script.stop: notification_dismiss
+              - lvgl.widget.hide: notification_banner
+
   # Sun horizon sensor
   - platform: homeassistant
     id: sun_state_sensor
@@ -254,6 +391,53 @@ lvgl:
                   text_color: color_misty_blue
                   text: "31.01"
 
+              # Person presence indicators (up to 4) — green=home, dim=away
+              - label:
+                  id: person_indicator_1
+                  x: 175
+                  align: LEFT_MID
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: "${person_initials_1}"
+              - label:
+                  id: person_indicator_2
+                  x: 200
+                  align: LEFT_MID
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: "${person_initials_2}"
+              - label:
+                  id: person_indicator_3
+                  x: 225
+                  align: LEFT_MID
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: "${person_initials_3}"
+              - label:
+                  id: person_indicator_4
+                  x: 250
+                  align: LEFT_MID
+                  text_font: nunito_16
+                  text_color: color_steel_blue
+                  text: "${person_initials_4}"
+
+              # Transparent touch target over person indicators — opens people page
+              - obj:
+                  x: 155
+                  align: LEFT_MID
+                  width: 120
+                  height: 40
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  clickable: true
+                  on_press:
+                    - lvgl.page.show:
+                        id: people_page
+                        animation: OUT_RIGHT
+                        time: 300ms
+
               # Wi-Fi status — tap to open system info
               - label:
                   id: wifi_status
@@ -264,7 +448,6 @@ lvgl:
                   text_font: icons_24
                   clickable: true
                   on_click:
-                    - lvgl.widget.hide: menu_controls_main
                     - lvgl.page.show:
                         id: system_info_page
                         animation: OUT_RIGHT
@@ -290,7 +473,6 @@ lvgl:
                   text_font: icons_24
                   clickable: true
                   on_click:
-                    - lvgl.widget.hide: menu_controls_main
                     - lvgl.page.show:
                         id: hvac_page
                         animation: OUT_RIGHT
@@ -306,7 +488,6 @@ lvgl:
                   text_font: mdi_icons_24
                   clickable: true
                   on_click:
-                    - lvgl.widget.hide: menu_controls_main
                     - lvgl.page.show:
                         id: alarm_panel_page
                         animation: OUT_RIGHT
@@ -354,7 +535,6 @@ lvgl:
             clickable: true
             on_press:
               then:
-                - lvgl.widget.hide: menu_controls_main
                 - script.execute: fetch_weather_forecast
                 - lvgl.page.show:
                     id: weather_forecast_page
@@ -635,6 +815,7 @@ time:
         seconds: 0
         then:
           - script.execute: time_update
+          - script.execute: screensaver_tick
 
 script:
 
@@ -645,9 +826,13 @@ script:
           text: !lambda |-
             static char time_buf[16];
             auto now = id(homeassistant_time).now();
-            const char *ampm = (now.hour >= 12) ? "PM" : "AM"; 
-            int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;           
-            snprintf(time_buf, sizeof(time_buf), "%d:%02d %s", hour_12, now.minute, ampm);
+            if (id(time_format) == 1) {
+              snprintf(time_buf, sizeof(time_buf), "%d:%02d", now.hour, now.minute);
+            } else {
+              const char *ampm = (now.hour >= 12) ? "PM" : "AM";
+              int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;
+              snprintf(time_buf, sizeof(time_buf), "%d:%02d %s", hour_12, now.minute, ampm);
+            }
             return time_buf;
 
       - lvgl.label.update:
@@ -659,6 +844,153 @@ script:
             snprintf(date_buf, sizeof(date_buf), "%s, %d/%02d/%04d", days[(now.day_of_week)-1], now.month, now.day_of_month, now.year);
             return date_buf;
 
+  - id: notification_dismiss
+    mode: restart
+    then:
+      - delay: 10s
+      - lvgl.widget.hide: notification_banner
+
+  - id: screensaver_tick
+    then:
+      - if:
+          condition:
+            lambda: return id(screensaver_active);
+          then:
+            - script.execute: screensaver_update
+
+  - id: screensaver_update
+    then:
+      # Show the correct style group, hide the others
+      - lambda: |-
+          bool dig = (id(screensaver_style) == 0);
+          bool ana = (id(screensaver_style) == 1);
+          bool cal = (id(screensaver_style) == 2);
+          if (dig) lv_obj_clear_flag(id(ss_digital),  LV_OBJ_FLAG_HIDDEN);
+          else     lv_obj_add_flag  (id(ss_digital),  LV_OBJ_FLAG_HIDDEN);
+          if (ana) lv_obj_clear_flag(id(ss_analog),   LV_OBJ_FLAG_HIDDEN);
+          else     lv_obj_add_flag  (id(ss_analog),   LV_OBJ_FLAG_HIDDEN);
+          if (cal) lv_obj_clear_flag(id(ss_calendar), LV_OBJ_FLAG_HIDDEN);
+          else     lv_obj_add_flag  (id(ss_calendar), LV_OBJ_FLAG_HIDDEN);
+      # Update the active style
+      - if:
+          condition:
+            lambda: return id(screensaver_style) == 0;
+          then:
+            - lvgl.label.update:
+                id: screensaver_time
+                text: !lambda |-
+                  static char buf[16];
+                  auto now = id(homeassistant_time).now();
+                  if (id(time_format) == 1) {
+                    snprintf(buf, sizeof(buf), "%d:%02d", now.hour, now.minute);
+                  } else {
+                    const char *ampm = (now.hour >= 12) ? "PM" : "AM";
+                    int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;
+                    snprintf(buf, sizeof(buf), "%d:%02d %s", hour_12, now.minute, ampm);
+                  }
+                  return buf;
+            - lvgl.label.update:
+                id: screensaver_date
+                text: !lambda |-
+                  static char buf[32];
+                  auto now = id(homeassistant_time).now();
+                  static const char* days[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+                  snprintf(buf, sizeof(buf), "%s  %d/%02d", days[now.day_of_week - 1], now.month, now.day_of_month);
+                  return buf;
+      - if:
+          condition:
+            lambda: return id(screensaver_style) == 1;
+          then:
+            - script.execute: screensaver_update_analog
+      - if:
+          condition:
+            lambda: return id(screensaver_style) == 2;
+          then:
+            - script.execute: screensaver_update_calendar
+
+  - id: screensaver_update_analog
+    then:
+      - lvgl.indicator.update:
+          id: ss_minute_hand
+          value: !lambda "return id(homeassistant_time).now().minute;"
+      - lvgl.indicator.update:
+          id: ss_hour_hand
+          value: !lambda |-
+            auto now = id(homeassistant_time).now();
+            return (now.hour % 12) * 5 + now.minute / 12;
+      - lvgl.label.update:
+          id: ss_analog_time
+          text: !lambda |-
+            static char buf[16];
+            auto now = id(homeassistant_time).now();
+            if (id(time_format) == 1) {
+              snprintf(buf, sizeof(buf), "%d:%02d", now.hour, now.minute);
+            } else {
+              const char *ampm = (now.hour >= 12) ? "PM" : "AM";
+              int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;
+              snprintf(buf, sizeof(buf), "%d:%02d %s", hour_12, now.minute, ampm);
+            }
+            return buf;
+      - lvgl.label.update:
+          id: ss_analog_date
+          text: !lambda |-
+            static char buf[32];
+            auto now = id(homeassistant_time).now();
+            static const char* days[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+            snprintf(buf, sizeof(buf), "%s  %d/%02d", days[now.day_of_week - 1], now.month, now.day_of_month);
+            return buf;
+
+  - id: screensaver_update_calendar
+    then:
+      - lvgl.label.update:
+          id: ss_cal_time
+          text: !lambda |-
+            static char buf[16];
+            auto now = id(homeassistant_time).now();
+            if (id(time_format) == 1) {
+              snprintf(buf, sizeof(buf), "%d:%02d", now.hour, now.minute);
+            } else {
+              const char *ampm = (now.hour >= 12) ? "PM" : "AM";
+              int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;
+              snprintf(buf, sizeof(buf), "%d:%02d %s", hour_12, now.minute, ampm);
+            }
+            return buf;
+      - lvgl.label.update:
+          id: ss_cal_date
+          text: !lambda |-
+            static char buf[32];
+            auto now = id(homeassistant_time).now();
+            static const char* days[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+            snprintf(buf, sizeof(buf), "%s  %d/%02d", days[now.day_of_week - 1], now.month, now.day_of_month);
+            return buf;
+      - lvgl.label.update:
+          id: ss_cal_event1_title
+          text: !lambda |-
+            return id(cal_title_1).state.empty() ? std::string(" ") : id(cal_title_1).state;
+      - lvgl.label.update:
+          id: ss_cal_event1_time
+          text: !lambda |-
+            std::string t = id(cal_start_1).state;
+            return (t.length() >= 16) ? t.substr(11, 5) : (t.empty() ? std::string(" ") : t);
+      - lvgl.label.update:
+          id: ss_cal_event2_title
+          text: !lambda |-
+            return id(cal_title_2).state.empty() ? std::string(" ") : id(cal_title_2).state;
+      - lvgl.label.update:
+          id: ss_cal_event2_time
+          text: !lambda |-
+            std::string t = id(cal_start_2).state;
+            return (t.length() >= 16) ? t.substr(11, 5) : (t.empty() ? std::string(" ") : t);
+      - lvgl.label.update:
+          id: ss_cal_event3_title
+          text: !lambda |-
+            return id(cal_title_3).state.empty() ? std::string(" ") : id(cal_title_3).state;
+      - lvgl.label.update:
+          id: ss_cal_event3_time
+          text: !lambda |-
+            std::string t = id(cal_start_3).state;
+            return (t.length() >= 16) ? t.substr(11, 5) : (t.empty() ? std::string(" ") : t);
+
   - id: weather_get_and_set_translated_state
     parameters:
       state_str: string
@@ -668,7 +1000,14 @@ script:
 
           auto it = id(weather_translations).find(state);
           std::string translated_state = (it != id(weather_translations).end()) ? it->second : state;
- 
+
+          // Title-case: capitalise the first letter of every word
+          bool cap_next = true;
+          for (char &c : translated_state) {
+            if (c == ' ') { cap_next = true; }
+            else if (cap_next) { c = toupper((unsigned char)c); cap_next = false; }
+          }
+
           lv_label_set_text(id(weather_state_label), translated_state.c_str());
 
   - id: update_weather_image
@@ -733,10 +1072,12 @@ script:
     then:
       - lambda: |-
           auto fmt_time = [](const std::string &s) -> std::string {
-            if (s.empty() || s.find('T') == std::string::npos) return "";
+            if (s.size() <= 10) return "";
             struct tm t = {};
             if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &t) == nullptr)
-              strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &t);
+              if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &t) == nullptr)
+                if (strptime(s.c_str(), "%Y-%m-%d %H:%M:%S", &t) == nullptr)
+                  return "";
             char buf[9];
             strftime(buf, sizeof(buf), "%I:%M%p", &t);
             return std::string(buf);

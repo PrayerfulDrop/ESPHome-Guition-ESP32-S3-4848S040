@@ -1,0 +1,317 @@
+# covers_panel.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Tile grid page for up to 6 cover/blind slots.
+# Short-press tile → cover detail page.
+# Tile icon colour updates live from HA state (amber = open, steel-blue = closed).
+# ─────────────────────────────────────────────────────────────────────────────
+
+substitutions:
+
+  # Sentinel – slots left as "sensor.disabled" in main.yaml are hidden at boot.
+  cover_entity_1: "sensor.disabled"
+  cover_entity_2: "sensor.disabled"
+  cover_entity_3: "sensor.disabled"
+  cover_entity_4: "sensor.disabled"
+  cover_entity_5: "sensor.disabled"
+  cover_entity_6: "sensor.disabled"
+
+  cover_label_name_1: ""
+  cover_label_name_2: ""
+  cover_label_name_3: ""
+  cover_label_name_4: ""
+  cover_label_name_5: ""
+  cover_label_name_6: ""
+
+  cover_widget_name_1: "cover1"
+  cover_widget_name_2: "cover2"
+  cover_widget_name_3: "cover3"
+  cover_widget_name_4: "cover4"
+  cover_widget_name_5: "cover5"
+  cover_widget_name_6: "cover6"
+
+# ── Grid layout ───────────────────────────────────────────────────────────────
+# Row 1 (y=20):  slot1 x=20  slot2 x=170  slot3 x=320
+# Row 2 (y=200): slot4 x=20  slot5 x=170  slot6 x=320
+
+lvgl:
+  pages:
+    - id: covers_group_page
+      bg_color: color_slate_blue_gray
+      widgets:
+
+        # ── Slot 1 ─────────────────────────────────────────────────────────
+        - button:
+            id: ${cover_widget_name_1}_btn
+            x: 20
+            y: 20
+            width: 140
+            height: 150
+            align: TOP_LEFT
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  id: ${cover_widget_name_1}_cover_tile_icon
+                  align: CENTER
+                  y: 20
+                  text_font: mdi_icons_72
+                  text_color: color_steel_blue
+                  text: "\U000F012F"
+              - label:
+                  id: ${cover_widget_name_1}_label_name
+                  align: TOP_MID
+                  y: 8
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "${cover_label_name_1}"
+
+        # ── Slot 2 ─────────────────────────────────────────────────────────
+        - button:
+            id: ${cover_widget_name_2}_btn
+            x: 170
+            y: 20
+            width: 140
+            height: 150
+            align: TOP_LEFT
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  id: ${cover_widget_name_2}_cover_tile_icon
+                  align: CENTER
+                  y: 20
+                  text_font: mdi_icons_72
+                  text_color: color_steel_blue
+                  text: "\U000F012F"
+              - label:
+                  id: ${cover_widget_name_2}_label_name
+                  align: TOP_MID
+                  y: 8
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "${cover_label_name_2}"
+
+        # ── Slot 3 ─────────────────────────────────────────────────────────
+        - button:
+            id: ${cover_widget_name_3}_btn
+            x: 320
+            y: 20
+            width: 140
+            height: 150
+            align: TOP_LEFT
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  id: ${cover_widget_name_3}_cover_tile_icon
+                  align: CENTER
+                  y: 20
+                  text_font: mdi_icons_72
+                  text_color: color_steel_blue
+                  text: "\U000F012F"
+              - label:
+                  id: ${cover_widget_name_3}_label_name
+                  align: TOP_MID
+                  y: 8
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "${cover_label_name_3}"
+
+        # ── Slot 4 ─────────────────────────────────────────────────────────
+        - button:
+            id: ${cover_widget_name_4}_btn
+            x: 20
+            y: 200
+            width: 140
+            height: 150
+            align: TOP_LEFT
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  id: ${cover_widget_name_4}_cover_tile_icon
+                  align: CENTER
+                  y: 20
+                  text_font: mdi_icons_72
+                  text_color: color_steel_blue
+                  text: "\U000F012F"
+              - label:
+                  id: ${cover_widget_name_4}_label_name
+                  align: TOP_MID
+                  y: 8
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "${cover_label_name_4}"
+
+        # ── Slot 5 ─────────────────────────────────────────────────────────
+        - button:
+            id: ${cover_widget_name_5}_btn
+            x: 170
+            y: 200
+            width: 140
+            height: 150
+            align: TOP_LEFT
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  id: ${cover_widget_name_5}_cover_tile_icon
+                  align: CENTER
+                  y: 20
+                  text_font: mdi_icons_72
+                  text_color: color_steel_blue
+                  text: "\U000F012F"
+              - label:
+                  id: ${cover_widget_name_5}_label_name
+                  align: TOP_MID
+                  y: 8
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "${cover_label_name_5}"
+
+        # ── Slot 6 ─────────────────────────────────────────────────────────
+        - button:
+            id: ${cover_widget_name_6}_btn
+            x: 320
+            y: 200
+            width: 140
+            height: 150
+            align: TOP_LEFT
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  id: ${cover_widget_name_6}_cover_tile_icon
+                  align: CENTER
+                  y: 20
+                  text_font: mdi_icons_72
+                  text_color: color_steel_blue
+                  text: "\U000F012F"
+              - label:
+                  id: ${cover_widget_name_6}_label_name
+                  align: TOP_MID
+                  y: 8
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "${cover_label_name_6}"
+
+
+# ── Hide unused slots at boot ─────────────────────────────────────────────────
+esphome:
+  on_boot:
+    priority: -200
+    then:
+      - lambda: |-
+          struct SlotInfo {
+            const char* entity;
+            lv_obj_t*   btn;
+          };
+
+          SlotInfo slots[] = {
+            { "${cover_entity_1}", id(${cover_widget_name_1}_btn) },
+            { "${cover_entity_2}", id(${cover_widget_name_2}_btn) },
+            { "${cover_entity_3}", id(${cover_widget_name_3}_btn) },
+            { "${cover_entity_4}", id(${cover_widget_name_4}_btn) },
+            { "${cover_entity_5}", id(${cover_widget_name_5}_btn) },
+            { "${cover_entity_6}", id(${cover_widget_name_6}_btn) },
+          };
+
+          for (auto& slot : slots) {
+            if (std::string(slot.entity) == "sensor.disabled") {
+              lv_obj_add_flag(slot.btn, LV_OBJ_FLAG_HIDDEN);
+              lv_obj_clear_flag(slot.btn, LV_OBJ_FLAG_CLICKABLE);
+            }
+          }
+
+
+# ── Tile binary sensors – tap to open detail page ────────────────────────────
+binary_sensor:
+  - platform: lvgl
+    id: ${cover_widget_name_1}_btn_sensor
+    widget: ${cover_widget_name_1}_btn
+    on_click:
+      - min_length: 50ms
+        max_length: 500ms
+        then:
+          - lvgl.widget.hide: menu_controls_main
+          - lvgl.page.show:
+              id: ${cover_widget_name_1}_cover_page
+              animation: OUT_RIGHT
+              time: 300ms
+
+  - platform: lvgl
+    id: ${cover_widget_name_2}_btn_sensor
+    widget: ${cover_widget_name_2}_btn
+    on_click:
+      - min_length: 50ms
+        max_length: 500ms
+        then:
+          - lvgl.widget.hide: menu_controls_main
+          - lvgl.page.show:
+              id: ${cover_widget_name_2}_cover_page
+              animation: OUT_RIGHT
+              time: 300ms
+
+  - platform: lvgl
+    id: ${cover_widget_name_3}_btn_sensor
+    widget: ${cover_widget_name_3}_btn
+    on_click:
+      - min_length: 50ms
+        max_length: 500ms
+        then:
+          - lvgl.widget.hide: menu_controls_main
+          - lvgl.page.show:
+              id: ${cover_widget_name_3}_cover_page
+              animation: OUT_RIGHT
+              time: 300ms
+
+  - platform: lvgl
+    id: ${cover_widget_name_4}_btn_sensor
+    widget: ${cover_widget_name_4}_btn
+    on_click:
+      - min_length: 50ms
+        max_length: 500ms
+        then:
+          - lvgl.widget.hide: menu_controls_main
+          - lvgl.page.show:
+              id: ${cover_widget_name_4}_cover_page
+              animation: OUT_RIGHT
+              time: 300ms
+
+  - platform: lvgl
+    id: ${cover_widget_name_5}_btn_sensor
+    widget: ${cover_widget_name_5}_btn
+    on_click:
+      - min_length: 50ms
+        max_length: 500ms
+        then:
+          - lvgl.widget.hide: menu_controls_main
+          - lvgl.page.show:
+              id: ${cover_widget_name_5}_cover_page
+              animation: OUT_RIGHT
+              time: 300ms
+
+  - platform: lvgl
+    id: ${cover_widget_name_6}_btn_sensor
+    widget: ${cover_widget_name_6}_btn
+    on_click:
+      - min_length: 50ms
+        max_length: 500ms
+        then:
+          - lvgl.widget.hide: menu_controls_main
+          - lvgl.page.show:
+              id: ${cover_widget_name_6}_cover_page
+              animation: OUT_RIGHT
+              time: 300ms

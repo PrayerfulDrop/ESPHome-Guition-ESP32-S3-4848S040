@@ -273,7 +273,7 @@ lvgl:
             on_press:
               then:
                 - lvgl.widget.show: menu_controls_main
-                - lvgl.page.show: 
+                - lvgl.page.show:
                     id: lights_group_page
                     animation: OUT_RIGHT
                     time: 300ms

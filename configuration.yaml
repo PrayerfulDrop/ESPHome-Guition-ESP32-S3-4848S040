@@ -1,8 +1,4 @@
-# -- Calendar entities for upcoming events
-# add the following code to your configuration.yaml to create the calendar event sensors, then update the calendar_entity substitutions above with the matching sensor entity_id
-# change the calendar.yourcalendar to your calendar entity_id and adjust
-
- template:
+template:
    - trigger:
        - platform: time_pattern
          minutes: "/15"
@@ -11,7 +7,7 @@
      action:
        - action: calendar.get_events
          target:
-           entity_id: calendar.yourcalendar
+           entity_id: calendar.yourcalendar_calendar
          data:
            start_date_time: "{{ now().isoformat() }}"
            duration:
@@ -19,30 +15,51 @@
          response_variable: agenda
        - variables:
            events: >
-             {{ agenda['calendar.yourcalendar']['events']
-                | selectattr('start', 'search', 'T')
+             {{ agenda['calendar.yourcalendar_calendar']['events']
+                | rejectattr('start', 'match', '^\d{4}-\d{2}-\d{2}$')
+                | sort(attribute='start')
                 | list }}
+           e1_summary: "{{ events[0].summary if events | length > 0 else 'No event' }}"
+           e1_start:   "{{ events[0].start | as_datetime | as_local | as_timestamp | timestamp_custom('%Y-%m-%d %H:%M:%S') if events | length > 0 else '' }}"
+           e1_end:     "{{ events[0].end   | as_datetime | as_local | as_timestamp | timestamp_custom('%Y-%m-%d %H:%M:%S') if events | length > 0 else '' }}"
+           e2_summary: "{{ events[1].summary if events | length > 1 else 'No event' }}"
+           e2_start:   "{{ events[1].start | as_datetime | as_local | as_timestamp | timestamp_custom('%Y-%m-%d %H:%M:%S') if events | length > 1 else '' }}"
+           e2_end:     "{{ events[1].end   | as_datetime | as_local | as_timestamp | timestamp_custom('%Y-%m-%d %H:%M:%S') if events | length > 1 else '' }}"
+           e3_summary: "{{ events[2].summary if events | length > 2 else 'No event' }}"
+           e3_start:   "{{ events[2].start | as_datetime | as_local | as_timestamp | timestamp_custom('%Y-%m-%d %H:%M:%S') if events | length > 2 else '' }}"
+           e3_end:     "{{ events[2].end   | as_datetime | as_local | as_timestamp | timestamp_custom('%Y-%m-%d %H:%M:%S') if events | length > 2 else '' }}"
+           e4_summary: "{{ events[3].summary if events | length > 3 else 'No event' }}"
+           e4_start:   "{{ events[3].start | as_datetime | as_local | as_timestamp | timestamp_custom('%Y-%m-%d %H:%M:%S') if events | length > 3 else '' }}"
+           e4_end:     "{{ events[3].end   | as_datetime | as_local | as_timestamp | timestamp_custom('%Y-%m-%d %H:%M:%S') if events | length > 3 else '' }}"
      sensor:
        - name: "Calendar Upcoming Event 1"
          unique_id: calendar_upcoming_event_1
-         state: "{{ events[0].summary if events | length > 0 else 'No event' }}"
+         state: "{{ e1_summary }}"
          attributes:
-           message:    "{{ events[0].summary if events | length > 0 else '' }}"
-           start_time: "{{ events[0].start   if events | length > 0 else '' }}"
-           end_time:   "{{ events[0].end     if events | length > 0 else '' }}"
+           message:    "{{ e1_summary }}"
+           start_time: "{{ e1_start }}"
+           end_time:   "{{ e1_end }}"
 
        - name: "Calendar Upcoming Event 2"
          unique_id: calendar_upcoming_event_2
-         state: "{{ events[1].summary if events | length > 1 else 'No event' }}"
+         state: "{{ e2_summary }}"
          attributes:
-           message:    "{{ events[1].summary if events | length > 1 else '' }}"
-           start_time: "{{ events[1].start   if events | length > 1 else '' }}"
-           end_time:   "{{ events[1].end     if events | length > 1 else '' }}"
+           message:    "{{ e2_summary }}"
+           start_time: "{{ e2_start }}"
+           end_time:   "{{ e2_end }}"
 
        - name: "Calendar Upcoming Event 3"
          unique_id: calendar_upcoming_event_3
-         state: "{{ events[2].summary if events | length > 2 else 'No event' }}"
+         state: "{{ e3_summary }}"
          attributes:
-           message:    "{{ events[2].summary if events | length > 2 else '' }}"
-           start_time: "{{ events[2].start   if events | length > 2 else '' }}"
-           end_time:   "{{ events[2].end     if events | length > 2 else '' }}"
+           message:    "{{ e3_summary }}"
+           start_time: "{{ e3_start }}"
+           end_time:   "{{ e3_end }}"
+
+       - name: "Calendar Upcoming Event 4"
+         unique_id: calendar_upcoming_event_4
+         state: "{{ e4_summary }}"
+         attributes:
+           message:    "{{ e4_summary }}"
+           start_time: "{{ e4_start }}"
+           end_time:   "{{ e4_end }}"

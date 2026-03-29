@@ -1,0 +1,554 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  HARDWARE CORE  —  Guition ESP32-S3-4848S040                                ║
+# ║                                                                              ║
+# ║  Board-level configuration: chip, display, touch, backlight, OTA, WiFi,     ║
+# ║  screensaver, and notification overlay.                                      ║
+# ║                                                                              ║
+# ║  Do not edit unless you are changing hardware or core UI behaviour.          ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+image: !include widgets/image.yaml
+font:  !include widgets/fonts.yaml
+color: !include widgets/colors.yaml
+
+
+http_request:
+  verify_ssl: false
+
+
+esphome:
+  name: "${esphome_name}"
+  friendly_name: "${esphome_friendly_name}"
+  includes:
+    - <sstream>
+    - <algorithm>
+    - <ctime>
+  platformio_options:
+    board_build.flash_mode: dio
+
+
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
+  flash_size: 16MB
+  framework:
+    type: esp-idf
+    sdkconfig_options:
+      CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
+      CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
+      CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
+      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: "y"
+      # CONFIG_SPIRAM_RODATA intentionally omitted — mapping rodata into PSRAM
+      # breaks LCD DMA transfers on ESP32-S3 (esp_lcd_panel_draw_bitmap invalid handle)
+      CONFIG_COMPILER_OPTIMIZATION_SIZE: "y"
+      CONFIG_NEWLIB_NANO_FORMAT: "y"
+      # CONFIG_LCD_RGB_RESTART_IN_VSYNC intentionally omitted — causes screen flickering
+      # on the Guition ESP32-S3-4848S040 RGB LCD panel
+
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+
+logger:
+  level: WARN
+
+
+api:
+
+
+ota:
+  - platform: esphome
+    password: !secret display_ota
+    on_begin:
+      # Show the overlay and render one clean frame, then pause LVGL.
+      # Without the pause, on_progress fires repeatedly and LVGL redraws the
+      # framebuffer while the LCD DMA is reading it — no vsync protection on
+      # the ST7701S RGB panel — causing a chaotic/corrupted display.
+      - lvgl.widget.show: ota_widget
+      - lvgl.label.update:
+          id: ota_label_primary
+          text: "Updating firmware"
+      - lvgl.label.update:
+          id: ota_label_secondary
+          text: "Please wait..."
+      - lvgl.bar.update:
+          id: ota_bar_value
+          value: 0
+      - delay: 200ms        # let LVGL render the overlay into the framebuffer
+      - lvgl.pause:         # freeze rendering — DMA continues from static frame
+    on_progress:
+      - lvgl.bar.update:
+          id: ota_bar_value
+          value: !lambda return (int)x;
+    on_end:
+      - lvgl.resume:
+      - lvgl.label.update:
+          id: ota_label_primary
+          text: "Update complete!"
+      - lvgl.label.update:
+          id: ota_label_secondary
+          text: "Rebooting..."
+      - lvgl.bar.update:
+          id: ota_bar_value
+          value: 100
+    on_error:
+      - lvgl.resume:
+      - lvgl.label.update:
+          id: ota_label_primary
+          text: "OTA Failed"
+      - lvgl.label.update:
+          id: ota_label_secondary
+          text: "Check logs"
+      - lvgl.widget.hide: ota_widget
+
+
+wifi:
+  networks:
+    - ssid: !secret wifi_ssid
+      password: !secret wifi_password
+
+
+lvgl:
+  color_depth: 16
+  byte_order: big_endian
+  displays: my_display
+  touchscreens:
+    - touchscreen_id: my_touchscreen
+      long_press_time: 5000ms
+      long_press_repeat_time: 400ms
+  page_wrap: false
+  top_layer:
+    widgets:
+      - obj:
+          id: ota_widget
+          hidden: true
+          width: 480
+          height: 480
+          align: center
+          clickable: false
+          bg_color: color_slate_blue_gray
+          border_opa: TRANSP
+          shadow_opa: TRANSP
+          radius: 0
+          widgets:
+            - label:
+                id: ota_label_primary
+                y: -50
+                align: center
+                text_font: nunito_20
+                text_color: color_misty_blue
+                text: "Starting OTA!"
+            - label:
+                id: ota_label_secondary
+                y: -20
+                align: center
+                text_font: nunito_18
+                text_color: color_misty_blue
+                text: "Wait..."
+            - bar:
+                id: ota_bar_value
+                y: 20
+                width: 300
+                value: 0
+                align: center
+                min_value: 0
+                max_value: 100
+                animated: true
+                bg_color: color_steel_blue
+                indicator:
+                  bg_color: color_misty_blue
+
+      # ── Screensaver overlay ────────────────────────────────────────────────
+      # Three clock styles selectable from Settings → Screensaver.
+      # Style 0 = Digital  |  Style 1 = Analog  |  Style 2 = Calendar
+      - obj:
+          id: screensaver_widget
+          hidden: true
+          width: 480
+          height: 480
+          align: CENTER
+          clickable: true
+          bg_color: "0x080810"
+          border_opa: TRANSP
+          shadow_opa: TRANSP
+          radius: 0
+          on_press:
+            - globals.set:
+                id: screensaver_active
+                value: 'false'
+            - lvgl.widget.hide: screensaver_widget
+            - light.turn_on:
+                id: display_backlight
+                brightness: 100%
+            - lvgl.page.show:
+                id: home_page
+                animation: FADE_IN
+                time: 300ms
+          widgets:
+
+            # ── Style 0 : Digital clock ─────────────────────────────────────
+            - obj:
+                id: ss_digital
+                width: 480
+                height: 480
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                widgets:
+                  - label:
+                      id: screensaver_time
+                      y: -30
+                      align: CENTER
+                      text_font: nunito_64
+                      text_color: color_misty_blue
+                      text: "--:--"
+                  - label:
+                      id: screensaver_date
+                      y: 50
+                      align: CENTER
+                      text_font: nunito_20
+                      text_color: color_steel_blue
+                      text: " "
+
+            # ── Style 1 : Analog clock ──────────────────────────────────────
+            - obj:
+                id: ss_analog
+                hidden: true
+                width: 480
+                height: 480
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                widgets:
+                  # Decorative outer ring
+                  - obj:
+                      align: CENTER
+                      y: -20
+                      width: 300
+                      height: 300
+                      radius: 150
+                      bg_opa: TRANSP
+                      border_color: color_steel_blue
+                      border_width: 2
+                      border_opa: 40%
+                      shadow_opa: TRANSP
+                      pad_all: 0
+                  # Clock face — tick marks + hands
+                  - meter:
+                      id: ss_analog_meter
+                      align: CENTER
+                      y: -20
+                      width: 280
+                      height: 280
+                      bg_opa: TRANSP
+                      border_opa: TRANSP
+                      shadow_opa: TRANSP
+                      scales:
+                        range_from: 0
+                        range_to: 60
+                        angle_range: 360
+                        rotation: 270
+                        ticks:
+                          count: 61
+                          width: 1
+                          length: 6
+                          color: 0x40445A
+                          major:
+                            stride: 5
+                            length: 16
+                            width: 2
+                            color: 0x606682
+                            label_gap: 0
+                        indicators:
+                          - line:
+                              id: ss_minute_hand
+                              width: 2
+                              color: 0x9BA2BC
+                              r_mod: -10
+                              value: 0
+                          - line:
+                              id: ss_hour_hand
+                              width: 5
+                              color: 0xCDD2E8
+                              r_mod: -65
+                              value: 0
+                  # Center pivot dot
+                  - obj:
+                      align: CENTER
+                      y: -20
+                      width: 10
+                      height: 10
+                      radius: 5
+                      bg_color: color_misty_blue
+                      border_opa: TRANSP
+                      shadow_opa: TRANSP
+                      pad_all: 0
+                  # Digital time below the clock face
+                  - label:
+                      id: ss_analog_time
+                      align: CENTER
+                      y: 118
+                      text_font: nunito_20
+                      text_color: color_steel_blue
+                      text: "--:--"
+                  # Date below the time
+                  - label:
+                      id: ss_analog_date
+                      align: CENTER
+                      y: 146
+                      text_font: nunito_16
+                      text_color: color_steel_blue
+                      text: " "
+
+            # ── Style 2 : Calendar clock ────────────────────────────────────
+            - obj:
+                id: ss_calendar
+                hidden: true
+                width: 480
+                height: 480
+                bg_opa: TRANSP
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                pad_all: 0
+                widgets:
+                  - label:
+                      id: ss_cal_time
+                      align: CENTER
+                      y: -165
+                      text_font: nunito_64
+                      text_color: color_misty_blue
+                      text: "--:--"
+                  - label:
+                      id: ss_cal_date
+                      align: CENTER
+                      y: -85
+                      text_font: nunito_20
+                      text_color: color_steel_blue
+                      text: " "
+                  # Divider
+                  - obj:
+                      align: CENTER
+                      y: -50
+                      width: 420
+                      height: 1
+                      bg_color: color_steel_blue
+                      bg_opa: 40%
+                      border_opa: TRANSP
+                      shadow_opa: TRANSP
+                      radius: 0
+                      pad_all: 0
+                  # Section label
+                  - label:
+                      align: CENTER
+                      y: -28
+                      text_font: nunito_16
+                      text_color: color_steel_blue
+                      text: "Upcoming"
+                  # Event 1
+                  - label:
+                      id: ss_cal_event1_title
+                      align: CENTER
+                      y: -2
+                      width: 420
+                      text_font: nunito_18
+                      text_color: color_misty_blue
+                      long_mode: CLIP
+                      text: " "
+                  - label:
+                      id: ss_cal_event1_time
+                      align: CENTER
+                      y: 24
+                      text_font: nunito_16
+                      text_color: color_steel_blue
+                      text: " "
+                  # Event 2
+                  - label:
+                      id: ss_cal_event2_title
+                      align: CENTER
+                      y: 54
+                      width: 420
+                      text_font: nunito_18
+                      text_color: color_misty_blue
+                      long_mode: CLIP
+                      text: " "
+                  - label:
+                      id: ss_cal_event2_time
+                      align: CENTER
+                      y: 80
+                      text_font: nunito_16
+                      text_color: color_steel_blue
+                      text: " "
+                  # Event 3
+                  - label:
+                      id: ss_cal_event3_title
+                      align: CENTER
+                      y: 110
+                      width: 420
+                      text_font: nunito_18
+                      text_color: color_misty_blue
+                      long_mode: CLIP
+                      text: " "
+                  - label:
+                      id: ss_cal_event3_time
+                      align: CENTER
+                      y: 136
+                      text_font: nunito_16
+                      text_color: color_steel_blue
+                      text: " "
+
+      # ── Notification banner ────────────────────────────────────────────────
+      - obj:
+          id: notification_banner
+          hidden: true
+          x: 20
+          y: -100
+          width: 440
+          height: 95
+          align: BOTTOM_MID
+          bg_color: color_steel_blue
+          border_color: color_misty_blue
+          border_width: 1
+          border_opa: 60%
+          shadow_opa: TRANSP
+          radius: 12
+          widgets:
+            - label:
+                align: TOP_LEFT
+                x: 12
+                y: 8
+                width: 416
+                text_font: nunito_16
+                text_color: color_steel_blue
+                text: "Home Assistant Notification:"
+            - obj:
+                align: TOP_LEFT
+                x: 12
+                y: 28
+                width: 416
+                height: 1
+                pad_all: 0
+                bg_color: color_misty_blue
+                bg_opa: 40%
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                radius: 0
+            - label:
+                id: notification_text
+                align: TOP_LEFT
+                x: 12
+                y: 34
+                width: 416
+                height: 47
+                text_font: nunito_18
+                text_color: color_misty_blue
+                long_mode: SCROLL_CIRCULAR
+                text: " "
+          on_press:
+            - script.stop: notification_dismiss
+            - lvgl.widget.hide: notification_banner
+            - homeassistant.service:
+                service: input_text.set_value
+                data:
+                  entity_id: "${notification_entity}"
+                  value: ""
+
+
+light:
+  - platform: monochromatic
+    output: GPIO38
+    name: Backlight
+    id: display_backlight
+    restore_mode: ALWAYS_ON
+
+
+output:
+  - platform: ledc
+    pin: GPIO38
+    id: GPIO38
+    frequency: 100Hz
+
+
+i2c:
+  - id: bus_a
+    sda: GPIO19
+    scl:
+      number: GPIO45
+      ignore_strapping_warning: true
+    frequency: 100kHz
+
+
+touchscreen:
+  platform: gt911
+  id: my_touchscreen
+  transform:
+    mirror_x: false
+    mirror_y: false
+  display: my_display
+  on_release:
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - logger.log: "LVGL resuming"
+            - lvgl.resume:
+            - lvgl.widget.redraw:
+            - light.turn_on: display_backlight
+
+
+spi:
+  - id: lcd_spi
+    clk_pin: GPIO48
+    mosi_pin: GPIO47
+
+
+display:
+  - platform: st7701s
+    id: my_display
+    update_interval: never
+    auto_clear_enabled: false
+    data_rate: 2MHz
+    spi_mode: MODE3
+    color_order: RGB
+    invert_colors: false
+    dimensions:
+      width: 480
+      height: 480
+    transform:
+      mirror_x: false
+      mirror_y: false
+    cs_pin: 39
+      # reset not defined
+    de_pin: 18
+    hsync_pin: 16
+    vsync_pin: 17
+    pclk_pin: 21
+    init_sequence:
+      - 1
+      - [0xFF, 0x77, 0x01, 0x00, 0x00, 0x10] # CMD2_BKSEL_BK0
+      - [0xCD, 0x00] # disable MDT flag
+    pclk_frequency: 12MHz
+    pclk_inverted: false
+    data_pins:
+      red:
+        - 11         # R1
+        - 12         # R2
+        - 13         # R3
+        - 14         # R4
+        - 0          # R5
+      green:
+        - 8          # G0
+        - 20         # G1
+        - 3          # G2
+        - 46         # G3
+        - 9          # G4
+        - 10         # G5
+      blue:
+        - 4          # B1
+        - 5          # B2
+        - 6          # B3
+        - 7          # B4
+        - 15         # B5
