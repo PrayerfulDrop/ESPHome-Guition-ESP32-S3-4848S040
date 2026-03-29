@@ -119,7 +119,7 @@ In the ESPHome integration, open the device page and enable *"Allow the device t
 Add [alaltitov/homeassistant-display-tools](https://github.com/alaltitov/homeassistant-display-tools) via HACS or manually to your HA instance.
 
 **c) Add calendar template sensors**
-Paste the contents of `configuration.yaml` (included in this repo) into your Home Assistant `configuration.yaml` under the `template:` key, then restart HA.  Replace `calendar.yourcalendar` with your actual calendar entity ID.
+Copy the contents of `configuration.yaml` (included in this repo) into your Home Assistant `configuration.yaml`, then restart HA.  Replace every occurrence of `calendar.yourcalendar_calendar` with your actual calendar entity ID (HA calendar entity IDs typically end in `_calendar`).
 
 ```yaml
 template:
@@ -131,7 +131,7 @@ template:
     action:
       - action: calendar.get_events
         target:
-          entity_id: calendar.yourcalendar          # ← change this
+          entity_id: calendar.yourcalendar_calendar          # ← change this
         data:
           start_date_time: "{{ now().isoformat() }}"
           duration:
@@ -139,20 +139,26 @@ template:
         response_variable: agenda
       - variables:
           events: >
-            {{ agenda['calendar.yourcalendar']['events']
+            {{ agenda['calendar.yourcalendar_calendar']['events']
                | rejectattr('start', 'match', '^\d{4}-\d{2}-\d{2}$')
                | sort(attribute='start')
                | list }}
+          e1_summary: "{{ events[0].summary if events | length > 0 else 'No event' }}"
+          e1_start:   "{{ events[0].start | as_datetime | as_local | as_timestamp | timestamp_custom('%Y-%m-%d %H:%M:%S') if events | length > 0 else '' }}"
+          e1_end:     "{{ events[0].end   | as_datetime | as_local | as_timestamp | timestamp_custom('%Y-%m-%d %H:%M:%S') if events | length > 0 else '' }}"
+          # e2, e3, e4 follow the same pattern — see configuration.yaml
     sensor:
       - name: "Calendar Upcoming Event 1"
         unique_id: calendar_upcoming_event_1
-        state: "{{ events[0].summary if events | length > 0 else 'No event' }}"
+        state: "{{ e1_summary }}"
         attributes:
-          message:    "{{ events[0].summary if events | length > 0 else '' }}"
-          start_time: "{{ events[0].start | as_datetime | timezone('UTC') | as_local if events | length > 0 else '' }}"
-          end_time:   "{{ events[0].end   | as_datetime | timezone('UTC') | as_local if events | length > 0 else '' }}"
+          message:    "{{ e1_summary }}"
+          start_time: "{{ e1_start }}"
+          end_time:   "{{ e1_end }}"
       # repeat for events 2, 3, 4 — see configuration.yaml
 ```
+
+> **Timezone note:** Event times are converted to your local timezone using `as_local` before formatting. No UTC conversion is needed — HA handles the local offset automatically.
 
 Then set the calendar entities in your device file:
 

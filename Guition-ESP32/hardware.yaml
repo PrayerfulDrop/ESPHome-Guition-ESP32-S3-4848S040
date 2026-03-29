@@ -182,7 +182,7 @@ lvgl:
             - lvgl.widget.hide: screensaver_widget
             - light.turn_on:
                 id: display_backlight
-                brightness: !lambda return id(display_backlight_brightness_slider).get_value() / 100.0;
+                brightness: 100%
             - lvgl.page.show:
                 id: home_page
                 animation: FADE_IN
