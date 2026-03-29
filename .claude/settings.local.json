@@ -23,7 +23,8 @@
       "Bash(cp \"c:\\\\Users\\\\aawar\\\\OneDrive - Microsoft\\\\Documents\\\\GitHub\\\\ESPHome-Guition-ESP32-S3-4848S040\\\\Guition-ESP32\\\\widgets\\\\home\\\\home_widget.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/home/home_widget.yaml\")",
       "Bash(cp \"c:\\\\Users\\\\aawar\\\\OneDrive - Microsoft\\\\Documents\\\\GitHub\\\\ESPHome-Guition-ESP32-S3-4848S040\\\\Guition-ESP32\\\\widgets\\\\settings\\\\settings_page.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/settings/settings_page.yaml\")",
       "Bash(cp \"c:\\\\Users\\\\aawar\\\\OneDrive - Microsoft\\\\Documents\\\\GitHub\\\\ESPHome-Guition-ESP32-S3-4848S040\\\\Guition-ESP32\\\\widgets\\\\settings\\\\settings_scripts.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/settings/settings_scripts.yaml\")",
-      "Bash(powershell -Command \"\\(Get-Content ''//192.168.6.59/config/esphome/aaron.yaml''\\)[407..447]\")"
+      "Bash(powershell -Command \"\\(Get-Content ''//192.168.6.59/config/esphome/aaron.yaml''\\)[407..447]\")",
+      "Bash(grep -B 1 \"on_load:$\\\\|on_load: $\")"
     ],
     "additionalDirectories": [
       "\\\\192.168.6.59\\config\\esphome",
