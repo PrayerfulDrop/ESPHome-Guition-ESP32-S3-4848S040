@@ -37,7 +37,6 @@ lvgl:
   pages:
     - id: covers_group_page
       bg_color: color_slate_blue_gray
-      on_load:
       widgets:
 
         # ── Slot 1 ─────────────────────────────────────────────────────────
