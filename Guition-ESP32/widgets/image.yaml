@@ -352,7 +352,6 @@
 - file: 'Guition-ESP32/img/espeon_bg.png'
   id: espeon_bg_img
   type: rgb565
-  transparency: alpha_channel
 
   #############################
   ####### PATRIOTIC ############
@@ -361,7 +360,6 @@
 - file: 'Guition-ESP32/img/patriotic_bg.png'
   id: patriotic_bg_img
   type: rgb565
-  transparency: alpha_channel
 
   #############################
   ##### CHERRY BLOSSOM #########
@@ -370,5 +368,4 @@
 - file: 'Guition-ESP32/img/cherry_bg.png'
   id: cherry_bg_img
   type: rgb565
-  transparency: alpha_channel
 

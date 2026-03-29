@@ -1,8 +1,6 @@
 # ESPHome · Guition ESP32-S3-4848S040
 ### A fully-featured smart home display — built on ESPHome + LVGL
 
-![All Themes](mockups/mockup_all_themes.png)
-
 ---
 
 ## Overview
@@ -11,12 +9,6 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 
 > Original baseline credit: [alaltitov](https://github.com/alaltitov/Guition-ESP32-S3-4848S040).
 > This repository is a major fork — approximately 70% of the code has been rewritten or added from scratch.
-
----
-
-## Screenshots
-
-![All Screens](mockups/all_screens_overview.png)
 
 ---
 
@@ -44,13 +36,7 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 
 ## Themes
 
-| Cherry Blossom | Dark | Espeon |
-|:-:|:-:|:-:|
-| ![Cherry](mockups/mockup_cherry.png) | ![Dark](mockups/mockup_dark.png) | ![Espeon](mockups/mockup_espeon.png) |
-
-| Ocean | Paris | Patriotic |
-|:-:|:-:|:-:|
-| ![Ocean](mockups/mockup_ocean.png) | ![Paris](mockups/mockup_paris.png) | ![Patriotic](mockups/mockup_patriotic.png) |
+6 built-in themes selectable from the Settings page: **Cherry Blossom**, **Dark**, **Espeon**, **Ocean**, **Paris**, **Patriotic**.
 
 ---
 

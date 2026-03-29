@@ -209,7 +209,11 @@ esp32:
       CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
       CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
       CONFIG_SPIRAM_FETCH_INSTRUCTIONS: "y"
-      CONFIG_SPIRAM_RODATA: "y"
+      # CONFIG_SPIRAM_RODATA intentionally omitted — mapping rodata into PSRAM
+      # breaks LCD DMA transfers on ESP32-S3 (esp_lcd_panel_draw_bitmap invalid handle)
+      CONFIG_COMPILER_OPTIMIZATION_SIZE: "y"
+      CONFIG_NEWLIB_NANO_FORMAT: "y"
+      CONFIG_LCD_RGB_RESTART_IN_VSYNC: "y"
 
 
 psram:
