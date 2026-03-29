@@ -279,6 +279,8 @@
   bpp: 4
   glyphs: [
     "\U000F099D", # shield lock
+    "\U000F0A62", # play-circle  (shortcuts / scenes button)
+    "\U000F012F", # blinds       (covers button)
   ]
 
 - file: "Guition-ESP32/fonts/mdi.ttf"

@@ -17,9 +17,13 @@ lvgl:
           value: 'true'
       - lvgl.widget.show: screensaver_widget
       - script.execute: screensaver_update
-      - light.turn_on:
-          id: display_backlight
-          brightness: 10%
+      - if:
+          condition:
+            lambda: 'return id(screensaver_style) == 3;'
+          then:
+            - light.turn_on:
+                id: display_backlight
+                brightness: 1%
 
   pages:
     - id: settings_page
@@ -518,4 +522,156 @@ lvgl:
                               bg_color: color_steel_blue
                           - lvgl.button.update:
                               id: temp_c_btn
+                              bg_color: color_misty_blue
+
+              # ── Screensaver clock style ────────────────────────────────────
+              - obj:
+                  id: screensaver_style_bg
+                  x: 20
+                  y: 560
+                  width: 440
+                  height: 80
+                  align: TOP_LEFT
+                  pad_all: 0
+                  bg_color: color_steel_blue
+                  bg_opa: 20%
+                  border_opa: TRANSP
+                  border_width: 0
+                  shadow_opa: TRANSP
+                  radius: 10
+                  widgets:
+                    - label:
+                        id: screensaver_style_label
+                        x: 20
+                        align: LEFT_MID
+                        text_font: nunito_20
+                        text_color: color_misty_blue
+                        text: "Screensaver"
+                    - button:
+                        id: ss_digital_btn
+                        x: 148
+                        width: 65
+                        height: 50
+                        align: LEFT_MID
+                        bg_color: color_steel_blue
+                        shadow_opa: TRANSP
+                        border_opa: TRANSP
+                        radius: 10
+                        widgets:
+                          - label:
+                              align: CENTER
+                              text_font: nunito_18
+                              text_color: color_misty_blue
+                              text: "Digital"
+                        on_press:
+                          - globals.set:
+                              id: screensaver_style
+                              value: '0'
+                          - lvgl.button.update:
+                              id: ss_digital_btn
+                              bg_color: color_misty_blue
+                          - lvgl.button.update:
+                              id: ss_analog_btn
+                              bg_color: color_steel_blue
+                          - lvgl.button.update:
+                              id: ss_calendar_btn
+                              bg_color: color_steel_blue
+                          - lvgl.button.update:
+                              id: ss_none_btn
+                              bg_color: color_steel_blue
+                    - button:
+                        id: ss_analog_btn
+                        x: 221
+                        width: 65
+                        height: 50
+                        align: LEFT_MID
+                        bg_color: color_steel_blue
+                        shadow_opa: TRANSP
+                        border_opa: TRANSP
+                        radius: 10
+                        widgets:
+                          - label:
+                              align: CENTER
+                              text_font: nunito_18
+                              text_color: color_misty_blue
+                              text: "Analog"
+                        on_press:
+                          - globals.set:
+                              id: screensaver_style
+                              value: '1'
+                          - lvgl.button.update:
+                              id: ss_digital_btn
+                              bg_color: color_steel_blue
+                          - lvgl.button.update:
+                              id: ss_analog_btn
+                              bg_color: color_misty_blue
+                          - lvgl.button.update:
+                              id: ss_calendar_btn
+                              bg_color: color_steel_blue
+                          - lvgl.button.update:
+                              id: ss_none_btn
+                              bg_color: color_steel_blue
+                    - button:
+                        id: ss_calendar_btn
+                        x: 294
+                        width: 65
+                        height: 50
+                        align: LEFT_MID
+                        bg_color: color_steel_blue
+                        shadow_opa: TRANSP
+                        border_opa: TRANSP
+                        radius: 10
+                        widgets:
+                          - label:
+                              align: CENTER
+                              text_font: nunito_18
+                              text_color: color_misty_blue
+                              text: "Cal"
+                        on_press:
+                          - globals.set:
+                              id: screensaver_style
+                              value: '2'
+                          - lvgl.button.update:
+                              id: ss_digital_btn
+                              bg_color: color_steel_blue
+                          - lvgl.button.update:
+                              id: ss_analog_btn
+                              bg_color: color_steel_blue
+                          - lvgl.button.update:
+                              id: ss_calendar_btn
+                              bg_color: color_misty_blue
+                          - lvgl.button.update:
+                              id: ss_none_btn
+                              bg_color: color_steel_blue
+                    - button:
+                        id: ss_none_btn
+                        x: 367
+                        width: 65
+                        height: 50
+                        align: LEFT_MID
+                        bg_color: color_steel_blue
+                        shadow_opa: TRANSP
+                        border_opa: TRANSP
+                        radius: 10
+                        widgets:
+                          - label:
+                              align: CENTER
+                              text_font: nunito_18
+                              text_color: color_misty_blue
+                              text: "None"
+                        on_press:
+                          - globals.set:
+                              id: screensaver_style
+                              value: '3'
+                          - lvgl.button.update:
+                              id: ss_digital_btn
+                              bg_color: color_steel_blue
+                          - lvgl.button.update:
+                              id: ss_analog_btn
+                              bg_color: color_steel_blue
+                          - lvgl.button.update:
+                              id: ss_calendar_btn
+                              bg_color: color_steel_blue
+                          - lvgl.button.update:
+                              id: ss_none_btn
                               bg_color: color_misty_blue

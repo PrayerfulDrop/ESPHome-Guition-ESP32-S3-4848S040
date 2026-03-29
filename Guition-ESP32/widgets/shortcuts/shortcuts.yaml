@@ -245,32 +245,6 @@ lvgl:
                         data:
                           entity_id: "${scene_entity_6}"
 
-        # ── Back button ───────────────────────────────────────────────────────
-        - button:
-            id: shortcuts_back_btn
-            x: 20
-            y: -20
-            width: 440
-            height: 80
-            align: BOTTOM_MID
-            bg_color: color_steel_blue
-            bg_opa: 20%
-            border_opa: TRANSP
-            shadow_opa: TRANSP
-            radius: 10
-            widgets:
-              - label:
-                  align: CENTER
-                  text_font: icons_28
-                  text_color: color_misty_blue
-                  text: "\U0000e902"   # exit icon
-            on_press:
-              - lvgl.widget.show: menu_controls_main
-              - lvgl.page.show:
-                  id: devices_page
-                  animation: OUT_RIGHT
-                  time: 300ms
-
 
 esphome:
   on_boot:

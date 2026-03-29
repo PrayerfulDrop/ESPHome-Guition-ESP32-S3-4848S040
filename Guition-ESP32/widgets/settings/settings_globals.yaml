@@ -12,6 +12,12 @@ globals:
     restore_value: false
     initial_value: 'false'
 
+  # Screensaver clock style  0 = Digital  1 = Analog  2 = Calendar
+  - id: screensaver_style
+    type: int
+    restore_value: true
+    initial_value: '0'
+
   # Clock display format  0 = 12h (AM/PM)   1 = 24h
   - id: time_format
     type: int
@@ -28,7 +34,7 @@ globals:
   - id: display_timeout
     type: int
     restore_value: true
-    initial_value: "2"
+    initial_value: "1"
 
   # Current UI language index (matches flag_icon_mapping_name order)
   - id: current_language

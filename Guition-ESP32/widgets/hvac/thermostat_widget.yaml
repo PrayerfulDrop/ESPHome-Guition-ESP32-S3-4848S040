@@ -737,29 +737,6 @@ lvgl:
                   text_color: color_steel_blue
                   text: " "
 
-        # Return
-        - button:
-            id: thermostat_back
-            x: 20
-            y: 400
-            width: 60
-            height: 60
-            align: TOP_LEFT
-            bg_color: color_steel_blue
-            bg_opa: 20%
-            shadow_opa: TRANSP
-            radius: 10
-            widgets:
-              - label:
-                  id: thermostat_back_label
-                  align: CENTER
-                  text_font: icons_28
-                  text_color: color_misty_blue
-                  text: "${exit_icon}"
-            on_press:
-              - lvgl.page.show: home_page
-              - lvgl.widget.show: menu_controls_main
-
 
 script:
   - id: thermostat_get_and_set_translated_state

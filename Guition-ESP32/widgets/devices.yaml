@@ -76,7 +76,6 @@ lvgl:
                               text_font: mdi_icons_72
                               text: "${shield_away_icon}"
                         on_press:
-                          - lvgl.widget.hide: menu_controls_main
                           - lvgl.page.show:
                               id: alarm_panel_page
                               animation: OUT_RIGHT
@@ -98,7 +97,6 @@ lvgl:
                               text_font: icons_90
                               text: "${music_icon}"
                         on_press:
-                          - lvgl.widget.hide: menu_controls_main
                           - lvgl.page.show:
                               id: media_player_page
                               animation: OUT_RIGHT
@@ -120,7 +118,6 @@ lvgl:
                               text_font: icons_72
                               text: "${vacuum_icon}"
                         on_press:
-                          - lvgl.widget.hide: menu_controls_main
                           - lvgl.page.show:
                               id: vacuum_page
                               animation: OUT_RIGHT
@@ -158,7 +155,6 @@ lvgl:
                               text_font: icons_72
                               text: "${hvac_icon}"
                         on_press:
-                          - lvgl.widget.hide: menu_controls_main
                           - lvgl.page.show:
                               id: hvac_page
                               animation: OUT_RIGHT
@@ -180,7 +176,6 @@ lvgl:
                               text_font: fan_icons_72
                               text: "\U0000E901"    # ceiling-fan
                         on_press:
-                          - lvgl.widget.hide: menu_controls_main
                           - lvgl.page.show:
                               id: fans_group_page
                               animation: OUT_RIGHT
@@ -202,7 +197,6 @@ lvgl:
                               text_font: mdi_icons_72
                               text: "${shortcuts_icon}"
                         on_press:
-                          - lvgl.widget.hide: menu_controls_main
                           - lvgl.page.show:
                               id: shortcuts_page
                               animation: OUT_RIGHT
@@ -238,7 +232,6 @@ lvgl:
                               text_font: mdi_icons_72
                               text: "${covers_icon}"
                         on_press:
-                          - lvgl.widget.hide: menu_controls_main
                           - lvgl.page.show:
                               id: covers_group_page
                               animation: OUT_RIGHT

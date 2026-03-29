@@ -63,7 +63,6 @@ lvgl:
     - id: fans_group_page
       bg_color: color_slate_blue_gray
       on_load:
-        - lvgl.widget.show: menu_controls_main
       widgets:
 
         # ── Slot 1 ──────────────────────────────────────────────────────────

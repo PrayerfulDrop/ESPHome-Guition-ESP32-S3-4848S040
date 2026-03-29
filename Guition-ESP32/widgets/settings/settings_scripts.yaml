@@ -80,7 +80,7 @@ script:
           // ── Settings page panels ─────────────────────────────────────────
           lv_obj_t* settings_panels[] = {
             id(theme_bg), id(language_bg), id(backlight_bg), id(sleep_mode_bg),
-            id(clock_format_bg), id(temp_unit_bg),
+            id(clock_format_bg), id(temp_unit_bg), id(screensaver_style_bg),
           };
           for (auto* panel : settings_panels) {
             lv_obj_set_style_bg_color(panel, surface, LV_PART_MAIN);
@@ -117,6 +117,20 @@ script:
             lv_obj_set_style_bg_color(id(temp_f_btn), surface, LV_PART_MAIN);
             lv_obj_set_style_bg_color(id(temp_c_btn), lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
           }
+
+          // ── Screensaver style toggle sync ─────────────────────────────────
+          lv_obj_set_style_bg_color(id(ss_digital_btn),  surface, LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(ss_analog_btn),   surface, LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(ss_calendar_btn), surface, LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(ss_none_btn),     surface, LV_PART_MAIN);
+          if (id(screensaver_style) == 0)
+            lv_obj_set_style_bg_color(id(ss_digital_btn),  lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+          else if (id(screensaver_style) == 1)
+            lv_obj_set_style_bg_color(id(ss_analog_btn),   lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+          else if (id(screensaver_style) == 2)
+            lv_obj_set_style_bg_color(id(ss_calendar_btn), lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+          else
+            lv_obj_set_style_bg_color(id(ss_none_btn),     lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
 
           // ── Theme background images ──────────────────────────────────────
           // Hide all backgrounds first, then show the active one
