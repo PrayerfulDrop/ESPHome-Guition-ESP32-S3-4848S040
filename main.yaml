@@ -227,6 +227,48 @@ api:
 ota:
   - platform: esphome
     password: !secret display_ota
+    on_begin:
+      - lvgl.widget.show: ota_widget
+      - lvgl.label.update:
+          id: ota_label_primary
+          text: "Starting OTA..."
+      - lvgl.label.update:
+          id: ota_label_secondary
+          text: "Please wait"
+      - lvgl.bar.update:
+          id: ota_bar_value
+          value: 0
+    on_progress:
+      - lvgl.label.update:
+          id: ota_label_primary
+          text: "Updating firmware"
+      - lvgl.label.update:
+          id: ota_label_secondary
+          text: !lambda |-
+            static char buf[16];
+            snprintf(buf, sizeof(buf), "%d%%", (int)x);
+            return buf;
+      - lvgl.bar.update:
+          id: ota_bar_value
+          value: !lambda return (int)x;
+    on_end:
+      - lvgl.label.update:
+          id: ota_label_primary
+          text: "Update complete!"
+      - lvgl.label.update:
+          id: ota_label_secondary
+          text: "Rebooting..."
+      - lvgl.bar.update:
+          id: ota_bar_value
+          value: 100
+    on_error:
+      - lvgl.label.update:
+          id: ota_label_primary
+          text: "OTA Failed"
+      - lvgl.label.update:
+          id: ota_label_secondary
+          text: "Check logs"
+      - lvgl.widget.hide: ota_widget
 
 wifi:
   networks:
@@ -243,6 +285,46 @@ lvgl:
       long_press_time: 5000ms
       long_press_repeat_time: 400ms
   page_wrap: false
+  top_layer:
+    widgets:
+      - obj:
+          id: ota_widget
+          hidden: true
+          width: 480
+          height: 480
+          align: center
+          clickable: false
+          bg_color: color_slate_blue_gray
+          border_opa: TRANSP
+          shadow_opa: TRANSP
+          radius: 0
+          widgets:
+            - label:
+                id: ota_label_primary
+                y: -50
+                align: center
+                text_font: nunito_20
+                text_color: color_misty_blue
+                text: "Starting OTA!"
+            - label:
+                id: ota_label_secondary
+                y: -20
+                align: center
+                text_font: nunito_18
+                text_color: color_misty_blue
+                text: "Wait..."
+            - bar:
+                id: ota_bar_value
+                y: 20
+                width: 300
+                value: 0
+                align: center
+                min_value: 0
+                max_value: 100
+                animated: true
+                bg_color: color_steel_blue
+                indicator:
+                  bg_color: color_misty_blue
 
 
 light:
@@ -263,7 +345,9 @@ output:
 i2c:
   - id: bus_a
     sda: GPIO19
-    scl: GPIO45
+    scl:
+      number: GPIO45
+      ignore_strapping_warning: true
     frequency: 100kHz
 
 
