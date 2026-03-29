@@ -246,16 +246,16 @@ packages:
   #
   # Option 2: Thermostat only
   # devices: !include Guition-ESP32/widgets/devices.yaml
-  # hvac:    !include Guition-ESP32/widgets/thermostat/thermostat_widget.yaml
+  # hvac:    !include Guition-ESP32/widgets/hvac/thermostat_widget.yaml
   #
   # Option 3: Air conditioner only
   # devices: !include Guition-ESP32/widgets/devices.yaml
-  # hvac:    !include Guition-ESP32/widgets/air_conditioner/air_conditioner_widget.yaml
+  # hvac:    !include Guition-ESP32/widgets/hvac/air_conditioner_widget.yaml
   #
   # Option 4: Thermostat + Air conditioner  (two separate units)
-  # devices:      !include Guition-ESP32/widgets/devices_thermostat_ac.yaml
-  # thermostat:   !include Guition-ESP32/widgets/thermostat/thermostat_widget.yaml
-  # ac:           !include Guition-ESP32/widgets/air_conditioner/air_conditioner_widget.yaml
+  # devices:      !include Guition-ESP32/widgets/hvac/devices_thermostat_ac.yaml
+  # thermostat:   !include Guition-ESP32/widgets/hvac/thermostat_widget.yaml
+  # ac:           !include Guition-ESP32/widgets/hvac/air_conditioner_widget.yaml
 
 
 image: !include Guition-ESP32/widgets/image.yaml

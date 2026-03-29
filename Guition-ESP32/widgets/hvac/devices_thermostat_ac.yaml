@@ -16,9 +16,9 @@ substitutions:
 
 
 packages:
-  media_player: !include media_player/media_player.yaml
-  vacuum:       !include vacuum/vacuum_widget.yaml
-  alarm_panel:  !include alarm_panel/alarm_panel.yaml
+  media_player: !include ../media_player/media_player.yaml
+  vacuum:       !include ../vacuum/vacuum_widget.yaml
+  alarm_panel:  !include ../alarm_panel/alarm_panel.yaml
 
 
 lvgl:

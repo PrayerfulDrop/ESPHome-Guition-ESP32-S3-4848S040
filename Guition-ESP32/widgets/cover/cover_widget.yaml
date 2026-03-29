@@ -104,11 +104,17 @@ text_sensor:
                       id: ${widget_name}_cover_tile_icon
                       text_color: color_amber
                   - lvgl.label.update:
+                      id: ${widget_name}_cover_detail_icon
+                      text_color: color_amber
+                  - lvgl.label.update:
                       id: ${widget_name}_cover_state_lbl
                       text_color: color_amber
                 else:
                   - lvgl.label.update:
                       id: ${widget_name}_cover_tile_icon
+                      text_color: color_steel_blue
+                  - lvgl.label.update:
+                      id: ${widget_name}_cover_detail_icon
                       text_color: color_steel_blue
                   - lvgl.label.update:
                       id: ${widget_name}_cover_state_lbl
@@ -172,7 +178,7 @@ lvgl:
             widgets:
               # Blind icon
               - label:
-                  id: ${widget_name}_cover_tile_icon
+                  id: ${widget_name}_cover_detail_icon
                   y: 20
                   align: TOP_MID
                   text_font: mdi_icons_72
