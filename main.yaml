@@ -454,7 +454,7 @@ lvgl:
           x: 20
           y: -100
           width: 440
-          height: 70
+          height: 95
           align: BOTTOM_MID
           bg_color: color_steel_blue
           border_color: color_misty_blue
@@ -464,15 +464,44 @@ lvgl:
           radius: 12
           widgets:
             - label:
+                align: TOP_LEFT
+                x: 12
+                y: 8
+                width: 416
+                text_font: nunito_14
+                text_color: color_steel_blue
+                text: "Home Assistant Notification:"
+            - obj:
+                align: TOP_LEFT
+                x: 12
+                y: 28
+                width: 416
+                height: 1
+                pad_all: 0
+                bg_color: color_misty_blue
+                bg_opa: 40%
+                border_opa: TRANSP
+                shadow_opa: TRANSP
+                radius: 0
+            - label:
                 id: notification_text
-                x: 15
-                y: 0
-                width: 380
-                align: LEFT_MID
-                text_font: nunito_20
+                align: TOP_LEFT
+                x: 12
+                y: 34
+                width: 416
+                height: 47
+                text_font: nunito_18
                 text_color: color_misty_blue
                 long_mode: SCROLL_CIRCULAR
                 text: " "
+          on_press:
+            - script.stop: notification_dismiss
+            - lvgl.widget.hide: notification_banner
+            - homeassistant.service:
+                service: input_text.set_value
+                data:
+                  entity_id: "${notification_entity}"
+                  value: ""
 
 
 light:
