@@ -36,6 +36,10 @@ globals:
   - id: ${widget_name}_has_brightness
     type: bool
     initial_value: 'false'
+  # true  → light supports colour temperature (shown when first colour_temp value arrives)
+  - id: ${widget_name}_has_color_temp
+    type: bool
+    initial_value: 'false'
 
 # ── Boot: resolve type and disabled flag ─────────────────────────────────────
 esphome:
@@ -109,6 +113,33 @@ sensor:
                             id: ${widget_name}_light_rgb_brightness_slider
                             value: 0
             - script.execute: ${widget_name}_check_all_data_ready
+
+  # ── Colour temperature sensor (mireds — only fires for lights that support it) ──
+  - platform: homeassistant
+    id: ${widget_name}_light_color_temp
+    entity_id: "${light_entity}"
+    attribute: color_temp
+    filters:
+      - filter_out: nan
+    on_value:
+      - if:
+          condition:
+            lambda: 'return !id(${widget_name}_is_disabled) && id(${widget_name}_has_brightness);'
+          then:
+            - lambda: |-
+                if (!id(${widget_name}_has_color_temp)) {
+                  id(${widget_name}_has_color_temp) = true;
+                  lv_obj_clear_flag(id(${widget_name}_color_temp_section), LV_OBJ_FLAG_HIDDEN);
+                  lv_obj_set_height(id(${widget_name}_light_rgb_brightness_slider), 145);
+                  lv_obj_set_height(id(${widget_name}_light_rgb_brightness_gradient), 145);
+                  lv_obj_set_align(id(${widget_name}_light_rgb_brightness_slider), LV_ALIGN_TOP_MID);
+                  lv_obj_set_align(id(${widget_name}_light_rgb_brightness_gradient), LV_ALIGN_TOP_MID);
+                  lv_obj_set_y(id(${widget_name}_light_rgb_brightness_slider), 30);
+                  lv_obj_set_y(id(${widget_name}_light_rgb_brightness_gradient), 30);
+                }
+                if (!id(${widget_name}_updating_from_ha)) {
+                  lv_slider_set_value(id(${widget_name}_color_temp_slider), (int)x, LV_ANIM_OFF);
+                }
 
 # ── State sensor (on/off for all types) ──────────────────────────────────────
 text_sensor:
@@ -343,6 +374,59 @@ lvgl:
                                     data:
                                       entity_id: "${light_entity}"
                                       brightness: !lambda return int(x);
+
+              # Colour temperature section – hidden until HA sends a color_temp value
+              - obj:
+                  id: ${widget_name}_color_temp_section
+                  hidden: true
+                  radius: 20
+                  width: 100
+                  height: 145
+                  align: BOTTOM_MID
+                  y: -15
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  widgets:
+                    # Gradient background (warm amber → cool blue)
+                    - button:
+                        id: ${widget_name}_color_temp_gradient
+                        radius: 20
+                        width: 100
+                        height: 145
+                        align: CENTER
+                        bg_color: color_slate_blue_gray
+                        bg_opa: 100%
+                        shadow_opa: TRANSP
+                    # Colour temperature slider (mireds: 153 = coolest, 500 = warmest)
+                    - slider:
+                        id: ${widget_name}_color_temp_slider
+                        radius: 20
+                        width: 100
+                        height: 145
+                        align: CENTER
+                        bg_opa: TRANSP
+                        min_value: 153
+                        max_value: 500
+                        indicator:
+                          bg_color: color_amber
+                          radius: 10
+                        knob:
+                          bg_opa: TRANSP
+                        on_release:
+                          - if:
+                              condition:
+                                lambda: >
+                                  return !id(${widget_name}_is_disabled)
+                                      && id(${widget_name}_has_brightness)
+                                      && id(${widget_name}_has_color_temp)
+                                      && id(${widget_name}_ha_data_received);
+                              then:
+                                - homeassistant.service:
+                                    service: light.turn_on
+                                    data:
+                                      entity_id: "${light_entity}"
+                                      color_temp: !lambda return int(x);
 
         # Back button – returns to lights panel
         - button:

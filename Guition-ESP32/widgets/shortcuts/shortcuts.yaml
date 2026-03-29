@@ -1,0 +1,293 @@
+# shortcuts.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Scene / script / automation shortcut grid (up to 6 tiles).
+# Configure entities and labels in the Section 3 substitutions of main.yaml.
+# Set scene_entity_N: "sensor.disabled" to hide unused slots.
+# ─────────────────────────────────────────────────────────────────────────────
+
+substitutions:
+  scene_icon: "\U000F0A62"   # mdi:play-circle-outline
+
+  # Safe defaults — overridden by main.yaml
+  scene_entity_1: "sensor.disabled"
+  scene_label_1:  ""
+  scene_type_1:   "scene"
+  scene_entity_2: "sensor.disabled"
+  scene_label_2:  ""
+  scene_type_2:   "scene"
+  scene_entity_3: "sensor.disabled"
+  scene_label_3:  ""
+  scene_type_3:   "scene"
+  scene_entity_4: "sensor.disabled"
+  scene_label_4:  ""
+  scene_type_4:   "scene"
+  scene_entity_5: "sensor.disabled"
+  scene_label_5:  ""
+  scene_type_5:   "scene"
+  scene_entity_6: "sensor.disabled"
+  scene_label_6:  ""
+  scene_type_6:   "scene"
+
+
+lvgl:
+  pages:
+    - id: shortcuts_page
+      bg_color: color_slate_blue_gray
+      widgets:
+
+        # ── 2×3 tile grid ─────────────────────────────────────────────────────
+        - obj:
+            id: shortcuts_grid
+            x: 20
+            y: 20
+            width: 440
+            height: 340
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+
+              # ── Row 1 ──────────────────────────────────────────────────────
+              - button:
+                  id: scene_btn_1
+                  x: 10
+                  y: 10
+                  width: 130
+                  height: 150
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: scene_icon_1
+                        y: -18
+                        align: CENTER
+                        text_font: mdi_icons_72
+                        text_color: color_steel_blue
+                        text: "${scene_icon}"
+                    - label:
+                        id: scene_label_lbl_1
+                        y: 45
+                        width: 120
+                        align: CENTER
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: WRAP
+                        text: "${scene_label_1}"
+                  on_press:
+                    - homeassistant.action:
+                        action: "${scene_type_1}.turn_on"
+                        data:
+                          entity_id: "${scene_entity_1}"
+
+              - button:
+                  id: scene_btn_2
+                  x: 155
+                  y: 10
+                  width: 130
+                  height: 150
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: scene_icon_2
+                        y: -18
+                        align: CENTER
+                        text_font: mdi_icons_72
+                        text_color: color_steel_blue
+                        text: "${scene_icon}"
+                    - label:
+                        id: scene_label_lbl_2
+                        y: 45
+                        width: 120
+                        align: CENTER
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: WRAP
+                        text: "${scene_label_2}"
+                  on_press:
+                    - homeassistant.action:
+                        action: "${scene_type_2}.turn_on"
+                        data:
+                          entity_id: "${scene_entity_2}"
+
+              - button:
+                  id: scene_btn_3
+                  x: 300
+                  y: 10
+                  width: 130
+                  height: 150
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: scene_icon_3
+                        y: -18
+                        align: CENTER
+                        text_font: mdi_icons_72
+                        text_color: color_steel_blue
+                        text: "${scene_icon}"
+                    - label:
+                        id: scene_label_lbl_3
+                        y: 45
+                        width: 120
+                        align: CENTER
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: WRAP
+                        text: "${scene_label_3}"
+                  on_press:
+                    - homeassistant.action:
+                        action: "${scene_type_3}.turn_on"
+                        data:
+                          entity_id: "${scene_entity_3}"
+
+              # ── Row 2 ──────────────────────────────────────────────────────
+              - button:
+                  id: scene_btn_4
+                  x: 10
+                  y: 175
+                  width: 130
+                  height: 150
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: scene_icon_4
+                        y: -18
+                        align: CENTER
+                        text_font: mdi_icons_72
+                        text_color: color_steel_blue
+                        text: "${scene_icon}"
+                    - label:
+                        id: scene_label_lbl_4
+                        y: 45
+                        width: 120
+                        align: CENTER
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: WRAP
+                        text: "${scene_label_4}"
+                  on_press:
+                    - homeassistant.action:
+                        action: "${scene_type_4}.turn_on"
+                        data:
+                          entity_id: "${scene_entity_4}"
+
+              - button:
+                  id: scene_btn_5
+                  x: 155
+                  y: 175
+                  width: 130
+                  height: 150
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: scene_icon_5
+                        y: -18
+                        align: CENTER
+                        text_font: mdi_icons_72
+                        text_color: color_steel_blue
+                        text: "${scene_icon}"
+                    - label:
+                        id: scene_label_lbl_5
+                        y: 45
+                        width: 120
+                        align: CENTER
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: WRAP
+                        text: "${scene_label_5}"
+                  on_press:
+                    - homeassistant.action:
+                        action: "${scene_type_5}.turn_on"
+                        data:
+                          entity_id: "${scene_entity_5}"
+
+              - button:
+                  id: scene_btn_6
+                  x: 300
+                  y: 175
+                  width: 130
+                  height: 150
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        id: scene_icon_6
+                        y: -18
+                        align: CENTER
+                        text_font: mdi_icons_72
+                        text_color: color_steel_blue
+                        text: "${scene_icon}"
+                    - label:
+                        id: scene_label_lbl_6
+                        y: 45
+                        width: 120
+                        align: CENTER
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        long_mode: WRAP
+                        text: "${scene_label_6}"
+                  on_press:
+                    - homeassistant.action:
+                        action: "${scene_type_6}.turn_on"
+                        data:
+                          entity_id: "${scene_entity_6}"
+
+        # ── Back button ───────────────────────────────────────────────────────
+        - button:
+            id: shortcuts_back_btn
+            x: 20
+            y: -20
+            width: 440
+            height: 80
+            align: BOTTOM_MID
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  align: CENTER
+                  text_font: icons_28
+                  text_color: color_misty_blue
+                  text: "\U0000e902"   # exit icon
+            on_press:
+              - lvgl.widget.show: menu_controls_main
+              - lvgl.page.show:
+                  id: devices_page
+                  animation: OUT_RIGHT
+                  time: 300ms
+
+
+esphome:
+  on_boot:
+    priority: -300
+    then:
+      - lambda: |-
+          // Hide disabled shortcut slots
+          const char* entities[] = {
+            "${scene_entity_1}", "${scene_entity_2}", "${scene_entity_3}",
+            "${scene_entity_4}", "${scene_entity_5}", "${scene_entity_6}"
+          };
+          lv_obj_t* btns[] = {
+            id(scene_btn_1)->obj, id(scene_btn_2)->obj, id(scene_btn_3)->obj,
+            id(scene_btn_4)->obj, id(scene_btn_5)->obj, id(scene_btn_6)->obj,
+          };
+          for (int i = 0; i < 6; i++) {
+            if (std::string(entities[i]) == "sensor.disabled") {
+              lv_obj_add_flag(btns[i], LV_OBJ_FLAG_HIDDEN);
+            }
+          }

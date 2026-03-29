@@ -12,6 +12,9 @@
       "Bash(py -3 render_all_screens.py)",
       "Bash(dir \"c:\\\\Users\\\\aawar\\\\OneDrive - Microsoft\\\\Documents\\\\GitHub\\\\ESPHome-Guition-ESP32-S3-4848S040\\\\mockups\" /b)",
       "Bash(cmd /c \"dir \"\"c:\\\\Users\\\\aawar\\\\OneDrive - Microsoft\\\\Documents\\\\GitHub\\\\ESPHome-Guition-ESP32-S3-4848S040\\\\mockups\"\" /b 2>&1 | findstr /v \"\"2x\"\"\")"
+    ],
+    "additionalDirectories": [
+      "\\\\192.168.6.59\\config\\esphome"
     ]
   }
 }

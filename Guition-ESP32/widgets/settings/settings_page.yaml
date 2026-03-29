@@ -11,9 +11,15 @@ lvgl:
   on_idle:
     timeout: !lambda "return (id(display_timeout_number).state * 1000);"
     then:
-      - logger.log: "LVGL is idle — dimming display"
-      - light.turn_off: display_backlight
-      - lvgl.pause:
+      - logger.log: "LVGL idle — showing screensaver"
+      - globals.set:
+          id: screensaver_active
+          value: 'true'
+      - script.execute: screensaver_update
+      - lvgl.widget.show: screensaver_widget
+      - light.turn_on:
+          id: display_backlight
+          brightness: 10%
 
   pages:
     - id: settings_page
@@ -338,3 +344,161 @@ lvgl:
                       - globals.set:
                           id: display_timeout
                           value: !lambda return x;
+
+        # ── Clock format ──────────────────────────────────────────────────────
+        - obj:
+            id: clock_format_bg
+            x: 20
+            y: 380
+            width: 440
+            height: 80
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  id: clock_format_label
+                  x: 20
+                  align: LEFT_MID
+                  text_font: nunito_20
+                  text_color: color_misty_blue
+                  text: "Clock"
+              - button:
+                  id: clock_12h_btn
+                  x: 230
+                  width: 90
+                  height: 50
+                  align: LEFT_MID
+                  bg_color: color_steel_blue
+                  shadow_opa: TRANSP
+                  border_opa: TRANSP
+                  radius: 10
+                  widgets:
+                    - label:
+                        id: clock_12h_label
+                        align: CENTER
+                        text_font: nunito_20
+                        text_color: color_misty_blue
+                        text: "12h"
+                  on_press:
+                    - globals.set:
+                        id: time_format
+                        value: '0'
+                    - script.execute: time_update
+                    - lvgl.button.update:
+                        id: clock_12h_btn
+                        bg_color: color_misty_blue
+                    - lvgl.button.update:
+                        id: clock_24h_btn
+                        bg_color: color_steel_blue
+              - button:
+                  id: clock_24h_btn
+                  x: 330
+                  width: 90
+                  height: 50
+                  align: LEFT_MID
+                  bg_color: color_steel_blue
+                  shadow_opa: TRANSP
+                  border_opa: TRANSP
+                  radius: 10
+                  widgets:
+                    - label:
+                        id: clock_24h_label
+                        align: CENTER
+                        text_font: nunito_20
+                        text_color: color_misty_blue
+                        text: "24h"
+                  on_press:
+                    - globals.set:
+                        id: time_format
+                        value: '1'
+                    - script.execute: time_update
+                    - lvgl.button.update:
+                        id: clock_12h_btn
+                        bg_color: color_steel_blue
+                    - lvgl.button.update:
+                        id: clock_24h_btn
+                        bg_color: color_misty_blue
+
+        # ── Temperature unit ──────────────────────────────────────────────────
+        - obj:
+            id: temp_unit_bg
+            x: 20
+            y: 470
+            width: 440
+            height: 80
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  id: temp_unit_label
+                  x: 20
+                  align: LEFT_MID
+                  text_font: nunito_20
+                  text_color: color_misty_blue
+                  text: "Temperature"
+              - button:
+                  id: temp_f_btn
+                  x: 230
+                  width: 90
+                  height: 50
+                  align: LEFT_MID
+                  bg_color: color_steel_blue
+                  shadow_opa: TRANSP
+                  border_opa: TRANSP
+                  radius: 10
+                  widgets:
+                    - label:
+                        id: temp_f_label
+                        align: CENTER
+                        text_font: nunito_20
+                        text_color: color_misty_blue
+                        text: "°F"
+                  on_press:
+                    - globals.set:
+                        id: temp_unit
+                        value: '0'
+                    - lvgl.button.update:
+                        id: temp_f_btn
+                        bg_color: color_misty_blue
+                    - lvgl.button.update:
+                        id: temp_c_btn
+                        bg_color: color_steel_blue
+              - button:
+                  id: temp_c_btn
+                  x: 330
+                  width: 90
+                  height: 50
+                  align: LEFT_MID
+                  bg_color: color_steel_blue
+                  shadow_opa: TRANSP
+                  border_opa: TRANSP
+                  radius: 10
+                  widgets:
+                    - label:
+                        id: temp_c_label
+                        align: CENTER
+                        text_font: nunito_20
+                        text_color: color_misty_blue
+                        text: "°C"
+                  on_press:
+                    - globals.set:
+                        id: temp_unit
+                        value: '1'
+                    - lvgl.button.update:
+                        id: temp_f_btn
+                        bg_color: color_steel_blue
+                    - lvgl.button.update:
+                        id: temp_c_btn
+                        bg_color: color_misty_blue

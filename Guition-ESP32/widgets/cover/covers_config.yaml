@@ -1,0 +1,88 @@
+# covers_config.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Cover/blind widget configuration — up to 6 slots.
+#
+# ── HOW TO CONFIGURE ─────────────────────────────────────────────────────────
+# In main.yaml substitutions add a "7 │ COVERS" section, e.g.:
+#
+#   cover_entity_1:     "cover.living_room_blinds"
+#   cover_label_name_1: "Living Room"
+#
+#   cover_entity_2:     "cover.bedroom_blinds"
+#   cover_label_name_2: "Bedroom"
+#
+#   cover_entity_3:     "sensor.disabled"   # hidden — no need to define rest
+#
+# Unused slots default to "sensor.disabled" and are hidden automatically at boot.
+# Fill slots in order (1→N) to avoid layout gaps.
+#
+# Then add to main.yaml packages block:
+#   covers_config: !include Guition-ESP32/widgets/cover/covers_config.yaml
+#
+# And add the Covers button to devices.yaml (see devices.yaml for Row 3).
+# ─────────────────────────────────────────────────────────────────────────────
+
+substitutions:
+  cover_widget_name_1: "cover1"
+  cover_widget_name_2: "cover2"
+  cover_widget_name_3: "cover3"
+  cover_widget_name_4: "cover4"
+  cover_widget_name_5: "cover5"
+  cover_widget_name_6: "cover6"
+
+  # Defaults – overridden by main.yaml
+  cover_entity_1: "sensor.disabled"
+  cover_entity_2: "sensor.disabled"
+  cover_entity_3: "sensor.disabled"
+  cover_entity_4: "sensor.disabled"
+  cover_entity_5: "sensor.disabled"
+  cover_entity_6: "sensor.disabled"
+
+  cover_label_name_1: ""
+  cover_label_name_2: ""
+  cover_label_name_3: ""
+  cover_label_name_4: ""
+  cover_label_name_5: ""
+  cover_label_name_6: ""
+
+packages:
+  # Tile grid page
+  covers_panel: !include covers_panel.yaml
+
+  # Each slot always includes the same cover_widget.yaml.
+  # All 6 compile regardless — disabled slots suppress HA subscriptions at boot.
+  cover_1: !include
+    file: cover_widget.yaml
+    vars:
+      cover_entity: "${cover_entity_1}"
+      widget_name:  "${cover_widget_name_1}"
+
+  cover_2: !include
+    file: cover_widget.yaml
+    vars:
+      cover_entity: "${cover_entity_2}"
+      widget_name:  "${cover_widget_name_2}"
+
+  cover_3: !include
+    file: cover_widget.yaml
+    vars:
+      cover_entity: "${cover_entity_3}"
+      widget_name:  "${cover_widget_name_3}"
+
+  cover_4: !include
+    file: cover_widget.yaml
+    vars:
+      cover_entity: "${cover_entity_4}"
+      widget_name:  "${cover_widget_name_4}"
+
+  cover_5: !include
+    file: cover_widget.yaml
+    vars:
+      cover_entity: "${cover_entity_5}"
+      widget_name:  "${cover_widget_name_5}"
+
+  cover_6: !include
+    file: cover_widget.yaml
+    vars:
+      cover_entity: "${cover_entity_6}"
+      widget_name:  "${cover_widget_name_6}"

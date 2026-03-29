@@ -79,6 +79,7 @@ script:
           // ── Settings page panels ─────────────────────────────────────────
           lv_obj_t* settings_panels[] = {
             id(theme_bg), id(language_bg), id(backlight_bg), id(sleep_mode_bg),
+            id(clock_format_bg), id(temp_unit_bg),
           };
           for (auto* panel : settings_panels) {
             lv_obj_set_style_bg_color(panel, surface, LV_PART_MAIN);
@@ -97,6 +98,24 @@ script:
 
           // ── Theme dropdown sync ──────────────────────────────────────────
           lv_dropdown_set_selected(id(theme_dropdown)->obj, id(current_theme));
+
+          // ── Clock format toggle sync ──────────────────────────────────────
+          if (id(time_format) == 0) {
+            lv_obj_set_style_bg_color(id(clock_12h_btn)->obj, lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(clock_24h_btn)->obj, surface, LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_bg_color(id(clock_12h_btn)->obj, surface, LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(clock_24h_btn)->obj, lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+          }
+
+          // ── Temperature unit toggle sync ──────────────────────────────────
+          if (id(temp_unit) == 0) {
+            lv_obj_set_style_bg_color(id(temp_f_btn)->obj, lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(temp_c_btn)->obj, surface, LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_bg_color(id(temp_f_btn)->obj, surface, LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(temp_c_btn)->obj, lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+          }
 
           // ── Theme background images ──────────────────────────────────────
           // Hide all backgrounds first, then show the active one

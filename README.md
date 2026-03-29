@@ -5,7 +5,7 @@
 
 ## Overview
 
-A complete, production-ready smart home dashboard for the **Guition ESP32-S3-4848S040** 480×480 touch display. Built on top of ESPHome and LVGL, this firmware turns the panel into a rich control center for Home Assistant — with real-time weather, calendar, HVAC, lights, fans, media, vacuum, alarm, and more.
+A complete, production-ready smart home dashboard for the **Guition ESP32-S3-4848S040** 480×480 touch display. Built on top of ESPHome and LVGL, this firmware turns the panel into a rich control center for Home Assistant — with real-time weather, calendar, HVAC, lights with colour temperature, fans, covers/blinds, media, vacuum, alarm, scene shortcuts, presence indicators, screensaver, and notification banners.
 
 > Original baseline credit: [alaltitov](https://github.com/alaltitov/Guition-ESP32-S3-4848S040).
 > This repository is a major fork — approximately 70% of the code has been rewritten or added from scratch.
@@ -16,17 +16,22 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 
 | Category | Details |
 |---|---|
-| **Home screen** | Time, date, indoor temperature, weather icon + condition, upcoming calendar events |
+| **Home screen** | Time (12h/24h), date, indoor temp (°F/°C), weather icon + condition, upcoming calendar events |
+| **Presence indicators** | Up to 4 person entities shown as initials in the top bar — green when home, dim when away |
+| **Screensaver** | Minimal floating clock activates on idle; tap anywhere to wake |
+| **Notification banner** | Write any text to an `input_text` entity in HA — a toast banner appears on screen for 10 s |
 | **Weather** | Current conditions + 5-day forecast with high/low temps and weather icons |
 | **Calendar** | Up to 4 upcoming events pulled live from Home Assistant |
 | **HVAC** | Combined heating + cooling widget with arc temperature control; or separate thermostat / AC widgets |
-| **Lights** | Up to 6 configurable light slots (light, switch, or input_boolean); icon reflects on/off state |
+| **Lights** | Up to 6 configurable slots (light / switch / input_boolean); brightness slider; auto-detected colour temperature slider |
 | **Fans** | Up to 6 configurable fan slots with speed control |
+| **Covers** | Up to 6 cover/blind/shutter slots — position bar, Open/Stop/Close buttons, position slider |
+| **Scene shortcuts** | Up to 6 scene/script/automation tiles with configurable labels |
 | **Media Player** | Album art, track info, progress bar, playback controls, volume slider |
 | **Vacuum** | Animated robot body, battery, state, start/pause/dock controls |
 | **Alarm Panel** | Disarm / Home / Away / Night / Vacation modes with PIN entry |
-| **Devices hub** | Single-tap navigation to Alarm, Media, Vacuum, HVAC, and Fans |
-| **Settings** | Language selector (9 languages), colour theme picker, backlight brightness, auto-sleep timer |
+| **Devices hub** | Navigation to Alarm, Media, Vacuum, HVAC, Fans, Shortcuts, and Covers |
+| **Settings** | Language selector (9 languages), colour theme picker, 12h/24h clock, °F/°C unit, backlight brightness, auto-sleep timer |
 | **Themes** | 6 built-in themes: Cherry Blossom, Dark, Espeon, Ocean, Paris, Patriotic |
 | **Multi-device** | Copy `main.yaml` and rename — each file is a fully independent device |
 | **OTA overlay** | On-screen progress bar and status during firmware updates |
@@ -114,15 +119,40 @@ Pick the configuration that matches your system by uncommenting the correct bloc
 
 ---
 
-## Light & Fan Slots
+## Light, Fan & Cover Slots
 
-Up to **6 lights** and **6 fans** can be configured. Set unused slots to `sensor.disabled`:
+Up to **6 lights**, **6 fans**, and **6 covers** can be configured. Set unused slots to `sensor.disabled`:
 
 ```yaml
+# Lights
 light_entity_1:     "light.living_room"
 light_label_name_1: "Living Room"
 light_type_1:       "light"          # light | switch | input_boolean
 light_icon_1:       "ceiling_lamp"   # ceiling_lamp | night_lamp | bed | tv | …
+
+# Covers / blinds
+cover_entity_1:     "cover.living_room_blinds"
+cover_label_name_1: "Living Room"
+```
+
+The light detail page automatically detects colour temperature support — the colour temp slider appears the first time HA sends a `color_temp` attribute value.
+
+---
+
+## Presence, Notifications & Shortcuts
+
+```yaml
+# Up to 4 person entities — shown as initials in the top bar
+person_entity_1:   "person.yourname"
+person_initials_1: "A"
+
+# Notification banner — write text to this entity from HA automations
+notification_entity: "input_text.display_notification"
+
+# Up to 6 scene/script/automation shortcuts
+scene_entity_1:  "scene.movie_night"
+scene_label_1:   "Movie Night"
+scene_type_1:    "scene"           # scene | script | automation
 ```
 
 ---

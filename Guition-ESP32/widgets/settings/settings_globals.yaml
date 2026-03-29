@@ -6,6 +6,24 @@
 
 globals:
 
+  # Screensaver active flag (set at runtime — not persisted)
+  - id: screensaver_active
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+
+  # Clock display format  0 = 12h (AM/PM)   1 = 24h
+  - id: time_format
+    type: int
+    restore_value: true
+    initial_value: '0'
+
+  # Temperature unit  0 = °F   1 = °C
+  - id: temp_unit
+    type: int
+    restore_value: true
+    initial_value: '0'
+
   # Display auto-sleep timeout index (maps to seconds via the dropdown)
   - id: display_timeout
     type: int

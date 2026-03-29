@@ -24,6 +24,11 @@ substitutions:
 
 
   # ── 2 │ CORE ENTITIES ────────────────────────────────────────────────────────
+  # Notification banner — set this to an input_text entity in HA.
+  # Write any text to it and a banner will appear on the display for 10 seconds.
+  # Clear the entity (empty string) to dismiss early.
+  notification_entity: "input_text.display_notification"
+
   weather_entity:      "weather.forecast"               # outdoor weather + forecast
   temperature_entity:  "sensor.yourinternaltemperature" # indoor temperature sensor
   vacuum_entity:       "vacuum.yourvacuum"              # robot vacuum entity
@@ -32,7 +37,53 @@ substitutions:
   pin_code:            !secret security_pin_code         # alarm PIN  (set in secrets.yaml)
 
 
-  # ── 3 │ CALENDAR  (up to 4 upcoming events) ──────────────────────────────────
+  # ── 3 │ PERSON / PRESENCE  (up to 4 slots) ───────────────────────────────────
+  #  Shows initials in the top indicators bar — green when home, dim when away.
+  #  Unused slots → set person_entity_N: "sensor.disabled"
+  #
+  person_entity_1: "person.yourname"
+  person_initials_1: "A"
+
+  person_entity_2: "sensor.disabled"
+  person_initials_2: ""
+
+  person_entity_3: "sensor.disabled"
+  person_initials_3: ""
+
+  person_entity_4: "sensor.disabled"
+  person_initials_4: ""
+
+
+  # ── 4 │ SCENE SHORTCUTS  (up to 6 slots) ─────────────────────────────────────
+  #  scene_type_N : scene | script | automation
+  #  Unused slots → set scene_entity_N: "sensor.disabled"
+  #
+  scene_entity_1:  "scene.morning"
+  scene_label_1:   "Morning"
+  scene_type_1:    "scene"
+
+  scene_entity_2:  "scene.evening"
+  scene_label_2:   "Evening"
+  scene_type_2:    "scene"
+
+  scene_entity_3:  "scene.movie_night"
+  scene_label_3:   "Movie Night"
+  scene_type_3:    "scene"
+
+  scene_entity_4:  "scene.good_night"
+  scene_label_4:   "Good Night"
+  scene_type_4:    "scene"
+
+  scene_entity_5:  "sensor.disabled"
+  scene_label_5:   ""
+  scene_type_5:    "scene"
+
+  scene_entity_6:  "sensor.disabled"
+  scene_label_6:   ""
+  scene_type_6:    "scene"
+
+
+  # ── 4 │ CALENDAR  (up to 4 upcoming events) ──────────────────────────────────
   # Requires template sensors in Home Assistant.
   # See configuration.yaml in this project for ready-to-paste HA templates.
   calendar_entity:   "sensor.calendar_upcoming_event_1"
@@ -144,6 +195,33 @@ substitutions:
   fan_icon_6:       ""
 
 
+  # ── 7 │ COVERS  (up to 6 slots) ──────────────────────────────────────────────
+  #
+  #  Supports any HA cover entity: blinds, roller shutters, curtains, garage doors.
+  #  The detail page shows a position bar, Open/Stop/Close buttons, and a position
+  #  slider.  Position is 0 (closed) → 100 (fully open).
+  #
+  #  Unused slots → set cover_entity_N: "sensor.disabled"
+  #
+  cover_entity_1:     "sensor.disabled"
+  cover_label_name_1: ""
+
+  cover_entity_2:     "sensor.disabled"
+  cover_label_name_2: ""
+
+  cover_entity_3:     "sensor.disabled"
+  cover_label_name_3: ""
+
+  cover_entity_4:     "sensor.disabled"
+  cover_label_name_4: ""
+
+  cover_entity_5:     "sensor.disabled"
+  cover_label_name_5: ""
+
+  cover_entity_6:     "sensor.disabled"
+  cover_label_name_6: ""
+
+
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║  ENGINE  —  Do not edit below unless you know what you are doing.           ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
@@ -154,6 +232,8 @@ packages:
   home:               !include Guition-ESP32/widgets/home/home.yaml
   lights_config:      !include Guition-ESP32/widgets/light/lights_config.yaml
   fans_config:        !include Guition-ESP32/widgets/fan/fans_config.yaml
+  shortcuts:          !include Guition-ESP32/widgets/shortcuts/shortcuts.yaml
+  covers_config:      !include Guition-ESP32/widgets/cover/covers_config.yaml
   settings:           !include Guition-ESP32/widgets/settings/settings.yaml
   menu_controls_main: !include Guition-ESP32/widgets/menu_controls_main.yaml
   loading_page:       !include Guition-ESP32/widgets/loading_page.yaml
@@ -329,6 +409,69 @@ lvgl:
                 bg_color: color_steel_blue
                 indicator:
                   bg_color: color_misty_blue
+
+      # ── Screensaver overlay ────────────────────────────────────────────────
+      - obj:
+          id: screensaver_widget
+          hidden: true
+          width: 480
+          height: 480
+          align: center
+          clickable: true
+          bg_color: "0x080810"
+          border_opa: TRANSP
+          shadow_opa: TRANSP
+          radius: 0
+          widgets:
+            - label:
+                id: screensaver_time
+                y: -30
+                align: center
+                text_font: nunito_44
+                text_color: color_misty_blue
+                text: "--:--"
+            - label:
+                id: screensaver_date
+                y: 40
+                align: center
+                text_font: nunito_20
+                text_color: color_steel_blue
+                text: " "
+          on_press:
+            - globals.set:
+                id: screensaver_active
+                value: 'false'
+            - lvgl.widget.hide: screensaver_widget
+            - light.turn_on:
+                id: display_backlight
+                brightness: 100%
+
+      # ── Notification banner ────────────────────────────────────────────────
+      - obj:
+          id: notification_banner
+          hidden: true
+          x: 20
+          y: -100
+          width: 440
+          height: 70
+          align: BOTTOM_MID
+          bg_color: color_steel_blue
+          border_color: color_misty_blue
+          border_width: 1
+          border_opa: 60%
+          shadow_opa: TRANSP
+          radius: 12
+          widgets:
+            - label:
+                id: notification_text
+                x: 15
+                y: 0
+                width: 380
+                align: LEFT_MID
+                text_font: nunito_20
+                text_color: color_misty_blue
+                long_mode: SCROLL_CIRCULAR
+                text: " "
 
 
 light:
