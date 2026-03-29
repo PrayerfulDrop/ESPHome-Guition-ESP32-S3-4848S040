@@ -892,10 +892,11 @@ script:
             - lvgl.label.update:
                 id: screensaver_date
                 text: !lambda |-
-                  static char buf[32];
+                  static char buf[40];
                   auto now = id(homeassistant_time).now();
-                  static const char* days[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
-                  snprintf(buf, sizeof(buf), "%s  %d/%02d", days[now.day_of_week - 1], now.month, now.day_of_month);
+                  static const char* days[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+                  static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+                  snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[now.day_of_week - 1], months[now.month - 1], now.day_of_month, now.year);
                   return buf;
       - if:
           condition:
@@ -934,10 +935,11 @@ script:
       - lvgl.label.update:
           id: ss_analog_date
           text: !lambda |-
-            static char buf[32];
+            static char buf[40];
             auto now = id(homeassistant_time).now();
-            static const char* days[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
-            snprintf(buf, sizeof(buf), "%s  %d/%02d", days[now.day_of_week - 1], now.month, now.day_of_month);
+            static const char* days[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[now.day_of_week - 1], months[now.month - 1], now.day_of_month, now.year);
             return buf;
 
   - id: screensaver_update_calendar
@@ -958,10 +960,11 @@ script:
       - lvgl.label.update:
           id: ss_cal_date
           text: !lambda |-
-            static char buf[32];
+            static char buf[40];
             auto now = id(homeassistant_time).now();
-            static const char* days[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
-            snprintf(buf, sizeof(buf), "%s  %d/%02d", days[now.day_of_week - 1], now.month, now.day_of_month);
+            static const char* days[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[now.day_of_week - 1], months[now.month - 1], now.day_of_month, now.year);
             return buf;
       - lvgl.label.update:
           id: ss_cal_event1_title

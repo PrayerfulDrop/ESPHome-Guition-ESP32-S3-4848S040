@@ -180,6 +180,7 @@ lvgl:
                 id: screensaver_active
                 value: 'false'
             - lvgl.widget.hide: screensaver_widget
+            - lvgl.widget.show: menu_controls_main
             - light.turn_on:
                 id: display_backlight
                 brightness: 100%
