@@ -96,6 +96,13 @@ substitutions:
 
 3. **Add template sensors** — Paste the contents of `configuration.yaml` into your Home Assistant `configuration.yaml` under the `template:` section and restart HA
 
+4. **Create the notification helper** — The notification banner requires an `input_text` helper in Home Assistant:
+   - Go to **Settings → Devices & Services → Helpers → Create Helper → Text**
+   - Set the name to `display_notification` (entity ID will become `input_text.display_notification`)
+   - Leave max length at the default (100) and save
+   - Reference this entity in your device file as `notification_entity: "input_text.display_notification"`
+   - Trigger notifications from HA automations by calling the `input_text.set_value` service on this entity
+
 ### 4 · Flash
 
 Compile and flash from the ESPHome dashboard or CLI:

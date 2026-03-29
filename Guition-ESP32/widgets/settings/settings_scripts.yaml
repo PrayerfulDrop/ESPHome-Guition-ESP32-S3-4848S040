@@ -101,20 +101,20 @@ script:
 
           // ── Clock format toggle sync ──────────────────────────────────────
           if (id(time_format) == 0) {
-            lv_obj_set_style_bg_color(id(clock_12h_btn)->obj, lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
-            lv_obj_set_style_bg_color(id(clock_24h_btn)->obj, surface, LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(clock_12h_btn), lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(clock_24h_btn), surface, LV_PART_MAIN);
           } else {
-            lv_obj_set_style_bg_color(id(clock_12h_btn)->obj, surface, LV_PART_MAIN);
-            lv_obj_set_style_bg_color(id(clock_24h_btn)->obj, lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(clock_12h_btn), surface, LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(clock_24h_btn), lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
           }
 
           // ── Temperature unit toggle sync ──────────────────────────────────
           if (id(temp_unit) == 0) {
-            lv_obj_set_style_bg_color(id(temp_f_btn)->obj, lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
-            lv_obj_set_style_bg_color(id(temp_c_btn)->obj, surface, LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(temp_f_btn), lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(temp_c_btn), surface, LV_PART_MAIN);
           } else {
-            lv_obj_set_style_bg_color(id(temp_f_btn)->obj, surface, LV_PART_MAIN);
-            lv_obj_set_style_bg_color(id(temp_c_btn)->obj, lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(temp_f_btn), surface, LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(temp_c_btn), lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
           }
 
           // ── Theme background images ──────────────────────────────────────

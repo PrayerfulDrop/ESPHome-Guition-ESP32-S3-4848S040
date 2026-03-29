@@ -102,11 +102,11 @@ substitutions:
   hvac_icon:   "\U0000e925"
   #
   # ── Option 2: Thermostat only  (heating) ─────────────────────────────────────
-  # thermostat_entity: "climate.upstairs"
+  # thermostat_entity: "climate.upstairs_heat"
   # hvac_icon:         "\U0000e925"
   #
   # ── Option 3: Air conditioner only  (cooling) ────────────────────────────────
-  # air_conditioner_entity: "climate.downstairs"
+  # air_conditioner_entity: "climate.downstairs_cool"
   # hvac_icon:              "\U0000e93b"
   #
   # ── Option 4: Thermostat + Air conditioner  (separate units) ─────────────────
@@ -293,7 +293,8 @@ esp32:
       # breaks LCD DMA transfers on ESP32-S3 (esp_lcd_panel_draw_bitmap invalid handle)
       CONFIG_COMPILER_OPTIMIZATION_SIZE: "y"
       CONFIG_NEWLIB_NANO_FORMAT: "y"
-      CONFIG_LCD_RGB_RESTART_IN_VSYNC: "y"
+      # CONFIG_LCD_RGB_RESTART_IN_VSYNC intentionally omitted — causes screen flickering
+      # on the Guition ESP32-S3-4848S040 RGB LCD panel
 
 
 psram:

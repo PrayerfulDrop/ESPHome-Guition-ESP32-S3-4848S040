@@ -11,10 +11,14 @@
       "Bash(py -3 render_mockup.py)",
       "Bash(py -3 render_all_screens.py)",
       "Bash(dir \"c:\\\\Users\\\\aawar\\\\OneDrive - Microsoft\\\\Documents\\\\GitHub\\\\ESPHome-Guition-ESP32-S3-4848S040\\\\mockups\" /b)",
-      "Bash(cmd /c \"dir \"\"c:\\\\Users\\\\aawar\\\\OneDrive - Microsoft\\\\Documents\\\\GitHub\\\\ESPHome-Guition-ESP32-S3-4848S040\\\\mockups\"\" /b 2>&1 | findstr /v \"\"2x\"\"\")"
+      "Bash(cmd /c \"dir \"\"c:\\\\Users\\\\aawar\\\\OneDrive - Microsoft\\\\Documents\\\\GitHub\\\\ESPHome-Guition-ESP32-S3-4848S040\\\\mockups\"\" /b 2>&1 | findstr /v \"\"2x\"\"\")",
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/settings/settings_scripts.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/settings/settings_scripts.yaml\")",
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/shortcuts/shortcuts.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/shortcuts/shortcuts.yaml\")",
+      "Bash(sed -i \"s|->page|->obj|g\" \"//192.168.6.59/config/esphome/aaron.yaml\" \"//192.168.6.59/config/esphome/evelyn.yaml\" \"//192.168.6.59/config/esphome/krissy.yaml\")"
     ],
     "additionalDirectories": [
-      "\\\\192.168.6.59\\config\\esphome"
+      "\\\\192.168.6.59\\config\\esphome",
+      "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets\\settings"
     ]
   }
 }

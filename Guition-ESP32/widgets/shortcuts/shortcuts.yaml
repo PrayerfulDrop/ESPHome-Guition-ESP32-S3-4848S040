@@ -283,8 +283,8 @@ esphome:
             "${scene_entity_4}", "${scene_entity_5}", "${scene_entity_6}"
           };
           lv_obj_t* btns[] = {
-            id(scene_btn_1)->obj, id(scene_btn_2)->obj, id(scene_btn_3)->obj,
-            id(scene_btn_4)->obj, id(scene_btn_5)->obj, id(scene_btn_6)->obj,
+            id(scene_btn_1), id(scene_btn_2), id(scene_btn_3),
+            id(scene_btn_4), id(scene_btn_5), id(scene_btn_6),
           };
           for (int i = 0; i < 6; i++) {
             if (std::string(entities[i]) == "sensor.disabled") {

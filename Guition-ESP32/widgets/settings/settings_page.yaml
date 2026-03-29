@@ -15,8 +15,8 @@ lvgl:
       - globals.set:
           id: screensaver_active
           value: 'true'
-      - script.execute: screensaver_update
       - lvgl.widget.show: screensaver_widget
+      - script.execute: screensaver_update
       - light.turn_on:
           id: display_backlight
           brightness: 10%
