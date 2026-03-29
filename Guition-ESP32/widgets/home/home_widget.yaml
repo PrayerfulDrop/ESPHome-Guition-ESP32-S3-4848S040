@@ -1072,10 +1072,12 @@ script:
     then:
       - lambda: |-
           auto fmt_time = [](const std::string &s) -> std::string {
-            if (s.empty() || s.find('T') == std::string::npos) return "";
+            if (s.size() <= 10) return "";
             struct tm t = {};
             if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &t) == nullptr)
-              strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &t);
+              if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &t) == nullptr)
+                if (strptime(s.c_str(), "%Y-%m-%d %H:%M:%S", &t) == nullptr)
+                  return "";
             char buf[9];
             strftime(buf, sizeof(buf), "%I:%M%p", &t);
             return std::string(buf);
