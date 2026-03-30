@@ -1,3 +1,9 @@
+- file: "Guition-ESP32/fonts/gluqlo.ttf"
+  id: gluqlo_96
+  size: 96
+  bpp: 4
+  glyphs: "0123456789"
+
 - file: "Guition-ESP32/fonts/Nunito-SemiBold.ttf"
   id: nunito_16
   size: 16
