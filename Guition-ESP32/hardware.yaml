@@ -19,8 +19,9 @@ http_request:
 
 external_components:
   - source:
-      type: local
-      path: Guition-ESP32/components
+      type: git
+      url: https://github.com/PrayerfulDrop/esphome-display-capture
+      ref: main
     components: [display_capture]
 
 
