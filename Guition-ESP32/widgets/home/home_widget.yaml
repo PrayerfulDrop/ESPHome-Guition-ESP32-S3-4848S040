@@ -517,6 +517,80 @@ lvgl:
                   text_color: color_misty_blue
                   text: "23:59"
 
+              # ── Flip clock (shown when home_clock_style == 1) ────────────────
+              - obj:
+                  id: home_flip_panels
+                  hidden: true
+                  align: CENTER
+                  width: 200
+                  height: 80
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  pad_all: 0
+                  scrollable: false
+                  layout:
+                    type: FLEX
+                    flex_flow: ROW
+                    flex_align_main: CENTER
+                    flex_align_cross: CENTER
+                    flex_align_track: CENTER
+                  widgets:
+                    - obj:
+                        flex_grow: 1
+                        height: 80
+                        bg_color: 0x1A1A2E
+                        bg_opa: cover
+                        radius: 8
+                        border_opa: TRANSP
+                        shadow_opa: TRANSP
+                        pad_all: 0
+                        scrollable: false
+                        widgets:
+                          - label:
+                              id: home_flip_hour
+                              align: CENTER
+                              text_font: gluqlo_64
+                              text_color: color_misty_blue
+                              text: "12"
+                    - obj:
+                        width: 8
+                        height: 1
+                        bg_opa: TRANSP
+                        border_opa: TRANSP
+                        shadow_opa: TRANSP
+                        pad_all: 0
+                    - obj:
+                        flex_grow: 1
+                        height: 80
+                        bg_color: 0x1A1A2E
+                        bg_opa: cover
+                        radius: 8
+                        border_opa: TRANSP
+                        shadow_opa: TRANSP
+                        pad_all: 0
+                        scrollable: false
+                        widgets:
+                          - label:
+                              id: home_flip_min
+                              align: CENTER
+                              text_font: gluqlo_64
+                              text_color: color_misty_blue
+                              text: "00"
+              - obj:
+                  id: home_flip_seam
+                  hidden: true
+                  align: CENTER
+                  width: 200
+                  height: 2
+                  bg_color: 0x080810
+                  bg_opa: 80%
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  radius: 0
+                  pad_all: 0
+                  scrollable: false
+
         # weather – clickable → forecast page
         - obj:
             id: home_bg_weather
@@ -841,6 +915,25 @@ script:
                     snprintf(time_buf, sizeof(time_buf), "%d:%02d %s", hour_12, now.minute, ampm);
                   }
                   return time_buf;
+            - lvgl.label.update:
+                id: home_flip_hour
+                text: !lambda |-
+                  static char buf[4];
+                  auto now = id(homeassistant_time).now();
+                  if (id(time_format) == 1) {
+                    snprintf(buf, sizeof(buf), "%02d", now.hour);
+                  } else {
+                    int h = now.hour % 12;
+                    if (h == 0) h = 12;
+                    snprintf(buf, sizeof(buf), "%d", h);
+                  }
+                  return buf;
+            - lvgl.label.update:
+                id: home_flip_min
+                text: !lambda |-
+                  static char buf[4];
+                  snprintf(buf, sizeof(buf), "%02d", id(homeassistant_time).now().minute);
+                  return buf;
 
             - lvgl.label.update:
                 id: display_date

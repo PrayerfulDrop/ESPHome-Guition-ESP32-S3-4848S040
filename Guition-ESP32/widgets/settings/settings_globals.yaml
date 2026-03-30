@@ -12,6 +12,12 @@ globals:
     restore_value: false
     initial_value: 'false'
 
+  # Home widget clock display style  0 = Standard  1 = Flip
+  - id: home_clock_style
+    type: int
+    restore_value: true
+    initial_value: '0'
+
   # Screensaver clock style  0 = Digital  1 = Flip  2 = None
   - id: screensaver_style
     type: int

@@ -81,6 +81,7 @@ script:
           lv_obj_t* settings_panels[] = {
             id(theme_bg), id(language_bg), id(backlight_bg), id(sleep_mode_bg),
             id(clock_format_bg), id(temp_unit_bg), id(screensaver_style_bg),
+            id(home_clock_style_bg),
           };
           for (auto* panel : settings_panels) {
             lv_obj_set_style_bg_color(panel, surface, LV_PART_MAIN);
@@ -132,6 +133,21 @@ script:
             lv_obj_add_state(id(ss_events_checkbox), LV_STATE_CHECKED);
           else
             lv_obj_clear_state(id(ss_events_checkbox), LV_STATE_CHECKED);
+
+          // ── Home clock style toggle sync ──────────────────────────────────
+          if (id(home_clock_style) == 0) {
+            lv_obj_set_style_bg_color(id(home_std_btn),  lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(home_flip_btn), surface, LV_PART_MAIN);
+            lv_obj_clear_flag(id(display_time),     LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(id(home_flip_panels),   LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(id(home_flip_seam),     LV_OBJ_FLAG_HIDDEN);
+          } else {
+            lv_obj_set_style_bg_color(id(home_std_btn),  surface, LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(home_flip_btn), lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+            lv_obj_add_flag(id(display_time),       LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(id(home_flip_panels), LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(id(home_flip_seam),   LV_OBJ_FLAG_HIDDEN);
+          }
 
           // ── Theme background images ──────────────────────────────────────
           // Hide all backgrounds first, then show the active one
