@@ -17,6 +17,10 @@ http_request:
   verify_ssl: false
 
 
+web_server:
+  port: 80
+
+
 esphome:
   name: "${esphome_name}"
   friendly_name: "${esphome_friendly_name}"
