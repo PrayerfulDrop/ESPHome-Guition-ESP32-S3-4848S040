@@ -79,9 +79,11 @@ ota:
     password: !secret display_ota
     on_begin:
       # Show the overlay and render one clean frame, then pause LVGL.
-      # Without the pause, on_progress fires repeatedly and LVGL redraws the
-      # framebuffer while the LCD DMA is reading it — no vsync protection on
-      # the ST7701S RGB panel — causing a chaotic/corrupted display.
+      # The ST7701S RGB panel has no vsync protection — any framebuffer write
+      # during DMA readout causes jitter. After lvgl.pause the DMA continues
+      # from the frozen static frame; nothing may touch the framebuffer again
+      # until lvgl.resume. Progress is communicated via backlight brightness
+      # only (PWM output, completely independent of DMA).
       - lvgl.widget.show: ota_widget
       - lvgl.label.update:
           id: ota_label_primary
@@ -95,9 +97,16 @@ ota:
       - delay: 200ms        # let LVGL render the overlay into the framebuffer
       - lvgl.pause:         # freeze rendering — DMA continues from static frame
     on_progress:
-      - lvgl.bar.update:
-          id: ota_bar_value
-          value: !lambda return (int)x;
+      # Do NOT call any lvgl.* actions here — LVGL is paused and the
+      # framebuffer must not be modified while the LCD DMA is reading it.
+      # Instead, dim the backlight proportionally to show progress without
+      # writing a single pixel (PWM is DMA-independent).
+      - light.turn_on:
+          id: display_backlight
+          brightness: !lambda |-
+            // 30% at 0% → 100% at 100%, so the screen visibly brightens as
+            // the update progresses and the user knows something is happening.
+            return 0.30f + (x / 100.0f) * 0.70f;
     on_end:
       - lvgl.resume:
       - lvgl.label.update:
