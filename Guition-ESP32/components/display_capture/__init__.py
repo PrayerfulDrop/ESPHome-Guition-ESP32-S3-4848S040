@@ -80,6 +80,8 @@ async def to_code(config):
     disp = await cg.get_variable(config[CONF_DISPLAY_ID])
     cg.add(var.set_display(disp))
     cg.add(var.set_backend(config[CONF_BACKEND]))
+    if config[CONF_BACKEND] == BACKEND_ST7701S:
+        cg.add_define("DISPLAY_CAPTURE_USE_ST7701S")
 
     # Native pages mode: resolve each DisplayPage ID and pass as a vector
     if CONF_PAGES in config:

@@ -12,7 +12,7 @@
 #define protected public
 #include "esphome/components/display/display_buffer.h"
 #include "esphome/components/display/display.h"
-#ifdef USE_ST7701S
+#ifdef DISPLAY_CAPTURE_USE_ST7701S
 #include "esphome/components/st7701s/st7701s.h"
 #endif
 #undef protected
@@ -387,7 +387,7 @@ void DisplayCaptureHandler::generate_bmp_() {
     return;
 #endif
   } else if (this->backend_ == BACKEND_ST7701S) {
-#ifdef USE_ST7701S
+#ifdef DISPLAY_CAPTURE_USE_ST7701S
     // st7701s uses esp_lcd_rgb_panel — the framebuffer lives in PSRAM managed
     // by the ESP-IDF panel driver, not in DisplayBuffer::buffer_.
     auto *st_display = static_cast<st7701s::ST7701S *>(this->display_);
@@ -402,7 +402,7 @@ void DisplayCaptureHandler::generate_bmp_() {
     }
     buf = static_cast<uint8_t *>(fb);
 #else
-    ESP_LOGE(TAG, "st7701s backend requested but USE_ST7701S not enabled in this build");
+    ESP_LOGE(TAG, "st7701s backend requested but DISPLAY_CAPTURE_USE_ST7701S not set");
     heap_caps_free(this->bmp_data_);
     this->bmp_data_ = nullptr;
     this->bmp_size_ = 0;
