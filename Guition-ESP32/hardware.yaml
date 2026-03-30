@@ -206,6 +206,7 @@ lvgl:
           width: 480
           height: 480
           align: CENTER
+          pad_all: 0
           clickable: true
           bg_color: "0x080810"
           border_opa: TRANSP
@@ -259,6 +260,7 @@ lvgl:
                 hidden: true
                 width: 480
                 height: 480
+                align: CENTER
                 bg_opa: TRANSP
                 border_opa: TRANSP
                 shadow_opa: TRANSP
