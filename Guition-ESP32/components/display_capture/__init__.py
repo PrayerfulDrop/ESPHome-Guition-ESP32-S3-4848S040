@@ -29,6 +29,7 @@ CONF_BACKEND = "backend"
 
 BACKEND_DISPLAY_BUFFER = "display_buffer"
 BACKEND_RPI_DPI_RGB = "rpi_dpi_rgb"
+BACKEND_ST7701S = "st7701s"
 
 # C++ class references for code generation
 display_capture_ns = cg.esphome_ns.namespace("display_capture")
@@ -64,7 +65,7 @@ CONFIG_SCHEMA = cv.Schema(
         # page_names: human-readable names returned by /screenshot/info
         cv.Optional(CONF_PAGE_NAMES): cv.ensure_list(cv.string),
         cv.Optional(CONF_BACKEND, default=BACKEND_DISPLAY_BUFFER): cv.one_of(
-            BACKEND_DISPLAY_BUFFER, BACKEND_RPI_DPI_RGB, lower=True
+            BACKEND_DISPLAY_BUFFER, BACKEND_RPI_DPI_RGB, BACKEND_ST7701S, lower=True
         ),
     },
 ).extend(cv.COMPONENT_SCHEMA)

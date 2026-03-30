@@ -30,6 +30,7 @@ web_server:
 
 display_capture:
   display_id: my_display
+  backend: st7701s
 
 
 esphome:

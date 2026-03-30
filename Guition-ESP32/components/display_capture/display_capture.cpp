@@ -12,6 +12,9 @@
 #define protected public
 #include "esphome/components/display/display_buffer.h"
 #include "esphome/components/display/display.h"
+#ifdef USE_ST7701S
+#include "esphome/components/st7701s/st7701s.h"
+#endif
 #undef protected
 
 #ifdef USE_RPI_DPI_RGB
@@ -378,6 +381,28 @@ void DisplayCaptureHandler::generate_bmp_() {
     buf = static_cast<uint8_t *>(fb);
 #else
     ESP_LOGE(TAG, "rpi_dpi_rgb backend requested but USE_RPI_DPI_RGB is not enabled in this build");
+    heap_caps_free(this->bmp_data_);
+    this->bmp_data_ = nullptr;
+    this->bmp_size_ = 0;
+    return;
+#endif
+  } else if (this->backend_ == BACKEND_ST7701S) {
+#ifdef USE_ST7701S
+    // st7701s uses esp_lcd_rgb_panel — the framebuffer lives in PSRAM managed
+    // by the ESP-IDF panel driver, not in DisplayBuffer::buffer_.
+    auto *st_display = static_cast<st7701s::ST7701S *>(this->display_);
+    void *fb = nullptr;
+    esp_err_t err = esp_lcd_rgb_panel_get_frame_buffer(st_display->handle_, 1, &fb);
+    if (err != ESP_OK || fb == nullptr) {
+      ESP_LOGE(TAG, "Failed to get st7701s frame buffer (err=%d)", err);
+      heap_caps_free(this->bmp_data_);
+      this->bmp_data_ = nullptr;
+      this->bmp_size_ = 0;
+      return;
+    }
+    buf = static_cast<uint8_t *>(fb);
+#else
+    ESP_LOGE(TAG, "st7701s backend requested but USE_ST7701S not enabled in this build");
     heap_caps_free(this->bmp_data_);
     this->bmp_data_ = nullptr;
     this->bmp_size_ = 0;
