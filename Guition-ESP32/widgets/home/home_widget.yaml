@@ -867,8 +867,8 @@ script:
           bool cal = (id(screensaver_style) == 2);
           if (dig) lv_obj_clear_flag(id(ss_digital),  LV_OBJ_FLAG_HIDDEN);
           else     lv_obj_add_flag  (id(ss_digital),  LV_OBJ_FLAG_HIDDEN);
-          if (ana) lv_obj_clear_flag(id(ss_analog),   LV_OBJ_FLAG_HIDDEN);
-          else     lv_obj_add_flag  (id(ss_analog),   LV_OBJ_FLAG_HIDDEN);
+          if (ana) lv_obj_clear_flag(id(ss_flip),     LV_OBJ_FLAG_HIDDEN);
+          else     lv_obj_add_flag  (id(ss_flip),     LV_OBJ_FLAG_HIDDEN);
           if (cal) lv_obj_clear_flag(id(ss_calendar), LV_OBJ_FLAG_HIDDEN);
           else     lv_obj_add_flag  (id(ss_calendar), LV_OBJ_FLAG_HIDDEN);
       # Update the active style
@@ -902,38 +902,41 @@ script:
           condition:
             lambda: return id(screensaver_style) == 1;
           then:
-            - script.execute: screensaver_update_analog
+            - script.execute: screensaver_update_flip
       - if:
           condition:
             lambda: return id(screensaver_style) == 2;
           then:
             - script.execute: screensaver_update_calendar
 
-  - id: screensaver_update_analog
+  - id: screensaver_update_flip
     then:
-      - lvgl.indicator.update:
-          id: ss_minute_hand
-          value: !lambda "return id(homeassistant_time).now().minute;"
-      - lvgl.indicator.update:
-          id: ss_hour_hand
-          value: !lambda |-
-            auto now = id(homeassistant_time).now();
-            return (now.hour % 12) * 5 + now.minute / 12;
       - lvgl.label.update:
-          id: ss_analog_time
+          id: ss_flip_hour
           text: !lambda |-
-            static char buf[16];
+            static char buf[8];
             auto now = id(homeassistant_time).now();
             if (id(time_format) == 1) {
-              snprintf(buf, sizeof(buf), "%d:%02d", now.hour, now.minute);
+              snprintf(buf, sizeof(buf), "%d", now.hour);
             } else {
-              const char *ampm = (now.hour >= 12) ? "PM" : "AM";
-              int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;
-              snprintf(buf, sizeof(buf), "%d:%02d %s", hour_12, now.minute, ampm);
+              int h = now.hour % 12;
+              if (h == 0) h = 12;
+              snprintf(buf, sizeof(buf), "%d", h);
             }
             return buf;
       - lvgl.label.update:
-          id: ss_analog_date
+          id: ss_flip_min
+          text: !lambda |-
+            static char buf[8];
+            snprintf(buf, sizeof(buf), "%02d", id(homeassistant_time).now().minute);
+            return buf;
+      - lvgl.label.update:
+          id: ss_flip_ampm
+          text: !lambda |-
+            if (id(time_format) == 1) return std::string("");
+            return std::string(id(homeassistant_time).now().hour >= 12 ? "PM" : "AM");
+      - lvgl.label.update:
+          id: ss_flip_date
           text: !lambda |-
             static char buf[40];
             auto now = id(homeassistant_time).now();

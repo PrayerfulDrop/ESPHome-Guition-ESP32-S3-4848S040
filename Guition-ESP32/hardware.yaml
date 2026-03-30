@@ -242,9 +242,9 @@ lvgl:
                       text_color: color_steel_blue
                       text: " "
 
-            # ── Style 1 : Analog clock ──────────────────────────────────────
+            # ── Style 1 : Flip clock ────────────────────────────────────────
             - obj:
-                id: ss_analog
+                id: ss_flip
                 hidden: true
                 width: 480
                 height: 480
@@ -254,83 +254,95 @@ lvgl:
                 scrollable: false
                 pad_all: 0
                 widgets:
-                  # Decorative outer ring
+                  # Digit panels — flex row, hour and minute side by side
                   - obj:
                       align: CENTER
                       y: -20
-                      width: 300
-                      height: 300
-                      radius: 150
-                      bg_opa: TRANSP
-                      border_color: color_steel_blue
-                      border_width: 2
-                      border_opa: 40%
-                      shadow_opa: TRANSP
-                      pad_all: 0
-                  # Clock face — tick marks + hands
-                  - meter:
-                      id: ss_analog_meter
-                      align: CENTER
-                      y: -20
-                      width: 280
-                      height: 280
+                      width: 380
+                      height: 180
                       bg_opa: TRANSP
                       border_opa: TRANSP
                       shadow_opa: TRANSP
-                      scales:
-                        range_from: 0
-                        range_to: 60
-                        angle_range: 360
-                        rotation: 270
-                        ticks:
-                          count: 61
-                          width: 1
-                          length: 6
-                          color: 0x40445A
-                          major:
-                            stride: 5
-                            length: 16
-                            width: 2
-                            color: 0x606682
-                            label_gap: 0
-                        indicators:
-                          - line:
-                              id: ss_minute_hand
-                              width: 2
-                              color: 0x9BA2BC
-                              r_mod: -10
-                              value: 0
-                          - line:
-                              id: ss_hour_hand
-                              width: 5
-                              color: 0xCDD2E8
-                              r_mod: -65
-                              value: 0
-                  # Center pivot dot
+                      pad_all: 0
+                      scrollable: false
+                      layout:
+                        type: FLEX
+                        flex_flow: ROW
+                        flex_align_main: CENTER
+                        flex_align_cross: CENTER
+                        flex_align_track: CENTER
+                      widgets:
+                        # Hour panel
+                        - obj:
+                            flex_grow: 1
+                            height: 180
+                            bg_color: 0x1A1A2E
+                            bg_opa: cover
+                            radius: 12
+                            border_opa: TRANSP
+                            shadow_opa: TRANSP
+                            pad_all: 0
+                            scrollable: false
+                            widgets:
+                              - label:
+                                  id: ss_flip_hour
+                                  align: CENTER
+                                  text_font: gluqlo_96
+                                  text_color: color_misty_blue
+                                  text: "12"
+                              - label:
+                                  id: ss_flip_ampm
+                                  align: BOTTOM_RIGHT
+                                  x: -10
+                                  y: -8
+                                  text_font: nunito_16
+                                  text_color: color_steel_blue
+                                  text: "AM"
+                        # Gap spacer between panels
+                        - obj:
+                            width: 16
+                            height: 1
+                            bg_opa: TRANSP
+                            border_opa: TRANSP
+                            shadow_opa: TRANSP
+                            pad_all: 0
+                        # Minute panel
+                        - obj:
+                            flex_grow: 1
+                            height: 180
+                            bg_color: 0x1A1A2E
+                            bg_opa: cover
+                            radius: 12
+                            border_opa: TRANSP
+                            shadow_opa: TRANSP
+                            pad_all: 0
+                            scrollable: false
+                            widgets:
+                              - label:
+                                  id: ss_flip_min
+                                  align: CENTER
+                                  text_font: gluqlo_96
+                                  text_color: color_misty_blue
+                                  text: "00"
+                  # Seam line — overlays vertical center of both panels for flip effect
                   - obj:
                       align: CENTER
                       y: -20
-                      width: 10
-                      height: 10
-                      radius: 5
-                      bg_color: color_misty_blue
+                      width: 380
+                      height: 2
+                      bg_color: 0x080810
+                      bg_opa: 80%
                       border_opa: TRANSP
                       shadow_opa: TRANSP
+                      radius: 0
                       pad_all: 0
-                  # Digital time below the clock face
+                      scrollable: false
+                  # Date label
                   - label:
-                      id: ss_analog_time
+                      id: ss_flip_date
                       align: CENTER
-                      y: 118
+                      y: 110
                       text_font: nunito_20
-                      text_color: color_steel_blue
-                      text: "--:--"
-                  # Date below the time
-                  - label:
-                      id: ss_analog_date
-                      align: CENTER
-                      y: 146
-                      text_font: nunito_16
                       text_color: color_steel_blue
                       text: " "
 
