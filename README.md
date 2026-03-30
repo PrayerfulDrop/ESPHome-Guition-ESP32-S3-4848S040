@@ -42,9 +42,29 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 
 ---
 
+## Widgets
+
+| Alarm Panel | Media Player | Vacuum |
+|:---:|:---:|:---:|
+| ![Alarm Panel](screenshots/alarm_panel-widget.png) | ![Media Player](screenshots/mediaplayer-widget.png) | ![Vacuum](screenshots/vacuum-widget.png) |
+
+| Devices Hub | Settings (1) | Settings (2) |
+|:---:|:---:|:---:|
+| ![Devices](screenshots/devices-widget.png) | ![Settings 1](screenshots/settings-widget1.png) | ![Settings 2](screenshots/settings-widget2.png) |
+
+---
+
 ## Themes
 
-6 built-in themes selectable from the Settings page: **Cherry Blossom**, **Dark**, **Espeon**, **Ocean**, **Paris**, **Patriotic**.
+6 built-in themes selectable from the Settings page:
+
+| Cherry Blossom | Dark | Espeon |
+|:---:|:---:|:---:|
+| ![Cherry Blossom](screenshots/cherry-blossom-theme.png) | ![Dark](screenshots/dark-theme-home.png) | ![Espeon](screenshots/espeon-theme.png) |
+
+| Ocean | Paris | Patriotic |
+|:---:|:---:|:---:|
+| ![Ocean](screenshots/ocean-theme.png) | ![Paris](screenshots/paris-theme.png) | ![Patriotic](screenshots/patriotic-theme.png) |
 
 ---
 
@@ -196,6 +216,8 @@ esphome run living-room.yaml
 
 ## HVAC Options
 
+![HVAC Widget](screenshots/hvac-widget.png)
+
 Uncomment the block that matches your system in both the `substitutions:` section and the `packages:` section of your device file:
 
 | Option | Use when… | packages key |
@@ -208,6 +230,10 @@ Uncomment the block that matches your system in both the `substitutions:` sectio
 ---
 
 ## Lights, Fans & Covers
+
+| Lights | Fans | Covers |
+|:---:|:---:|:---:|
+| ![Lights Widget](screenshots/lights-widget.png) | ![Fan Widget](screenshots/fan-widget.png) | ![Covers Widget](screenshots/covers-widget.png) |
 
 Up to **6 lights**, **6 fans**, and **6 covers** can be configured. Set unused slots to `sensor.disabled`.
 
@@ -260,6 +286,8 @@ person_initials_3: ""
 ---
 
 ## Screensaver
+
+![Screensaver Clock](screenshots/screensaver-clock.png)
 
 Four screensaver styles are available, selectable from **Settings → Screensaver** (the Analog clock style has been replaced by the Flip Clock):
 
