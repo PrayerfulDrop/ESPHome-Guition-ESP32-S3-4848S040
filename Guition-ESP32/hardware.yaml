@@ -19,8 +19,8 @@ http_request:
 
 external_components:
   - source:
-      type: git
-      url: https://github.com/ay129-35MR/esphome-display-screenshot
+      type: local
+      path: Guition-ESP32/components
     components: [display_capture]
 
 
