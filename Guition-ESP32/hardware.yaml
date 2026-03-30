@@ -86,7 +86,7 @@ ota:
       - script.stop: screensaver_tick
       - script.stop: screensaver_update
       - script.stop: screensaver_update_flip
-      - script.stop: screensaver_update_calendar
+      - script.stop: screensaver_update_calendar_events
       - globals.set:
           id: screensaver_active
           value: 'false'
