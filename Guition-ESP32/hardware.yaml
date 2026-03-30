@@ -175,6 +175,7 @@ lvgl:
           border_opa: TRANSP
           shadow_opa: TRANSP
           radius: 0
+          scrollable: false
           on_press:
             - globals.set:
                 id: screensaver_active
@@ -198,6 +199,7 @@ lvgl:
                 bg_opa: TRANSP
                 border_opa: TRANSP
                 shadow_opa: TRANSP
+                scrollable: false
                 pad_all: 0
                 widgets:
                   - label:
@@ -224,6 +226,7 @@ lvgl:
                 bg_opa: TRANSP
                 border_opa: TRANSP
                 shadow_opa: TRANSP
+                scrollable: false
                 pad_all: 0
                 widgets:
                   # Decorative outer ring
@@ -315,6 +318,7 @@ lvgl:
                 bg_opa: TRANSP
                 border_opa: TRANSP
                 shadow_opa: TRANSP
+                scrollable: false
                 pad_all: 0
                 widgets:
                   - label:
@@ -352,54 +356,60 @@ lvgl:
                       text: "Upcoming"
                   # Event 1
                   - label:
-                      id: ss_cal_event1_title
+                      id: ss_cal_event1_time
                       align: CENTER
                       y: -2
                       width: 420
-                      text_font: nunito_18
-                      text_color: color_misty_blue
+                      text_font: nunito_16
+                      text_color: color_steel_blue
                       long_mode: CLIP
                       text: " "
                   - label:
-                      id: ss_cal_event1_time
+                      id: ss_cal_event1_title
                       align: CENTER
                       y: 24
-                      text_font: nunito_16
-                      text_color: color_steel_blue
+                      width: 420
+                      text_font: nunito_18
+                      text_color: color_misty_blue
+                      long_mode: CLIP
                       text: " "
                   # Event 2
                   - label:
-                      id: ss_cal_event2_title
+                      id: ss_cal_event2_time
                       align: CENTER
                       y: 54
                       width: 420
-                      text_font: nunito_18
-                      text_color: color_misty_blue
+                      text_font: nunito_16
+                      text_color: color_steel_blue
                       long_mode: CLIP
                       text: " "
                   - label:
-                      id: ss_cal_event2_time
+                      id: ss_cal_event2_title
                       align: CENTER
                       y: 80
-                      text_font: nunito_16
-                      text_color: color_steel_blue
-                      text: " "
-                  # Event 3
-                  - label:
-                      id: ss_cal_event3_title
-                      align: CENTER
-                      y: 110
                       width: 420
                       text_font: nunito_18
                       text_color: color_misty_blue
                       long_mode: CLIP
                       text: " "
+                  # Event 3
                   - label:
                       id: ss_cal_event3_time
                       align: CENTER
-                      y: 136
+                      y: 110
+                      width: 420
                       text_font: nunito_16
                       text_color: color_steel_blue
+                      long_mode: CLIP
+                      text: " "
+                  - label:
+                      id: ss_cal_event3_title
+                      align: CENTER
+                      y: 136
+                      width: 420
+                      text_font: nunito_18
+                      text_color: color_misty_blue
+                      long_mode: CLIP
                       text: " "
 
       # ── Notification banner ────────────────────────────────────────────────
