@@ -17,8 +17,19 @@ http_request:
   verify_ssl: false
 
 
+external_components:
+  - source:
+      type: git
+      url: https://github.com/ay129-35MR/esphome-display-screenshot
+    components: [display_capture]
+
+
 web_server:
   port: 80
+
+
+display_capture:
+  display_id: my_display
 
 
 esphome:
