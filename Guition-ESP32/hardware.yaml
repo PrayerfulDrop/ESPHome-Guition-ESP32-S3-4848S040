@@ -17,6 +17,10 @@ http_request:
   verify_ssl: false
 
 
+web_server:
+  port: 80
+
+
 esphome:
   name: "${esphome_name}"
   friendly_name: "${esphome_friendly_name}"
@@ -508,6 +512,22 @@ touchscreen:
             - lvgl.resume:
             - lvgl.widget.redraw:
             - light.turn_on: display_backlight
+      - if:
+          condition:
+            lambda: 'return id(screensaver_active);'
+          then:
+            - globals.set:
+                id: screensaver_active
+                value: 'false'
+            - lvgl.widget.hide: screensaver_widget
+            - lvgl.widget.show: menu_controls_main
+            - light.turn_on:
+                id: display_backlight
+                brightness: 100%
+            - lvgl.page.show:
+                id: home_page
+                animation: FADE_IN
+                time: 300ms
 
 
 spi:
