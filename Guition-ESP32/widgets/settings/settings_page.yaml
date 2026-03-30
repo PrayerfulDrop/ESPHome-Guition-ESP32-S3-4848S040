@@ -20,7 +20,7 @@ lvgl:
       - script.execute: screensaver_update
       - if:
           condition:
-            lambda: 'return id(screensaver_style) == 3;'
+            lambda: 'return id(screensaver_style) == 2;'
           then:
             - light.turn_on:
                 id: display_backlight
@@ -538,7 +538,7 @@ lvgl:
                   x: 20
                   y: 560
                   width: 440
-                  height: 80
+                  height: 130
                   align: TOP_LEFT
                   pad_all: 0
                   bg_color: color_steel_blue
@@ -551,16 +551,18 @@ lvgl:
                     - label:
                         id: screensaver_style_label
                         x: 20
-                        align: LEFT_MID
+                        y: 27
+                        align: TOP_LEFT
                         text_font: nunito_20
                         text_color: color_misty_blue
                         text: "Screensaver"
                     - button:
                         id: ss_digital_btn
                         x: 148
-                        width: 65
+                        y: 15
+                        width: 80
                         height: 50
-                        align: LEFT_MID
+                        align: TOP_LEFT
                         bg_color: color_steel_blue
                         shadow_opa: TRANSP
                         border_opa: TRANSP
@@ -582,17 +584,15 @@ lvgl:
                               id: ss_analog_btn
                               bg_color: color_steel_blue
                           - lvgl.button.update:
-                              id: ss_calendar_btn
-                              bg_color: color_steel_blue
-                          - lvgl.button.update:
                               id: ss_none_btn
                               bg_color: color_steel_blue
                     - button:
                         id: ss_analog_btn
-                        x: 221
-                        width: 65
+                        x: 236
+                        y: 15
+                        width: 80
                         height: 50
-                        align: LEFT_MID
+                        align: TOP_LEFT
                         bg_color: color_steel_blue
                         shadow_opa: TRANSP
                         border_opa: TRANSP
@@ -614,49 +614,15 @@ lvgl:
                               id: ss_analog_btn
                               bg_color: color_misty_blue
                           - lvgl.button.update:
-                              id: ss_calendar_btn
-                              bg_color: color_steel_blue
-                          - lvgl.button.update:
-                              id: ss_none_btn
-                              bg_color: color_steel_blue
-                    - button:
-                        id: ss_calendar_btn
-                        x: 294
-                        width: 65
-                        height: 50
-                        align: LEFT_MID
-                        bg_color: color_steel_blue
-                        shadow_opa: TRANSP
-                        border_opa: TRANSP
-                        radius: 10
-                        widgets:
-                          - label:
-                              align: CENTER
-                              text_font: nunito_18
-                              text_color: color_misty_blue
-                              text: "Cal"
-                        on_press:
-                          - globals.set:
-                              id: screensaver_style
-                              value: '2'
-                          - lvgl.button.update:
-                              id: ss_digital_btn
-                              bg_color: color_steel_blue
-                          - lvgl.button.update:
-                              id: ss_analog_btn
-                              bg_color: color_steel_blue
-                          - lvgl.button.update:
-                              id: ss_calendar_btn
-                              bg_color: color_misty_blue
-                          - lvgl.button.update:
                               id: ss_none_btn
                               bg_color: color_steel_blue
                     - button:
                         id: ss_none_btn
-                        x: 367
-                        width: 65
+                        x: 324
+                        y: 15
+                        width: 80
                         height: 50
-                        align: LEFT_MID
+                        align: TOP_LEFT
                         bg_color: color_steel_blue
                         shadow_opa: TRANSP
                         border_opa: TRANSP
@@ -670,7 +636,7 @@ lvgl:
                         on_press:
                           - globals.set:
                               id: screensaver_style
-                              value: '3'
+                              value: '2'
                           - lvgl.button.update:
                               id: ss_digital_btn
                               bg_color: color_steel_blue
@@ -678,8 +644,17 @@ lvgl:
                               id: ss_analog_btn
                               bg_color: color_steel_blue
                           - lvgl.button.update:
-                              id: ss_calendar_btn
-                              bg_color: color_steel_blue
-                          - lvgl.button.update:
                               id: ss_none_btn
                               bg_color: color_misty_blue
+                    - checkbox:
+                        id: ss_events_checkbox
+                        x: 148
+                        y: 90
+                        align: TOP_LEFT
+                        text: "Show calendar events"
+                        text_font: nunito_16
+                        text_color: color_misty_blue
+                        on_value:
+                          - globals.set:
+                              id: screensaver_show_calendar
+                              value: !lambda "return x;"
