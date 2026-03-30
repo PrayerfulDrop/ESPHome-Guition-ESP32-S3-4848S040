@@ -825,27 +825,39 @@ lvgl:
                                     data:
                                       entity_id: "${vacuum_entity}"
 
-        # vacuum entity friendly name
-        - obj:
-            id: vacuum_bg_name
-            x: -20
-            y: 400
-            width: 360
-            height: 60
-            align: TOP_RIGHT
+        # Back button – returns to devices page
+        - button:
+            id: vacuum_back_btn
+            x: 20
+            y: -20
+            width: 200
+            height: 80
+            align: BOTTOM_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
             border_opa: TRANSP
-            border_width: 0
             shadow_opa: TRANSP
             radius: 10
             widgets:
               - label:
-                  id: vacuum_label_name
                   align: CENTER
-                  text_font: nunito_16
+                  text_font: icons_28
                   text_color: color_misty_blue
-                  text: "friendly name"
+                  text: "\U0000e902"
+            on_press:
+              then:
+                - lvgl.widget.show: menu_controls_main
+                - lvgl.page.show:
+                    id: devices_page
+                    animation: OUT_RIGHT
+                    time: 300ms
+
+        # Hidden label – keeps sensor update target valid
+        - label:
+            id: vacuum_label_name
+            hidden: true
+            text: ""
+            text_font: nunito_16
 
 
 script:

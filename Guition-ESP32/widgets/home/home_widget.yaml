@@ -535,6 +535,7 @@ lvgl:
             clickable: true
             on_press:
               then:
+                - lvgl.widget.hide: menu_controls_main
                 - script.execute: fetch_weather_forecast
                 - lvgl.page.show:
                     id: weather_forecast_page

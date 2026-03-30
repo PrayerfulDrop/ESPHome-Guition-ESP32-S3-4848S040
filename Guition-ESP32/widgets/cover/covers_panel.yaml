@@ -54,17 +54,19 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_1}_cover_tile_icon
-                  align: CENTER
-                  y: 20
-                  text_font: mdi_icons_72
+                  align: TOP_MID
+                  y: 12
+                  text_font: mdi_icons_40
                   text_color: color_steel_blue
                   text: "\U000F012F"
               - label:
                   id: ${cover_widget_name_1}_label_name
-                  align: TOP_MID
-                  y: 8
-                  text_font: nunito_16
+                  align: BOTTOM_MID
+                  y: -12
+                  width: 130
+                  text_font: nunito_18
                   text_color: color_misty_blue
+                  long_mode: WRAP
                   text: "${cover_label_name_1}"
 
         # ── Slot 2 ─────────────────────────────────────────────────────────
@@ -82,17 +84,19 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_2}_cover_tile_icon
-                  align: CENTER
-                  y: 20
-                  text_font: mdi_icons_72
+                  align: TOP_MID
+                  y: 12
+                  text_font: mdi_icons_40
                   text_color: color_steel_blue
                   text: "\U000F012F"
               - label:
                   id: ${cover_widget_name_2}_label_name
-                  align: TOP_MID
-                  y: 8
-                  text_font: nunito_16
+                  align: BOTTOM_MID
+                  y: -12
+                  width: 130
+                  text_font: nunito_18
                   text_color: color_misty_blue
+                  long_mode: WRAP
                   text: "${cover_label_name_2}"
 
         # ── Slot 3 ─────────────────────────────────────────────────────────
@@ -110,17 +114,19 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_3}_cover_tile_icon
-                  align: CENTER
-                  y: 20
-                  text_font: mdi_icons_72
+                  align: TOP_MID
+                  y: 12
+                  text_font: mdi_icons_40
                   text_color: color_steel_blue
                   text: "\U000F012F"
               - label:
                   id: ${cover_widget_name_3}_label_name
-                  align: TOP_MID
-                  y: 8
-                  text_font: nunito_16
+                  align: BOTTOM_MID
+                  y: -12
+                  width: 130
+                  text_font: nunito_18
                   text_color: color_misty_blue
+                  long_mode: WRAP
                   text: "${cover_label_name_3}"
 
         # ── Slot 4 ─────────────────────────────────────────────────────────
@@ -138,17 +144,19 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_4}_cover_tile_icon
-                  align: CENTER
-                  y: 20
-                  text_font: mdi_icons_72
+                  align: TOP_MID
+                  y: 12
+                  text_font: mdi_icons_40
                   text_color: color_steel_blue
                   text: "\U000F012F"
               - label:
                   id: ${cover_widget_name_4}_label_name
-                  align: TOP_MID
-                  y: 8
-                  text_font: nunito_16
+                  align: BOTTOM_MID
+                  y: -12
+                  width: 130
+                  text_font: nunito_18
                   text_color: color_misty_blue
+                  long_mode: WRAP
                   text: "${cover_label_name_4}"
 
         # ── Slot 5 ─────────────────────────────────────────────────────────
@@ -166,17 +174,19 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_5}_cover_tile_icon
-                  align: CENTER
-                  y: 20
-                  text_font: mdi_icons_72
+                  align: TOP_MID
+                  y: 12
+                  text_font: mdi_icons_40
                   text_color: color_steel_blue
                   text: "\U000F012F"
               - label:
                   id: ${cover_widget_name_5}_label_name
-                  align: TOP_MID
-                  y: 8
-                  text_font: nunito_16
+                  align: BOTTOM_MID
+                  y: -12
+                  width: 130
+                  text_font: nunito_18
                   text_color: color_misty_blue
+                  long_mode: WRAP
                   text: "${cover_label_name_5}"
 
         # ── Slot 6 ─────────────────────────────────────────────────────────
@@ -194,17 +204,19 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_6}_cover_tile_icon
-                  align: CENTER
-                  y: 20
-                  text_font: mdi_icons_72
+                  align: TOP_MID
+                  y: 12
+                  text_font: mdi_icons_40
                   text_color: color_steel_blue
                   text: "\U000F012F"
               - label:
                   id: ${cover_widget_name_6}_label_name
-                  align: TOP_MID
-                  y: 8
-                  text_font: nunito_16
+                  align: BOTTOM_MID
+                  y: -12
+                  width: 130
+                  text_font: nunito_18
                   text_color: color_misty_blue
+                  long_mode: WRAP
                   text: "${cover_label_name_6}"
 
 

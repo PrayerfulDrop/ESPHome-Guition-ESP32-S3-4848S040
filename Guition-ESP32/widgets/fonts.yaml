@@ -249,6 +249,8 @@
     "\U000F06BB", # shield plane
     "\U000F099E", # shield off
     "\U000F0498", # shield
+    "\U000F0A62", # play-circle (scenes/shortcuts)
+    "\U000F012F", # blinds (covers)
   ]
 
 - file: "Guition-ESP32/fonts/materialdesignicons-webfont.ttf"

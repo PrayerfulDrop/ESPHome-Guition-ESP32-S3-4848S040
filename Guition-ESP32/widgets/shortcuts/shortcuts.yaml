@@ -64,17 +64,17 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_1
-                        y: -18
-                        align: CENTER
-                        text_font: mdi_icons_72
+                        y: 12
+                        align: TOP_MID
+                        text_font: mdi_icons_40
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:
                         id: scene_label_lbl_1
-                        y: 45
+                        y: -12
+                        align: BOTTOM_MID
                         width: 120
-                        align: CENTER
-                        text_font: nunito_16
+                        text_font: nunito_18
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_1}"
@@ -96,17 +96,17 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_2
-                        y: -18
-                        align: CENTER
-                        text_font: mdi_icons_72
+                        y: 12
+                        align: TOP_MID
+                        text_font: mdi_icons_40
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:
                         id: scene_label_lbl_2
-                        y: 45
+                        y: -12
+                        align: BOTTOM_MID
                         width: 120
-                        align: CENTER
-                        text_font: nunito_16
+                        text_font: nunito_18
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_2}"
@@ -128,17 +128,17 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_3
-                        y: -18
-                        align: CENTER
-                        text_font: mdi_icons_72
+                        y: 12
+                        align: TOP_MID
+                        text_font: mdi_icons_40
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:
                         id: scene_label_lbl_3
-                        y: 45
+                        y: -12
+                        align: BOTTOM_MID
                         width: 120
-                        align: CENTER
-                        text_font: nunito_16
+                        text_font: nunito_18
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_3}"
@@ -161,17 +161,17 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_4
-                        y: -18
-                        align: CENTER
-                        text_font: mdi_icons_72
+                        y: 12
+                        align: TOP_MID
+                        text_font: mdi_icons_40
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:
                         id: scene_label_lbl_4
-                        y: 45
+                        y: -12
+                        align: BOTTOM_MID
                         width: 120
-                        align: CENTER
-                        text_font: nunito_16
+                        text_font: nunito_18
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_4}"
@@ -193,17 +193,17 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_5
-                        y: -18
-                        align: CENTER
-                        text_font: mdi_icons_72
+                        y: 12
+                        align: TOP_MID
+                        text_font: mdi_icons_40
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:
                         id: scene_label_lbl_5
-                        y: 45
+                        y: -12
+                        align: BOTTOM_MID
                         width: 120
-                        align: CENTER
-                        text_font: nunito_16
+                        text_font: nunito_18
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_5}"
@@ -225,17 +225,17 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_6
-                        y: -18
-                        align: CENTER
-                        text_font: mdi_icons_72
+                        y: 12
+                        align: TOP_MID
+                        text_font: mdi_icons_40
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:
                         id: scene_label_lbl_6
-                        y: 45
+                        y: -12
+                        align: BOTTOM_MID
                         width: 120
-                        align: CENTER
-                        text_font: nunito_16
+                        text_font: nunito_18
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_6}"

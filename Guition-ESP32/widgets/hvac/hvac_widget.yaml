@@ -257,29 +257,39 @@ lvgl:
                           entity_id: "${hvac_entity}"
                           hvac_mode: "off"
 
-        # Name
-        - obj:
-            id: hvac_name_panel
-            x: 100
-            y: 400
-            width: 360
-            height: 60
-            align: TOP_LEFT
-            pad_all: 0
+        # Back button – returns to devices page
+        - button:
+            id: hvac_back_btn
+            x: 20
+            y: -20
+            width: 200
+            height: 80
+            align: BOTTOM_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
             border_opa: TRANSP
-            border_width: 0
             shadow_opa: TRANSP
             radius: 10
             widgets:
               - label:
-                  id: hvac_name_label
-                  x: 20
-                  align: LEFT_MID
-                  text_font: nunito_16
+                  align: CENTER
+                  text_font: icons_28
                   text_color: color_misty_blue
-                  text: "friendly name"
+                  text: "${exit_icon}"
+            on_press:
+              then:
+                - lvgl.widget.show: menu_controls_main
+                - lvgl.page.show:
+                    id: devices_page
+                    animation: OUT_RIGHT
+                    time: 300ms
+
+        # Hidden label – keeps sensor update target valid
+        - label:
+            id: hvac_name_label
+            hidden: true
+            text: ""
+            text_font: nunito_16
 
         # Arc / meter section
         - obj:

@@ -568,6 +568,33 @@ lvgl:
                   text_color: color_misty_blue
                   text: "--°"
 
+        # ── Back button ───────────────────────────────────────────────────────
+        - button:
+            id: forecast_back_btn
+            x: 20
+            y: -20
+            width: 200
+            height: 50
+            align: BOTTOM_LEFT
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  align: CENTER
+                  text_font: icons_28
+                  text_color: color_misty_blue
+                  text: "\U0000e902"
+            on_press:
+              then:
+                - lvgl.widget.show: menu_controls_main
+                - lvgl.page.show:
+                    id: home_page
+                    animation: OUT_RIGHT
+                    time: 300ms
+
         # ── Refresh button ────────────────────────────────────────────────────
         - button:
             id: forecast_refresh_btn
