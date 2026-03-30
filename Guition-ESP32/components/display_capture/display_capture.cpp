@@ -206,11 +206,7 @@ void DisplayCaptureHandler::handle_screenshot_(AsyncWebServerRequest *req) {
 
   if (xSemaphoreTake(this->semaphore_, pdMS_TO_TICKS(5000)) == pdTRUE) {
     if (this->bmp_data_ != nullptr && this->bmp_size_ > 0) {
-#ifdef USE_ESP_IDF
-      auto *response = req->beginResponse_P(200, "image/bmp", this->bmp_data_, this->bmp_size_);
-#else
       auto *response = req->beginResponse(200, "image/bmp", this->bmp_data_, this->bmp_size_);
-#endif
       response->addHeader("Cache-Control", "no-cache");
       req->send(response);
       // Buffer is intentionally NOT freed here. See comment above.
