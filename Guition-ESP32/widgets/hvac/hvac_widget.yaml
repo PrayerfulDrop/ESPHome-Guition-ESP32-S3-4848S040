@@ -134,20 +134,33 @@ lvgl:
     - id: hvac_page
       bg_color: color_slate_blue_gray
       widgets:
+        # ── Page title ──────────────────────────────────────────────────────
         - label:
             id: hvac_header
             align: TOP_MID
-            y: 5
+            y: 20
             text_font: nunito_20
             text_color: color_misty_blue
             text: "HVAC"
 
+        # ── Divider under title ──────────────────────────────────────────────
+        - obj:
+            align: TOP_MID
+            y: 48
+            width: 440
+            height: 1
+            pad_all: 0
+            bg_color: color_misty_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 0
 
         # State bar
         - obj:
             id: hvac_state_bar
             x: 20
-            y: 40
+            y: 58
             width: 400
             height: 60
             align: TOP_LEFT
@@ -171,7 +184,7 @@ lvgl:
         - obj:
             id: hvac_mode_panel
             x: 15
-            y: 100
+            y: 120
             width: 210
             height: 90
             align: TOP_LEFT
