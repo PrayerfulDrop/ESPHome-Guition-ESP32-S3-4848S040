@@ -119,18 +119,19 @@ script:
           }
 
           // ── Screensaver style toggle sync ─────────────────────────────────
-          lv_obj_set_style_bg_color(id(ss_digital_btn),  surface, LV_PART_MAIN);
-          lv_obj_set_style_bg_color(id(ss_analog_btn),   surface, LV_PART_MAIN);
-          lv_obj_set_style_bg_color(id(ss_calendar_btn), surface, LV_PART_MAIN);
-          lv_obj_set_style_bg_color(id(ss_none_btn),     surface, LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(ss_digital_btn), surface, LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(ss_analog_btn),  surface, LV_PART_MAIN);
+          lv_obj_set_style_bg_color(id(ss_none_btn),    surface, LV_PART_MAIN);
           if (id(screensaver_style) == 0)
-            lv_obj_set_style_bg_color(id(ss_digital_btn),  lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(ss_digital_btn), lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
           else if (id(screensaver_style) == 1)
-            lv_obj_set_style_bg_color(id(ss_analog_btn),   lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
-          else if (id(screensaver_style) == 2)
-            lv_obj_set_style_bg_color(id(ss_calendar_btn), lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(ss_analog_btn),  lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
           else
-            lv_obj_set_style_bg_color(id(ss_none_btn),     lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+            lv_obj_set_style_bg_color(id(ss_none_btn),    lv_palette_lighten(LV_PALETTE_BLUE, 2), LV_PART_MAIN);
+          if (id(screensaver_show_calendar))
+            lv_obj_add_state(id(ss_events_checkbox), LV_STATE_CHECKED);
+          else
+            lv_obj_clear_state(id(ss_events_checkbox), LV_STATE_CHECKED);
 
           // ── Theme background images ──────────────────────────────────────
           // Hide all backgrounds first, then show the active one

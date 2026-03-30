@@ -12,11 +12,17 @@ globals:
     restore_value: false
     initial_value: 'false'
 
-  # Screensaver clock style  0 = Digital  1 = Flip  2 = Calendar
+  # Screensaver clock style  0 = Digital  1 = Flip  2 = None
   - id: screensaver_style
     type: int
     restore_value: true
     initial_value: '1'
+
+  # Show calendar events on the screensaver (overlays either Digital or Flip style)
+  - id: screensaver_show_calendar
+    type: bool
+    restore_value: true
+    initial_value: 'false'
 
   # Clock display format  0 = 12h (AM/PM)   1 = 24h
   - id: time_format

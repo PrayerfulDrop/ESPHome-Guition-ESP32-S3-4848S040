@@ -870,15 +870,29 @@ script:
 
   - id: screensaver_update
     then:
-      # Hide all styles first, then show and update the active one
+      # Hide all clock containers and the shared events panel first
       - lvgl.widget.hide: ss_digital
       - lvgl.widget.hide: ss_flip
-      - lvgl.widget.hide: ss_calendar
+      - lvgl.widget.hide: ss_events
       - if:
           condition:
             lambda: return id(screensaver_style) == 0;
           then:
             - lvgl.widget.show: ss_digital
+            # Reposition clock based on whether calendar events are shown
+            - if:
+                condition:
+                  lambda: return id(screensaver_show_calendar);
+                then:
+                  - lambda: |-
+                      lv_obj_align(id(screensaver_time), LV_ALIGN_CENTER, 0, -115);
+                      lv_obj_align(id(screensaver_date), LV_ALIGN_CENTER, 0, -35);
+                  - lvgl.widget.show: ss_events
+                  - script.execute: screensaver_update_calendar_events
+                else:
+                  - lambda: |-
+                      lv_obj_align(id(screensaver_time), LV_ALIGN_CENTER, 0, -30);
+                      lv_obj_align(id(screensaver_date), LV_ALIGN_CENTER, 0, 50);
             - lvgl.label.update:
                 id: screensaver_time
                 text: !lambda |-
@@ -906,13 +920,24 @@ script:
             lambda: return id(screensaver_style) == 1;
           then:
             - lvgl.widget.show: ss_flip
+            # Reposition panels based on whether calendar events are shown
+            - if:
+                condition:
+                  lambda: return id(screensaver_show_calendar);
+                then:
+                  - lambda: |-
+                      lv_obj_align(id(ss_flip_panels), LV_ALIGN_CENTER, 0, -110);
+                      lv_obj_align(id(ss_flip_seam),   LV_ALIGN_CENTER, 0, -110);
+                      lv_obj_align(id(ss_flip_date),   LV_ALIGN_CENTER, 0, 10);
+                  - lvgl.widget.show: ss_events
+                  - script.execute: screensaver_update_calendar_events
+                else:
+                  - lambda: |-
+                      lv_obj_align(id(ss_flip_panels), LV_ALIGN_CENTER, 0, 0);
+                      lv_obj_align(id(ss_flip_seam),   LV_ALIGN_CENTER, 0, 0);
+                      lv_obj_align(id(ss_flip_date),   LV_ALIGN_CENTER, 0, 110);
             - script.execute: screensaver_update_flip
-      - if:
-          condition:
-            lambda: return id(screensaver_style) == 2;
-          then:
-            - lvgl.widget.show: ss_calendar
-            - script.execute: screensaver_update_calendar
+      # Style 2 = None: everything stays hidden; backlight is dimmed by on_idle handler
 
   - id: screensaver_update_flip
     then:
@@ -950,30 +975,8 @@ script:
             snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[now.day_of_week - 1], months[now.month - 1], now.day_of_month, now.year);
             return buf;
 
-  - id: screensaver_update_calendar
+  - id: screensaver_update_calendar_events
     then:
-      - lvgl.label.update:
-          id: ss_cal_time
-          text: !lambda |-
-            static char buf[16];
-            auto now = id(homeassistant_time).now();
-            if (id(time_format) == 1) {
-              snprintf(buf, sizeof(buf), "%02d:%02d", now.hour, now.minute);
-            } else {
-              const char *ampm = (now.hour >= 12) ? "PM" : "AM";
-              int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;
-              snprintf(buf, sizeof(buf), "%d:%02d %s", hour_12, now.minute, ampm);
-            }
-            return buf;
-      - lvgl.label.update:
-          id: ss_cal_date
-          text: !lambda |-
-            static char buf[40];
-            auto now = id(homeassistant_time).now();
-            static const char* days[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
-            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
-            snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[now.day_of_week - 1], months[now.month - 1], now.day_of_month, now.year);
-            return buf;
       - lvgl.label.update:
           id: ss_cal_event1_time
           text: !lambda |-
