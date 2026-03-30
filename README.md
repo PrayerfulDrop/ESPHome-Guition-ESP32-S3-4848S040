@@ -52,6 +52,10 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 |:---:|:---:|:---:|
 | ![Devices](screenshots/devices-widget.png) | ![Settings 1](screenshots/settings-widget1.png) | ![Settings 2](screenshots/settings-widget2.png) |
 
+| 5-Day Weather Forecast | People |
+|:---:|:---:|
+| ![5-Day Weather](screenshots/5-day-weather.png) | ![People Widget](screenshots/people-widget.png) |
+
 ---
 
 ## Themes
@@ -263,6 +267,8 @@ The light detail page automatically shows a colour temperature slider the first 
 
 ## Presence & People
 
+![People Widget](screenshots/people-widget.png)
+
 Up to 4 person entities are tracked in real time.  Initials appear in the top indicator bar coloured green when home and dim when away.  Tapping the indicator bar opens the People page, which shows a card per person with:
 
 - **Avatar circle** with initials (coloured green when home)
@@ -282,6 +288,14 @@ person_initials_2: "K"
 person_entity_3:   "sensor.disabled"
 person_initials_3: ""
 ```
+
+---
+
+## Weather
+
+![5-Day Weather Forecast](screenshots/5-day-weather.png)
+
+Displays current conditions with a title-cased state and a **5-day forecast** showing high/low temperatures and weather icons. Set the `weather_entity` substitution to your Home Assistant weather entity (e.g. `weather.forecast_home`).
 
 ---
 
