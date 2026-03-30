@@ -134,6 +134,14 @@ lvgl:
     - id: hvac_page
       bg_color: color_slate_blue_gray
       widgets:
+        - label:
+            id: hvac_header
+            align: TOP_MID
+            y: 5
+            text_font: nunito_20
+            text_color: color_misty_blue
+            text: "HVAC"
+
 
         # State bar
         - obj:

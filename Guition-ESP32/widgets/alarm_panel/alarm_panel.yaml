@@ -18,6 +18,14 @@ lvgl:
     - id: alarm_panel_page
       bg_color: color_slate_blue_gray
       widgets:
+        - label:
+            id: alarm_panel_header
+            align: TOP_MID
+            y: 5
+            text_font: nunito_20
+            text_color: color_misty_blue
+            text: "Alarm Panel"
+
         - obj:
             id: alarm_panel_state_bg
             x: 20

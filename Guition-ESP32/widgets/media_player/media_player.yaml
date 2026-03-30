@@ -127,6 +127,14 @@ lvgl:
     - id: media_player_page
       bg_color: color_slate_blue_gray
       widgets:
+        - label:
+            id: media_player_header
+            align: TOP_MID
+            y: 5
+            text_font: nunito_20
+            text_color: color_misty_blue
+            text: "Media Player"
+
 
         # Cover
         - obj:

@@ -103,6 +103,14 @@ lvgl:
     - id: ${ac_page_id}
       bg_color: color_slate_blue_gray
       widgets:
+        - label:
+            id: air_conditioner_header
+            align: TOP_MID
+            y: 5
+            text_font: nunito_20
+            text_color: color_misty_blue
+            text: "Air Conditioner"
+
 
         # State
         - obj:

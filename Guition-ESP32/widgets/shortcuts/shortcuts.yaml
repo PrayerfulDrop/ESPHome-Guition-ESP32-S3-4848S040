@@ -35,13 +35,22 @@ lvgl:
       bg_color: color_slate_blue_gray
       widgets:
 
+        # ── Header ──────────────────────────────────────────────────────────
+        - label:
+            id: shortcuts_panel_header
+            align: TOP_MID
+            y: 18
+            text_font: nunito_20
+            text_color: color_misty_blue
+            text: "Scenes"
+
         # ── 2×3 tile grid ─────────────────────────────────────────────────────
         - obj:
             id: shortcuts_grid
             x: 20
-            y: 20
+            y: 60
             width: 440
-            height: 340
+            height: 320
             align: TOP_LEFT
             pad_all: 0
             bg_color: color_steel_blue
