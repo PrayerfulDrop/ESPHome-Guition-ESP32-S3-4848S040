@@ -29,7 +29,6 @@ CONF_BACKEND = "backend"
 
 BACKEND_DISPLAY_BUFFER = "display_buffer"
 BACKEND_RPI_DPI_RGB = "rpi_dpi_rgb"
-BACKEND_ST7701S = "st7701s"
 
 # C++ class references for code generation
 display_capture_ns = cg.esphome_ns.namespace("display_capture")
@@ -65,7 +64,7 @@ CONFIG_SCHEMA = cv.Schema(
         # page_names: human-readable names returned by /screenshot/info
         cv.Optional(CONF_PAGE_NAMES): cv.ensure_list(cv.string),
         cv.Optional(CONF_BACKEND, default=BACKEND_DISPLAY_BUFFER): cv.one_of(
-            BACKEND_DISPLAY_BUFFER, BACKEND_RPI_DPI_RGB, BACKEND_ST7701S, lower=True
+            BACKEND_DISPLAY_BUFFER, BACKEND_RPI_DPI_RGB, lower=True
         ),
     },
 ).extend(cv.COMPONENT_SCHEMA)
@@ -80,8 +79,6 @@ async def to_code(config):
     disp = await cg.get_variable(config[CONF_DISPLAY_ID])
     cg.add(var.set_display(disp))
     cg.add(var.set_backend(config[CONF_BACKEND]))
-    if config[CONF_BACKEND] == BACKEND_ST7701S:
-        cg.add_define("DISPLAY_CAPTURE_USE_ST7701S")
 
     # Native pages mode: resolve each DisplayPage ID and pass as a vector
     if CONF_PAGES in config:

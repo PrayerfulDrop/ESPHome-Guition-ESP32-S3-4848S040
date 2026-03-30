@@ -103,12 +103,33 @@ lvgl:
     - id: ${ac_page_id}
       bg_color: color_slate_blue_gray
       widgets:
+        # ── Page title ──────────────────────────────────────────────────────
+        - label:
+            id: air_conditioner_header
+            align: TOP_MID
+            y: 20
+            text_font: nunito_20
+            text_color: color_misty_blue
+            text: "Air Conditioner"
+
+        # ── Divider under title ──────────────────────────────────────────────
+        - obj:
+            align: TOP_MID
+            y: 48
+            width: 440
+            height: 1
+            pad_all: 0
+            bg_color: color_misty_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 0
 
         # State
         - obj:
             id: air_conditioner_state
             x: 20
-            y: 20
+            y: 58
             width: 400
             height: 60
             align: TOP_LEFT
@@ -132,9 +153,9 @@ lvgl:
         - obj:
             id: air_conditioner_controls
             x: 20
-            y: 100
+            y: 120
             width: 360
-            height: 280
+            height: 260
             align: TOP_LEFT
             pad_all: 0
             bg_color: color_steel_blue
@@ -204,29 +225,12 @@ lvgl:
                               entity_id: "${air_conditioner_entity}"
                               temperature: !lambda 'return id(air_conditioner_sensor_target_temp).state;'
 
-        # Name
-        - obj:
-            id: air_conditioner_name
-            x: 100
-            y: 400
-            width: 360
-            height: 60
-            align: TOP_LEFT
-            pad_all: 0
-            bg_color: color_steel_blue
-            bg_opa: 20%
-            border_opa: TRANSP
-            border_width: 0
-            shadow_opa: TRANSP
-            radius: 10
-            widgets:
-              - label:
-                  id: air_conditioner_name_label
-                  x: 20
-                  align: LEFT_MID
-                  text_font: nunito_16
-                  text_color: color_misty_blue
-                  text: "friendly name"
+        # Hidden label – keeps sensor update target valid
+        - label:
+            id: air_conditioner_name_label
+            hidden: true
+            text: ""
+            text_font: nunito_16
 
         # main
         - obj:

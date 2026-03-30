@@ -75,11 +75,33 @@ lvgl:
       bg_color: color_slate_blue_gray
       widgets:
 
+        # ── Page title ──────────────────────────────────────────────────────
+        - label:
+            id: lights_panel_header
+            align: TOP_MID
+            y: 20
+            text_font: nunito_20
+            text_color: color_misty_blue
+            text: "Lights"
+
+        # ── Divider under title ──────────────────────────────────────────────
+        - obj:
+            align: TOP_MID
+            y: 48
+            width: 440
+            height: 1
+            pad_all: 0
+            bg_color: color_misty_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 0
+
         # ── Slot 1 ──────────────────────────────────────────────────────────
         - button:
             id: ${light_widget_name_1}_btn
             x: 20
-            y: 20
+            y: 60
             width: 140
             height: 150
             align: TOP_LEFT
@@ -105,7 +127,7 @@ lvgl:
         - button:
             id: ${light_widget_name_2}_btn
             x: 170
-            y: 20
+            y: 60
             width: 140
             height: 150
             align: TOP_LEFT
@@ -131,7 +153,7 @@ lvgl:
         - button:
             id: ${light_widget_name_3}_btn
             x: 320
-            y: 20
+            y: 60
             width: 140
             height: 150
             align: TOP_LEFT
@@ -157,7 +179,7 @@ lvgl:
         - button:
             id: ${light_widget_name_4}_btn
             x: 20
-            y: 200
+            y: 230
             width: 140
             height: 150
             align: TOP_LEFT
@@ -183,7 +205,7 @@ lvgl:
         - button:
             id: ${light_widget_name_5}_btn
             x: 170
-            y: 200
+            y: 230
             width: 140
             height: 150
             align: TOP_LEFT
@@ -209,7 +231,7 @@ lvgl:
         - button:
             id: ${light_widget_name_6}_btn
             x: 320
-            y: 200
+            y: 230
             width: 140
             height: 150
             align: TOP_LEFT

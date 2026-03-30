@@ -18,7 +18,7 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 | **Home screen** | Time (12h/24h), date, indoor temp (°F/°C), weather icon + title-cased condition, up to 4 upcoming calendar events |
 | **Presence indicators** | Up to 4 person entities shown as initials in the top bar — green when home, dim when away; tap to open full People page |
 | **People page** | Card per person showing avatar initials, full name from HA, and home/away status |
-| **Screensaver** | Activates on idle — Digital clock, Analog clock, Calendar view, or None (screen off); tap anywhere to wake and return to home |
+| **Screensaver** | Activates on idle — Digital clock, Flip clock (Gluqlo retro style), Calendar view, or None (screen off); tap anywhere to wake and return to home |
 | **Notification banner** | Write any text to an `input_text` entity in HA — a toast banner appears for 10 s; tap to dismiss early |
 | **Weather** | Current conditions with title-cased state + 5-day forecast with high/low temps and weather icons |
 | **Calendar** | Up to 4 upcoming events pulled live from Home Assistant via template sensors |
@@ -32,11 +32,12 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 | **Alarm Panel** | Disarm / Home / Away / Night / Vacation modes with PIN entry |
 | **Devices hub** | Navigation to Alarm, Media, Vacuum, HVAC, Fans, Shortcuts, and Covers |
 | **Settings** | Language (9 languages), colour theme, 12h/24h clock, °F/°C unit, backlight brightness, auto-sleep timer, screensaver style |
-| **Settings defaults** | Language: English (US) · Theme: Dark · Backlight: 100% · Sleep: 120 s · Clock: 12h · Temp: °F · Screensaver: Digital |
+| **Settings defaults** | Language: English (US) · Theme: Dark · Backlight: 100% · Sleep: 120 s · Clock: 12h · Temp: °F · Screensaver: Digital clock |
 | **Themes** | 6 built-in themes: Cherry Blossom, Dark, Espeon, Ocean, Paris, Patriotic |
 | **Navigation** | Persistent bottom nav bar (Home / Lights / Devices / Settings); entity detail pages hide the bar and show a back button |
 | **Multi-device** | Copy `main.yaml` and rename — each file is a fully independent device |
-| **OTA overlay** | Clean on-screen progress bar during firmware updates (no screen corruption) |
+| **OTA overlay** | Backlight dims smoothly during firmware uploads — no screen corruption or tearing |
+| **Remote screenshot** | HTTP endpoint at `http://<device>.local/screenshot` returns a live BMP of the current screen; `/screenshot/info` returns JSON metadata |
 | **Localisation** | Translations fetched live from Home Assistant for weather, HVAC, vacuum, alarm, and cover states |
 
 ---
@@ -260,17 +261,17 @@ person_initials_3: ""
 
 ## Screensaver
 
-Four screensaver styles are available, selectable from **Settings → Screensaver**:
+Four screensaver styles are available, selectable from **Settings → Screensaver** (the Analog clock style has been replaced by the Flip Clock):
 
 | Style | Behaviour |
 |---|---|
 | **Digital** (default) | Large digital clock + date |
-| **Analog** | Animated analog clock face + date |
+| **Flip Clock** | Retro Gluqlo-style flip clock — hour and minute panels with date below |
 | **Calendar** | Digital clock + next 3 upcoming events |
 | **None** | Screen dims to near-off (backlight ~1%) |
 
 - The screensaver activates after the configured idle timeout (default **120 s**)
-- **Digital / Analog / Calendar**: display stays at normal brightness showing the selected clock
+- **Digital / Flip Clock / Calendar**: display stays at normal brightness showing the selected clock
 - **None**: backlight dims to ~1% — the screen is effectively off but touch still works
 - Tapping anywhere dismisses the screensaver, restores backlight to the saved brightness level, and navigates directly to the **Home** page
 
@@ -289,6 +290,48 @@ Write any text to the configured `input_text` entity from a HA automation:
 ```
 
 The banner appears at the bottom of the screen for 10 seconds then auto-dismisses. Tap the banner to dismiss early. Setting the entity value to an empty string also clears it. Blank, `unknown`, and `unavailable` states are ignored.
+
+---
+
+## Remote Screenshot
+
+The `display_capture` external component exposes two HTTP endpoints on the device's built-in web server:
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/screenshot` | GET | Returns a BMP image of the current screen |
+| `/screenshot?page=N` | GET | Switches to page N, captures, then restores |
+| `/screenshot/info` | GET | Returns JSON metadata (width, height, page count, mode) |
+
+**Requirements** — add these to `hardware.yaml` (already included in this repo):
+
+```yaml
+web_server:
+  port: 80
+
+external_components:
+  - source:
+      type: local
+      path: Guition-ESP32/components
+    components: [display_capture]
+
+display_capture:
+  display_id: my_display
+  backend: st7701s
+```
+
+**Usage:**
+
+```bash
+# Save a screenshot to disk
+curl http://living-room.local/screenshot --output screen.bmp
+
+# Get display info
+curl http://living-room.local/screenshot/info
+# → {"width":480,"height":480,"pages":1,"mode":"single"}
+```
+
+The component reads the framebuffer directly from the ESP-IDF RGB panel driver (`esp_lcd_rgb_panel_get_frame_buffer`) — no display redraw or flicker occurs during capture.
 
 ---
 

@@ -246,12 +246,34 @@ lvgl:
     - id: vacuum_page
       bg_color: color_slate_blue_gray
       widgets:
+        # ── Page title ──────────────────────────────────────────────────────
+        - label:
+            id: vacuum_header
+            align: TOP_MID
+            y: 20
+            text_font: nunito_20
+            text_color: color_misty_blue
+            text: "Vacuum"
+
+        # ── Divider under title ──────────────────────────────────────────────
+        - obj:
+            align: TOP_MID
+            y: 48
+            width: 440
+            height: 1
+            pad_all: 0
+            bg_color: color_misty_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 0
+
         # main
         - obj:
             id: vacuum_bg_main
-            y: 20
+            y: 58
             width: 440
-            height: 240
+            height: 222
             align: TOP_MID
             pad_all: 0
             bg_color: color_steel_blue
@@ -825,27 +847,12 @@ lvgl:
                                     data:
                                       entity_id: "${vacuum_entity}"
 
-        # vacuum entity friendly name
-        - obj:
-            id: vacuum_bg_name
-            x: -20
-            y: 400
-            width: 360
-            height: 60
-            align: TOP_RIGHT
-            bg_color: color_steel_blue
-            bg_opa: 20%
-            border_opa: TRANSP
-            border_width: 0
-            shadow_opa: TRANSP
-            radius: 10
-            widgets:
-              - label:
-                  id: vacuum_label_name
-                  align: CENTER
-                  text_font: nunito_16
-                  text_color: color_misty_blue
-                  text: "friendly name"
+        # Hidden label – keeps sensor update target valid
+        - label:
+            id: vacuum_label_name
+            hidden: true
+            text: ""
+            text_font: nunito_16
 
 
 script:

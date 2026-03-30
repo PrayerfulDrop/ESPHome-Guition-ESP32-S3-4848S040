@@ -35,7 +35,7 @@ lvgl:
             id: devices_main
             y: 20
             width: 440
-            height: 390
+            height: 355
             pad_all: 0
             align: TOP_MID
             bg_color: color_steel_blue
@@ -206,7 +206,7 @@ lvgl:
               - obj:
                   y: 240
                   width: 440
-                  height: 140
+                  height: 115
                   pad_all: 0
                   align: TOP_MID
                   bg_opa: TRANSP

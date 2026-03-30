@@ -19,8 +19,9 @@ http_request:
 
 external_components:
   - source:
-      type: local
-      path: Guition-ESP32/components
+      type: git
+      url: https://github.com/PrayerfulDrop/esphome-display-capture
+      ref: main
     components: [display_capture]
 
 
@@ -79,6 +80,17 @@ ota:
   - platform: esphome
     password: !secret display_ota
     on_begin:
+      # Stop every script that may call lvgl.* APIs.  If any of these fire
+      # after lvgl.pause they write into the framebuffer while DMA is actively
+      # reading it, causing the visible flicker during OTA / image upload.
+      - script.stop: time_update
+      - script.stop: screensaver_tick
+      - script.stop: screensaver_update
+      - script.stop: screensaver_update_flip
+      - script.stop: screensaver_update_calendar
+      - globals.set:
+          id: screensaver_active
+          value: 'false'
       # Show the overlay and render one clean frame, then pause LVGL.
       # The ST7701S RGB panel has no vsync protection — any framebuffer write
       # during DMA readout causes jitter. After lvgl.pause the DMA continues
@@ -257,7 +269,7 @@ lvgl:
                   # Digit panels — flex row, hour and minute side by side
                   - obj:
                       align: CENTER
-                      y: -20
+                      y: 0
                       width: 380
                       height: 180
                       bg_opa: TRANSP
@@ -327,7 +339,7 @@ lvgl:
                   # Seam line — overlays vertical center of both panels for flip effect
                   - obj:
                       align: CENTER
-                      y: -20
+                      y: 0
                       width: 380
                       height: 2
                       bg_color: 0x080810

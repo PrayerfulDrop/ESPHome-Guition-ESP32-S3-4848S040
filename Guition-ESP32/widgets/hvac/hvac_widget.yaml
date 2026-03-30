@@ -134,12 +134,33 @@ lvgl:
     - id: hvac_page
       bg_color: color_slate_blue_gray
       widgets:
+        # ── Page title ──────────────────────────────────────────────────────
+        - label:
+            id: hvac_header
+            align: TOP_MID
+            y: 20
+            text_font: nunito_20
+            text_color: color_misty_blue
+            text: "HVAC"
+
+        # ── Divider under title ──────────────────────────────────────────────
+        - obj:
+            align: TOP_MID
+            y: 48
+            width: 440
+            height: 1
+            pad_all: 0
+            bg_color: color_misty_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            shadow_opa: TRANSP
+            radius: 0
 
         # State bar
         - obj:
             id: hvac_state_bar
             x: 20
-            y: 20
+            y: 58
             width: 400
             height: 60
             align: TOP_LEFT
@@ -163,7 +184,7 @@ lvgl:
         - obj:
             id: hvac_mode_panel
             x: 15
-            y: 100
+            y: 120
             width: 210
             height: 90
             align: TOP_LEFT
@@ -257,29 +278,12 @@ lvgl:
                           entity_id: "${hvac_entity}"
                           hvac_mode: "off"
 
-        # Name
-        - obj:
-            id: hvac_name_panel
-            x: 100
-            y: 400
-            width: 360
-            height: 60
-            align: TOP_LEFT
-            pad_all: 0
-            bg_color: color_steel_blue
-            bg_opa: 20%
-            border_opa: TRANSP
-            border_width: 0
-            shadow_opa: TRANSP
-            radius: 10
-            widgets:
-              - label:
-                  id: hvac_name_label
-                  x: 20
-                  align: LEFT_MID
-                  text_font: nunito_16
-                  text_color: color_misty_blue
-                  text: "friendly name"
+        # Hidden label – keeps sensor update target valid
+        - label:
+            id: hvac_name_label
+            hidden: true
+            text: ""
+            text_font: nunito_16
 
         # Arc / meter section
         - obj:

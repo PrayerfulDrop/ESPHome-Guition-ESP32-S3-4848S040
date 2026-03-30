@@ -602,7 +602,7 @@ lvgl:
                               align: CENTER
                               text_font: nunito_18
                               text_color: color_misty_blue
-                              text: "Analog"
+                              text: "Flip"
                         on_press:
                           - globals.set:
                               id: screensaver_style
