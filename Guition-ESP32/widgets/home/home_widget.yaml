@@ -892,10 +892,11 @@ script:
             - lvgl.label.update:
                 id: screensaver_date
                 text: !lambda |-
-                  static char buf[32];
+                  static char buf[40];
                   auto now = id(homeassistant_time).now();
-                  static const char* days[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
-                  snprintf(buf, sizeof(buf), "%s  %d/%02d", days[now.day_of_week - 1], now.month, now.day_of_month);
+                  static const char* days[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+                  static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+                  snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[now.day_of_week - 1], months[now.month - 1], now.day_of_month, now.year);
                   return buf;
       - if:
           condition:
@@ -934,10 +935,11 @@ script:
       - lvgl.label.update:
           id: ss_analog_date
           text: !lambda |-
-            static char buf[32];
+            static char buf[40];
             auto now = id(homeassistant_time).now();
-            static const char* days[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
-            snprintf(buf, sizeof(buf), "%s  %d/%02d", days[now.day_of_week - 1], now.month, now.day_of_month);
+            static const char* days[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[now.day_of_week - 1], months[now.month - 1], now.day_of_month, now.year);
             return buf;
 
   - id: screensaver_update_calendar
@@ -958,38 +960,147 @@ script:
       - lvgl.label.update:
           id: ss_cal_date
           text: !lambda |-
-            static char buf[32];
+            static char buf[40];
             auto now = id(homeassistant_time).now();
-            static const char* days[] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
-            snprintf(buf, sizeof(buf), "%s  %d/%02d", days[now.day_of_week - 1], now.month, now.day_of_month);
+            static const char* days[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[now.day_of_week - 1], months[now.month - 1], now.day_of_month, now.year);
             return buf;
+      - lvgl.label.update:
+          id: ss_cal_event1_time
+          text: !lambda |-
+            std::string s = id(cal_start_1).state;
+            std::string e = id(cal_end_1).state;
+            if (s.empty()) return std::string(" ");
+            static const char* days[]   = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            struct tm ts = {};
+            bool all_day = (s.size() <= 10);
+            const char *r;
+            if (all_day) { r = strptime(s.c_str(), "%Y-%m-%d", &ts); }
+            else {
+              r = strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &ts);
+              if (!r) { ts = {}; r = strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &ts); }
+              if (!r) { ts = {}; r = strptime(s.c_str(), "%Y-%m-%d %H:%M:%S", &ts); }
+            }
+            if (!r) return std::string(" ");
+            char buf[64];
+            if (all_day) {
+              snprintf(buf, sizeof(buf), "%s, %s %d : all day", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday);
+            } else {
+              int hs = (ts.tm_hour % 12 == 0) ? 12 : ts.tm_hour % 12;
+              struct tm te = {};
+              bool has_end = false;
+              if (!e.empty() && e.size() > 10) {
+                const char *re = strptime(e.c_str(), "%Y-%m-%dT%H:%M:%S%z", &te);
+                if (!re) { te = {}; re = strptime(e.c_str(), "%Y-%m-%dT%H:%M:%S", &te); }
+                if (!re) { te = {}; re = strptime(e.c_str(), "%Y-%m-%d %H:%M:%S", &te); }
+                has_end = (re != nullptr);
+              }
+              if (!has_end) {
+                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
+              } else {
+                int he = (te.tm_hour % 12 == 0) ? 12 : te.tm_hour % 12;
+                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d-%d:%02d%s",
+                  days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday,
+                  hs, ts.tm_min, he, te.tm_min, (te.tm_hour >= 12) ? "PM" : "AM");
+              }
+            }
+            return std::string(buf);
       - lvgl.label.update:
           id: ss_cal_event1_title
           text: !lambda |-
             return id(cal_title_1).state.empty() ? std::string(" ") : id(cal_title_1).state;
       - lvgl.label.update:
-          id: ss_cal_event1_time
+          id: ss_cal_event2_time
           text: !lambda |-
-            std::string t = id(cal_start_1).state;
-            return (t.length() >= 16) ? t.substr(11, 5) : (t.empty() ? std::string(" ") : t);
+            std::string s = id(cal_start_2).state;
+            std::string e = id(cal_end_2).state;
+            if (s.empty()) return std::string(" ");
+            static const char* days[]   = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            struct tm ts = {};
+            bool all_day = (s.size() <= 10);
+            const char *r;
+            if (all_day) { r = strptime(s.c_str(), "%Y-%m-%d", &ts); }
+            else {
+              r = strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &ts);
+              if (!r) { ts = {}; r = strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &ts); }
+              if (!r) { ts = {}; r = strptime(s.c_str(), "%Y-%m-%d %H:%M:%S", &ts); }
+            }
+            if (!r) return std::string(" ");
+            char buf[64];
+            if (all_day) {
+              snprintf(buf, sizeof(buf), "%s, %s %d : all day", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday);
+            } else {
+              int hs = (ts.tm_hour % 12 == 0) ? 12 : ts.tm_hour % 12;
+              struct tm te = {};
+              bool has_end = false;
+              if (!e.empty() && e.size() > 10) {
+                const char *re = strptime(e.c_str(), "%Y-%m-%dT%H:%M:%S%z", &te);
+                if (!re) { te = {}; re = strptime(e.c_str(), "%Y-%m-%dT%H:%M:%S", &te); }
+                if (!re) { te = {}; re = strptime(e.c_str(), "%Y-%m-%d %H:%M:%S", &te); }
+                has_end = (re != nullptr);
+              }
+              if (!has_end) {
+                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
+              } else {
+                int he = (te.tm_hour % 12 == 0) ? 12 : te.tm_hour % 12;
+                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d-%d:%02d%s",
+                  days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday,
+                  hs, ts.tm_min, he, te.tm_min, (te.tm_hour >= 12) ? "PM" : "AM");
+              }
+            }
+            return std::string(buf);
       - lvgl.label.update:
           id: ss_cal_event2_title
           text: !lambda |-
             return id(cal_title_2).state.empty() ? std::string(" ") : id(cal_title_2).state;
       - lvgl.label.update:
-          id: ss_cal_event2_time
+          id: ss_cal_event3_time
           text: !lambda |-
-            std::string t = id(cal_start_2).state;
-            return (t.length() >= 16) ? t.substr(11, 5) : (t.empty() ? std::string(" ") : t);
+            std::string s = id(cal_start_3).state;
+            std::string e = id(cal_end_3).state;
+            if (s.empty()) return std::string(" ");
+            static const char* days[]   = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            struct tm ts = {};
+            bool all_day = (s.size() <= 10);
+            const char *r;
+            if (all_day) { r = strptime(s.c_str(), "%Y-%m-%d", &ts); }
+            else {
+              r = strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &ts);
+              if (!r) { ts = {}; r = strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &ts); }
+              if (!r) { ts = {}; r = strptime(s.c_str(), "%Y-%m-%d %H:%M:%S", &ts); }
+            }
+            if (!r) return std::string(" ");
+            char buf[64];
+            if (all_day) {
+              snprintf(buf, sizeof(buf), "%s, %s %d : all day", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday);
+            } else {
+              int hs = (ts.tm_hour % 12 == 0) ? 12 : ts.tm_hour % 12;
+              struct tm te = {};
+              bool has_end = false;
+              if (!e.empty() && e.size() > 10) {
+                const char *re = strptime(e.c_str(), "%Y-%m-%dT%H:%M:%S%z", &te);
+                if (!re) { te = {}; re = strptime(e.c_str(), "%Y-%m-%dT%H:%M:%S", &te); }
+                if (!re) { te = {}; re = strptime(e.c_str(), "%Y-%m-%d %H:%M:%S", &te); }
+                has_end = (re != nullptr);
+              }
+              if (!has_end) {
+                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
+              } else {
+                int he = (te.tm_hour % 12 == 0) ? 12 : te.tm_hour % 12;
+                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d-%d:%02d%s",
+                  days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday,
+                  hs, ts.tm_min, he, te.tm_min, (te.tm_hour >= 12) ? "PM" : "AM");
+              }
+            }
+            return std::string(buf);
       - lvgl.label.update:
           id: ss_cal_event3_title
           text: !lambda |-
             return id(cal_title_3).state.empty() ? std::string(" ") : id(cal_title_3).state;
-      - lvgl.label.update:
-          id: ss_cal_event3_time
-          text: !lambda |-
-            std::string t = id(cal_start_3).state;
-            return (t.length() >= 16) ? t.substr(11, 5) : (t.empty() ? std::string(" ") : t);
 
   - id: weather_get_and_set_translated_state
     parameters:
@@ -1071,28 +1182,16 @@ script:
   - id: cal_update_all
     then:
       - lambda: |-
-          auto fmt_time = [](const std::string &s) -> std::string {
-            if (s.size() <= 10) return "";
-            struct tm t = {};
-            if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &t) == nullptr)
-              if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &t) == nullptr)
-                if (strptime(s.c_str(), "%Y-%m-%d %H:%M:%S", &t) == nullptr)
-                  return "";
-            char buf[9];
-            strftime(buf, sizeof(buf), "%I:%M%p", &t);
-            return std::string(buf);
+          auto parse_tm = [](const std::string &s, struct tm &t, bool date_only) -> bool {
+            t = {};
+            if (date_only) return strptime(s.c_str(), "%Y-%m-%d", &t) != nullptr;
+            const char *r = strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &t);
+            if (!r) { t = {}; r = strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &t); }
+            if (!r) { t = {}; r = strptime(s.c_str(), "%Y-%m-%d %H:%M:%S", &t); }
+            return r != nullptr;
           };
-          auto fmt_date = [](const std::string &s) -> std::string {
-            if (s.empty()) return "";
-            struct tm t = {};
-            if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S%z", &t) == nullptr)
-              if (strptime(s.c_str(), "%Y-%m-%dT%H:%M:%S", &t) == nullptr)
-                if (strptime(s.c_str(), "%Y-%m-%d", &t) == nullptr)
-                  return s.substr(0, std::min((int)s.size(), 10));
-            char buf[12];
-            strftime(buf, sizeof(buf), "%b %d", &t);
-            return std::string(buf);
-          };
+          static const char* days[]   = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+          static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
           struct CalEvent { std::string title, start, end_t; };
           std::vector<CalEvent> events = {
             { id(cal_title_1).state, id(cal_start_1).state, id(cal_end_1).state },
@@ -1109,16 +1208,37 @@ script:
           };
           for (int i = 0; i < 3; i++) {
             const auto &ev = events[i];
-            std::string date_str = fmt_date(ev.start);
-            std::string t_start  = fmt_time(ev.start);
-            std::string t_end    = fmt_time(ev.end_t);
-            char buf[64];
-            if (t_start.empty()) {
-              snprintf(buf, sizeof(buf), "%s  all day", date_str.c_str());
-            } else {
-              snprintf(buf, sizeof(buf), "%s  %s-%s", date_str.c_str(), t_start.c_str(), t_end.c_str());
+            if (ev.start.empty()) {
+              lv_label_set_text(dt_labels[i], " ");
+              lv_label_set_text(title_labels[i], " ");
+              continue;
             }
-            lv_label_set_text(dt_labels[i], ev.start.empty() ? " " : buf);
+            bool all_day = (ev.start.size() <= 10);
+            struct tm ts = {}, te = {};
+            if (!parse_tm(ev.start, ts, all_day)) {
+              lv_label_set_text(dt_labels[i], " ");
+              lv_label_set_text(title_labels[i], ev.title.empty() ? " " : ev.title.c_str());
+              continue;
+            }
+            char buf[80];
+            if (all_day) {
+              snprintf(buf, sizeof(buf), "%s, %s %d : all day",
+                days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday);
+            } else {
+              int hs = (ts.tm_hour % 12 == 0) ? 12 : ts.tm_hour % 12;
+              bool has_end = !ev.end_t.empty() && ev.end_t.size() > 10 &&
+                parse_tm(ev.end_t, te, false);
+              if (!has_end) {
+                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d",
+                  days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
+              } else {
+                int he = (te.tm_hour % 12 == 0) ? 12 : te.tm_hour % 12;
+                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d-%d:%02d%s",
+                  days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday,
+                  hs, ts.tm_min, he, te.tm_min, (te.tm_hour >= 12) ? "PM" : "AM");
+              }
+            }
+            lv_label_set_text(dt_labels[i], buf);
             lv_label_set_text(title_labels[i], ev.title.empty() ? " " : ev.title.c_str());
           }
 

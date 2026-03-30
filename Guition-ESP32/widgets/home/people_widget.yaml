@@ -107,7 +107,7 @@ lvgl:
         # ── Divider under title ──────────────────────────────────────────────
         - obj:
             align: TOP_MID
-            y: 50
+            y: 48
             width: 440
             height: 1
             pad_all: 0
@@ -118,12 +118,14 @@ lvgl:
             radius: 0
 
         # ── Card 1 (top-left) ────────────────────────────────────────────────
+        # Layout: 2×2 grid, card height 148 so row 2 bottom = 216+148 = 364,
+        # staying clear of the bottom menu bar which starts at y ≈ 380.
         - obj:
             id: people_card_1
             x: 20
-            y: 62
+            y: 58
             width: 208
-            height: 168
+            height: 148
             radius: 16
             bg_color: color_steel_blue
             bg_opa: 25%
@@ -138,10 +140,10 @@ lvgl:
               - obj:
                   id: people_avatar_1
                   align: TOP_MID
-                  y: 12
-                  width: 72
-                  height: 72
-                  radius: 36
+                  y: 10
+                  width: 64
+                  height: 64
+                  radius: 32
                   bg_color: 0x606682
                   bg_opa: 100%
                   border_color: color_misty_blue
@@ -160,7 +162,7 @@ lvgl:
               - label:
                   id: people_name_1
                   align: TOP_MID
-                  y: 90
+                  y: 82
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: " "
@@ -168,7 +170,7 @@ lvgl:
               # Status row — dot + text
               - obj:
                   align: BOTTOM_MID
-                  y: -12
+                  y: -10
                   width: 170
                   height: 26
                   bg_opa: TRANSP
@@ -199,9 +201,9 @@ lvgl:
         - obj:
             id: people_card_2
             x: 252
-            y: 62
+            y: 58
             width: 208
-            height: 168
+            height: 148
             radius: 16
             bg_color: color_steel_blue
             bg_opa: 25%
@@ -215,10 +217,10 @@ lvgl:
               - obj:
                   id: people_avatar_2
                   align: TOP_MID
-                  y: 12
-                  width: 72
-                  height: 72
-                  radius: 36
+                  y: 10
+                  width: 64
+                  height: 64
+                  radius: 32
                   bg_color: 0x606682
                   bg_opa: 100%
                   border_color: color_misty_blue
@@ -236,14 +238,14 @@ lvgl:
               - label:
                   id: people_name_2
                   align: TOP_MID
-                  y: 90
+                  y: 82
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: " "
 
               - obj:
                   align: BOTTOM_MID
-                  y: -12
+                  y: -10
                   width: 170
                   height: 26
                   bg_opa: TRANSP
@@ -274,9 +276,9 @@ lvgl:
         - obj:
             id: people_card_3
             x: 20
-            y: 248
+            y: 216
             width: 208
-            height: 168
+            height: 148
             radius: 16
             bg_color: color_steel_blue
             bg_opa: 25%
@@ -290,10 +292,10 @@ lvgl:
               - obj:
                   id: people_avatar_3
                   align: TOP_MID
-                  y: 12
-                  width: 72
-                  height: 72
-                  radius: 36
+                  y: 10
+                  width: 64
+                  height: 64
+                  radius: 32
                   bg_color: 0x606682
                   bg_opa: 100%
                   border_color: color_misty_blue
@@ -311,14 +313,14 @@ lvgl:
               - label:
                   id: people_name_3
                   align: TOP_MID
-                  y: 90
+                  y: 82
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: " "
 
               - obj:
                   align: BOTTOM_MID
-                  y: -12
+                  y: -10
                   width: 170
                   height: 26
                   bg_opa: TRANSP
@@ -349,9 +351,9 @@ lvgl:
         - obj:
             id: people_card_4
             x: 252
-            y: 248
+            y: 216
             width: 208
-            height: 168
+            height: 148
             radius: 16
             bg_color: color_steel_blue
             bg_opa: 25%
@@ -365,10 +367,10 @@ lvgl:
               - obj:
                   id: people_avatar_4
                   align: TOP_MID
-                  y: 12
-                  width: 72
-                  height: 72
-                  radius: 36
+                  y: 10
+                  width: 64
+                  height: 64
+                  radius: 32
                   bg_color: 0x606682
                   bg_opa: 100%
                   border_color: color_misty_blue
@@ -386,14 +388,14 @@ lvgl:
               - label:
                   id: people_name_4
                   align: TOP_MID
-                  y: 90
+                  y: 82
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: " "
 
               - obj:
                   align: BOTTOM_MID
-                  y: -12
+                  y: -10
                   width: 170
                   height: 26
                   bg_opa: TRANSP

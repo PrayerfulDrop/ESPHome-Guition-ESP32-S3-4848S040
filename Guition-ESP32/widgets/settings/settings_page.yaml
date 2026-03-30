@@ -15,6 +15,7 @@ lvgl:
       - globals.set:
           id: screensaver_active
           value: 'true'
+      - lvgl.widget.hide: menu_controls_main
       - lvgl.widget.show: screensaver_widget
       - script.execute: screensaver_update
       - if:
@@ -24,6 +25,13 @@ lvgl:
             - light.turn_on:
                 id: display_backlight
                 brightness: 1%
+          else:
+            - lambda: |-
+                auto now = id(homeassistant_time).now();
+                float brightness = (now.hour >= 8 && now.hour < 20) ? 0.9f : 0.1f;
+                auto call = id(display_backlight).turn_on();
+                call.set_brightness(brightness);
+                call.perform();
 
   pages:
     - id: settings_page
