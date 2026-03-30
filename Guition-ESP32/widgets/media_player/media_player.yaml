@@ -140,7 +140,7 @@ lvgl:
         - obj:
             id: media_cover
             x: 10
-            y: 10
+            y: 35
             width: 140
             height: 140
             align: TOP_LEFT
@@ -154,7 +154,7 @@ lvgl:
         # Title/Artist/Duration
         - obj:
             x: -20
-            y: 20
+            y: 45
             width: 300
             height: 120
             align: TOP_RIGHT
@@ -210,7 +210,7 @@ lvgl:
 
         # Controls
         - obj:
-            y: 160
+            y: 180
             width: 440
             height: 120
             align: TOP_MID
@@ -387,33 +387,6 @@ lvgl:
                         action: media_player.volume_up
                         data:
                           entity_id: "${media_player_entity}"
-
-        # Back button – returns to devices page
-        - button:
-            id: media_player_back_btn
-            x: 20
-            y: -20
-            width: 200
-            height: 80
-            align: BOTTOM_LEFT
-            bg_color: color_steel_blue
-            bg_opa: 20%
-            border_opa: TRANSP
-            shadow_opa: TRANSP
-            radius: 10
-            widgets:
-              - label:
-                  align: CENTER
-                  text_font: icons_28
-                  text_color: color_misty_blue
-                  text: "\U0000e902"
-            on_press:
-              then:
-                - lvgl.widget.show: menu_controls_main
-                - lvgl.page.show:
-                    id: devices_page
-                    animation: OUT_RIGHT
-                    time: 300ms
 
         # Hidden label – keeps sensor update target valid
         - label:

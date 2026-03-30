@@ -269,7 +269,7 @@ lvgl:
                   # Digit panels — flex row, hour and minute side by side
                   - obj:
                       align: CENTER
-                      y: -20
+                      y: 0
                       width: 380
                       height: 180
                       bg_opa: TRANSP
@@ -339,7 +339,7 @@ lvgl:
                   # Seam line — overlays vertical center of both panels for flip effect
                   - obj:
                       align: CENTER
-                      y: -20
+                      y: 0
                       width: 380
                       height: 2
                       bg_color: 0x080810
