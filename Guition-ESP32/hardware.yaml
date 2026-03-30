@@ -20,7 +20,7 @@ http_request:
 external_components:
   - source:
       type: local
-      path: components
+      path: Guition-ESP32/components
     components: [display_capture]
 
 
