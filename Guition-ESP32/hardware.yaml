@@ -80,6 +80,17 @@ ota:
   - platform: esphome
     password: !secret display_ota
     on_begin:
+      # Stop every script that may call lvgl.* APIs.  If any of these fire
+      # after lvgl.pause they write into the framebuffer while DMA is actively
+      # reading it, causing the visible flicker during OTA / image upload.
+      - script.stop: time_update
+      - script.stop: screensaver_tick
+      - script.stop: screensaver_update
+      - script.stop: screensaver_update_flip
+      - script.stop: screensaver_update_calendar
+      - globals.set:
+          id: screensaver_active
+          value: 'false'
       # Show the overlay and render one clean frame, then pause LVGL.
       # The ST7701S RGB panel has no vsync protection — any framebuffer write
       # during DMA readout causes jitter. After lvgl.pause the DMA continues

@@ -822,28 +822,34 @@ script:
 
   - id: time_update
     then:
-      - lvgl.label.update:
-          id: display_time
-          text: !lambda |-
-            static char time_buf[16];
-            auto now = id(homeassistant_time).now();
-            if (id(time_format) == 1) {
-              snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
-            } else {
-              const char *ampm = (now.hour >= 12) ? "PM" : "AM";
-              int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;
-              snprintf(time_buf, sizeof(time_buf), "%d:%02d %s", hour_12, now.minute, ampm);
-            }
-            return time_buf;
+      # Skip all LVGL writes while the renderer is paused (e.g. during OTA).
+      # Writing to the framebuffer while DMA is reading it causes flicker.
+      - if:
+          condition: lvgl.is_paused
+          then: []
+          else:
+            - lvgl.label.update:
+                id: display_time
+                text: !lambda |-
+                  static char time_buf[16];
+                  auto now = id(homeassistant_time).now();
+                  if (id(time_format) == 1) {
+                    snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+                  } else {
+                    const char *ampm = (now.hour >= 12) ? "PM" : "AM";
+                    int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;
+                    snprintf(time_buf, sizeof(time_buf), "%d:%02d %s", hour_12, now.minute, ampm);
+                  }
+                  return time_buf;
 
-      - lvgl.label.update:
-          id: display_date
-          text: !lambda |-
-            static char date_buf[32];
-            auto now = id(homeassistant_time).now();
-            static const char* days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-            snprintf(date_buf, sizeof(date_buf), "%s, %d/%02d/%04d", days[(now.day_of_week)-1], now.month, now.day_of_month, now.year);
-            return date_buf;
+            - lvgl.label.update:
+                id: display_date
+                text: !lambda |-
+                  static char date_buf[32];
+                  auto now = id(homeassistant_time).now();
+                  static const char* days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                  snprintf(date_buf, sizeof(date_buf), "%s, %d/%02d/%04d", days[(now.day_of_week)-1], now.month, now.day_of_month, now.year);
+                  return date_buf;
 
   - id: notification_dismiss
     mode: restart
@@ -855,7 +861,10 @@ script:
     then:
       - if:
           condition:
-            lambda: return id(screensaver_active);
+            and:
+              - not:
+                  lvgl.is_paused
+              - lambda: return id(screensaver_active);
           then:
             - script.execute: screensaver_update
 
