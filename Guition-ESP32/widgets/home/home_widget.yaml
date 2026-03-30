@@ -827,7 +827,7 @@ script:
             static char time_buf[16];
             auto now = id(homeassistant_time).now();
             if (id(time_format) == 1) {
-              snprintf(time_buf, sizeof(time_buf), "%d:%02d", now.hour, now.minute);
+              snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
             } else {
               const char *ampm = (now.hour >= 12) ? "PM" : "AM";
               int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;
@@ -860,29 +860,22 @@ script:
 
   - id: screensaver_update
     then:
-      # Show the correct style group, hide the others
-      - lambda: |-
-          bool dig = (id(screensaver_style) == 0);
-          bool ana = (id(screensaver_style) == 1);
-          bool cal = (id(screensaver_style) == 2);
-          if (dig) lv_obj_clear_flag(id(ss_digital),  LV_OBJ_FLAG_HIDDEN);
-          else     lv_obj_add_flag  (id(ss_digital),  LV_OBJ_FLAG_HIDDEN);
-          if (ana) lv_obj_clear_flag(id(ss_flip),     LV_OBJ_FLAG_HIDDEN);
-          else     lv_obj_add_flag  (id(ss_flip),     LV_OBJ_FLAG_HIDDEN);
-          if (cal) lv_obj_clear_flag(id(ss_calendar), LV_OBJ_FLAG_HIDDEN);
-          else     lv_obj_add_flag  (id(ss_calendar), LV_OBJ_FLAG_HIDDEN);
-      # Update the active style
+      # Hide all styles first, then show and update the active one
+      - lvgl.widget.hide: ss_digital
+      - lvgl.widget.hide: ss_flip
+      - lvgl.widget.hide: ss_calendar
       - if:
           condition:
             lambda: return id(screensaver_style) == 0;
           then:
+            - lvgl.widget.show: ss_digital
             - lvgl.label.update:
                 id: screensaver_time
                 text: !lambda |-
                   static char buf[16];
                   auto now = id(homeassistant_time).now();
                   if (id(time_format) == 1) {
-                    snprintf(buf, sizeof(buf), "%d:%02d", now.hour, now.minute);
+                    snprintf(buf, sizeof(buf), "%02d:%02d", now.hour, now.minute);
                   } else {
                     const char *ampm = (now.hour >= 12) ? "PM" : "AM";
                     int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;
@@ -902,11 +895,13 @@ script:
           condition:
             lambda: return id(screensaver_style) == 1;
           then:
+            - lvgl.widget.show: ss_flip
             - script.execute: screensaver_update_flip
       - if:
           condition:
             lambda: return id(screensaver_style) == 2;
           then:
+            - lvgl.widget.show: ss_calendar
             - script.execute: screensaver_update_calendar
 
   - id: screensaver_update_flip
@@ -917,7 +912,7 @@ script:
             static char buf[8];
             auto now = id(homeassistant_time).now();
             if (id(time_format) == 1) {
-              snprintf(buf, sizeof(buf), "%d", now.hour);
+              snprintf(buf, sizeof(buf), "%02d", now.hour);
             } else {
               int h = now.hour % 12;
               if (h == 0) h = 12;
@@ -953,7 +948,7 @@ script:
             static char buf[16];
             auto now = id(homeassistant_time).now();
             if (id(time_format) == 1) {
-              snprintf(buf, sizeof(buf), "%d:%02d", now.hour, now.minute);
+              snprintf(buf, sizeof(buf), "%02d:%02d", now.hour, now.minute);
             } else {
               const char *ampm = (now.hour >= 12) ? "PM" : "AM";
               int hour_12 = (now.hour % 12 == 0) ? 12 : now.hour % 12;
