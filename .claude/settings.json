@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/devices.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/devices.yaml\")"
+    ]
+  }
+}

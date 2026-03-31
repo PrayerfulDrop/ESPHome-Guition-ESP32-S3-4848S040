@@ -58,6 +58,13 @@ substitutions:
   #  scene_type_N : scene | script | automation
   #  Unused slots → set scene_entity_N: "sensor.disabled"
   #
+  #  shortcuts_icon / shortcuts_icon_font — icon shown on the Devices page nav button.
+  #  Set both together.  Options:
+  #    Movie clapper (default): shortcuts_icon: "\U0000E947"  shortcuts_icon_font: "icons_90"
+  #    MDI play-circle:         shortcuts_icon: "\U000F0A62"  shortcuts_icon_font: "mdi_90"
+  shortcuts_icon:      "\U0000E947"    # movie_clapper
+  shortcuts_icon_font: "icons_90"
+
   scene_entity_1:  "scene.morning"
   scene_label_1:   "Morning"
   scene_type_1:    "scene"
@@ -201,6 +208,14 @@ substitutions:
   #  The detail page shows a position bar, Open/Stop/Close buttons, and a position
   #  slider.  Position is 0 (closed) → 100 (fully open).
   #
+  #  covers_icon / covers_icon_font — icon shown on the Devices page nav button.
+  #  Set both together.  Options:
+  #    Curtains (default): covers_icon: "\U0000E945"  covers_icon_font: "icons_90"
+  #    Garage:             covers_icon: "\U0000E946"  covers_icon_font: "icons_90"
+  #    MDI blinds:         covers_icon: "\U000F012F"  covers_icon_font: "mdi_90"
+  covers_icon:      "\U0000E945"    # curtains
+  covers_icon_font: "icons_90"
+
   #  Unused slots → set cover_entity_N: "sensor.disabled"
   #
   cover_entity_1:     "sensor.disabled"
