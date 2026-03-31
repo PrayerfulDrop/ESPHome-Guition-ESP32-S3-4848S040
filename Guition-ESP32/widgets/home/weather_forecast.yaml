@@ -327,6 +327,7 @@ lvgl:
             radius: 10
             widgets:
               - label:
+                  id: forecast_title_lbl
                   align: CENTER
                   text_font: nunito_16
                   text_color: color_misty_blue
@@ -395,6 +396,7 @@ lvgl:
                   text_color: color_sky_blue
                   text: "--%"
               - label:
+                  id: forecast_rain_lbl
                   x: -14
                   y: 12
                   align: RIGHT_MID
@@ -616,6 +618,7 @@ lvgl:
             radius: 10
             widgets:
               - label:
+                  id: forecast_refresh_lbl
                   align: CENTER
                   text_font: nunito_16
                   text_color: color_misty_blue

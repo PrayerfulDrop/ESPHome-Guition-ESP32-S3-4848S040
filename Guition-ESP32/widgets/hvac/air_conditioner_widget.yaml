@@ -446,22 +446,43 @@ script:
           
           lv_label_set_text(id(air_conditioner_state_label), translated_state.c_str());
 
+  - id: apply_ac_ui_labels
+    then:
+      - lambda: |-
+          // 0=de 1=es 2=fr 3=en-GB 4=it 5=pt 6=ru 7=en 8=pl
+          static const char* const t[9] = {
+            "Klimaanlage",       // de
+            "Aire Acondicionado",// es
+            "Climatiseur",       // fr
+            "Air Conditioner",   // en-GB
+            "Condizionatore",    // it
+            "Ar Condicionado",   // pt
+            "\u041a\u043e\u043d\u0434\u0438\u0446\u0438\u043e\u043d\u0435\u0440",  // ru
+            "Air Conditioner",   // en
+            "Klimatyzator",      // pl
+          };
+          int l = id(current_language);
+          if (l < 0 || l > 8) l = 7;
+          lv_label_set_text(id(air_conditioner_header), t[l]);
+
 select:
   - platform: lvgl
     widget: language_dropdown
     id: air_conditioner_select_language
-    on_value: 
+    on_value:
       then:
         - delay: 300ms
         - script.execute:
             id: air_conditioner_get_and_set_translated_state
             state_str: !lambda 'return id(air_conditioner_sensor_hvac_mode).state;'
+        - script.execute: apply_ac_ui_labels
 
 
 esphome:
   on_boot:
     priority: -100
     then:
+      - script.execute: apply_ac_ui_labels
       - if:
           condition:
             lambda: 'return id(air_conditioner_sensor_hvac_mode).has_state();'

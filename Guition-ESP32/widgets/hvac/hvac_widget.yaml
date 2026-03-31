@@ -350,6 +350,7 @@ lvgl:
                   clickable: true
                   widgets:
                     - label:
+                        id: hvac_fan_auto_lbl
                         align: CENTER
                         text_font: nunito_18
                         text_color: color_misty_blue
@@ -377,6 +378,7 @@ lvgl:
                   clickable: true
                   widgets:
                     - label:
+                        id: hvac_fan_on_lbl
                         align: CENTER
                         text_font: nunito_18
                         text_color: color_misty_blue
@@ -599,6 +601,27 @@ script:
           std::string translated_state = (it != id(climate_translations).end()) ? it->second : state;
           lv_label_set_text(id(hvac_state_label), translated_state.c_str());
 
+  - id: apply_hvac_ui_labels
+    then:
+      - lambda: |-
+          // 0=de 1=es 2=fr 3=en-GB 4=it 5=pt 6=ru 7=en 8=pl
+          // cols: 0=page title  1=fan auto  2=fan on
+          static const char* const t[9][3] = {
+            { "HVAC",  "Auto",  "Ein"    },  // de
+            { "HVAC",  "Auto",  "Enc."   },  // es
+            { "HVAC",  "Auto",  "Marche" },  // fr
+            { "HVAC",  "Auto",  "On"     },  // en-GB
+            { "HVAC",  "Auto",  "Acc."   },  // it
+            { "HVAC",  "Auto",  "Lig."   },  // pt
+            { "HVAC",  "\u0410\u0432\u0442\u043e", "\u0412\u043a\u043b" },  // ru
+            { "HVAC",  "Auto",  "On"     },  // en
+            { "HVAC",  "Auto",  "W\u0142." },  // pl
+          };
+          int l = id(current_language);
+          if (l < 0 || l > 8) l = 7;
+          lv_label_set_text(id(hvac_header),        t[l][0]);
+          lv_label_set_text(id(hvac_fan_auto_lbl),  t[l][1]);
+          lv_label_set_text(id(hvac_fan_on_lbl),    t[l][2]);
 
 select:
   - platform: lvgl
@@ -610,12 +633,14 @@ select:
         - script.execute:
             id: hvac_get_and_set_translated_state
             state_str: !lambda 'return id(hvac_sensor_hvac_action).state;'
+        - script.execute: apply_hvac_ui_labels
 
 
 esphome:
   on_boot:
     priority: -100
     then:
+      - script.execute: apply_hvac_ui_labels
       - if:
           condition:
             lambda: 'return id(hvac_sensor_hvac_action).has_state();'
