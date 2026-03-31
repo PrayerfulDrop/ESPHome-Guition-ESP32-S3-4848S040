@@ -6,7 +6,11 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 substitutions:
-  scene_icon: "\U000F0A62"   # mdi:play-circle-outline
+  # Default: movie clapper from icons_v2.ttf.  To use MDI play-circle instead:
+  #   scene_icon:      "\U000F0A62"
+  #   scene_icon_font: "mdi_icons_40"
+  scene_icon:      "\U0000E947"   # movie_clapper (icons_v2 / icons_48)
+  scene_icon_font: "icons_48"
 
   # Safe defaults — overridden by main.yaml
   scene_entity_1: "sensor.disabled"
@@ -88,7 +92,7 @@ lvgl:
                         id: scene_icon_1
                         y: 12
                         align: TOP_MID
-                        text_font: mdi_icons_40
+                        text_font: "${scene_icon_font}"
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:
@@ -120,7 +124,7 @@ lvgl:
                         id: scene_icon_2
                         y: 12
                         align: TOP_MID
-                        text_font: mdi_icons_40
+                        text_font: "${scene_icon_font}"
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:
@@ -152,7 +156,7 @@ lvgl:
                         id: scene_icon_3
                         y: 12
                         align: TOP_MID
-                        text_font: mdi_icons_40
+                        text_font: "${scene_icon_font}"
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:
@@ -185,7 +189,7 @@ lvgl:
                         id: scene_icon_4
                         y: 12
                         align: TOP_MID
-                        text_font: mdi_icons_40
+                        text_font: "${scene_icon_font}"
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:
@@ -217,7 +221,7 @@ lvgl:
                         id: scene_icon_5
                         y: 12
                         align: TOP_MID
-                        text_font: mdi_icons_40
+                        text_font: "${scene_icon_font}"
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:
@@ -249,7 +253,7 @@ lvgl:
                         id: scene_icon_6
                         y: 12
                         align: TOP_MID
-                        text_font: mdi_icons_40
+                        text_font: "${scene_icon_font}"
                         text_color: color_steel_blue
                         text: "${scene_icon}"
                     - label:

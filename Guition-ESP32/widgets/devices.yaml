@@ -13,8 +13,21 @@
 substitutions:
   music_icon:     "\U0000e91b"    # music note  (icons_72)
   vacuum_icon:    "\U0000e922"    # vacuum      (icons_72)
-  shortcuts_icon: "\U000F0A62"    # mdi play-circle (mdi_icons_72)
-  covers_icon:    "\U000F012F"    # mdi blinds  (mdi_icons_72)
+
+  # ── Shortcuts / Scenes nav button icon ────────────────────────────────────
+  # Default: movie clapper from icons_v2.ttf.  To use MDI play-circle instead:
+  #   shortcuts_icon:      "\U000F0A62"
+  #   shortcuts_icon_font: "mdi_icons_72"
+  shortcuts_icon:      "\U0000E947"    # movie_clapper  (icons_v2 / icons_72)
+  shortcuts_icon_font: "icons_72"
+
+  # ── Covers nav button icon ─────────────────────────────────────────────────
+  # Default: curtains.  Other options (set both subs together):
+  #   Garage:     covers_icon: "\U0000E946"  covers_icon_font: "icons_72"
+  #   MDI blinds: covers_icon: "\U000F012F"  covers_icon_font: "mdi_icons_72"
+  covers_icon:      "\U0000E945"    # curtains  (icons_v2 / icons_72)
+  covers_icon_font: "icons_72"
+
   # hvac_icon is defined in main.yaml — set it to match your HVAC type:
   #   "\U0000e925"  thermostat / combined HVAC
   #   "\U0000e93b"  air conditioner only
@@ -177,7 +190,7 @@ lvgl:
                     - label:
                         align: CENTER
                         text_color: color_steel_blue
-                        text_font: mdi_icons_72
+                        text_font: "${shortcuts_icon_font}"
                         text: "${shortcuts_icon}"
                   on_press:
                     - lvgl.page.show:
@@ -200,7 +213,7 @@ lvgl:
                     - label:
                         align: CENTER
                         text_color: color_steel_blue
-                        text_font: mdi_icons_72
+                        text_font: "${covers_icon_font}"
                         text: "${covers_icon}"
                   on_press:
                     - lvgl.page.show:

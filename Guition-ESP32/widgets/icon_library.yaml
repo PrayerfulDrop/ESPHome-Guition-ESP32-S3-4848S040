@@ -32,6 +32,12 @@ substitutions:
   music_font:                "icons_90"
   vacuum_icon:               "\U0000e922"
   vacuum_icon_font:          "icons_90"
+  curtains:                  "\U0000E945"
+  curtains_font:             "icons_90"
+  garage:                    "\U0000E946"
+  garage_font:               "icons_90"
+  movie_clapper:             "\U0000E947"
+  movie_clapper_font:        "icons_90"
 
   # ── mdi.ttf  (font id: mdi_90) ───────────────────────────────────────────
   bed:                       "\U000f02e3"

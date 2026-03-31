@@ -199,6 +199,7 @@
     "\U0000e93b", # air_conditioner
     "\U0000e936", # heating
     "\U0000e909", # power (off)
+    "\U0000E947", # movie_clapper  (scene/shortcuts icon)
   ]
 
 - file: "Guition-ESP32/fonts/icons_v2.ttf"
@@ -210,6 +211,9 @@
     "\U0000e922", # vacuum
     "\U0000e925", # thermostat / combined HVAC
     "\U0000e93b", # air_conditioner
+    "\U0000E945", # curtains       (covers nav icon)
+    "\U0000E946", # garage         (covers nav icon option)
+    "\U0000E947", # movie_clapper  (shortcuts nav icon)
   ]
 
 - file: "Guition-ESP32/fonts/icons_v2.ttf"
