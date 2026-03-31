@@ -65,9 +65,9 @@ substitutions:
   light_icon_font_6: "mdi_90"
 
 # ── Grid layout ─────────────────────────────────────────────────────────────
-# Row 1 (y=20):  slot1 x=20  slot2 x=170  slot3 x=320
-# Row 2 (y=200): slot4 x=20  slot5 x=170  slot6 x=320
-# Unused slots are hidden at boot. Fill slots in order (1→N).
+# Row 1 (y=60):  slot1 x=20  slot2 x=170  slot3 x=320
+# Row 2 (y=220): slot4 x=20  slot5 x=170  slot6 x=320
+# 30px gap between rows, 30px buffer above nav bar. Fill slots in order (1→N).
 
 lvgl:
   pages:
@@ -103,7 +103,7 @@ lvgl:
             x: 20
             y: 60
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -129,7 +129,7 @@ lvgl:
             x: 170
             y: 60
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -155,7 +155,7 @@ lvgl:
             x: 320
             y: 60
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -179,9 +179,9 @@ lvgl:
         - button:
             id: ${light_widget_name_4}_btn
             x: 20
-            y: 230
+            y: 220
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -205,9 +205,9 @@ lvgl:
         - button:
             id: ${light_widget_name_5}_btn
             x: 170
-            y: 230
+            y: 220
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -231,9 +231,9 @@ lvgl:
         - button:
             id: ${light_widget_name_6}_btn
             x: 320
-            y: 230
+            y: 220
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%

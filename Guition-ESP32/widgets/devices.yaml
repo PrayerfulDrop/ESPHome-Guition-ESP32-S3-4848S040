@@ -35,7 +35,7 @@ lvgl:
             id: devices_main
             y: 20
             width: 440
-            height: 355
+            height: 348
             pad_all: 0
             align: TOP_MID
             bg_color: color_steel_blue
@@ -47,192 +47,163 @@ lvgl:
             widgets:
 
               # ── Row 1: Alarm · Media Player · Vacuum ─────────────────────
-              - obj:
-                  y: 10
-                  width: 440
-                  height: 150
-                  pad_all: 0
-                  align: TOP_MID
-                  bg_opa: TRANSP
-                  shadow_opa: TRANSP
-                  border_opa: TRANSP
-                  border_width: 0
+              # y=12: 12px top margin. Buttons at x=35/170/305 give equal 35px
+              # horizontal margins and gaps. Rows spaced 112px apart (100px
+              # button + 12px gap) for even vertical distribution.
+              - button:
+                  id: alarm_panel_page_btn
+                  x: 35
+                  y: 12
+                  align: TOP_LEFT
+                  width: 100
+                  height: 100
                   radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
                   widgets:
+                    - label:
+                        align: CENTER
+                        text_color: color_steel_blue
+                        text_font: mdi_icons_72
+                        text: "${shield_away_icon}"
+                  on_press:
+                    - lvgl.page.show:
+                        id: alarm_panel_page
+                        animation: OUT_RIGHT
+                        time: 300ms
 
-                    - button:
-                        id: alarm_panel_page_btn
-                        x: 35
-                        align: LEFT_MID
-                        width: 100
-                        height: 100
-                        radius: 10
-                        bg_color: color_slate_blue_gray
-                        shadow_opa: TRANSP
-                        widgets:
-                          - label:
-                              align: CENTER
-                              text_color: color_steel_blue
-                              text_font: mdi_icons_72
-                              text: "${shield_away_icon}"
-                        on_press:
-                          - lvgl.page.show:
-                              id: alarm_panel_page
-                              animation: OUT_RIGHT
-                              time: 300ms
+              - button:
+                  id: media_player_page_btn
+                  x: 170
+                  y: 12
+                  align: TOP_LEFT
+                  width: 100
+                  height: 100
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_color: color_steel_blue
+                        text_font: icons_90
+                        text: "${music_icon}"
+                  on_press:
+                    - lvgl.page.show:
+                        id: media_player_page
+                        animation: OUT_RIGHT
+                        time: 300ms
 
-                    - button:
-                        id: media_player_page_btn
-                        x: 170
-                        align: LEFT_MID
-                        width: 100
-                        height: 100
-                        radius: 10
-                        bg_color: color_slate_blue_gray
-                        shadow_opa: TRANSP
-                        widgets:
-                          - label:
-                              align: CENTER
-                              text_color: color_steel_blue
-                              text_font: icons_90
-                              text: "${music_icon}"
-                        on_press:
-                          - lvgl.page.show:
-                              id: media_player_page
-                              animation: OUT_RIGHT
-                              time: 300ms
+              - button:
+                  id: vacuum_page_btn
+                  x: 305
+                  y: 12
+                  align: TOP_LEFT
+                  width: 100
+                  height: 100
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_color: color_steel_blue
+                        text_font: icons_72
+                        text: "${vacuum_icon}"
+                  on_press:
+                    - lvgl.page.show:
+                        id: vacuum_page
+                        animation: OUT_RIGHT
+                        time: 300ms
 
-                    - button:
-                        id: vacuum_page_btn
-                        x: 305
-                        align: LEFT_MID
-                        width: 100
-                        height: 100
-                        radius: 10
-                        bg_color: color_slate_blue_gray
-                        shadow_opa: TRANSP
-                        widgets:
-                          - label:
-                              align: CENTER
-                              text_color: color_steel_blue
-                              text_font: icons_72
-                              text: "${vacuum_icon}"
-                        on_press:
-                          - lvgl.page.show:
-                              id: vacuum_page
-                              animation: OUT_RIGHT
-                              time: 300ms
-
-              # ── Row 2: HVAC · Fans ────────────────────────────────────────
+              # ── Row 2: HVAC · Fans · Shortcuts ───────────────────────────
               # hvac_icon is set in main.yaml to match your HVAC system type.
               # All three HVAC widget options use page id "hvac_page".
-              - obj:
-                  y: 120
-                  width: 440
-                  height: 150
-                  pad_all: 0
-                  align: TOP_MID
-                  bg_opa: TRANSP
-                  shadow_opa: TRANSP
-                  border_opa: TRANSP
-                  border_width: 0
+              - button:
+                  id: hvac_btn
+                  x: 35
+                  y: 124
+                  align: TOP_LEFT
+                  width: 100
+                  height: 100
                   radius: 10
-                  widgets:
-
-                    - button:
-                        id: hvac_btn
-                        x: 35
-                        align: LEFT_MID
-                        width: 100
-                        height: 100
-                        radius: 10
-                        bg_color: color_slate_blue_gray
-                        shadow_opa: TRANSP
-                        widgets:
-                          - label:
-                              align: CENTER
-                              text_color: color_steel_blue
-                              text_font: icons_72
-                              text: "${hvac_icon}"
-                        on_press:
-                          - lvgl.page.show:
-                              id: hvac_page
-                              animation: OUT_RIGHT
-                              time: 300ms
-
-                    - button:
-                        id: fans_page_btn
-                        x: 170
-                        align: LEFT_MID
-                        width: 100
-                        height: 100
-                        radius: 10
-                        bg_color: color_slate_blue_gray
-                        shadow_opa: TRANSP
-                        widgets:
-                          - label:
-                              align: CENTER
-                              text_color: color_steel_blue
-                              text_font: fan_icons_72
-                              text: "\U0000E901"    # ceiling-fan
-                        on_press:
-                          - lvgl.page.show:
-                              id: fans_group_page
-                              animation: OUT_RIGHT
-                              time: 300ms
-
-                    - button:
-                        id: shortcuts_page_btn
-                        x: 305
-                        align: LEFT_MID
-                        width: 100
-                        height: 100
-                        radius: 10
-                        bg_color: color_slate_blue_gray
-                        shadow_opa: TRANSP
-                        widgets:
-                          - label:
-                              align: CENTER
-                              text_color: color_steel_blue
-                              text_font: mdi_icons_72
-                              text: "${shortcuts_icon}"
-                        on_press:
-                          - lvgl.page.show:
-                              id: shortcuts_page
-                              animation: OUT_RIGHT
-                              time: 300ms
-
-              # ── Row 3: Covers ──────────────────────────────────────────────
-              - obj:
-                  y: 240
-                  width: 440
-                  height: 115
-                  pad_all: 0
-                  align: TOP_MID
-                  bg_opa: TRANSP
+                  bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
-                  border_opa: TRANSP
-                  border_width: 0
-                  radius: 10
                   widgets:
+                    - label:
+                        align: CENTER
+                        text_color: color_steel_blue
+                        text_font: icons_72
+                        text: "${hvac_icon}"
+                  on_press:
+                    - lvgl.page.show:
+                        id: hvac_page
+                        animation: OUT_RIGHT
+                        time: 300ms
 
-                    - button:
-                        id: covers_page_btn
-                        x: 35
-                        align: LEFT_MID
-                        width: 100
-                        height: 100
-                        radius: 10
-                        bg_color: color_slate_blue_gray
-                        shadow_opa: TRANSP
-                        widgets:
-                          - label:
-                              align: CENTER
-                              text_color: color_steel_blue
-                              text_font: mdi_icons_72
-                              text: "${covers_icon}"
-                        on_press:
-                          - lvgl.page.show:
-                              id: covers_group_page
-                              animation: OUT_RIGHT
-                              time: 300ms
+              - button:
+                  id: fans_page_btn
+                  x: 170
+                  y: 124
+                  align: TOP_LEFT
+                  width: 100
+                  height: 100
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_color: color_steel_blue
+                        text_font: fan_icons_72
+                        text: "\U0000E901"    # ceiling-fan
+                  on_press:
+                    - lvgl.page.show:
+                        id: fans_group_page
+                        animation: OUT_RIGHT
+                        time: 300ms
+
+              - button:
+                  id: shortcuts_page_btn
+                  x: 305
+                  y: 124
+                  align: TOP_LEFT
+                  width: 100
+                  height: 100
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_color: color_steel_blue
+                        text_font: mdi_icons_72
+                        text: "${shortcuts_icon}"
+                  on_press:
+                    - lvgl.page.show:
+                        id: shortcuts_page
+                        animation: OUT_RIGHT
+                        time: 300ms
+
+              # ── Row 3: Covers ─────────────────────────────────────────────
+              - button:
+                  id: covers_page_btn
+                  x: 35
+                  y: 236
+                  align: TOP_LEFT
+                  width: 100
+                  height: 100
+                  radius: 10
+                  bg_color: color_slate_blue_gray
+                  shadow_opa: TRANSP
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_color: color_steel_blue
+                        text_font: mdi_icons_72
+                        text: "${covers_icon}"
+                  on_press:
+                    - lvgl.page.show:
+                        id: covers_group_page
+                        animation: OUT_RIGHT
+                        time: 300ms

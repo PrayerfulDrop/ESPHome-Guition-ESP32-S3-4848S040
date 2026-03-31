@@ -1,4 +1,10 @@
 - file: "Guition-ESP32/fonts/gluqlo.ttf"
+  id: gluqlo_64
+  size: 64
+  bpp: 4
+  glyphs: "0123456789"
+
+- file: "Guition-ESP32/fonts/gluqlo.ttf"
   id: gluqlo_96
   size: 96
   bpp: 4
