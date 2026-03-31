@@ -35,7 +35,7 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 | **Settings defaults** | Language: English (US) · Theme: Dark · Backlight: 100% · Sleep: 120 s · Clock: 12h · Temp: °F · Screensaver: Digital clock |
 | **Themes** | 6 built-in themes: Cherry Blossom, Dark, Espeon, Ocean, Paris, Patriotic |
 | **Navigation** | Persistent bottom nav bar (Home / Lights / Devices / Settings); entity detail pages hide the bar and show a back button |
-| **Multi-device** | Copy `main.yaml` and rename — each file is a fully independent device |
+| **Multi-device** | Copy `main.yaml` and rename — each file is a fully independent device; `preferences.yaml` lets you rename pages and labels globally |
 | **OTA overlay** | Backlight dims smoothly during firmware uploads — no screen corruption or tearing |
 | **Remote screenshot** | HTTP endpoint at `http://<device>.local/screenshot` returns a live BMP of the current screen; `/screenshot/info` returns JSON metadata |
 | **Localisation** | Translations fetched live from Home Assistant for weather, HVAC, vacuum, alarm, and cover states |
@@ -86,16 +86,86 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 ```
 /config/esphome/
 ├── Guition-ESP32/
-│   ├── hardware.yaml           ← board-level config (display, touch, OTA, screensaver)
-│   ├── widgets/                ← widget engine — do not edit
+│   ├── hardware.yaml               ← board-level config (display, touch, OTA, screensaver)
+│   ├── widgets/
+│   │   ├── preferences.yaml        ← display name overrides — page titles, button labels
+│   │   └── ...                     ← widget engine — do not edit
 │   ├── fonts/
 │   └── images/
-├── main.yaml                   ← template — copy this for each device
-├── configuration.yaml          ← HA template sensors (calendar events)
-└── secrets.yaml                ← OTA password, WiFi, PIN code
+├── main.yaml                       ← template — copy this for each device
+├── configuration.yaml              ← HA template sensors (calendar events)
+└── secrets.yaml                    ← OTA password, WiFi, PIN code
 ```
 
 `main.yaml` contains **only** the `substitutions:` block and `packages:` list.  All hardware and engine logic lives in `Guition-ESP32/`.
+
+---
+
+## Preferences / Display Names
+
+`Guition-ESP32/widgets/preferences.yaml` is a single file that centralises every human-readable label shown on the display — page titles, button text, loading messages, and settings section headers.  Edit it once to rename anything across all widgets simultaneously, or to localise the UI into another language without touching any widget file.
+
+```yaml
+# Guition-ESP32/widgets/preferences.yaml — defaults shown
+
+substitutions:
+
+  # ── Page titles ──────────────────────────────────────────────────────────────
+  alarm_panel_page_title:  "Alarm Panel"
+  covers_page_title:       "Covers"
+  fans_page_title:         "Fan Controls"
+  lights_page_title:       "Lights"
+  hvac_page_title:         "HVAC"
+  thermostat_page_title:   "Thermostat"
+  ac_page_title:           "Air Conditioner"
+  shortcuts_page_title:    "Scenes"
+  people_page_title:       "People"
+  forecast_page_title:     "5-Day Forecast"
+
+  # ── Cover detail buttons ─────────────────────────────────────────────────────
+  cover_open_label:        "Open"
+  cover_stop_label:        "Stop"
+  cover_close_label:       "Close"
+
+  # ── HVAC fan mode buttons ────────────────────────────────────────────────────
+  hvac_fan_auto_label:     "Auto"
+  hvac_fan_on_label:       "On"
+
+  # ── Weather forecast ─────────────────────────────────────────────────────────
+  forecast_today_label:    "Today"
+  forecast_rain_label:     "rain"
+  forecast_refresh_label:  "Refresh"
+
+  # ── People page ──────────────────────────────────────────────────────────────
+  person_away_label:       "Away"
+
+  # ── Alarm panel ──────────────────────────────────────────────────────────────
+  alarm_enter_code_label:  "Enter code"
+
+  # ── Loading / boot screen ────────────────────────────────────────────────────
+  loading_connecting_label: "Connecting to API..."
+  loading_sync_label:       "Synchronizing..."
+  loading_connected_label:  "Home Assistant Connected!"
+
+  # ── Settings page labels ─────────────────────────────────────────────────────
+  settings_language_label:            "Language"
+  settings_theme_label:               "Theme"
+  settings_backlight_label:           "Backlight"
+  settings_sleep_label:               "Sleep mode (sec)"
+  settings_clock_label:               "Clock"
+  settings_clock_12h_label:           "12h"
+  settings_clock_24h_label:           "24h"
+  settings_temperature_label:         "Temperature"
+  settings_screensaver_label:         "Screensaver"
+  settings_screensaver_digital_label: "Digital"
+  settings_flip_label:                "Flip"
+  settings_screensaver_none_label:    "None"
+  settings_show_calendar_label:       "Show calendar events"
+  settings_home_clock_label:          "Home Clock"
+  settings_home_clock_standard_label: "Standard"
+```
+
+`preferences.yaml` is listed as the **first** package in the ENGINE block of every device file, so its values win over the per-widget fallback defaults.  Any substitution defined directly in your device file (e.g. `aaron.yaml`) still takes priority over preferences.yaml — so you can override individual labels per-device without editing preferences.yaml.
 
 ---
 

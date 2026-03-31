@@ -24,9 +24,9 @@
 # ── ICON CONFIGURATION ───────────────────────────────────────────────────────
 # light_icon_N    : the glyph character (unicode escape) shown on the tile
 # light_icon_font_N: the ESPHome font id that contains that glyph
-#   icons_90  – for icons from icons_v2.ttf (ceiling_lamp, night_lamp, etc.)
-#   mdi_90    – for icons from mdi.ttf (bed, heart, TV, etc.)
-# Defaults match the original lights_panel.yaml icon assignments.
+#   icons_72_ref  – 72px icons from icons_v2.ttf (default for lights)
+#   mdi_72_ref    – 72px icons from mdi.ttf (default for bed/heart/tv)
+#   icons_90 / mdi_90 – 90px variants (used by fans, covers, scenes)
 # Override in main.yaml substitutions to suit each physical light.
 #
 # ── EXAMPLE main.yaml substitutions ─────────────────────────────────────────
@@ -88,22 +88,23 @@ substitutions:
   #   ceiling_fan, floor_fan
 
   # ── Per-slot icon defaults ────────────────────────────────────────────────
-  # To change an icon, set only light_icon_N in main.yaml:
-  #   light_icon_N: "ceiling_lamp"
-  # The font is resolved automatically. Only add light_icon_font_N if you need
-  # to use an icon from a different font than the default for that slot.
+  # Tile icons use 72px fonts (20% smaller than the 90px used by fans/covers).
+  # icons_72_ref / mdi_72_ref are indirection substitutions defined in
+  # icon_library.yaml that resolve to "icons_72" / "mdi_72" via double-expansion.
+  # To override back to 90px for a slot, set light_icon_font_N: "ceiling_lamp_font"
+  # (or any *_font name from icon_library.yaml) in main.yaml.
   light_icon_1:      "ceiling_lamp"
-  light_icon_font_1: "ceiling_lamp_font"
+  light_icon_font_1: "icons_72_ref"
   light_icon_2:      "night_lamp"
-  light_icon_font_2: "night_lamp_font"
+  light_icon_font_2: "icons_72_ref"
   light_icon_3:      "ceiling_lamp"
-  light_icon_font_3: "ceiling_lamp_font"
+  light_icon_font_3: "icons_72_ref"
   light_icon_4:      "bed"
-  light_icon_font_4: "bed_font"
+  light_icon_font_4: "mdi_72_ref"
   light_icon_5:      "heart"
-  light_icon_font_5: "heart_font"
+  light_icon_font_5: "mdi_72_ref"
   light_icon_6:      "tv"
-  light_icon_font_6: "tv_font"
+  light_icon_font_6: "mdi_72_ref"
 
 packages:
   # Shared icon codepoints and font IDs (also used by fans_config)

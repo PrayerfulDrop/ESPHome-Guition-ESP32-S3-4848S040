@@ -64,6 +64,8 @@ substitutions:
   light_icon_6:      "󰟴"
   light_icon_font_6: "mdi_90"
 
+  lights_page_title: "Lights"
+
 # ── Grid layout ─────────────────────────────────────────────────────────────
 # Row 1 (y=60):  slot1 x=20  slot2 x=170  slot3 x=320
 # Row 2 (y=220): slot4 x=20  slot5 x=170  slot6 x=320
@@ -82,7 +84,7 @@ lvgl:
             y: 20
             text_font: nunito_20
             text_color: color_misty_blue
-            text: "Lights"
+            text: "${lights_page_title}"
 
         # ── Divider under title ──────────────────────────────────────────────
         - obj:
@@ -118,7 +120,8 @@ lvgl:
                   text: "${${light_icon_1}}"
               - label:
                   id: ${light_widget_name_1}_lable_name
-                  align: TOP_MID
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${light_label_name_1}"
@@ -144,7 +147,8 @@ lvgl:
                   text: "${${light_icon_2}}"
               - label:
                   id: ${light_widget_name_2}_lable_name
-                  align: TOP_MID
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${light_label_name_2}"
@@ -170,7 +174,8 @@ lvgl:
                   text: "${${light_icon_3}}"
               - label:
                   id: ${light_widget_name_3}_lable_name
-                  align: TOP_MID
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${light_label_name_3}"
@@ -196,7 +201,8 @@ lvgl:
                   text: "${${light_icon_4}}"
               - label:
                   id: ${light_widget_name_4}_lable_name
-                  align: TOP_MID
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${light_label_name_4}"
@@ -222,7 +228,8 @@ lvgl:
                   text: "${${light_icon_5}}"
               - label:
                   id: ${light_widget_name_5}_lable_name
-                  align: TOP_MID
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${light_label_name_5}"
@@ -248,7 +255,8 @@ lvgl:
                   text: "${${light_icon_6}}"
               - label:
                   id: ${light_widget_name_6}_lable_name
-                  align: TOP_MID
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${light_label_name_6}"

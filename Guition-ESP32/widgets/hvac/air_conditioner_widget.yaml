@@ -13,6 +13,8 @@ substitutions:
   # (see Section 4 of main.yaml).  Leave as "hvac_page" for single-unit use.
   ac_page_id: "hvac_page"
 
+  ac_page_title: "Air Conditioner"
+
 
 sensor:
 
@@ -111,7 +113,7 @@ lvgl:
             y: 20
             text_font: nunito_20
             text_color: color_misty_blue
-            text: "Air Conditioner"
+            text: "${ac_page_title}"
 
         # ── Divider under title ──────────────────────────────────────────────
         - obj:
@@ -366,8 +368,8 @@ lvgl:
                     border_opa: TRANSP
 
               - obj:
-                  width: 140
-                  height: 120
+                  width: 130
+                  height: 95
                   align: RIGHT_MID
                   bg_color: color_slate_blue_gray
                   pad_all: 0
@@ -378,28 +380,28 @@ lvgl:
 
                     - label:
                         id: air_conditioner_target_temperature_whole
-                        x: -40
+                        x: -32
                         y: 0
                         align: RIGHT_MID
-                        text_font: nunito_84
+                        text_font: nunito_64
                         text_color: color_steel_blue
                         text: " "
-                
+
                     - label:
                         id: air_conditioner_target_temperature_fraction
-                        x: -10
-                        y: 15
+                        x: -7
+                        y: 10
                         align: RIGHT_MID
-                        text_font: nunito_36
+                        text_font: nunito_30
                         text_color: color_steel_blue
                         text: " "
 
                     - label:
                         id: air_conditioner_target_temperature_measurement
-                        x: -12
-                        y: -20
+                        x: -8
+                        y: -14
                         align: RIGHT_MID
-                        text_font: nunito_30
+                        text_font: nunito_20
                         text_color: color_steel_blue
                         text: "°F"
 

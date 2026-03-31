@@ -5,6 +5,23 @@
 # Included automatically by settings.yaml — do not include directly.
 # ─────────────────────────────────────────────────────────────────────────────
 
+substitutions:
+  settings_language_label:            "Language"
+  settings_theme_label:               "Theme"
+  settings_backlight_label:           "Backlight"
+  settings_sleep_label:               "Sleep mode (sec)"
+  settings_clock_label:               "Clock"
+  settings_clock_12h_label:           "12h"
+  settings_clock_24h_label:           "24h"
+  settings_temperature_label:         "Temperature"
+  settings_screensaver_label:         "Screensaver"
+  settings_screensaver_digital_label: "Digital"
+  settings_flip_label:                "Flip"
+  settings_screensaver_none_label:    "None"
+  settings_show_calendar_label:       "Show calendar events"
+  settings_home_clock_label:          "Home Clock"
+  settings_home_clock_standard_label: "Standard"
+
 lvgl:
 
   # ── Auto-sleep on idle ────────────────────────────────────────────────────
@@ -78,7 +95,7 @@ lvgl:
                         align: LEFT_MID
                         text_font: nunito_20
                         text_color: color_misty_blue
-                        text: "Language"
+                        text: "${settings_language_label}"
 
                     - image:
                         id: flag_language_image
@@ -206,7 +223,7 @@ lvgl:
                         align: LEFT_MID
                         text_font: nunito_20
                         text_color: color_misty_blue
-                        text: "Theme"
+                        text: "${settings_theme_label}"
 
                     - dropdown:
                         id: theme_dropdown
@@ -276,7 +293,7 @@ lvgl:
                         align: LEFT_MID
                         text_font: nunito_20
                         text_color: color_misty_blue
-                        text: "Backlight"
+                        text: "${settings_backlight_label}"
 
                     - slider:
                         id: display_backlight_brightness_slider
@@ -322,7 +339,7 @@ lvgl:
                         align: LEFT_MID
                         text_font: nunito_20
                         text_color: color_misty_blue
-                        text: "Sleep mode (sec)"
+                        text: "${settings_sleep_label}"
 
                     - dropdown:
                         id: display_timeout_dropdown
@@ -396,7 +413,7 @@ lvgl:
                         align: LEFT_MID
                         text_font: nunito_20
                         text_color: color_misty_blue
-                        text: "Clock"
+                        text: "${settings_clock_label}"
                     - button:
                         id: clock_12h_btn
                         x: 230
@@ -413,7 +430,7 @@ lvgl:
                               align: CENTER
                               text_font: nunito_20
                               text_color: color_misty_blue
-                              text: "12h"
+                              text: "${settings_clock_12h_label}"
                         on_press:
                           - globals.set:
                               id: time_format
@@ -441,7 +458,7 @@ lvgl:
                               align: CENTER
                               text_font: nunito_20
                               text_color: color_misty_blue
-                              text: "24h"
+                              text: "${settings_clock_24h_label}"
                         on_press:
                           - globals.set:
                               id: time_format
@@ -476,7 +493,7 @@ lvgl:
                         align: LEFT_MID
                         text_font: nunito_20
                         text_color: color_misty_blue
-                        text: "Temperature"
+                        text: "${settings_temperature_label}"
                     - button:
                         id: temp_f_btn
                         x: 230
@@ -555,7 +572,7 @@ lvgl:
                         align: TOP_LEFT
                         text_font: nunito_20
                         text_color: color_misty_blue
-                        text: "Screensaver"
+                        text: "${settings_screensaver_label}"
                     - button:
                         id: ss_digital_btn
                         x: 148
@@ -572,7 +589,7 @@ lvgl:
                               align: CENTER
                               text_font: nunito_18
                               text_color: color_misty_blue
-                              text: "Digital"
+                              text: "${settings_screensaver_digital_label}"
                         on_press:
                           - globals.set:
                               id: screensaver_style
@@ -602,7 +619,7 @@ lvgl:
                               align: CENTER
                               text_font: nunito_18
                               text_color: color_misty_blue
-                              text: "Flip"
+                              text: "${settings_flip_label}"
                         on_press:
                           - globals.set:
                               id: screensaver_style
@@ -632,7 +649,7 @@ lvgl:
                               align: CENTER
                               text_font: nunito_18
                               text_color: color_misty_blue
-                              text: "None"
+                              text: "${settings_screensaver_none_label}"
                         on_press:
                           - globals.set:
                               id: screensaver_style
@@ -651,7 +668,7 @@ lvgl:
                         x: 148
                         y: 90
                         align: TOP_LEFT
-                        text: "Show calendar events"
+                        text: "${settings_show_calendar_label}"
                         text_font: nunito_16
                         text_color: color_misty_blue
                         on_value:
@@ -681,7 +698,7 @@ lvgl:
                         align: TOP_LEFT
                         text_font: nunito_20
                         text_color: color_misty_blue
-                        text: "Home Clock"
+                        text: "${settings_home_clock_label}"
                     - button:
                         id: home_std_btn
                         x: 148
@@ -698,7 +715,7 @@ lvgl:
                               align: CENTER
                               text_font: nunito_18
                               text_color: color_misty_blue
-                              text: "Standard"
+                              text: "${settings_home_clock_standard_label}"
                         on_press:
                           - globals.set:
                               id: home_clock_style
@@ -728,7 +745,7 @@ lvgl:
                               align: CENTER
                               text_font: nunito_18
                               text_color: color_misty_blue
-                              text: "Flip"
+                              text: "${settings_flip_label}"
                         on_press:
                           - globals.set:
                               id: home_clock_style

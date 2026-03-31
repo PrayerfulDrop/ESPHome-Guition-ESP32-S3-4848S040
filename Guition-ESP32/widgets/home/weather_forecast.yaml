@@ -11,6 +11,12 @@
 # Include from home.yaml:  forecast: !include weather_forecast.yaml
 # ─────────────────────────────────────────────────────────────────────────────
 
+substitutions:
+  forecast_page_title:    "5-Day Forecast"
+  forecast_today_label:   "Today"
+  forecast_rain_label:    "rain"
+  forecast_refresh_label: "Refresh"
+
 # ── Condition → image mapping ─────────────────────────────────────────────────
 # Maps HA condition strings to the image IDs already defined in image.yaml.
 # partlycloudy uses the sun variant by default; the icon update scripts swap
@@ -76,7 +82,7 @@ script:
               'condition_0': f[0].condition | default('unknown'),
               'hi_0':        f[0].temperature | default(0) | round(0) | string,
               'lo_0':        f[0].templow     | default(0) | round(0) | string,
-              'day_0':       'Today',
+              'day_0':       '${forecast_today_label}',
               'precip_0':    f[0].precipitation_probability | default(0) | round(0) | string,
               'condition_1': f[1].condition | default('unknown'),
               'hi_1':        f[1].temperature | default(0) | round(0) | string,
@@ -324,7 +330,7 @@ lvgl:
                   align: CENTER
                   text_font: nunito_16
                   text_color: color_misty_blue
-                  text: "5-Day Forecast"
+                  text: "${forecast_page_title}"
 
         # ── Hero card: Today ──────────────────────────────────────────────────
         - obj:
@@ -357,7 +363,7 @@ lvgl:
                   align: LEFT_MID
                   text_font: nunito_20
                   text_color: color_sky_blue
-                  text: "Today"
+                  text: "${forecast_today_label}"
 
               # High temperature – large
               - label:
@@ -394,7 +400,7 @@ lvgl:
                   align: RIGHT_MID
                   text_font: nunito_16
                   text_color: color_steel_blue
-                  text: "rain"
+                  text: "${forecast_rain_label}"
 
         # ── Four day cards (equal width, full row) ────────────────────────────
         # 4 cards × 100px + 3 gaps × 8px + 20px left margin + 8px right margin = 448 ≈ fits
@@ -613,7 +619,7 @@ lvgl:
                   align: CENTER
                   text_font: nunito_16
                   text_color: color_misty_blue
-                  text: "Refresh"
+                  text: "${forecast_refresh_label}"
             on_press:
               then:
                 - script.execute: fetch_weather_forecast

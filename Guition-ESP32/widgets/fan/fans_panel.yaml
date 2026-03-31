@@ -51,6 +51,8 @@ substitutions:
   fan_type_5: "fan"
   fan_type_6: "fan"
 
+  fans_page_title: "Fan Controls"
+
 # ── Grid layout ─────────────────────────────────────────────────────────────
 # Row 1 (y=20):  slot1 x=20  slot2 x=170  slot3 x=320
 # Row 2 (y=200): slot4 x=20  slot5 x=170  slot6 x=320
@@ -71,7 +73,7 @@ lvgl:
             y: 20
             text_font: nunito_20
             text_color: color_misty_blue
-            text: "Fan Controls"
+            text: "${fans_page_title}"
 
         # ── Divider under title ──────────────────────────────────────────────
         - obj:

@@ -1,0 +1,86 @@
+# preferences.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Central display-name preferences for all Guition ESP32-S3 display panels.
+# Every human-readable label shown on screen is defined here so you can
+# rename or translate any widget from one place without touching widget files.
+#
+# ── HOW TO USE ───────────────────────────────────────────────────────────────
+# Add this file as the FIRST package in your main.yaml so its values take
+# priority over the widget-file defaults:
+#
+#   packages:
+#     preferences: !include widgets/preferences.yaml
+#     # ... rest of your packages follow
+#
+# ── DEFAULTS ─────────────────────────────────────────────────────────────────
+# Every key below is also defined as a default inside its widget file, so
+# preferences.yaml is optional — widgets compile without it.  When included,
+# the values here override the widget defaults.
+# ─────────────────────────────────────────────────────────────────────────────
+
+substitutions:
+
+  # ── Page titles ───────────────────────────────────────────────────────────────
+  alarm_panel_page_title:  "Alarm Panel"
+  covers_page_title:       "Covers"
+  fans_page_title:         "Fan Controls"
+  lights_page_title:       "Lights"
+  hvac_page_title:         "HVAC"
+  thermostat_page_title:   "Thermostat"
+  ac_page_title:           "Air Conditioner"
+  shortcuts_page_title:    "Scenes"
+  people_page_title:       "People"
+  forecast_page_title:     "5-Day Forecast"
+
+
+  # ── Cover detail-page action buttons ─────────────────────────────────────────
+  cover_open_label:  "Open"
+  cover_stop_label:  "Stop"
+  cover_close_label: "Close"
+
+
+  # ── HVAC fan mode buttons ─────────────────────────────────────────────────────
+  hvac_fan_auto_label: "Auto"
+  hvac_fan_on_label:   "On"
+
+
+  # ── Weather forecast page ─────────────────────────────────────────────────────
+  forecast_today_label:   "Today"
+  forecast_rain_label:    "Chance of Rain"
+  forecast_refresh_label: "Refresh"
+
+
+  # ── People page ───────────────────────────────────────────────────────────────
+  # Default status text shown on each person card before HA state is received.
+  person_away_label: "Away"
+
+
+  # ── Alarm panel keypad ────────────────────────────────────────────────────────
+  alarm_enter_code_label: "Enter Code"
+
+
+  # ── Loading / boot screen ─────────────────────────────────────────────────────
+  loading_connecting_label: "Connecting to API..."
+  loading_sync_label:       "Synchronizing..."
+  loading_connected_label:  "Home Assistant Connected!"
+
+
+  # ── Settings page — section headings ─────────────────────────────────────────
+  settings_language_label:    "Language"
+  settings_theme_label:       "Theme"
+  settings_backlight_label:   "Backlight"
+  settings_sleep_label:       "Sleep Mode (sec)"
+  settings_clock_label:       "Clock"
+  settings_temperature_label: "Temperature"
+  settings_screensaver_label: "Screensaver"
+  settings_home_clock_label:  "Home Clock"
+
+
+  # ── Settings page — button / option labels ────────────────────────────────────
+  settings_clock_12h_label:          "12h"
+  settings_clock_24h_label:          "24h"
+  settings_screensaver_digital_label: "Digital"
+  settings_flip_label:               "Flip"
+  settings_screensaver_none_label:   "None"
+  settings_home_clock_standard_label: "Standard"
+  settings_show_calendar_label:      "Show Calendar Events"
