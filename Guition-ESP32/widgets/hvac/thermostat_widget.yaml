@@ -226,7 +226,7 @@ lvgl:
             x: 100
             y: 120
             width: 260
-            height: 260
+            height: 248
             align: TOP_LEFT
             pad_all: 0
             bg_color: color_steel_blue
@@ -448,12 +448,13 @@ lvgl:
             text: ""
             text_font: nunito_16
 
-        # main
+        # main — constrained to content area (y=49..369, above nav bar)
         - obj:
             id: thermostat_bg_main
             width: 250
-            height: 480
-            align: RIGHT_MID
+            height: 320
+            y: 49
+            align: TOP_RIGHT
             pad_all: 0
             bg_opa: TRANSP
             scrollable: false
@@ -465,10 +466,10 @@ lvgl:
 
               - obj:
                   id: thermostat_bg_placeholder
-                  radius: 240
-                  x: 235
-                  width: 480
-                  height: 480
+                  radius: 160
+                  x: 155
+                  width: 320
+                  height: 320
                   align: RIGHT_MID
                   bg_color: color_slate_blue_gray
                   pad_all: 0
@@ -478,10 +479,10 @@ lvgl:
 
               - obj:
                   id: thermostat_temp_arc_bg
-                  radius: 230
-                  x: 230
-                  width: 460
-                  height: 460
+                  radius: 155
+                  x: 150
+                  width: 310
+                  height: 310
                   align: RIGHT_MID
                   bg_grad: thermostat_temp_gradient
                   bg_grad_dir: ver
@@ -492,9 +493,9 @@ lvgl:
 
               - meter:
                   id: thermostat_meter
-                  x: 200
-                  height: 400
-                  width: 400
+                  x: 130
+                  height: 270
+                  width: 270
                   border_width: 0
                   bg_color: color_slate_blue_gray
                   align: RIGHT_MID
@@ -527,9 +528,9 @@ lvgl:
                   id: thermostat_arc_main
                   align: RIGHT_MID
                   arc_width: 40
-                  x: 235
-                  width: 470
-                  height: 470
+                  x: 150
+                  width: 310
+                  height: 310
                   min_value: 50
                   max_value: 90
                   adjustable: true
@@ -563,9 +564,9 @@ lvgl:
                   clickable: false
                   align: RIGHT_MID
                   arc_width: 10
-                  x: 230
-                  width: 450
-                  height: 450
+                  x: 145
+                  width: 300
+                  height: 300
                   min_value: 50
                   max_value: 90
                   adjustable: true
