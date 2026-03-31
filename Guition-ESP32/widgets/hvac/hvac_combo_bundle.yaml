@@ -1,0 +1,24 @@
+# hvac_combo_bundle.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+# Option 4 bundle: Thermostat + Air Conditioner (two separate units).
+#
+# Include this as the "devices" package in main.yaml instead of the three
+# individual Option 4 lines.  Only the two entity substitutions are needed
+# in main.yaml — page IDs and page references are handled here automatically.
+# ─────────────────────────────────────────────────────────────────────────────
+
+substitutions:
+  # Overrides the default in settings_scripts.yaml so that the theme script
+  # applies the background colour to both HVAC pages.
+  hvac_page_ref: "id(thermostat_page)->obj, id(ac_page)->obj"
+
+packages:
+  devices_hvac: !include devices_thermostat_ac.yaml
+  thermostat: !include
+    file: thermostat_widget.yaml
+    vars:
+      thermostat_page_id: "thermostat_page"
+  ac: !include
+    file: air_conditioner_widget.yaml
+    vars:
+      ac_page_id: "ac_page"

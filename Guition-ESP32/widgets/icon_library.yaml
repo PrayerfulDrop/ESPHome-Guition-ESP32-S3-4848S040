@@ -52,3 +52,9 @@ substitutions:
   ceiling_fan_font:          "fan_icons_90"
   floor_fan:                 "\U0000E900"
   floor_fan_font:            "fan_icons_90"
+
+  # ── mdi.ttf  (font id: mdi_90) — extra nav-icon options ──────────────────
+  play_circle:               "\U000F0A62"
+  play_circle_font:          "mdi_90"
+  blinds:                    "\U000F012F"
+  blinds_font:               "mdi_90"

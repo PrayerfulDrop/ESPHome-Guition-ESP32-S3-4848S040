@@ -5,6 +5,7 @@ substitutions:
   thermostat_name:    "thermostat"
   temperature_sensor: "temperature_sensor"
 
+  hvac_icon:          "\U0000e925"    # thermostat nav button icon
   heating_icon:       "\U0000e936"
   temperature_icon:   "\U0000e939"
   pm_home_icon:       "\U000F0826"

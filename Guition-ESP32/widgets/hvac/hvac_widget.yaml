@@ -1,6 +1,7 @@
 substitutions:
   hvac_name:              "hvac"
   temperature_sensor:     "temperature_sensor"
+  hvac_icon:              "\U0000e925"    # combined HVAC nav button icon
   heating_icon:           "\U0000e936"
   air_conditioner_icon:   "\U0000e93b"
   temperature_icon:       "\U0000e939"

@@ -6,11 +6,22 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 substitutions:
-  # Default: movie clapper from icons_v2.ttf.  To use MDI play-circle instead:
-  #   scene_icon:      "\U000F0A62"
-  #   scene_icon_font: "mdi_icons_40"
-  scene_icon:      "\U0000E947"   # movie_clapper (icons_v2 / icons_48)
-  scene_icon_font: "icons_48"
+  # ── Named icon library ────────────────────────────────────────────────────────
+  # Set scene_icon_N to any icon name from icon_library.yaml.
+  # Common options: movie_clapper | play_circle | ceiling_lamp | night_lamp | etc.
+  # The matching font resolves automatically.
+  scene_icon_1:      "movie_clapper"
+  scene_icon_font_1: "movie_clapper_font"
+  scene_icon_2:      "movie_clapper"
+  scene_icon_font_2: "movie_clapper_font"
+  scene_icon_3:      "movie_clapper"
+  scene_icon_font_3: "movie_clapper_font"
+  scene_icon_4:      "movie_clapper"
+  scene_icon_font_4: "movie_clapper_font"
+  scene_icon_5:      "movie_clapper"
+  scene_icon_font_5: "movie_clapper_font"
+  scene_icon_6:      "movie_clapper"
+  scene_icon_font_6: "movie_clapper_font"
 
   # Safe defaults — overridden by main.yaml
   scene_entity_1: "sensor.disabled"
@@ -31,6 +42,10 @@ substitutions:
   scene_entity_6: "sensor.disabled"
   scene_label_6:  ""
   scene_type_6:   "scene"
+
+
+packages:
+  icon_library: !include ../icon_library.yaml
 
 
 lvgl:
@@ -89,12 +104,12 @@ lvgl:
                   shadow_opa: TRANSP
                   widgets:
                     - label:
-                        id: scene_icon_1
+                        id: scene_icon_lbl_1
                         y: 12
                         align: TOP_MID
-                        text_font: "${scene_icon_font}"
+                        text_font: ${${scene_icon_font_1}}
                         text_color: color_steel_blue
-                        text: "${scene_icon}"
+                        text: "${${scene_icon_1}}"
                     - label:
                         id: scene_label_lbl_1
                         y: -12
@@ -121,12 +136,12 @@ lvgl:
                   shadow_opa: TRANSP
                   widgets:
                     - label:
-                        id: scene_icon_2
+                        id: scene_icon_lbl_2
                         y: 12
                         align: TOP_MID
-                        text_font: "${scene_icon_font}"
+                        text_font: ${${scene_icon_font_2}}
                         text_color: color_steel_blue
-                        text: "${scene_icon}"
+                        text: "${${scene_icon_2}}"
                     - label:
                         id: scene_label_lbl_2
                         y: -12
@@ -153,12 +168,12 @@ lvgl:
                   shadow_opa: TRANSP
                   widgets:
                     - label:
-                        id: scene_icon_3
+                        id: scene_icon_lbl_3
                         y: 12
                         align: TOP_MID
-                        text_font: "${scene_icon_font}"
+                        text_font: ${${scene_icon_font_3}}
                         text_color: color_steel_blue
-                        text: "${scene_icon}"
+                        text: "${${scene_icon_3}}"
                     - label:
                         id: scene_label_lbl_3
                         y: -12
@@ -186,12 +201,12 @@ lvgl:
                   shadow_opa: TRANSP
                   widgets:
                     - label:
-                        id: scene_icon_4
+                        id: scene_icon_lbl_4
                         y: 12
                         align: TOP_MID
-                        text_font: "${scene_icon_font}"
+                        text_font: ${${scene_icon_font_4}}
                         text_color: color_steel_blue
-                        text: "${scene_icon}"
+                        text: "${${scene_icon_4}}"
                     - label:
                         id: scene_label_lbl_4
                         y: -12
@@ -218,12 +233,12 @@ lvgl:
                   shadow_opa: TRANSP
                   widgets:
                     - label:
-                        id: scene_icon_5
+                        id: scene_icon_lbl_5
                         y: 12
                         align: TOP_MID
-                        text_font: "${scene_icon_font}"
+                        text_font: ${${scene_icon_font_5}}
                         text_color: color_steel_blue
-                        text: "${scene_icon}"
+                        text: "${${scene_icon_5}}"
                     - label:
                         id: scene_label_lbl_5
                         y: -12
@@ -250,12 +265,12 @@ lvgl:
                   shadow_opa: TRANSP
                   widgets:
                     - label:
-                        id: scene_icon_6
+                        id: scene_icon_lbl_6
                         y: 12
                         align: TOP_MID
-                        text_font: "${scene_icon_font}"
+                        text_font: ${${scene_icon_font_6}}
                         text_color: color_steel_blue
-                        text: "${scene_icon}"
+                        text: "${${scene_icon_6}}"
                     - label:
                         id: scene_label_lbl_6
                         y: -12
@@ -286,8 +301,15 @@ esphome:
             id(scene_btn_1), id(scene_btn_2), id(scene_btn_3),
             id(scene_btn_4), id(scene_btn_5), id(scene_btn_6),
           };
+          bool any_scene_enabled = false;
           for (int i = 0; i < 6; i++) {
             if (std::string(entities[i]) == "sensor.disabled") {
               lv_obj_add_flag(btns[i], LV_OBJ_FLAG_HIDDEN);
+            } else {
+              any_scene_enabled = true;
             }
+          }
+          if (!any_scene_enabled) {
+            lv_obj_add_flag(id(shortcuts_page_btn), LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(id(shortcuts_page_btn), LV_OBJ_FLAG_CLICKABLE);
           }

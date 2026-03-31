@@ -5,6 +5,7 @@ substitutions:
   air_conditioner_name:       "air_conditioner"
   temperature_sensor:         "temperature_sensor"
 
+  hvac_icon:                  "\U0000e93b"    # air conditioner nav button icon
   air_conditioner_icon:       "\U0000e93b"
   temperature_icon:           "\U0000e939"
 

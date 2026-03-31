@@ -29,6 +29,21 @@ substitutions:
   cover_widget_name_5: "cover5"
   cover_widget_name_6: "cover6"
 
+  # Per-slot tile icon defaults — override in main.yaml with any icon_library name
+  # e.g. cover_icon_1: "curtains" | "garage" | "blinds"
+  cover_icon_1:      "curtains"
+  cover_icon_font_1: "curtains_font"
+  cover_icon_2:      "curtains"
+  cover_icon_font_2: "curtains_font"
+  cover_icon_3:      "curtains"
+  cover_icon_font_3: "curtains_font"
+  cover_icon_4:      "curtains"
+  cover_icon_font_4: "curtains_font"
+  cover_icon_5:      "curtains"
+  cover_icon_font_5: "curtains_font"
+  cover_icon_6:      "curtains"
+  cover_icon_font_6: "curtains_font"
+
 # ── Grid layout ───────────────────────────────────────────────────────────────
 # Row 1 (y=20):  slot1 x=20  slot2 x=170  slot3 x=320
 # Row 2 (y=200): slot4 x=20  slot5 x=170  slot6 x=320
@@ -78,9 +93,9 @@ lvgl:
                   id: ${cover_widget_name_1}_cover_tile_icon
                   align: TOP_MID
                   y: 12
-                  text_font: mdi_icons_40
+                  text_font: ${${cover_icon_font_1}}
                   text_color: color_steel_blue
-                  text: "\U000F012F"
+                  text: "${${cover_icon_1}}"
               - label:
                   id: ${cover_widget_name_1}_label_name
                   align: BOTTOM_MID
@@ -109,9 +124,9 @@ lvgl:
                   id: ${cover_widget_name_2}_cover_tile_icon
                   align: TOP_MID
                   y: 12
-                  text_font: mdi_icons_40
+                  text_font: ${${cover_icon_font_2}}
                   text_color: color_steel_blue
-                  text: "\U000F012F"
+                  text: "${${cover_icon_2}}"
               - label:
                   id: ${cover_widget_name_2}_label_name
                   align: BOTTOM_MID
@@ -140,9 +155,9 @@ lvgl:
                   id: ${cover_widget_name_3}_cover_tile_icon
                   align: TOP_MID
                   y: 12
-                  text_font: mdi_icons_40
+                  text_font: ${${cover_icon_font_3}}
                   text_color: color_steel_blue
-                  text: "\U000F012F"
+                  text: "${${cover_icon_3}}"
               - label:
                   id: ${cover_widget_name_3}_label_name
                   align: BOTTOM_MID
@@ -171,9 +186,9 @@ lvgl:
                   id: ${cover_widget_name_4}_cover_tile_icon
                   align: TOP_MID
                   y: 12
-                  text_font: mdi_icons_40
+                  text_font: ${${cover_icon_font_4}}
                   text_color: color_steel_blue
-                  text: "\U000F012F"
+                  text: "${${cover_icon_4}}"
               - label:
                   id: ${cover_widget_name_4}_label_name
                   align: BOTTOM_MID
@@ -202,9 +217,9 @@ lvgl:
                   id: ${cover_widget_name_5}_cover_tile_icon
                   align: TOP_MID
                   y: 12
-                  text_font: mdi_icons_40
+                  text_font: ${${cover_icon_font_5}}
                   text_color: color_steel_blue
-                  text: "\U000F012F"
+                  text: "${${cover_icon_5}}"
               - label:
                   id: ${cover_widget_name_5}_label_name
                   align: BOTTOM_MID
@@ -233,9 +248,9 @@ lvgl:
                   id: ${cover_widget_name_6}_cover_tile_icon
                   align: TOP_MID
                   y: 12
-                  text_font: mdi_icons_40
+                  text_font: ${${cover_icon_font_6}}
                   text_color: color_steel_blue
-                  text: "\U000F012F"
+                  text: "${${cover_icon_6}}"
               - label:
                   id: ${cover_widget_name_6}_label_name
                   align: BOTTOM_MID
@@ -268,11 +283,18 @@ esphome:
             { "${cover_entity_6}", id(${cover_widget_name_6}_btn) },
           };
 
+          bool any_cover_enabled = false;
           for (auto& slot : slots) {
             if (std::string(slot.entity) == "sensor.disabled") {
               lv_obj_add_flag(slot.btn, LV_OBJ_FLAG_HIDDEN);
               lv_obj_clear_flag(slot.btn, LV_OBJ_FLAG_CLICKABLE);
+            } else {
+              any_cover_enabled = true;
             }
+          }
+          if (!any_cover_enabled) {
+            lv_obj_add_flag(id(covers_page_btn), LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(id(covers_page_btn), LV_OBJ_FLAG_CLICKABLE);
           }
 
 
