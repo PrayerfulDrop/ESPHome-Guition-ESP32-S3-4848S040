@@ -145,6 +145,9 @@ lvgl:
                         indicator:
                           text_opa: TRANSP
                         on_value:
+                          - globals.set:
+                              id: current_language
+                              value: !lambda return x;
                           - lvgl.image.update:
                               id: flag_language_image
                               src: !lambda return id(flag_icon_mapping_image)[x];

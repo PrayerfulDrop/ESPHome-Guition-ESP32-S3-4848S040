@@ -21,12 +21,34 @@
       "Bash(SRC=\"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040\")",
       "Bash(DST=\"//192.168.6.59/config/esphome\")",
       "Bash(__NEW_LINE_bc83d9e3ba094630__ cp:*)",
-      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/home/people_widget.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/home/people_widget.yaml\")"
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/home/people_widget.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/home/people_widget.yaml\")",
+      "Bash(BASE=\"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets\")",
+      "Bash(DEST=\"//192.168.6.59/config/esphome/Guition-ESP32/widgets\")",
+      "Bash(__NEW_LINE_68063777ba038013__ cp:*)",
+      "Bash(cp \"$BASE/light/lights_panel.yaml\" \"$DEST/light/lights_panel.yaml\")",
+      "Bash(cp \"$BASE/fan/fans_panel.yaml\" \"$DEST/fan/fans_panel.yaml\")",
+      "Bash(find 'c:\\\\Users\\\\aawar\\\\OneDrive - Microsoft\\\\Documents\\\\GitHub\\\\ESPHome-Guition-ESP32-S3-4848S040' -type f -name *screensaver* -o -name *screen_saver*)",
+      "Read(///192.168.6.59/config/esphome/**)",
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/light/lights_config.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/light/lights_config.yaml\")",
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/preferences.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/preferences.yaml\")",
+      "Bash(python3 -c \":*)",
+      "Bash(pip3 install:*)",
+      "Bash(python3 -c \"from fontTools.ttLib import TTFont; print\\(''''ok''''\\)\")",
+      "Bash(pip --version)",
+      "Bash(python -c \"from fontTools.ttLib import TTFont; print\\(''''fonttools ready''''\\)\")",
+      "Bash(python -c \":*)",
+      "Bash(gh release:*)",
+      "Bash(TARGET=\"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/fonts/materialdesignicons-webfont.ttf\")",
+      "Bash(python -c \"from fontTools.ttLib import TTFont; font = TTFont\\(''$TARGET''\\); cmap = font.getBestCmap\\(\\); print\\(f''Glyphs: {len\\(cmap\\)}''\\)\")",
+      "Bash(python -c \"from PIL import Image, ImageDraw, ImageFont; print\\(''PIL ready''\\)\")",
+      "Read(//c/Users/aawar/AppData/Local/Temp/**)"
     ],
     "additionalDirectories": [
       "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets\\hvac",
       "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets\\home",
-      "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets"
+      "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets",
+      "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\fonts",
+      "\\\\192.168.6.59\\config\\"
     ]
   }
 }

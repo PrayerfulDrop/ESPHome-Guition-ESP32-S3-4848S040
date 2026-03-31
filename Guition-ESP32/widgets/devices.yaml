@@ -16,10 +16,10 @@ substitutions:
 
   # ── Shortcuts / Scenes nav button icon ────────────────────────────────────
   # Set shortcuts_icon to any name from the icon library (icon_library.yaml).
-  # Common options:  movie_clapper  |  play_circle
+  # Common options:  movie  |  movie_clapper  |  play_circle
   # The matching font is resolved automatically.
-  shortcuts_icon:      "movie_clapper"
-  shortcuts_icon_font: "movie_clapper_font"
+  shortcuts_icon:      "movie"
+  shortcuts_icon_font: "movie_font"
 
   # ── Covers nav button icon ─────────────────────────────────────────────────
   # Set covers_icon to any name from the icon library.
@@ -163,15 +163,14 @@ lvgl:
                   width: 100
                   height: 100
                   radius: 10
-                  pad_all: 0
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:
                     - label:
                         align: CENTER
                         text_color: color_steel_blue
-                        text_font: fan_icons_72
-                        text: "\U0000E901"    # ceiling-fan
+                        text_font: ${ceiling_fan_font}
+                        text: "${ceiling_fan}"
                   on_press:
                     - lvgl.page.show:
                         id: fans_group_page
@@ -186,7 +185,6 @@ lvgl:
                   width: 100
                   height: 100
                   radius: 10
-                  pad_all: 0
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:
@@ -210,7 +208,6 @@ lvgl:
                   width: 100
                   height: 100
                   radius: 10
-                  pad_all: 0
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:
@@ -224,3 +221,40 @@ lvgl:
                         id: covers_group_page
                         animation: OUT_RIGHT
                         time: 300ms
+
+
+# ── Compact layout: remove gaps left by disabled optional buttons ─────────────
+# Runs after fans (-200), shortcuts (-300), and covers (-200) have hidden
+# themselves, so all visibility flags are already final.
+# Optional buttons (fans, shortcuts, covers) are repacked left-to-right into
+# slots (170,124) → (305,124) → (35,236).  The container shrinks to 2 rows
+# when all optional items fit in row 2 (i.e. ≤2 of them are visible).
+esphome:
+  on_boot:
+    priority: -400
+    then:
+      - lambda: |-
+          lv_obj_t* opt_btns[] = {
+            id(fans_page_btn),
+            id(shortcuts_page_btn),
+            id(covers_page_btn),
+          };
+
+          // Slots available for optional items after the 4 fixed buttons
+          struct Pos { lv_coord_t x; lv_coord_t y; };
+          static const Pos slots[] = {
+            {170, 124},
+            {305, 124},
+            { 35, 236},
+          };
+
+          int n = 0;
+          for (auto* btn : opt_btns) {
+            if (!lv_obj_has_flag(btn, LV_OBJ_FLAG_HIDDEN)) {
+              lv_obj_align(btn, LV_ALIGN_TOP_LEFT, slots[n].x, slots[n].y);
+              n++;
+            }
+          }
+
+          // Shrink the container when row 3 is not needed
+          lv_obj_set_height(id(devices_main), (n == 3) ? 348 : 236);

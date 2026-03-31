@@ -18,27 +18,27 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 | **Home screen** | Time (12h/24h), date, indoor temp (°F/°C), weather icon + title-cased condition, up to 4 upcoming calendar events |
 | **Presence indicators** | Up to 4 person entities shown as initials in the top bar — green when home, dim when away; tap to open full People page |
 | **People page** | Card per person showing avatar initials, full name from HA, and home/away status |
-| **Screensaver** | Activates on idle — Digital clock, Flip clock (Gluqlo retro style), Calendar view, or None (screen off); tap anywhere to wake and return to home |
+| **Screensaver** | Activates on idle — Digital clock, Flip clock (Gluqlo retro style, default), or None (screen off); optional calendar event overlay on Digital/Flip; tap anywhere to wake and return to home |
 | **Notification banner** | Write any text to an `input_text` entity in HA — a toast banner appears for 10 s; tap to dismiss early |
-| **Weather** | Current conditions with title-cased state + 5-day forecast with high/low temps and weather icons |
+| **Weather** | Current conditions with title-cased state + 5-day forecast with high/low temps, weather icons, and rain probability |
 | **Calendar** | Up to 4 upcoming events pulled live from Home Assistant via template sensors |
 | **HVAC** | Combined heating + cooling widget with arc temperature control; or separate thermostat / AC widgets |
 | **Lights** | Up to 6 configurable slots (`light` / `switch` / `input_boolean`); brightness slider; auto-detected colour temperature slider |
-| **Fans** | Up to 6 configurable fan slots (`fan` / `switch`) with speed control |
+| **Fans** | Up to 6 configurable fan slots (`fan` / `switch` / `input_boolean`) with speed control; short-press toggles, long-press opens detail page |
 | **Covers** | Up to 6 cover/blind/shutter slots — position bar, Open/Stop/Close buttons, position slider; per-slot icon configurable by name |
 | **Scene shortcuts** | Up to 6 scene/script/automation tiles with configurable labels and per-slot icons |
 | **Media Player** | Album art, track info, progress bar, playback controls, volume slider |
 | **Vacuum** | Animated robot body, battery, state, start/pause/dock controls |
 | **Alarm Panel** | Disarm / Home / Away / Night / Vacation modes with PIN entry |
-| **Devices hub** | Navigation to Alarm, Media, Vacuum, HVAC, Fans, Shortcuts, and Covers; buttons for Fans, Shortcuts, and Covers are hidden automatically when all their slots are `sensor.disabled` |
+| **Devices hub** | Navigation to Alarm, Media, Vacuum, HVAC, Fans, Shortcuts, and Covers; optional buttons (Fans, Shortcuts, Covers) are hidden and reordered automatically when all their slots are `sensor.disabled` |
 | **Settings** | Language (9 languages), colour theme, 12h/24h clock, °F/°C unit, backlight brightness, auto-sleep timer, screensaver style |
-| **Settings defaults** | Language: English (US) · Theme: Dark · Backlight: 100% · Sleep: 120 s · Clock: 12h · Temp: °F · Screensaver: Digital clock |
+| **Settings defaults** | Language: English (US) · Theme: Dark · Backlight: 100% · Sleep: 120 s · Clock: 12h · Temp: °F · Screensaver: Flip |
 | **Themes** | 6 built-in themes: Cherry Blossom, Dark, Espeon, Ocean, Paris, Patriotic |
 | **Navigation** | Persistent bottom nav bar (Home / Lights / Devices / Settings); entity detail pages hide the bar and show a back button |
 | **Multi-device** | Copy `main.yaml` and rename — each file is a fully independent device; `preferences.yaml` lets you rename pages and labels globally |
 | **OTA overlay** | Backlight dims smoothly during firmware uploads — no screen corruption or tearing |
 | **Remote screenshot** | HTTP endpoint at `http://<device>.local/screenshot` returns a live BMP of the current screen; `/screenshot/info` returns JSON metadata |
-| **Localisation** | Translations fetched live from Home Assistant for weather, HVAC, vacuum, alarm, and cover states |
+| **Localisation** | 9-language runtime translation engine — all page titles and settings labels update live without a recompile |
 
 ---
 
@@ -88,7 +88,7 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 ├── Guition-ESP32/
 │   ├── hardware.yaml               ← board-level config (display, touch, OTA, screensaver)
 │   ├── widgets/
-│   │   ├── preferences.yaml        ← display name overrides — page titles, button labels
+│   │   ├── preferences.yaml        ← display name overrides — page titles, button labels, translations
 │   │   └── ...                     ← widget engine — do not edit
 │   ├── fonts/
 │   └── images/
@@ -103,69 +103,73 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 
 ## Preferences / Display Names
 
-`Guition-ESP32/widgets/preferences.yaml` is a single file that centralises every human-readable label shown on the display — page titles, button text, loading messages, and settings section headers.  Edit it once to rename anything across all widgets simultaneously, or to localise the UI into another language without touching any widget file.
+`Guition-ESP32/widgets/preferences.yaml` centralises every human-readable label on the display — page titles, button text, loading messages, and settings section headers.  It also contains the full runtime translation engine that applies the selected language live whenever the dropdown changes.
+
+### Structure
+
+The file is organised into three sections, in this order:
+
+1. **`script: apply_ui_translations`** — the translation table.  Each row is one language; each column is one label.  Edit only the row(s) for the language(s) you want to customise.
+2. **`substitutions:`** — compile-time English defaults.  Edit these to rename labels in English or to update the source strings that feed into the translation table.
+3. **`select:` / `esphome:`** — wiring that calls the script on language change and at boot.  Do not edit these.
+
+### Customising a translation
+
+Find the language row inside `apply_ui_translations` and edit the string at the matching column.  The column index for every label is documented in the comments at the top of the script.
 
 ```yaml
-# Guition-ESP32/widgets/preferences.yaml — defaults shown
-
-substitutions:
-
-  # ── Page titles ──────────────────────────────────────────────────────────────
-  alarm_panel_page_title:  "Alarm Panel"
-  covers_page_title:       "Covers"
-  fans_page_title:         "Fan Controls"
-  lights_page_title:       "Lights"
-  hvac_page_title:         "HVAC"
-  thermostat_page_title:   "Thermostat"
-  ac_page_title:           "Air Conditioner"
-  shortcuts_page_title:    "Scenes"
-  people_page_title:       "People"
-  forecast_page_title:     "5-Day Forecast"
-
-  # ── Cover detail buttons ─────────────────────────────────────────────────────
-  cover_open_label:        "Open"
-  cover_stop_label:        "Stop"
-  cover_close_label:       "Close"
-
-  # ── HVAC fan mode buttons ────────────────────────────────────────────────────
-  hvac_fan_auto_label:     "Auto"
-  hvac_fan_on_label:       "On"
-
-  # ── Weather forecast ─────────────────────────────────────────────────────────
-  forecast_today_label:    "Today"
-  forecast_rain_label:     "rain"
-  forecast_refresh_label:  "Refresh"
-
-  # ── People page ──────────────────────────────────────────────────────────────
-  person_away_label:       "Away"
-
-  # ── Alarm panel ──────────────────────────────────────────────────────────────
-  alarm_enter_code_label:  "Enter code"
-
-  # ── Loading / boot screen ────────────────────────────────────────────────────
-  loading_connecting_label: "Connecting to API..."
-  loading_sync_label:       "Synchronizing..."
-  loading_connected_label:  "Home Assistant Connected!"
-
-  # ── Settings page labels ─────────────────────────────────────────────────────
-  settings_language_label:            "Language"
-  settings_theme_label:               "Theme"
-  settings_backlight_label:           "Backlight"
-  settings_sleep_label:               "Sleep mode (sec)"
-  settings_clock_label:               "Clock"
-  settings_clock_12h_label:           "12h"
-  settings_clock_24h_label:           "24h"
-  settings_temperature_label:         "Temperature"
-  settings_screensaver_label:         "Screensaver"
-  settings_screensaver_digital_label: "Digital"
-  settings_flip_label:                "Flip"
-  settings_screensaver_none_label:    "None"
-  settings_show_calendar_label:       "Show calendar events"
-  settings_home_clock_label:          "Home Clock"
-  settings_home_clock_standard_label: "Standard"
+// ── en – English (US) ← default if language index is out of range
+{ "Alarm Panel",       "Covers",           "Fan Controls",       "Lights",   "Scenes",
+  "People",            "5-Day Forecast",   "Chance of Rain",     "Refresh",
+  ...
+}
 ```
 
-`preferences.yaml` is listed as the **first** package in the ENGINE block of every device file, so its values win over the per-widget fallback defaults.  Any substitution defined directly in your device file (e.g. `aaron.yaml`) still takes priority over preferences.yaml — so you can override individual labels per-device without editing preferences.yaml.
+### Adding a new language
+
+1. Copy any existing row in the table as a template and translate it.
+2. Change `t[9][25]` to `t[10][25]` (increment the first dimension).
+3. Add the new language option to `language_dropdown` in `settings_page.yaml` — the row index must match the dropdown option order (0-based).
+
+### Customising English labels
+
+Edit the `substitutions:` block at the bottom of the file.  Each key is annotated with what it controls.
+
+```yaml
+# preferences.yaml — English defaults (substitutions block)
+
+# ── Page titles ───────────────────────────────────────────────────────────────
+alarm_panel_page_title:  "Alarm Panel"
+covers_page_title:       "Cover Controls"
+fans_page_title:         "Fan Controls"
+lights_page_title:       "Light Controls"
+shortcuts_page_title:    "Scene Controls"
+people_page_title:       "People"
+forecast_page_title:     "5-Day Forecast"
+
+# ── Cover detail-page action buttons ─────────────────────────────────────────
+cover_open_label:  "Open"
+cover_stop_label:  "Stop"
+cover_close_label: "Close"
+
+# ── HVAC fan mode buttons ─────────────────────────────────────────────────────
+hvac_fan_auto_label: "Auto"
+hvac_fan_on_label:   "On"
+
+# ── Loading / boot screen ─────────────────────────────────────────────────────
+loading_connecting_label: "Connecting to API..."
+loading_sync_label:       "Synchronizing..."
+loading_connected_label:  "Home Assistant Connected!"
+
+# ── Settings page — section headings ─────────────────────────────────────────
+settings_language_label:    "Language"
+settings_theme_label:       "Theme"
+settings_backlight_label:   "Backlight"
+settings_sleep_label:       "Sleep Mode (sec)"
+# ...and so on — see preferences.yaml for the full list
+```
+
+`preferences.yaml` is listed as the **first** package in every device file so its values override per-widget defaults.  Any substitution defined directly in your device file (e.g. `aaron.yaml`) still takes priority over `preferences.yaml` — allowing per-device label overrides without touching the shared file.
 
 ---
 
@@ -215,7 +219,7 @@ In the ESPHome integration, open the device page and enable *"Allow the device t
 Add [alaltitov/homeassistant-display-tools](https://github.com/alaltitov/homeassistant-display-tools) via HACS or manually to your HA instance.
 
 **c) Add calendar template sensors**
-Copy the contents of `configuration.yaml` (included in this repo) into your Home Assistant `configuration.yaml`, then restart HA.  Replace every occurrence of `calendar.yourcalendar_calendar` with your actual calendar entity ID (HA calendar entity IDs typically end in `_calendar`).
+Copy the contents of `configuration.yaml` (included in this repo) into your Home Assistant `configuration.yaml`, then restart HA.  Replace every occurrence of `calendar.yourcalendar_calendar` with your actual calendar entity ID.
 
 ```yaml
 template:
@@ -256,7 +260,7 @@ template:
 
 > **Timezone note:** Event times are converted to your local timezone using `as_local` before formatting. No UTC conversion is needed — HA handles the local offset automatically.
 
-The calendar entity names default to `sensor.calendar_upcoming_event_1` through `_4` — which match the template above exactly. No substitutions are needed in your device file if you use the standard names. Only add them if you renamed the sensors:
+The calendar entity names default to `sensor.calendar_upcoming_event_1` through `_4`.  Only add substitutions if you renamed the sensors:
 
 ```yaml
   # Only needed if your sensor names differ from the defaults:
@@ -305,6 +309,16 @@ Set the entity substitution(s) and uncomment the matching `devices:` / `hvac:` p
 
 Option 4 is a single package that bundles the devices page and both widgets — page IDs and the theme script page reference are handled automatically.
 
+### Widget layout (Option 1 — combined HVAC)
+
+The left panel contains:
+- **State bar** — current HVAC mode (Heating / Cooling / Idle / Off, etc.)
+- **Info row** — current temperature (with thermometer icon) on the left; humidity label + value on the right
+- **Mode buttons** — Heat / Cool / Auto / Off
+- **Fan mode buttons** — Auto / On
+
+The right side shows an **arc dial** for the set-point temperature.  The set-point value is overlaid at the centre of the arc on a transparent background, so the arc gradient shows through behind it.
+
 ---
 
 ## Lights, Fans, Covers & Scene Shortcuts
@@ -313,48 +327,88 @@ Option 4 is a single package that bundles the devices page and both widgets — 
 |:---:|:---:|:---:|
 | ![Lights Widget](screenshots/lights-widget.png) | ![Fan Widget](screenshots/fan-widget.png) | ![Covers Widget](screenshots/covers-widget.png) |
 
-Up to **6 lights**, **6 fans**, **6 covers**, and **6 scene shortcuts** can be configured. Set unused slots to `sensor.disabled`. All icons are set by name — no unicode codepoints needed.
+Up to **6 lights**, **6 fans**, **6 covers**, and **6 scene shortcuts** can be configured. Set unused slots to `sensor.disabled` — they are hidden automatically at boot and do not leave gaps in the grid. All icons are set by name from the shared icon library — no unicode codepoints or font IDs required.
 
 ```yaml
-# Light slot
+# ── Light slot ────────────────────────────────────────────────────────────────
 light_entity_1:     "light.living_room"
 light_label_name_1: "Living Room"
 light_type_1:       "light"           # light | switch | input_boolean
-light_icon_1:       "ceiling_lamp"    # ceiling_lamp | ceiling_lamp_variant | night_lamp
-                                      # lightbulb | spotlights_group | desk_lamp | pendant_lamp
-                                      # music | curtains | garage | movie_clapper | blinds
-                                      # play_circle | ceiling_fan | floor_fan | bed | heart | tv
+light_icon_1:       "lamp"            # see icon library below
+light_icon_font_1:  "lamp_font"       # always pair icon and font (see icon library)
 
-# Fan slot
+# ── Fan slot ──────────────────────────────────────────────────────────────────
 fan_entity_1:     "fan.ceiling_fan"
 fan_label_name_1: "Ceiling Fan"
-fan_type_1:       "fan"               # fan | switch | input_boolean
-fan_icon_1:       "ceiling_fan"       # ceiling_fan | floor_fan | ceiling_lamp | ceiling_lamp_variant
-                                      # night_lamp | lightbulb | spotlights_group | desk_lamp
-                                      # pendant_lamp | music | curtains | garage | movie_clapper
-                                      # blinds | play_circle | bed | heart | tv
+fan_type_1:       "fan"              # fan | switch | input_boolean
+fan_icon_1:       "ceiling_fan"      # see icon library below
+fan_icon_font_1:  "ceiling_fan_font"
 
-# Cover slot
+# ── Cover slot ────────────────────────────────────────────────────────────────
 cover_entity_1:     "cover.living_room_blinds"
 cover_label_name_1: "Living Room"
-cover_icon_1:       "curtains"        # curtains | garage | blinds | ceiling_lamp | ceiling_lamp_variant
-                                      # night_lamp | lightbulb | spotlights_group | desk_lamp
-                                      # pendant_lamp | music | movie_clapper | play_circle
-                                      # ceiling_fan | floor_fan | bed | heart | tv
+cover_icon_1:       "curtains"       # see icon library below
+cover_icon_font_1:  "curtains_font"
 
-# Scene / script / automation slot
+# ── Scene / script / automation slot ─────────────────────────────────────────
 scene_entity_1:  "scene.morning"
 scene_label_1:   "Morning"
-scene_type_1:    "scene"              # scene | script | automation
-scene_icon_1:    "movie_clapper"      # movie_clapper | play_circle | ceiling_lamp | ceiling_lamp_variant
-                                      # night_lamp | lightbulb | spotlights_group | desk_lamp
-                                      # pendant_lamp | music | curtains | garage | blinds
-                                      # ceiling_fan | floor_fan | bed | heart | tv
+scene_type_1:    "scene"             # scene | script | automation
+scene_icon_1:    "movie"             # see icon library below
+scene_icon_font_1: "movie_font"
 ```
+
+### Icon Library
+
+Every icon has a paired `_font` substitution that must be set alongside the icon name.  Both values come from the table below.
+
+| Icon name | `_font` value | Visual |
+|---|---|---|
+| `lamp` | `lamp_font` | mdi:lamp (table/floor lamp) |
+| `night_lamp` | `night_lamp_font` | mdi:wall-sconce-round |
+| `post_lamp` | `post_lamp_font` | mdi:post-lamp (outdoor post light) |
+| `ceiling_lamp` | `ceiling_lamp_font` | Custom ceiling lamp |
+| `ceiling_lamp_variant` | `ceiling_lamp_variant_font` | Custom ceiling lamp variant |
+| `lightbulb` | `lightbulb_font` | Custom lightbulb |
+| `spotlights_group` | `spotlights_group_font` | Custom spotlights |
+| `desk_lamp` | `desk_lamp_font` | Custom desk lamp |
+| `pendant_lamp` | `pendant_lamp_font` | Custom pendant lamp |
+| `ceiling_fan` | `ceiling_fan_font` | mdi:ceiling-fan |
+| `floor_fan` | `floor_fan_font` | mdi:fan |
+| `curtains` | `curtains_font` | mdi:curtains |
+| `garage` | `garage_font` | Custom garage door |
+| `blinds` | `blinds_font` | mdi:blinds |
+| `movie` | `movie_font` | mdi:movie |
+| `movie_clapper` | `movie_clapper_font` | Custom movie clapper |
+| `play_circle` | `play_circle_font` | mdi:play-circle |
+| `music` | `music_font` | Custom music note |
+| `bed` | `bed_font` | mdi:bed |
+| `heart` | `heart_font` | mdi:heart |
+| `tv` | `tv_font` | mdi:television |
+
+**Default icons per widget type:**
+
+| Widget | Slot default |
+|---|---|
+| Lights (slots 1–3) | `lamp` / `lamp_font` |
+| Lights (slots 4–6) | `bed`, `heart`, `tv` |
+| Fans (all slots) | `ceiling_fan` / `ceiling_fan_font` |
+| Covers (all slots) | `curtains` / `curtains_font` |
+| Scenes (all slots) | `movie` / `movie_font` |
 
 The light detail page automatically shows a colour temperature slider the first time HA sends a `color_temp` attribute.
 
-Each slot has its own independently configurable icon. All icon names resolve to the correct glyph and font automatically via the shared icon library — no raw unicode or font IDs required.
+### Fan types
+
+| `fan_type` value | Behaviour |
+|---|---|
+| `fan` | Full fan entity — speed slider shown on detail page |
+| `switch` | Simple on/off — speed panel hidden |
+| `input_boolean` | Same as switch |
+
+### Devices hub auto-layout
+
+When all slots for a widget type are `sensor.disabled`, that widget's nav button is hidden on the Devices page.  The remaining optional buttons (Fans, Shortcuts, Covers) are automatically repacked into the available slots with no blank gaps.  The container height also shrinks from 3 rows to 2 when only the fixed widgets remain.
 
 ---
 
@@ -388,7 +442,7 @@ person_initials_3: ""
 
 ![5-Day Weather Forecast](screenshots/5-day-weather.png)
 
-Displays current conditions with a title-cased state and a **5-day forecast** showing high/low temperatures and weather icons. Set the `weather_entity` substitution to your Home Assistant weather entity (e.g. `weather.forecast_home`).
+Displays current conditions with a title-cased state and a **5-day forecast** showing high/low temperatures, weather icons, and rain probability (shown above each day's value). Set the `weather_entity` substitution to your Home Assistant weather entity (e.g. `weather.forecast_home`).
 
 ---
 
@@ -396,19 +450,19 @@ Displays current conditions with a title-cased state and a **5-day forecast** sh
 
 ![Screensaver Clock](screenshots/screensaver-clock.png)
 
-Four screensaver styles are available, selectable from **Settings → Screensaver** (the Analog clock style has been replaced by the Flip Clock):
+Three screensaver styles are available, selectable from **Settings → Screensaver**:
 
 | Style | Behaviour |
 |---|---|
-| **Digital** (default) | Large digital clock + date |
-| **Flip Clock** | Retro Gluqlo-style flip clock — hour and minute panels with date below |
-| **Calendar** | Digital clock + next 3 upcoming events |
+| **Digital** | Large digital clock + date |
+| **Flip** (default) | Retro Gluqlo-style flip clock — separate hour and minute panels with date below |
 | **None** | Screen dims to near-off (backlight ~1%) |
 
 - The screensaver activates after the configured idle timeout (default **120 s**)
-- **Digital / Flip Clock / Calendar**: display stays at normal brightness showing the selected clock
+- **Digital / Flip**: brightness adjusts automatically — 90% during the day (08:00–19:59), 10% at night (20:00–07:59)
 - **None**: backlight dims to ~1% — the screen is effectively off but touch still works
-- Tapping anywhere dismisses the screensaver, restores backlight to the saved brightness level, and navigates directly to the **Home** page
+- Tapping anywhere dismisses the screensaver, restores backlight to the saved user brightness, and navigates to the **Home** page
+- **Show Calendar Events** (Settings checkbox) — when enabled, the next 3 upcoming events are overlaid below the clock on both Digital and Flip styles
 
 ---
 
@@ -480,7 +534,7 @@ The component reads the framebuffer directly from the ESP-IDF RGB panel driver (
 | Sleep mode | 120 s |
 | Clock format | 12h (AM/PM) |
 | Temperature unit | °F |
-| Screensaver | Digital |
+| Screensaver | Flip |
 
 All settings are persisted across reboots via NVS flash storage.
 

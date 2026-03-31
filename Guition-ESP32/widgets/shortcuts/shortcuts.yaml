@@ -84,7 +84,7 @@ lvgl:
             x: 20
             y: 60
             width: 440
-            height: 320
+            height: 295
             align: TOP_LEFT
             pad_all: 0
             bg_color: color_steel_blue
@@ -100,24 +100,24 @@ lvgl:
                   x: 10
                   y: 10
                   width: 130
-                  height: 150
+                  height: 130
                   radius: 10
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:
                     - label:
                         id: scene_icon_lbl_1
-                        align: CENTER
-                        y: -10
+                        align: TOP_MID
+                        y: 8
                         text_font: ${${scene_icon_font_1}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_1}}"
                     - label:
                         id: scene_label_lbl_1
-                        y: -12
                         align: BOTTOM_MID
+                        y: -8
                         width: 120
-                        text_font: nunito_18
+                        text_font: nunito_16
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_1}"
@@ -132,24 +132,24 @@ lvgl:
                   x: 155
                   y: 10
                   width: 130
-                  height: 150
+                  height: 130
                   radius: 10
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:
                     - label:
                         id: scene_icon_lbl_2
-                        align: CENTER
-                        y: -10
+                        align: TOP_MID
+                        y: 8
                         text_font: ${${scene_icon_font_2}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_2}}"
                     - label:
                         id: scene_label_lbl_2
-                        y: -12
                         align: BOTTOM_MID
+                        y: -8
                         width: 120
-                        text_font: nunito_18
+                        text_font: nunito_16
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_2}"
@@ -164,24 +164,24 @@ lvgl:
                   x: 300
                   y: 10
                   width: 130
-                  height: 150
+                  height: 130
                   radius: 10
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:
                     - label:
                         id: scene_icon_lbl_3
-                        align: CENTER
-                        y: -10
+                        align: TOP_MID
+                        y: 8
                         text_font: ${${scene_icon_font_3}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_3}}"
                     - label:
                         id: scene_label_lbl_3
-                        y: -12
                         align: BOTTOM_MID
+                        y: -8
                         width: 120
-                        text_font: nunito_18
+                        text_font: nunito_16
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_3}"
@@ -195,26 +195,26 @@ lvgl:
               - button:
                   id: scene_btn_4
                   x: 10
-                  y: 175
+                  y: 155
                   width: 130
-                  height: 150
+                  height: 130
                   radius: 10
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:
                     - label:
                         id: scene_icon_lbl_4
-                        align: CENTER
-                        y: -10
+                        align: TOP_MID
+                        y: 8
                         text_font: ${${scene_icon_font_4}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_4}}"
                     - label:
                         id: scene_label_lbl_4
-                        y: -12
                         align: BOTTOM_MID
+                        y: -8
                         width: 120
-                        text_font: nunito_18
+                        text_font: nunito_16
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_4}"
@@ -227,26 +227,26 @@ lvgl:
               - button:
                   id: scene_btn_5
                   x: 155
-                  y: 175
+                  y: 155
                   width: 130
-                  height: 150
+                  height: 130
                   radius: 10
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:
                     - label:
                         id: scene_icon_lbl_5
-                        align: CENTER
-                        y: -10
+                        align: TOP_MID
+                        y: 8
                         text_font: ${${scene_icon_font_5}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_5}}"
                     - label:
                         id: scene_label_lbl_5
-                        y: -12
                         align: BOTTOM_MID
+                        y: -8
                         width: 120
-                        text_font: nunito_18
+                        text_font: nunito_16
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_5}"
@@ -259,26 +259,26 @@ lvgl:
               - button:
                   id: scene_btn_6
                   x: 300
-                  y: 175
+                  y: 155
                   width: 130
-                  height: 150
+                  height: 130
                   radius: 10
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:
                     - label:
                         id: scene_icon_lbl_6
-                        align: CENTER
-                        y: -10
+                        align: TOP_MID
+                        y: 8
                         text_font: ${${scene_icon_font_6}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_6}}"
                     - label:
                         id: scene_label_lbl_6
-                        y: -12
                         align: BOTTOM_MID
+                        y: -8
                         width: 120
-                        text_font: nunito_18
+                        text_font: nunito_16
                         text_color: color_misty_blue
                         long_mode: WRAP
                         text: "${scene_label_6}"

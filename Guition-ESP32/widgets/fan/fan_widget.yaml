@@ -9,8 +9,8 @@ substitutions:
   # Safe defaults – overridden per-slot by fans_config.yaml vars
   fan_entity:  "sensor.disabled"
   fan_type:    "fan"       # "fan" | "switch" | "input_boolean"
-  fan_icon:      "\U0000E901"   # ceiling-fan default; override per slot in fans_config
-  fan_icon_font: "fan_icons_90" # font containing the tile glyph; override per slot
+  fan_icon:      "ceiling_fan"    # icon name from icon_library; override per slot
+  fan_icon_font: "ceiling_fan_font" # resolves to mdi_icons_90 via icon_library
   widget_name:   "fan_default"
 
 # ── Globals ──────────────────────────────────────────────────────────────────
@@ -260,8 +260,8 @@ lvgl:
                   y: 20
                   align: CENTER
                   text_color: color_steel_blue
-                  text_font: fan_icons_72
-                  text: "${fan_icon}"
+                  text_font: ${${fan_icon_font}}
+                  text: "${${fan_icon}}"
               # Full-panel transparent tap overlay – calls correct service by type
               - button:
                   id: ${widget_name}_fan_toggle_btn

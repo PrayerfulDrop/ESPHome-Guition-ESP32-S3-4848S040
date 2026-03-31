@@ -134,7 +134,6 @@ text_sensor:
             lv_obj_set_style_bg_opa(id(hvac_mode_heat_btn), LV_OPA_60, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_cool_btn), LV_OPA_20, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_off_btn),  LV_OPA_20, LV_PART_MAIN);
-            lv_label_set_text(id(hvac_state_icon), "${heating_icon}");
             // arc background: yellow (low/cool) → red (high/hot), bottom to top
             lv_obj_set_style_bg_color(id(hvac_temp_arc_bg),      lv_color_hex(0xFF2000), sel);
             lv_obj_set_style_bg_grad_color(id(hvac_temp_arc_bg), lv_color_hex(0xFFD700), sel);
@@ -143,7 +142,6 @@ text_sensor:
             lv_obj_set_style_bg_opa(id(hvac_mode_heat_btn), LV_OPA_20, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_cool_btn), LV_OPA_60, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_off_btn),  LV_OPA_20, LV_PART_MAIN);
-            lv_label_set_text(id(hvac_state_icon), "${air_conditioner_icon}");
             // arc background: light-blue (high/warm) → dark-blue (low/cold), top to bottom
             lv_obj_set_style_bg_color(id(hvac_temp_arc_bg),      lv_color_hex(0x87CEEB), sel);
             lv_obj_set_style_bg_grad_color(id(hvac_temp_arc_bg), lv_color_hex(0x0047AB), sel);
@@ -152,7 +150,6 @@ text_sensor:
             lv_obj_set_style_bg_opa(id(hvac_mode_heat_btn), LV_OPA_20, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_cool_btn), LV_OPA_20, LV_PART_MAIN);
             lv_obj_set_style_bg_opa(id(hvac_mode_off_btn),  LV_OPA_60, LV_PART_MAIN);
-            lv_label_set_text(id(hvac_state_icon), "${power_icon}");
             // arc background: gray gradient
             lv_obj_set_style_bg_color(id(hvac_temp_arc_bg),      lv_color_hex(0x607080), sel);
             lv_obj_set_style_bg_grad_color(id(hvac_temp_arc_bg), lv_color_hex(0x303848), sel);
@@ -193,8 +190,8 @@ lvgl:
             id: hvac_state_bar
             x: 20
             y: 58
-            width: 400
-            height: 60
+            width: 240
+            height: 50
             align: TOP_LEFT
             pad_all: 0
             bg_color: color_steel_blue
@@ -206,14 +203,51 @@ lvgl:
             widgets:
               - label:
                   id: hvac_state_label
-                  x: 20
-                  align: LEFT_MID
+                  align: CENTER
                   text_font: nunito_18
                   text_color: color_misty_blue
                   text: " "
+
+        # Info row — current temperature + humidity
+        - obj:
+            id: hvac_info_row
+            x: 20
+            y: 112
+            width: 240
+            height: 65
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  x: 8
+                  align: LEFT_MID
+                  text_font: icons_28
+                  text_color: color_steel_blue
+                  text: "${temperature_icon}"
+              - label:
+                  id: hvac_target_temperature_value
+                  x: 42
+                  align: LEFT_MID
+                  text_font: nunito_30
+                  text_color: color_steel_blue
+                  text: " "
+              - label:
+                  x: -10
+                  y: -14
+                  align: RIGHT_MID
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "Humidity"
               - label:
                   id: hvac_humidity_label
-                  x: -20
+                  x: -10
+                  y: 12
                   align: RIGHT_MID
                   text_font: nunito_18
                   text_color: color_misty_blue
@@ -222,9 +256,9 @@ lvgl:
         # Mode buttons — HEAT / COOL / OFF
         - obj:
             id: hvac_mode_panel
-            x: 15
-            y: 120
-            width: 210
+            x: 20
+            y: 181
+            width: 240
             height: 90
             align: TOP_LEFT
             pad_all: 0
@@ -265,7 +299,7 @@ lvgl:
 
               - obj:
                   id: hvac_mode_cool_btn
-                  x: 80
+                  x: 90
                   align: LEFT_MID
                   width: 60
                   height: 60
@@ -292,7 +326,7 @@ lvgl:
 
               - obj:
                   id: hvac_mode_off_btn
-                  x: 150
+                  x: 170
                   align: LEFT_MID
                   width: 60
                   height: 60
@@ -320,9 +354,9 @@ lvgl:
         # Fan mode buttons — AUTO / ON
         - obj:
             id: hvac_fan_panel
-            x: 15
-            y: 222
-            width: 210
+            x: 20
+            y: 275
+            width: 240
             height: 90
             align: TOP_LEFT
             pad_all: 0
@@ -338,7 +372,7 @@ lvgl:
                   id: hvac_fan_auto_btn
                   x: 10
                   align: LEFT_MID
-                  width: 90
+                  width: 105
                   height: 60
                   radius: 10
                   pad_all: 0
@@ -364,9 +398,9 @@ lvgl:
 
               - obj:
                   id: hvac_fan_on_btn
-                  x: 110
+                  x: 125
                   align: LEFT_MID
-                  width: 90
+                  width: 105
                   height: 60
                   radius: 10
                   pad_all: 0
@@ -528,10 +562,10 @@ lvgl:
                     bg_opa: 80%
 
               - obj:
-                  width: 130
-                  height: 95
+                  width: 110
+                  height: 80
                   align: RIGHT_MID
-                  bg_color: color_slate_blue_gray
+                  bg_opa: TRANSP
                   pad_all: 0
                   border_opa: TRANSP
                   border_width: 0
@@ -539,55 +573,29 @@ lvgl:
                   widgets:
                     - label:
                         id: hvac_target_temperature_whole
-                        x: -32
+                        x: -26
                         y: 0
                         align: RIGHT_MID
-                        text_font: nunito_64
+                        text_font: nunito_48
                         text_color: color_steel_blue
                         text: " "
                     - label:
                         id: hvac_target_temperature_fraction
-                        x: -7
-                        y: 10
+                        x: -6
+                        y: 8
                         align: RIGHT_MID
-                        text_font: nunito_30
+                        text_font: nunito_20
                         text_color: color_steel_blue
                         text: " "
                     - label:
                         id: hvac_target_temperature_measurement
-                        x: -8
-                        y: -14
+                        x: -6
+                        y: -12
                         align: RIGHT_MID
-                        text_font: nunito_20
+                        text_font: nunito_16
                         text_color: color_steel_blue
                         text: "°F"
 
-              - label:
-                  id: hvac_state_icon
-                  x: -10
-                  y: -90
-                  align: RIGHT_MID
-                  text_font: icons_48
-                  text_color: color_steel_blue
-                  text: "${heating_icon}"
-
-              - label:
-                  id: hvac_target_temperature_icon
-                  x: -70
-                  y: 80
-                  align: RIGHT_MID
-                  text_font: icons_28
-                  text_color: color_steel_blue
-                  text: "${temperature_icon}"
-
-              - label:
-                  id: hvac_target_temperature_value
-                  x: -10
-                  y: 80
-                  align: RIGHT_MID
-                  text_font: nunito_30
-                  text_color: color_steel_blue
-                  text: " "
 
 
 script:
@@ -607,15 +615,15 @@ script:
           // 0=de 1=es 2=fr 3=en-GB 4=it 5=pt 6=ru 7=en 8=pl
           // cols: 0=page title  1=fan auto  2=fan on
           static const char* const t[9][3] = {
-            { "HVAC",  "Auto",  "Ein"    },  // de
-            { "HVAC",  "Auto",  "Enc."   },  // es
-            { "HVAC",  "Auto",  "Marche" },  // fr
-            { "HVAC",  "Auto",  "On"     },  // en-GB
-            { "HVAC",  "Auto",  "Acc."   },  // it
-            { "HVAC",  "Auto",  "Lig."   },  // pt
-            { "HVAC",  "\u0410\u0432\u0442\u043e", "\u0412\u043a\u043b" },  // ru
-            { "HVAC",  "Auto",  "On"     },  // en
-            { "HVAC",  "Auto",  "W\u0142." },  // pl
+            { "${hvac_page_title}",  "Auto",  "Ein"    },  // de
+            { "${hvac_page_title}",  "Auto",  "Enc."   },  // es
+            { "${hvac_page_title}",  "Auto",  "Marche" },  // fr
+            { "${hvac_page_title}",  "Auto",  "On"     },  // en-GB
+            { "${hvac_page_title}",  "Auto",  "Acc."   },  // it
+            { "${hvac_page_title}",  "Auto",  "Lig."   },  // pt
+            { "${hvac_page_title}",  "\u0410\u0432\u0442\u043e", "\u0412\u043a\u043b" },  // ru
+            { "${hvac_page_title}",  "Auto",  "On"     },  // en
+            { "${hvac_page_title}",  "Auto",  "W\u0142." },  // pl
           };
           int l = id(current_language);
           if (l < 0 || l > 8) l = 7;

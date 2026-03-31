@@ -12,30 +12,266 @@
 #     preferences: !include widgets/preferences.yaml
 #     # ... rest of your packages follow
 #
-# ── DEFAULTS ─────────────────────────────────────────────────────────────────
-# Every key below is also defined as a default inside its widget file, so
-# preferences.yaml is optional — widgets compile without it.  When included,
-# the values here override the widget defaults.
+# ── CUSTOMISING ENGLISH LABELS ───────────────────────────────────────────────
+# Edit the `substitutions:` block at the bottom of this file.
+# Those values are the compile-time defaults shown on first render and are
+# also used as the English source strings by the translation engine.
 #
-# ── RUNTIME TRANSLATIONS ─────────────────────────────────────────────────────
-# The script apply_ui_translations updates all always-present page titles and
-# settings labels whenever the language dropdown changes.  HVAC widgets manage
-# their own page title via their existing select: platform: lvgl hook.
+# ── CUSTOMISING TRANSLATIONS ─────────────────────────────────────────────────
+# Edit the matching row in the t[language][string] table inside the
+# apply_ui_translations script below.  Each row is one language; each column
+# is one on-screen label.  To only change one language, edit only that row —
+# all other languages are unaffected.
+#
+# ── ADDING A NEW LANGUAGE ────────────────────────────────────────────────────
+# 1. Copy any existing row in the t[][] table as a template and translate it.
+# 2. Increment the first dimension: t[9][25] → t[10][25].
+# 3. Add the language as a new option in the language_dropdown widget inside
+#    settings_page.yaml — the row index must match the dropdown option order
+#    (0-based, top-to-bottom).
 # ─────────────────────────────────────────────────────────────────────────────
+
+
+# ── Runtime translation engine ────────────────────────────────────────────────
+# apply_ui_translations rewrites every always-present label to the selected
+# language.  Called automatically at boot and on every language-dropdown change.
+#
+# ── LANGUAGE INDEX (row number in the table) ─────────────────────────────────
+#   0 = de    German
+#   1 = es    Spanish
+#   2 = fr    French
+#   3 = en-GB English (UK)
+#   4 = it    Italian
+#   5 = pt    Portuguese
+#   6 = ru    Russian
+#   7 = en    English (US) ← default if index is out of range
+#   8 = pl    Polish
+#
+# ── STRING INDEX (column number in the table) ────────────────────────────────
+#   Each column maps to one on-screen label.  To change a specific label for a
+#   specific language, find the language row and edit the value at that column.
+#
+#    0  alarm_panel_header         Alarm panel page title
+#    1  covers_panel_header        Covers page title
+#    2  fans_panel_header          Fans page title
+#    3  lights_panel_header        Lights page title
+#    4  shortcuts_panel_header     Scenes / shortcuts page title
+#    5  people_page_title_lbl      People page title
+#    6  forecast_title_lbl         5-Day forecast page title
+#    7  forecast_rain_lbl          Rain probability label on forecast page
+#    8  forecast_refresh_lbl       Refresh button on forecast page
+#    9  language_label             Settings: "Language" section heading
+#   10  theme_label                Settings: "Theme" section heading
+#   11  display_backlight_label    Settings: "Backlight" section heading
+#   12  display_timeout_label      Settings: "Sleep Mode" section heading
+#   13  clock_format_label         Settings: "Clock" section heading
+#   14  clock_12h_label            Settings: 12-hour clock button
+#   15  clock_24h_label            Settings: 24-hour clock button
+#   16  temp_unit_label            Settings: "Temperature" section heading
+#   17  screensaver_style_label    Settings: "Screensaver" section heading
+#   18  ss_digital_lbl             Settings: screensaver "Digital" option
+#   19  ss_analog_lbl              Settings: screensaver "Flip" option
+#   20  ss_none_lbl                Settings: screensaver "None" option
+#   21  ss_events_checkbox         Settings: "Show Calendar Events" checkbox
+#   22  home_clock_style_lbl       Settings: "Home Clock" section heading
+#   23  home_std_lbl               Settings: home clock "Standard" option
+#   24  home_flip_lbl              Settings: home clock "Flip" option
+
+script:
+  - id: apply_ui_translations
+    then:
+      - lambda: |-
+          // Rows: language index  Cols: string index (see mapping above)
+          static const char* const t[9][25] = {
+
+            // ── de – German ────────────────────────────────────────────────
+            { "Alarmanlage",       "Rollos",           "Ventilatoren",       "Beleuchtung",       "Szenen",
+              "Personen",          "5-Tage-Vorhersage","Regenrisiko",        "Aktualisieren",
+              "Sprache",           "Design",           "Helligkeit",         "Ruhemodus (Sek.)",  "Uhr",
+              "12h",               "24h",              "Temperatur",         "Bildschirmschoner", "Digital",
+              "Flip",              "Aus",              "Kalendereintr\u00e4ge","Startseiten-Uhr",  "Standard",
+              "Flip" },
+
+            // ── es – Spanish ───────────────────────────────────────────────
+            { "Panel de Alarma",   "Persianas",        "Ventiladores",       "Luces",             "Escenas",
+              "Personas",          "Pron\u00f3stico 5 D\u00edas","Prob. de Lluvia","Actualizar",
+              "Idioma",            "Tema",             "Brillo",             "Reposo (seg)",      "Reloj",
+              "12h",               "24h",              "Temperatura",        "Salvapantallas",    "Digital",
+              "Flip",              "Ninguno",          "Mostrar eventos",    "Reloj Principal",   "Est\u00e1ndar",
+              "Flip" },
+
+            // ── fr – French ────────────────────────────────────────────────
+            { "Panneau d'Alarme",  "Volets",           "Ventilateurs",       "Lumi\u00e8res",     "Sc\u00e8nes",
+              "Personnes",         "Pr\u00e9visions 5 Jours","Risque de Pluie","Actualiser",
+              "Langue",            "Th\u00e8me",       "R\u00e9tro\u00e9clairage","Veille (sec)",  "Horloge",
+              "12h",               "24h",              "Temp\u00e9rature",   "\u00c9cran de veille","Num\u00e9rique",
+              "Flip",              "Aucun",            "Afficher \u00e9v\u00e9nements","Horloge Accueil","Standard",
+              "Flip" },
+
+            // ── en-GB – English (UK) ───────────────────────────────────────
+            { "Alarm Panel",       "Cover Controls",   "Fan Controls",       "Light Controls",    "Scene Controls",
+              "People",            "5-Day Forecast",   "Chance of Rain",     "Refresh",
+              "Language",          "Theme",            "Backlight",          "Sleep Mode (sec)",  "Clock",
+              "12h",               "24h",              "Temperature",        "Screensaver",       "Digital",
+              "Flip",              "None",             "Show Calendar Events","Home Clock",        "Standard",
+              "Flip" },
+
+            // ── it – Italian ───────────────────────────────────────────────
+            { "Pannello Allarme",  "Tende",            "Ventilatori",        "Luci",              "Scene",
+              "Persone",           "Previsioni 5 Giorni","Prob. Pioggia",    "Aggiorna",
+              "Lingua",            "Tema",             "Luminosit\u00e0",    "Riposo (sec)",      "Orologio",
+              "12h",               "24h",              "Temperatura",        "Salvaschermo",      "Digitale",
+              "Flip",              "Nessuno",          "Mostra eventi",      "Orologio Home",     "Standard",
+              "Flip" },
+
+            // ── pt – Portuguese ────────────────────────────────────────────
+            { "Painel de Alarme",  "Persianas",        "Ventiladores",       "Luzes",             "Cenas",
+              "Pessoas",           "Previs\u00e3o 5 Dias","Prob. de Chuva",  "Atualizar",
+              "Idioma",            "Tema",             "Brilho",             "Repouso (seg)",     "Rel\u00f3gio",
+              "12h",               "24h",              "Temperatura",        "Protetor de Tela",  "Digital",
+              "Flip",              "Nenhum",           "Mostrar eventos",    "Rel\u00f3gio Inicial","Padr\u00e3o",
+              "Flip" },
+
+            // ── ru – Russian ───────────────────────────────────────────────
+            // Non-ASCII characters are written as \uXXXX Unicode escapes.
+            { "\u041f\u0430\u043d\u0435\u043b\u044c \u041e\u0445\u0440\u0430\u043d\u044b",
+              "\u0428\u0442\u043e\u0440\u044b",
+              "\u0412\u0435\u043d\u0442\u0438\u043b\u044f\u0442\u043e\u0440\u044b",
+              "\u041e\u0441\u0432\u0435\u0449\u0435\u043d\u0438\u0435",
+              "\u0421\u0446\u0435\u043d\u044b",
+              "\u041b\u044e\u0434\u0438",
+              "\u041f\u0440\u043e\u0433\u043d\u043e\u0437 5 \u0414\u043d\u0435\u0439",
+              "\u0412\u0435\u0440\u043e\u044f\u0442\u043d\u043e\u0441\u0442\u044c \u0414\u043e\u0436\u0434\u044f",
+              "\u041e\u0431\u043d\u043e\u0432\u0438\u0442\u044c",
+              "\u042f\u0437\u044b\u043a",
+              "\u0422\u0435\u043c\u0430",
+              "\u041f\u043e\u0434\u0441\u0432\u0435\u0442\u043a\u0430",
+              "\u0421\u043e\u043d (\u0441\u0435\u043a)",
+              "\u0427\u0430\u0441\u044b",
+              "12\u0447",
+              "24\u0447",
+              "\u0422\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u0430",
+              "\u0417\u0430\u0441\u0442\u0430\u0432\u043a\u0430",
+              "\u0426\u0438\u0444\u0440\u043e\u0432\u044b\u0435",
+              "\u0424\u043b\u0438\u043f",
+              "\u041d\u0435\u0442",
+              "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0441\u043e\u0431\u044b\u0442\u0438\u044f",
+              "\u0427\u0430\u0441\u044b \u0413\u043b\u0430\u0432\u043d\u043e\u0439",
+              "\u0421\u0442\u0430\u043d\u0434\u0430\u0440\u0442",
+              "\u0424\u043b\u0438\u043f" },
+
+            // ── en – English (US) ← default if language index is out of range
+            { "Alarm Panel",       "Cover Controls",           "Fan Controls",       "Light Controls",            "Scene Controls",
+              "People",            "5-Day Forecast",   "Chance of Rain",     "Refresh",
+              "Language",          "Theme",            "Backlight",          "Sleep Mode (sec)",  "Clock",
+              "12h",               "24h",              "Temperature",        "Screensaver",       "Digital",
+              "Flip",              "None",             "Show Calendar Events","Home Clock",        "Standard",
+              "Flip" },
+
+            // ── pl – Polish ────────────────────────────────────────────────
+            { "Panel Alarmowy",    "Sterowanie Roletami", "Wentylatory",        "O\u015bwietlenie",  "Sceny",
+              "Osoby",             "Prognoza 5 Dni",   "Ryzyko Deszczu",     "Od\u015bwie\u017c",
+              "J\u0119zyk",        "Motyw",            "Pod\u015bwietlenie",  "U\u015bpienie (sek)","Zegar",
+              "12h",               "24h",              "Temperatura",        "Wygaszacz",         "Cyfrowy",
+              "Flip",              "Brak",             "Poka\u017c zdarzenia","Zegar G\u0142\u00f3wny","Standardowy",
+              "Flip" },
+
+          };
+
+          int l = id(current_language);
+          if (l < 0 || l > 8) l = 7;  // default to en-US if out of range
+
+          lv_label_set_text(id(alarm_panel_header),       t[l][0]);
+          lv_label_set_text(id(covers_panel_header),      t[l][1]);
+          lv_label_set_text(id(fans_panel_header),        t[l][2]);
+          lv_label_set_text(id(lights_panel_header),      t[l][3]);
+          lv_label_set_text(id(shortcuts_panel_header),   t[l][4]);
+          lv_label_set_text(id(people_page_title_lbl),    t[l][5]);
+          lv_label_set_text(id(forecast_title_lbl),       t[l][6]);
+          lv_label_set_text(id(forecast_rain_lbl),        t[l][7]);
+          lv_label_set_text(id(forecast_refresh_lbl),     t[l][8]);
+          lv_label_set_text(id(language_label),           t[l][9]);
+          lv_label_set_text(id(theme_label),              t[l][10]);
+          lv_label_set_text(id(display_backlight_label),  t[l][11]);
+          lv_label_set_text(id(display_timeout_label),    t[l][12]);
+          lv_label_set_text(id(clock_format_label),       t[l][13]);
+          lv_label_set_text(id(clock_12h_label),          t[l][14]);
+          lv_label_set_text(id(clock_24h_label),          t[l][15]);
+          lv_label_set_text(id(temp_unit_label),          t[l][16]);
+          lv_label_set_text(id(screensaver_style_label),  t[l][17]);
+          lv_label_set_text(id(ss_digital_lbl),           t[l][18]);
+          lv_label_set_text(id(ss_analog_lbl),            t[l][19]);
+          lv_label_set_text(id(ss_none_lbl),              t[l][20]);
+          lv_checkbox_set_text(id(ss_events_checkbox),    t[l][21]);
+          lv_label_set_text(id(home_clock_style_lbl),     t[l][22]);
+          lv_label_set_text(id(home_std_lbl),             t[l][23]);
+          lv_label_set_text(id(home_flip_lbl),            t[l][24]);
+
+
+# ── English label defaults ────────────────────────────────────────────────────
+# These substitutions are baked in at compile time and provide the initial text
+# shown on first render, before the boot translation fires.  They also serve as
+# the English source strings — changing a value here updates both the compiled
+# default AND the text shown when English (US) is selected.
+#
+# ── WHAT EACH GROUP CONTROLS ──────────────────────────────────────────────────
+#
+#   Page titles
+#     The heading shown at the top of each page and in the language table
+#     above (columns 0–6).  Change these to rename a section across all
+#     languages at once, then update the matching cell in each language row.
+#
+#   Cover action buttons  (cover_open / stop / close_label)
+#     The three command buttons on the cover detail page.  These are
+#     compile-time only — add translations to a new script block if needed.
+#
+#   HVAC fan mode buttons  (hvac_fan_auto / on_label)
+#     The Auto / On buttons on the HVAC detail page.
+#
+#   Weather forecast  (forecast_today / rain / refresh_label)
+#     Labels on the 5-day forecast page.  forecast_rain_label and
+#     forecast_refresh_label also have runtime translations (columns 7–8).
+#
+#   People page  (person_away_label)
+#     Default status text shown on a person card before HA state arrives.
+#
+#   Alarm panel  (alarm_enter_code_label)
+#     Prompt shown above the keypad when a code is required.
+#
+#   Loading screen  (loading_connecting / sync / connected_label)
+#     The three status messages shown during the API connection sequence.
+#
+#   Settings headings  (settings_language / theme / … _label)
+#     Section headings in the settings page.  Runtime translations for
+#     these are at columns 9–24 in the language table above.
+#
+#   Settings buttons  (settings_clock_12h / 24h / screensaver_… / …)
+#     Option button labels in the settings page.  Runtime translations
+#     are at columns 14–24 in the language table above.
 
 substitutions:
 
   # ── Page titles ───────────────────────────────────────────────────────────────
   alarm_panel_page_title:  "Alarm Panel"
-  covers_page_title:       "Covers"
+  covers_page_title:       "Cover Controls"
   fans_page_title:         "Fan Controls"
-  lights_page_title:       "Lights"
-  hvac_page_title:         "HVAC"
-  thermostat_page_title:   "Thermostat"
-  ac_page_title:           "Air Conditioner"
-  shortcuts_page_title:    "Scenes"
+  lights_page_title:       "Light Controls"
+  shortcuts_page_title:    "Scene Controls"
   people_page_title:       "People"
   forecast_page_title:     "5-Day Forecast"
+
+  # ── HVAC / Thermostat / Air Conditioner page titles ──────────────────────────
+  # These substitutions control the page header shown for HVAC widgets.
+  # The value here is used for ALL languages — the widget applies the same string
+  # regardless of the selected language.  Change the value to rename the page.
+  #
+  #   hvac_page_title       → used by hvac_widget.yaml (combined HVAC)
+  #   thermostat_page_title → used by thermostat_widget.yaml
+  #   ac_page_title         → used by air_conditioner_widget.yaml
+  #
+  hvac_page_title:         "HVAC Controls"
+  thermostat_page_title:   "Thermostat"
+  ac_page_title:           "Air Conditioner"
 
 
   # ── Cover detail-page action buttons ─────────────────────────────────────────
@@ -56,7 +292,6 @@ substitutions:
 
 
   # ── People page ───────────────────────────────────────────────────────────────
-  # Default status text shown on each person card before HA state is received.
   person_away_label: "Away"
 
 
@@ -89,145 +324,6 @@ substitutions:
   settings_screensaver_none_label:    "None"
   settings_home_clock_standard_label: "Standard"
   settings_show_calendar_label:       "Show Calendar Events"
-
-
-# ── Runtime translation engine ────────────────────────────────────────────────
-# apply_ui_translations updates every always-present label.
-# Called automatically on boot and on every language dropdown change.
-#
-# Language index matches the settings page dropdown order:
-#   0=de  1=es  2=fr  3=en-GB  4=it  5=pt  6=ru  7=en  8=pl
-#
-# String index → widget ID mapping:
-#   0  alarm_panel_header        8  forecast_refresh_lbl      16 temp_unit_label
-#   1  covers_panel_header       9  language_label            17 screensaver_style_label
-#   2  fans_panel_header         10 theme_label               18 ss_digital_lbl
-#   3  lights_panel_header       11 display_backlight_label   19 ss_analog_lbl
-#   4  shortcuts_panel_header    12 display_timeout_label     20 ss_none_lbl
-#   5  people_page_title_lbl     13 clock_format_label        21 ss_events_checkbox (checkbox)
-#   6  forecast_title_lbl        14 clock_12h_label           22 home_clock_style_lbl
-#   7  forecast_rain_lbl         15 clock_24h_label           23 home_std_lbl
-#                                                             24 home_flip_lbl
-
-script:
-  - id: apply_ui_translations
-    then:
-      - lambda: |-
-          // Rows: language index (0=de 1=es 2=fr 3=en-GB 4=it 5=pt 6=ru 7=en 8=pl)
-          // Cols: string index (see mapping above)
-          static const char* const t[9][25] = {
-            // de
-            { "Alarmanlage",       "Rollos",           "Ventilatoren",       "Beleuchtung",       "Szenen",
-              "Personen",          "5-Tage-Vorhersage","Regenrisiko",        "Aktualisieren",
-              "Sprache",           "Design",           "Helligkeit",         "Ruhemodus (Sek.)",  "Uhr",
-              "12h",               "24h",              "Temperatur",         "Bildschirmschoner", "Digital",
-              "Flip",              "Aus",              "Kalendereintr\u00e4ge","Startseiten-Uhr",  "Standard",
-              "Flip" },
-            // es
-            { "Panel de Alarma",   "Persianas",        "Ventiladores",       "Luces",             "Escenas",
-              "Personas",          "Pron\u00f3stico 5 D\u00edas","Prob. de Lluvia","Actualizar",
-              "Idioma",            "Tema",             "Brillo",             "Reposo (seg)",      "Reloj",
-              "12h",               "24h",              "Temperatura",        "Salvapantallas",    "Digital",
-              "Flip",              "Ninguno",          "Mostrar eventos",    "Reloj Principal",   "Est\u00e1ndar",
-              "Flip" },
-            // fr
-            { "Panneau d'Alarme",  "Volets",           "Ventilateurs",       "Lumi\u00e8res",     "Sc\u00e8nes",
-              "Personnes",         "Pr\u00e9visions 5 Jours","Risque de Pluie","Actualiser",
-              "Langue",            "Th\u00e8me",       "R\u00e9tro\u00e9clairage","Veille (sec)",  "Horloge",
-              "12h",               "24h",              "Temp\u00e9rature",   "\u00c9cran de veille","Num\u00e9rique",
-              "Flip",              "Aucun",            "Afficher \u00e9v\u00e9nements","Horloge Accueil","Standard",
-              "Flip" },
-            // en-GB
-            { "Alarm Panel",       "Covers",           "Fan Controls",       "Lights",            "Scenes",
-              "People",            "5-Day Forecast",   "Chance of Rain",     "Refresh",
-              "Language",          "Theme",            "Backlight",          "Sleep Mode (sec)",  "Clock",
-              "12h",               "24h",              "Temperature",        "Screensaver",       "Digital",
-              "Flip",              "None",             "Show Calendar Events","Home Clock",        "Standard",
-              "Flip" },
-            // it
-            { "Pannello Allarme",  "Tende",            "Ventilatori",        "Luci",              "Scene",
-              "Persone",           "Previsioni 5 Giorni","Prob. Pioggia",    "Aggiorna",
-              "Lingua",            "Tema",             "Luminosit\u00e0",    "Riposo (sec)",      "Orologio",
-              "12h",               "24h",              "Temperatura",        "Salvaschermo",      "Digitale",
-              "Flip",              "Nessuno",          "Mostra eventi",      "Orologio Home",     "Standard",
-              "Flip" },
-            // pt
-            { "Painel de Alarme",  "Persianas",        "Ventiladores",       "Luzes",             "Cenas",
-              "Pessoas",           "Previs\u00e3o 5 Dias","Prob. de Chuva",  "Atualizar",
-              "Idioma",            "Tema",             "Brilho",             "Repouso (seg)",     "Rel\u00f3gio",
-              "12h",               "24h",              "Temperatura",        "Protetor de Tela",  "Digital",
-              "Flip",              "Nenhum",           "Mostrar eventos",    "Rel\u00f3gio Inicial","Padr\u00e3o",
-              "Flip" },
-            // ru
-            { "\u041f\u0430\u043d\u0435\u043b\u044c \u041e\u0445\u0440\u0430\u043d\u044b",
-              "\u0428\u0442\u043e\u0440\u044b",
-              "\u0412\u0435\u043d\u0442\u0438\u043b\u044f\u0442\u043e\u0440\u044b",
-              "\u041e\u0441\u0432\u0435\u0449\u0435\u043d\u0438\u0435",
-              "\u0421\u0446\u0435\u043d\u044b",
-              "\u041b\u044e\u0434\u0438",
-              "\u041f\u0440\u043e\u0433\u043d\u043e\u0437 5 \u0414\u043d\u0435\u0439",
-              "\u0412\u0435\u0440\u043e\u044f\u0442\u043d\u043e\u0441\u0442\u044c \u0414\u043e\u0436\u0434\u044f",
-              "\u041e\u0431\u043d\u043e\u0432\u0438\u0442\u044c",
-              "\u042f\u0437\u044b\u043a",
-              "\u0422\u0435\u043c\u0430",
-              "\u041f\u043e\u0434\u0441\u0432\u0435\u0442\u043a\u0430",
-              "\u0421\u043e\u043d (\u0441\u0435\u043a)",
-              "\u0427\u0430\u0441\u044b",
-              "12\u0447",
-              "24\u0447",
-              "\u0422\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u0430",
-              "\u0417\u0430\u0441\u0442\u0430\u0432\u043a\u0430",
-              "\u0426\u0438\u0444\u0440\u043e\u0432\u044b\u0435",
-              "\u0424\u043b\u0438\u043f",
-              "\u041d\u0435\u0442",
-              "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0441\u043e\u0431\u044b\u0442\u0438\u044f",
-              "\u0427\u0430\u0441\u044b \u0413\u043b\u0430\u0432\u043d\u043e\u0439",
-              "\u0421\u0442\u0430\u043d\u0434\u0430\u0440\u0442",
-              "\u0424\u043b\u0438\u043f" },
-            // en (US)
-            { "Alarm Panel",       "Covers",           "Fan Controls",       "Lights",            "Scenes",
-              "People",            "5-Day Forecast",   "Chance of Rain",     "Refresh",
-              "Language",          "Theme",            "Backlight",          "Sleep Mode (sec)",  "Clock",
-              "12h",               "24h",              "Temperature",        "Screensaver",       "Digital",
-              "Flip",              "None",             "Show Calendar Events","Home Clock",        "Standard",
-              "Flip" },
-            // pl
-            { "Panel Alarmowy",    "Rolety",           "Wentylatory",        "O\u015bwietlenie",  "Sceny",
-              "Osoby",             "Prognoza 5 Dni",   "Ryzyko Deszczu",     "Od\u015bwie\u017c",
-              "J\u0119zyk",        "Motyw",            "Pod\u015bwietlenie",  "U\u015bpienie (sek)","Zegar",
-              "12h",               "24h",              "Temperatura",        "Wygaszacz",         "Cyfrowy",
-              "Flip",              "Brak",             "Poka\u017c zdarzenia","Zegar G\u0142\u00f3wny","Standardowy",
-              "Flip" },
-          };
-
-          int l = id(current_language);
-          if (l < 0 || l > 8) l = 7;  // default to en-US if out of range
-
-          lv_label_set_text(id(alarm_panel_header),       t[l][0]);
-          lv_label_set_text(id(covers_panel_header),      t[l][1]);
-          lv_label_set_text(id(fans_panel_header),        t[l][2]);
-          lv_label_set_text(id(lights_panel_header),      t[l][3]);
-          lv_label_set_text(id(shortcuts_panel_header),   t[l][4]);
-          lv_label_set_text(id(people_page_title_lbl),    t[l][5]);
-          lv_label_set_text(id(forecast_title_lbl),       t[l][6]);
-          lv_label_set_text(id(forecast_rain_lbl),        t[l][7]);
-          lv_label_set_text(id(forecast_refresh_lbl),     t[l][8]);
-          lv_label_set_text(id(language_label),           t[l][9]);
-          lv_label_set_text(id(theme_label),              t[l][10]);
-          lv_label_set_text(id(display_backlight_label),  t[l][11]);
-          lv_label_set_text(id(display_timeout_label),    t[l][12]);
-          lv_label_set_text(id(clock_format_label),       t[l][13]);
-          lv_label_set_text(id(clock_12h_label),          t[l][14]);
-          lv_label_set_text(id(clock_24h_label),          t[l][15]);
-          lv_label_set_text(id(temp_unit_label),          t[l][16]);
-          lv_label_set_text(id(screensaver_style_label),  t[l][17]);
-          lv_label_set_text(id(ss_digital_lbl),           t[l][18]);
-          lv_label_set_text(id(ss_analog_lbl),            t[l][19]);
-          lv_label_set_text(id(ss_none_lbl),              t[l][20]);
-          lv_checkbox_set_text(id(ss_events_checkbox),    t[l][21]);
-          lv_label_set_text(id(home_clock_style_lbl),     t[l][22]);
-          lv_label_set_text(id(home_std_lbl),             t[l][23]);
-          lv_label_set_text(id(home_flip_lbl),            t[l][24]);
 
 
 # ── Language change hook ──────────────────────────────────────────────────────

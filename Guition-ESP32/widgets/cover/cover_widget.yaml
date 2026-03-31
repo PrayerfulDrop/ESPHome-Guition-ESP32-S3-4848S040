@@ -182,11 +182,11 @@ lvgl:
             shadow_opa: TRANSP
             radius: 10
             widgets:
-              # Cover icon
+              # Cover icon – centered in the upper portion of the panel
               - label:
                   id: ${widget_name}_cover_detail_icon
-                  y: 20
-                  align: TOP_MID
+                  y: -30
+                  align: CENTER
                   text_font: ${${cover_icon_font}}
                   text_color: color_steel_blue
                   text: "${${cover_icon}}"

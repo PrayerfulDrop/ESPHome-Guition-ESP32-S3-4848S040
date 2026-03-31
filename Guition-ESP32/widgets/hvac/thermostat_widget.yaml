@@ -669,15 +669,15 @@ script:
       - lambda: |-
           // 0=de 1=es 2=fr 3=en-GB 4=it 5=pt 6=ru 7=en 8=pl
           static const char* const t[9] = {
-            "Thermostat",    // de
-            "Termostato",    // es
-            "Thermostat",    // fr
-            "Thermostat",    // en-GB
-            "Termostato",    // it
-            "Termostato",    // pt
-            "\u0422\u0435\u0440\u043c\u043e\u0441\u0442\u0430\u0442",  // ru
-            "Thermostat",    // en
-            "Termostat",     // pl
+            "${thermostat_page_title}",  // de
+            "${thermostat_page_title}",  // es
+            "${thermostat_page_title}",  // fr
+            "${thermostat_page_title}",  // en-GB
+            "${thermostat_page_title}",  // it
+            "${thermostat_page_title}",  // pt
+            "${thermostat_page_title}",  // ru
+            "${thermostat_page_title}",  // en
+            "${thermostat_page_title}",  // pl
           };
           int l = id(current_language);
           if (l < 0 || l > 8) l = 7;
