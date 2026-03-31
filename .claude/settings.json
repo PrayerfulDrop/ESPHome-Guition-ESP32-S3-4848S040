@@ -20,7 +20,8 @@
       "Bash(done)",
       "Bash(SRC=\"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040\")",
       "Bash(DST=\"//192.168.6.59/config/esphome\")",
-      "Bash(__NEW_LINE_bc83d9e3ba094630__ cp:*)"
+      "Bash(__NEW_LINE_bc83d9e3ba094630__ cp:*)",
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/home/people_widget.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/home/people_widget.yaml\")"
     ],
     "additionalDirectories": [
       "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets\\hvac",

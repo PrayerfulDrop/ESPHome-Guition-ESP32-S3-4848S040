@@ -586,6 +586,7 @@ lvgl:
                         radius: 10
                         widgets:
                           - label:
+                              id: ss_digital_lbl
                               align: CENTER
                               text_font: nunito_18
                               text_color: color_misty_blue
@@ -616,6 +617,7 @@ lvgl:
                         radius: 10
                         widgets:
                           - label:
+                              id: ss_analog_lbl
                               align: CENTER
                               text_font: nunito_18
                               text_color: color_misty_blue
@@ -646,6 +648,7 @@ lvgl:
                         radius: 10
                         widgets:
                           - label:
+                              id: ss_none_lbl
                               align: CENTER
                               text_font: nunito_18
                               text_color: color_misty_blue
@@ -693,6 +696,7 @@ lvgl:
                   radius: 10
                   widgets:
                     - label:
+                        id: home_clock_style_lbl
                         x: 20
                         y: 27
                         align: TOP_LEFT
@@ -712,6 +716,7 @@ lvgl:
                         radius: 10
                         widgets:
                           - label:
+                              id: home_std_lbl
                               align: CENTER
                               text_font: nunito_18
                               text_color: color_misty_blue
@@ -742,6 +747,7 @@ lvgl:
                         radius: 10
                         widgets:
                           - label:
+                              id: home_flip_lbl
                               align: CENTER
                               text_font: nunito_18
                               text_color: color_misty_blue

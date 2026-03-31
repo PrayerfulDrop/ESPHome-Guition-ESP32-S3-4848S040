@@ -101,6 +101,7 @@ lvgl:
 
         # ── Page title ───────────────────────────────────────────────────────
         - label:
+            id: people_page_title_lbl
             align: TOP_MID
             y: 20
             text_font: nunito_20
