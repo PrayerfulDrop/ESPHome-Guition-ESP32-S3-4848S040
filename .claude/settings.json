@@ -47,7 +47,8 @@
       "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets\\hvac",
       "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets\\home",
       "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets",
-      "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\fonts"
+      "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\fonts",
+      "\\\\192.168.6.59\\config\\"
     ]
   }
 }

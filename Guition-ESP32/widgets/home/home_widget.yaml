@@ -398,30 +398,32 @@ lvgl:
                   text: "31.01"
 
               # Person presence indicators (up to 4) — green=home, dim=away
+              # Centered between date right edge (~x70) and alarm icon left edge (~x276): center≈173
+              # 4 slots × 24px spacing, group start at 173 - 1.5×24 = 137
               - label:
                   id: person_indicator_1
-                  x: 175
+                  x: 137
                   align: LEFT_MID
                   text_font: nunito_16
                   text_color: color_steel_blue
                   text: "${person_initials_1}"
               - label:
                   id: person_indicator_2
-                  x: 200
+                  x: 161
                   align: LEFT_MID
                   text_font: nunito_16
                   text_color: color_steel_blue
                   text: "${person_initials_2}"
               - label:
                   id: person_indicator_3
-                  x: 225
+                  x: 185
                   align: LEFT_MID
                   text_font: nunito_16
                   text_color: color_steel_blue
                   text: "${person_initials_3}"
               - label:
                   id: person_indicator_4
-                  x: 250
+                  x: 209
                   align: LEFT_MID
                   text_font: nunito_16
                   text_color: color_steel_blue
@@ -429,9 +431,9 @@ lvgl:
 
               # Transparent touch target over person indicators — opens people page
               - obj:
-                  x: 155
+                  x: 128
                   align: LEFT_MID
-                  width: 120
+                  width: 100
                   height: 40
                   bg_opa: TRANSP
                   border_opa: TRANSP

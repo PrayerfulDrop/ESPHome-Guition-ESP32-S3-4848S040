@@ -32,7 +32,7 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 | **Alarm Panel** | Disarm / Home / Away / Night / Vacation modes with PIN entry |
 | **Devices hub** | Navigation to Alarm, Media, Vacuum, HVAC, Fans, Shortcuts, and Covers; optional buttons (Fans, Shortcuts, Covers) are hidden and reordered automatically when all their slots are `sensor.disabled` |
 | **Settings** | Language (9 languages), colour theme, 12h/24h clock, °F/°C unit, backlight brightness, auto-sleep timer, screensaver style |
-| **Settings defaults** | Language: English (US) · Theme: Dark · Backlight: 100% · Sleep: 120 s · Clock: 12h · Temp: °F · Screensaver: Digital clock |
+| **Settings defaults** | Language: English (US) · Theme: Dark · Backlight: 100% · Sleep: 120 s · Clock: 12h · Temp: °F · Screensaver: Flip |
 | **Themes** | 6 built-in themes: Cherry Blossom, Dark, Espeon, Ocean, Paris, Patriotic |
 | **Navigation** | Persistent bottom nav bar (Home / Lights / Devices / Settings); entity detail pages hide the bar and show a back button |
 | **Multi-device** | Copy `main.yaml` and rename — each file is a fully independent device; `preferences.yaml` lets you rename pages and labels globally |
@@ -309,6 +309,16 @@ Set the entity substitution(s) and uncomment the matching `devices:` / `hvac:` p
 
 Option 4 is a single package that bundles the devices page and both widgets — page IDs and the theme script page reference are handled automatically.
 
+### Widget layout (Option 1 — combined HVAC)
+
+The left panel contains:
+- **State bar** — current HVAC mode (Heating / Cooling / Idle / Off, etc.)
+- **Info row** — current temperature (with thermometer icon) on the left; humidity label + value on the right
+- **Mode buttons** — Heat / Cool / Auto / Off
+- **Fan mode buttons** — Auto / On
+
+The right side shows an **arc dial** for the set-point temperature.  The set-point value is overlaid at the centre of the arc on a transparent background, so the arc gradient shows through behind it.
+
 ---
 
 ## Lights, Fans, Covers & Scene Shortcuts
@@ -356,6 +366,7 @@ Every icon has a paired `_font` substitution that must be set alongside the icon
 |---|---|---|
 | `lamp` | `lamp_font` | mdi:lamp (table/floor lamp) |
 | `night_lamp` | `night_lamp_font` | mdi:wall-sconce-round |
+| `post_lamp` | `post_lamp_font` | mdi:post-lamp (outdoor post light) |
 | `ceiling_lamp` | `ceiling_lamp_font` | Custom ceiling lamp |
 | `ceiling_lamp_variant` | `ceiling_lamp_variant_font` | Custom ceiling lamp variant |
 | `lightbulb` | `lightbulb_font` | Custom lightbulb |
@@ -379,8 +390,7 @@ Every icon has a paired `_font` substitution that must be set alongside the icon
 
 | Widget | Slot default |
 |---|---|
-| Lights (slots 1, 3) | `lamp` / `lamp_font` |
-| Lights (slot 2) | `night_lamp` / `night_lamp_font` |
+| Lights (slots 1–3) | `lamp` / `lamp_font` |
 | Lights (slots 4–6) | `bed`, `heart`, `tv` |
 | Fans (all slots) | `ceiling_fan` / `ceiling_fan_font` |
 | Covers (all slots) | `curtains` / `curtains_font` |
