@@ -16,10 +16,10 @@ substitutions:
 
   # ── Shortcuts / Scenes nav button icon ────────────────────────────────────
   # Set shortcuts_icon to any name from the icon library (icon_library.yaml).
-  # Common options:  movie_clapper  |  play_circle
+  # Common options:  movie  |  movie_clapper  |  play_circle
   # The matching font is resolved automatically.
-  shortcuts_icon:      "movie_clapper"
-  shortcuts_icon_font: "movie_clapper_font"
+  shortcuts_icon:      "movie"
+  shortcuts_icon_font: "movie_font"
 
   # ── Covers nav button icon ─────────────────────────────────────────────────
   # Set covers_icon to any name from the icon library.

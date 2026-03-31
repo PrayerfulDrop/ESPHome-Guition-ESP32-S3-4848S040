@@ -311,6 +311,21 @@
     "\U000F012F", # blinds       (covers button)
     "\U000F0CF4", # ceiling-fan  (fans nav button)
     "\U000F0A31", # fan          (floor fan tile icon)
+    "\U000F06B5", # lamp         (light tile default)
+    "\U000F0E37", # wall-sconce-round (night lamp tile)
+  ]
+
+- file: "Guition-ESP32/fonts/materialdesignicons-webfont.ttf"
+  id: mdi_icons_90
+  size: 90
+  bpp: 4
+  glyphs: [
+    "\U000F0CF4", # ceiling-fan  (fan tile icon)
+    "\U000F0A31", # fan          (floor fan tile icon)
+    "\U000F06B5", # lamp         (light/fan tile icon)
+    "\U000F0E37", # wall-sconce-round (night lamp tile)
+    "\U000F03C4", # movie        (scenes/shortcuts icon)
+    "\U000F1846", # curtains     (covers nav/tile icon)
   ]
 
 - file: "Guition-ESP32/fonts/mdi.ttf"

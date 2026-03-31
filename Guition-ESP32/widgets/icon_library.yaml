@@ -26,18 +26,22 @@ substitutions:
   ceiling_lamp_font:         "icons_90"
   ceiling_lamp_variant:      "\U0000e921"
   ceiling_lamp_variant_font: "icons_90"
-  night_lamp:                "\U0000e919"
-  night_lamp_font:           "icons_90"
+  night_lamp:                "\U000F0E37"    # mdi:wall-sconce-round
+  night_lamp_font:           "mdi_icons_72"
+  lamp:                      "\U000F06B5"    # mdi:lamp
+  lamp_font:                 "mdi_icons_72"
   music:                     "\U0000e91b"
   music_font:                "icons_90"
   vacuum_icon:               "\U0000e922"
   vacuum_icon_font:          "icons_90"
-  curtains:                  "\U0000E945"
-  curtains_font:             "icons_90"
+  curtains:                  "\U000F1846"    # mdi:curtains
+  curtains_font:             "mdi_icons_90"
   garage:                    "\U0000E946"
   garage_font:               "icons_90"
   movie_clapper:             "\U0000E947"
   movie_clapper_font:        "icons_90"
+  movie:                     "\U000F03C4"    # mdi:movie
+  movie_font:                "mdi_icons_90"
 
   # ── mdi.ttf  (font id: mdi_90) ───────────────────────────────────────────
   bed:                       "\U000f02e3"
@@ -48,10 +52,10 @@ substitutions:
   tv_font:                   "mdi_90"
 
   # ── mdi.ttf  (font id: mdi_90) — fan icons ───────────────────────────────
-  ceiling_fan:               "\U000F0CF4"
-  ceiling_fan_font:          "mdi_90"
-  floor_fan:                 "\U000F0A31"
-  floor_fan_font:            "mdi_90"
+  ceiling_fan:               "\U000F0CF4"    # mdi:ceiling-fan
+  ceiling_fan_font:          "mdi_icons_90"
+  floor_fan:                 "\U000F0A31"    # mdi:fan
+  floor_fan_font:            "mdi_icons_90"
 
   # ── mdi.ttf  (font id: mdi_90) — extra nav-icon options ──────────────────
   play_circle:               "\U000F0A62"
