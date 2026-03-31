@@ -269,8 +269,8 @@
     "\U000F06BB", # shield plane
     "\U000F099E", # shield off
     "\U000F0498", # shield
-    "\U000F0A62", # play-circle (scenes/shortcuts)
-    "\U000F012F", # blinds (covers)
+    "\U000F040C", # play-circle (scenes/shortcuts)
+    "\U000F00AC", # blinds (covers)
   ]
 
 - file: "Guition-ESP32/fonts/materialdesignicons-webfont.ttf"
@@ -302,17 +302,26 @@
   ]
 
 - file: "Guition-ESP32/fonts/materialdesignicons-webfont.ttf"
+  id: mdi_icons_60
+  size: 60
+  bpp: 4
+  glyphs: [
+    "\U000F1797", # ceiling-fan  (fans nav button + fan tile)
+    "\U000F0210", # fan          (floor fan tile icon)
+  ]
+
+- file: "Guition-ESP32/fonts/materialdesignicons-webfont.ttf"
   id: mdi_icons_72
   size: 72
   bpp: 4
   glyphs: [
     "\U000F099D", # shield lock
-    "\U000F0A62", # play-circle  (shortcuts / scenes button)
-    "\U000F012F", # blinds       (covers button)
-    "\U000F0CF4", # ceiling-fan  (fans nav button)
-    "\U000F0A31", # fan          (floor fan tile icon)
+    "\U000F040C", # play-circle  (shortcuts / scenes button)
+    "\U000F00AC", # blinds       (covers button)
     "\U000F06B5", # lamp         (light tile default)
-    "\U000F0E37", # wall-sconce-round (night lamp tile)
+    "\U000F0748", # wall-sconce-round (night lamp tile)
+    "\U000F1A60", # post-lamp    (night lamp tile option)
+    "\U000F1846", # curtains     (cover tile icon)
   ]
 
 - file: "Guition-ESP32/fonts/materialdesignicons-webfont.ttf"
@@ -320,11 +329,9 @@
   size: 90
   bpp: 4
   glyphs: [
-    "\U000F0CF4", # ceiling-fan  (fan tile icon)
-    "\U000F0A31", # fan          (floor fan tile icon)
-    "\U000F06B5", # lamp         (light/fan tile icon)
-    "\U000F0E37", # wall-sconce-round (night lamp tile)
-    "\U000F03C4", # movie        (scenes/shortcuts icon)
+    "\U000F06B5", # lamp         (light tile icon)
+    "\U000F0748", # wall-sconce-round (night lamp tile)
+    "\U000F0381", # movie        (scenes/shortcuts icon)
     "\U000F1846", # curtains     (covers nav/tile icon)
   ]
 
@@ -333,11 +340,11 @@
   size: 72
   bpp: 4
   glyphs: [
-    "\U000f02e3", # bed
-    "\U000F05F6", # heart
-    "\U000F07F4", # tv
-    "\U000F0A62", # play-circle
-    "\U000F012F", # blinds
+    "\U000F02E3", # bed
+    "\U000F08D0", # heart
+    "\U000F0502", # television
+    "\U000F040C", # play-circle
+    "\U000F00AC", # blinds
   ]
 
 - file: "Guition-ESP32/fonts/mdi.ttf"
@@ -345,13 +352,11 @@
   size: 90
   bpp: 4
   glyphs: [
-    "\U000f02e3", # bed
-    "\U000F05F6", # heart
-    "\U000F07F4", # tv
-    "\U000F0A62", # play-circle  (shortcuts nav icon option)
-    "\U000F012F", # blinds       (covers nav icon option)
-    "\U000F0CF4", # ceiling-fan  (fan tile icon)
-    "\U000F0A31", # fan          (floor fan tile icon)
+    "\U000F02E3", # bed
+    "\U000F08D0", # heart
+    "\U000F0502", # television
+    "\U000F040C", # play-circle  (shortcuts nav icon option)
+    "\U000F00AC", # blinds       (covers nav icon option)
   ]
 
 - file: "Guition-ESP32/fonts/fan_icons.ttf"

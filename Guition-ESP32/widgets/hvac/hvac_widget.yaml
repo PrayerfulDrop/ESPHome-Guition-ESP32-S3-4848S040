@@ -193,8 +193,8 @@ lvgl:
             id: hvac_state_bar
             x: 20
             y: 58
-            width: 400
-            height: 60
+            width: 210
+            height: 50
             align: TOP_LEFT
             pad_all: 0
             bg_color: color_steel_blue
@@ -206,14 +206,51 @@ lvgl:
             widgets:
               - label:
                   id: hvac_state_label
-                  x: 20
-                  align: LEFT_MID
+                  align: CENTER
                   text_font: nunito_18
                   text_color: color_misty_blue
                   text: " "
+
+        # Info row — current temperature + humidity
+        - obj:
+            id: hvac_info_row
+            x: 20
+            y: 112
+            width: 210
+            height: 65
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+              - label:
+                  x: 8
+                  align: LEFT_MID
+                  text_font: icons_28
+                  text_color: color_steel_blue
+                  text: "${temperature_icon}"
+              - label:
+                  id: hvac_target_temperature_value
+                  x: 42
+                  align: LEFT_MID
+                  text_font: nunito_30
+                  text_color: color_steel_blue
+                  text: " "
+              - label:
+                  x: -10
+                  y: -14
+                  align: RIGHT_MID
+                  text_font: nunito_16
+                  text_color: color_misty_blue
+                  text: "Humidity"
               - label:
                   id: hvac_humidity_label
-                  x: -20
+                  x: -10
+                  y: 12
                   align: RIGHT_MID
                   text_font: nunito_18
                   text_color: color_misty_blue
@@ -222,8 +259,8 @@ lvgl:
         # Mode buttons — HEAT / COOL / OFF
         - obj:
             id: hvac_mode_panel
-            x: 15
-            y: 120
+            x: 20
+            y: 181
             width: 210
             height: 90
             align: TOP_LEFT
@@ -320,8 +357,8 @@ lvgl:
         # Fan mode buttons — AUTO / ON
         - obj:
             id: hvac_fan_panel
-            x: 15
-            y: 222
+            x: 20
+            y: 275
             width: 210
             height: 90
             align: TOP_LEFT
@@ -531,7 +568,7 @@ lvgl:
                   width: 130
                   height: 95
                   align: RIGHT_MID
-                  bg_color: color_slate_blue_gray
+                  bg_opa: TRANSP
                   pad_all: 0
                   border_opa: TRANSP
                   border_width: 0
@@ -571,24 +608,6 @@ lvgl:
                   text_color: color_steel_blue
                   text: "${heating_icon}"
 
-              - label:
-                  id: hvac_target_temperature_icon
-                  x: -70
-                  y: 80
-                  align: RIGHT_MID
-                  text_font: icons_28
-                  text_color: color_steel_blue
-                  text: "${temperature_icon}"
-
-              - label:
-                  id: hvac_target_temperature_value
-                  x: -10
-                  y: 80
-                  align: RIGHT_MID
-                  text_font: nunito_30
-                  text_color: color_steel_blue
-                  text: " "
-
 
 script:
   - id: hvac_get_and_set_translated_state
@@ -607,15 +626,15 @@ script:
           // 0=de 1=es 2=fr 3=en-GB 4=it 5=pt 6=ru 7=en 8=pl
           // cols: 0=page title  1=fan auto  2=fan on
           static const char* const t[9][3] = {
-            { "HVAC",  "Auto",  "Ein"    },  // de
-            { "HVAC",  "Auto",  "Enc."   },  // es
-            { "HVAC",  "Auto",  "Marche" },  // fr
-            { "HVAC",  "Auto",  "On"     },  // en-GB
-            { "HVAC",  "Auto",  "Acc."   },  // it
-            { "HVAC",  "Auto",  "Lig."   },  // pt
-            { "HVAC",  "\u0410\u0432\u0442\u043e", "\u0412\u043a\u043b" },  // ru
-            { "HVAC",  "Auto",  "On"     },  // en
-            { "HVAC",  "Auto",  "W\u0142." },  // pl
+            { "${hvac_page_title}",  "Auto",  "Ein"    },  // de
+            { "${hvac_page_title}",  "Auto",  "Enc."   },  // es
+            { "${hvac_page_title}",  "Auto",  "Marche" },  // fr
+            { "${hvac_page_title}",  "Auto",  "On"     },  // en-GB
+            { "${hvac_page_title}",  "Auto",  "Acc."   },  // it
+            { "${hvac_page_title}",  "Auto",  "Lig."   },  // pt
+            { "${hvac_page_title}",  "\u0410\u0432\u0442\u043e", "\u0412\u043a\u043b" },  // ru
+            { "${hvac_page_title}",  "Auto",  "On"     },  // en
+            { "${hvac_page_title}",  "Auto",  "W\u0142." },  // pl
           };
           int l = id(current_language);
           if (l < 0 || l > 8) l = 7;

@@ -451,15 +451,15 @@ script:
       - lambda: |-
           // 0=de 1=es 2=fr 3=en-GB 4=it 5=pt 6=ru 7=en 8=pl
           static const char* const t[9] = {
-            "Klimaanlage",       // de
-            "Aire Acondicionado",// es
-            "Climatiseur",       // fr
-            "Air Conditioner",   // en-GB
-            "Condizionatore",    // it
-            "Ar Condicionado",   // pt
-            "\u041a\u043e\u043d\u0434\u0438\u0446\u0438\u043e\u043d\u0435\u0440",  // ru
-            "Air Conditioner",   // en
-            "Klimatyzator",      // pl
+            "${ac_page_title}",  // de
+            "${ac_page_title}",  // es
+            "${ac_page_title}",  // fr
+            "${ac_page_title}",  // en-GB
+            "${ac_page_title}",  // it
+            "${ac_page_title}",  // pt
+            "${ac_page_title}",  // ru
+            "${ac_page_title}",  // en
+            "${ac_page_title}",  // pl
           };
           int l = id(current_language);
           if (l < 0 || l > 8) l = 7;

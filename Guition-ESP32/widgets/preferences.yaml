@@ -161,7 +161,7 @@ script:
               "\u0424\u043b\u0438\u043f" },
 
             // ── en – English (US) ← default if language index is out of range
-            { "Alarm Panel",       "Covers",           "Fan Controls",       "Lights",            "Scenes",
+            { "Alarm Panel",       "Cover Controls",           "Fan Controls",       "Light Controls",            "Scene Controls",
               "People",            "5-Day Forecast",   "Chance of Rain",     "Refresh",
               "Language",          "Theme",            "Backlight",          "Sleep Mode (sec)",  "Clock",
               "12h",               "24h",              "Temperature",        "Screensaver",       "Digital",
@@ -169,7 +169,7 @@ script:
               "Flip" },
 
             // ── pl – Polish ────────────────────────────────────────────────
-            { "Panel Alarmowy",    "Rolety",           "Wentylatory",        "O\u015bwietlenie",  "Sceny",
+            { "Panel Alarmowy",    "Sterowanie Roletami", "Wentylatory",        "O\u015bwietlenie",  "Sceny",
               "Osoby",             "Prognoza 5 Dni",   "Ryzyko Deszczu",     "Od\u015bwie\u017c",
               "J\u0119zyk",        "Motyw",            "Pod\u015bwietlenie",  "U\u015bpienie (sek)","Zegar",
               "12h",               "24h",              "Temperatura",        "Wygaszacz",         "Cyfrowy",
@@ -256,12 +256,22 @@ substitutions:
   covers_page_title:       "Cover Controls"
   fans_page_title:         "Fan Controls"
   lights_page_title:       "Light Controls"
-  hvac_page_title:         "HVAC Controls"
-  thermostat_page_title:   "Thermostat"
-  ac_page_title:           "Air Conditioner"
   shortcuts_page_title:    "Scene Controls"
   people_page_title:       "People"
   forecast_page_title:     "5-Day Forecast"
+
+  # ── HVAC / Thermostat / Air Conditioner page titles ──────────────────────────
+  # These substitutions control the page header shown for HVAC widgets.
+  # The value here is used for ALL languages — the widget applies the same string
+  # regardless of the selected language.  Change the value to rename the page.
+  #
+  #   hvac_page_title       → used by hvac_widget.yaml (combined HVAC)
+  #   thermostat_page_title → used by thermostat_widget.yaml
+  #   ac_page_title         → used by air_conditioner_widget.yaml
+  #
+  hvac_page_title:         "HVAC Controls"
+  thermostat_page_title:   "Thermostat"
+  ac_page_title:           "Air Conditioner"
 
 
   # ── Cover detail-page action buttons ─────────────────────────────────────────

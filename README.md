@@ -18,7 +18,7 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 | **Home screen** | Time (12h/24h), date, indoor temp (°F/°C), weather icon + title-cased condition, up to 4 upcoming calendar events |
 | **Presence indicators** | Up to 4 person entities shown as initials in the top bar — green when home, dim when away; tap to open full People page |
 | **People page** | Card per person showing avatar initials, full name from HA, and home/away status |
-| **Screensaver** | Activates on idle — Digital clock, Flip clock (Gluqlo retro style), Calendar view, or None (screen off); tap anywhere to wake and return to home |
+| **Screensaver** | Activates on idle — Digital clock, Flip clock (Gluqlo retro style, default), or None (screen off); optional calendar event overlay on Digital/Flip; tap anywhere to wake and return to home |
 | **Notification banner** | Write any text to an `input_text` entity in HA — a toast banner appears for 10 s; tap to dismiss early |
 | **Weather** | Current conditions with title-cased state + 5-day forecast with high/low temps, weather icons, and rain probability |
 | **Calendar** | Up to 4 upcoming events pulled live from Home Assistant via template sensors |
@@ -440,19 +440,19 @@ Displays current conditions with a title-cased state and a **5-day forecast** sh
 
 ![Screensaver Clock](screenshots/screensaver-clock.png)
 
-Four screensaver styles are available, selectable from **Settings → Screensaver**:
+Three screensaver styles are available, selectable from **Settings → Screensaver**:
 
 | Style | Behaviour |
 |---|---|
-| **Digital** (default) | Large digital clock + date |
-| **Flip Clock** | Retro Gluqlo-style flip clock — hour and minute panels with date below |
-| **Calendar** | Digital clock + next 3 upcoming events |
+| **Digital** | Large digital clock + date |
+| **Flip** (default) | Retro Gluqlo-style flip clock — separate hour and minute panels with date below |
 | **None** | Screen dims to near-off (backlight ~1%) |
 
 - The screensaver activates after the configured idle timeout (default **120 s**)
-- **Digital / Flip Clock / Calendar**: display stays at normal brightness showing the selected clock
+- **Digital / Flip**: brightness adjusts automatically — 90% during the day (08:00–19:59), 10% at night (20:00–07:59)
 - **None**: backlight dims to ~1% — the screen is effectively off but touch still works
-- Tapping anywhere dismisses the screensaver, restores backlight to the saved brightness level, and navigates directly to the **Home** page
+- Tapping anywhere dismisses the screensaver, restores backlight to the saved user brightness, and navigates to the **Home** page
+- **Show Calendar Events** (Settings checkbox) — when enabled, the next 3 upcoming events are overlaid below the clock on both Digital and Flip styles
 
 ---
 
@@ -524,7 +524,7 @@ The component reads the framebuffer directly from the ESP-IDF RGB panel driver (
 | Sleep mode | 120 s |
 | Clock format | 12h (AM/PM) |
 | Temperature unit | °F |
-| Screensaver | Digital |
+| Screensaver | Flip |
 
 All settings are persisted across reboots via NVS flash storage.
 

@@ -10,18 +10,18 @@ substitutions:
   # Set scene_icon_N to any icon name from icon_library.yaml.
   # Common options: movie_clapper | play_circle | ceiling_lamp | night_lamp | etc.
   # The matching font resolves automatically.
-  scene_icon_1:      "movie"
-  scene_icon_font_1: "movie_font"
-  scene_icon_2:      "movie"
-  scene_icon_font_2: "movie_font"
-  scene_icon_3:      "movie"
-  scene_icon_font_3: "movie_font"
-  scene_icon_4:      "movie"
-  scene_icon_font_4: "movie_font"
-  scene_icon_5:      "movie"
-  scene_icon_font_5: "movie_font"
-  scene_icon_6:      "movie"
-  scene_icon_font_6: "movie_font"
+  scene_icon_1:      "movie_clapper"
+  scene_icon_font_1: "movie_clapper_font"
+  scene_icon_2:      "movie_clapper"
+  scene_icon_font_2: "movie_clapper_font"
+  scene_icon_3:      "movie_clapper"
+  scene_icon_font_3: "movie_clapper_font"
+  scene_icon_4:      "movie_clapper"
+  scene_icon_font_4: "movie_clapper_font"
+  scene_icon_5:      "movie_clapper"
+  scene_icon_font_5: "movie_clapper_font"
+  scene_icon_6:      "movie_clapper"
+  scene_icon_font_6: "movie_clapper_font"
 
   # Safe defaults — overridden by main.yaml
   scene_entity_1: "sensor.disabled"
