@@ -43,6 +43,8 @@ substitutions:
   scene_label_6:  ""
   scene_type_6:   "scene"
 
+  shortcuts_page_title: "Scenes"
+
 
 packages:
   icon_library: !include ../icon_library.yaml
@@ -61,7 +63,7 @@ lvgl:
             y: 20
             text_font: nunito_20
             text_color: color_misty_blue
-            text: "Scenes"
+            text: "${shortcuts_page_title}"
 
         # ── Divider under title ──────────────────────────────────────────────
         - obj:
@@ -105,8 +107,8 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_lbl_1
-                        y: 12
-                        align: TOP_MID
+                        align: CENTER
+                        y: -10
                         text_font: ${${scene_icon_font_1}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_1}}"
@@ -137,8 +139,8 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_lbl_2
-                        y: 12
-                        align: TOP_MID
+                        align: CENTER
+                        y: -10
                         text_font: ${${scene_icon_font_2}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_2}}"
@@ -169,8 +171,8 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_lbl_3
-                        y: 12
-                        align: TOP_MID
+                        align: CENTER
+                        y: -10
                         text_font: ${${scene_icon_font_3}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_3}}"
@@ -202,8 +204,8 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_lbl_4
-                        y: 12
-                        align: TOP_MID
+                        align: CENTER
+                        y: -10
                         text_font: ${${scene_icon_font_4}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_4}}"
@@ -234,8 +236,8 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_lbl_5
-                        y: 12
-                        align: TOP_MID
+                        align: CENTER
+                        y: -10
                         text_font: ${${scene_icon_font_5}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_5}}"
@@ -266,8 +268,8 @@ lvgl:
                   widgets:
                     - label:
                         id: scene_icon_lbl_6
-                        y: 12
-                        align: TOP_MID
+                        align: CENTER
+                        y: -10
                         text_font: ${${scene_icon_font_6}}
                         text_color: color_steel_blue
                         text: "${${scene_icon_6}}"

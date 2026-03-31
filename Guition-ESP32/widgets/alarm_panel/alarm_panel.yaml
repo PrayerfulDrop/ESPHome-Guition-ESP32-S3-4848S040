@@ -6,6 +6,9 @@ substitutions:
   shield_disarm_icon:    "\U000F099E" # disarmed
   shield_arming_icon:    "\U000F0498" # arming
 
+  alarm_panel_page_title:  "Alarm Panel"
+  alarm_enter_code_label:  "Enter code"
+
 globals:
   - id: alarm_panel_pending_action
     type: std::string
@@ -25,7 +28,7 @@ lvgl:
             y: 20
             text_font: nunito_20
             text_color: color_misty_blue
-            text: "Alarm Panel"
+            text: "${alarm_panel_page_title}"
 
         # ── Divider under title ──────────────────────────────────────────────
         - obj:
@@ -532,7 +535,7 @@ lvgl:
                         id: alarm_panel_keypad_code_label
                         align: center
                         text_font: nunito_18
-                        text: "Enter code"
+                        text: "${alarm_enter_code_label}"
                         text_color: color_misty_blue
                         text_align: center
               - buttonmatrix:
@@ -627,7 +630,7 @@ key_collector:
                 id: alarm_panel_keypad_code_label
                 text_font: nunito_18
                 text_color: color_misty_blue
-                text: "Enter code"
+                text: "${alarm_enter_code_label}"
     on_result:
       - if:
           condition:

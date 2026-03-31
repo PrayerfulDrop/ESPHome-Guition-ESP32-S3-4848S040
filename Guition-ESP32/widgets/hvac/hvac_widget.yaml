@@ -8,6 +8,10 @@ substitutions:
   power_icon:             "\U0000e909"
   exit_icon:              "\U0000e902"
 
+  hvac_page_title:      "HVAC"
+  hvac_fan_auto_label:  "Auto"
+  hvac_fan_on_label:    "On"
+
 
 sensor:
 
@@ -51,6 +55,18 @@ sensor:
           id: hvac_arc_current_temp
           value: !lambda return x;
 
+  - platform: homeassistant
+    id: hvac_sensor_humidity
+    entity_id: "${hvac_entity}"
+    attribute: current_humidity
+    on_value:
+      - lvgl.label.update:
+          id: hvac_humidity_label
+          text: !lambda |-
+            char buf[8];
+            snprintf(buf, sizeof(buf), "%.0f%%", x);
+            return std::string(buf);
+
 
 text_sensor:
 
@@ -90,6 +106,21 @@ text_sensor:
                   - lvgl.label.update:
                       id: hvac_status
                       text_color: color_steel_blue
+
+  - platform: homeassistant
+    id: hvac_sensor_fan_mode
+    entity_id: "${hvac_entity}"
+    attribute: fan_mode
+    on_value:
+      - lambda: |-
+          std::string mode = id(hvac_sensor_fan_mode).state;
+          if (mode == "auto") {
+            lv_obj_set_style_bg_opa(id(hvac_fan_auto_btn), LV_OPA_60, LV_PART_MAIN);
+            lv_obj_set_style_bg_opa(id(hvac_fan_on_btn),   LV_OPA_20, LV_PART_MAIN);
+          } else {
+            lv_obj_set_style_bg_opa(id(hvac_fan_auto_btn), LV_OPA_20, LV_PART_MAIN);
+            lv_obj_set_style_bg_opa(id(hvac_fan_on_btn),   LV_OPA_60, LV_PART_MAIN);
+          }
 
   - platform: homeassistant
     id: hvac_sensor_state
@@ -142,7 +173,7 @@ lvgl:
             y: 20
             text_font: nunito_20
             text_color: color_misty_blue
-            text: "HVAC"
+            text: "${hvac_page_title}"
 
         # ── Divider under title ──────────────────────────────────────────────
         - obj:
@@ -180,6 +211,13 @@ lvgl:
                   text_font: nunito_18
                   text_color: color_misty_blue
                   text: " "
+              - label:
+                  id: hvac_humidity_label
+                  x: -20
+                  align: RIGHT_MID
+                  text_font: nunito_18
+                  text_color: color_misty_blue
+                  text: "--"
 
         # Mode buttons — HEAT / COOL / OFF
         - obj:
@@ -278,6 +316,77 @@ lvgl:
                         data:
                           entity_id: "${hvac_entity}"
                           hvac_mode: "off"
+
+        # Fan mode buttons — AUTO / ON
+        - obj:
+            id: hvac_fan_panel
+            x: 15
+            y: 222
+            width: 210
+            height: 90
+            align: TOP_LEFT
+            pad_all: 0
+            bg_color: color_steel_blue
+            bg_opa: 20%
+            border_opa: TRANSP
+            border_width: 0
+            shadow_opa: TRANSP
+            radius: 10
+            widgets:
+
+              - obj:
+                  id: hvac_fan_auto_btn
+                  x: 10
+                  align: LEFT_MID
+                  width: 90
+                  height: 60
+                  radius: 10
+                  pad_all: 0
+                  bg_color: color_misty_blue
+                  bg_opa: 20%
+                  shadow_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  clickable: true
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_font: nunito_18
+                        text_color: color_misty_blue
+                        text: "${hvac_fan_auto_label}"
+                  on_click:
+                    - homeassistant.action:
+                        action: climate.set_fan_mode
+                        data:
+                          entity_id: "${hvac_entity}"
+                          fan_mode: auto
+
+              - obj:
+                  id: hvac_fan_on_btn
+                  x: 110
+                  align: LEFT_MID
+                  width: 90
+                  height: 60
+                  radius: 10
+                  pad_all: 0
+                  bg_color: color_misty_blue
+                  bg_opa: 20%
+                  shadow_opa: TRANSP
+                  border_opa: TRANSP
+                  border_width: 0
+                  clickable: true
+                  widgets:
+                    - label:
+                        align: CENTER
+                        text_font: nunito_18
+                        text_color: color_misty_blue
+                        text: "${hvac_fan_on_label}"
+                  on_click:
+                    - homeassistant.action:
+                        action: climate.set_fan_mode
+                        data:
+                          entity_id: "${hvac_entity}"
+                          fan_mode: "on"
 
         # Hidden label – keeps sensor update target valid
         - label:
@@ -417,8 +526,8 @@ lvgl:
                     bg_opa: 80%
 
               - obj:
-                  width: 140
-                  height: 120
+                  width: 130
+                  height: 95
                   align: RIGHT_MID
                   bg_color: color_slate_blue_gray
                   pad_all: 0
@@ -428,26 +537,26 @@ lvgl:
                   widgets:
                     - label:
                         id: hvac_target_temperature_whole
-                        x: -40
+                        x: -32
                         y: 0
                         align: RIGHT_MID
-                        text_font: nunito_84
+                        text_font: nunito_64
                         text_color: color_steel_blue
                         text: " "
                     - label:
                         id: hvac_target_temperature_fraction
-                        x: -10
-                        y: 15
+                        x: -7
+                        y: 10
                         align: RIGHT_MID
-                        text_font: nunito_36
+                        text_font: nunito_30
                         text_color: color_steel_blue
                         text: " "
                     - label:
                         id: hvac_target_temperature_measurement
-                        x: -12
-                        y: -20
+                        x: -8
+                        y: -14
                         align: RIGHT_MID
-                        text_font: nunito_30
+                        text_font: nunito_20
                         text_color: color_steel_blue
                         text: "°F"
 

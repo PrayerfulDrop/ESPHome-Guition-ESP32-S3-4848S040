@@ -14,6 +14,10 @@ substitutions:
   cover_entity:  "sensor.disabled"
   widget_name:   "cover_default"
 
+  cover_open_label:  "Open"
+  cover_stop_label:  "Stop"
+  cover_close_label: "Close"
+
 # ── Globals ──────────────────────────────────────────────────────────────────
 globals:
   - id: ${widget_name}_is_disabled
@@ -314,7 +318,7 @@ lvgl:
                   align: CENTER
                   text_font: nunito_16
                   text_color: color_amber
-                  text: "Open"
+                  text: "${cover_open_label}"
             on_press:
               - if:
                   condition:
@@ -342,7 +346,7 @@ lvgl:
                   align: CENTER
                   text_font: nunito_16
                   text_color: color_misty_blue
-                  text: "Stop"
+                  text: "${cover_stop_label}"
             on_press:
               - if:
                   condition:
@@ -370,7 +374,7 @@ lvgl:
                   align: CENTER
                   text_font: nunito_16
                   text_color: color_steel_blue
-                  text: "Close"
+                  text: "${cover_close_label}"
             on_press:
               - if:
                   condition:

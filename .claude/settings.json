@@ -11,11 +11,21 @@
       "Bash(NET=\"//192.168.6.59/config/esphome/Guition-ESP32/widgets/hvac\")",
       "Bash(cp \"$LOCAL/hvac_widget.yaml\" \"$NET/hvac_widget.yaml\")",
       "Bash(cp \"$LOCAL/thermostat_widget.yaml\" \"$NET/thermostat_widget.yaml\")",
-      "Bash(cp \"$LOCAL/air_conditioner_widget.yaml\" \"$NET/air_conditioner_widget.yaml\")"
+      "Bash(cp \"$LOCAL/air_conditioner_widget.yaml\" \"$NET/air_conditioner_widget.yaml\")",
+      "Bash(base=\"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32\")",
+      "Bash(net=\"//192.168.6.59/config/esphome/Guition-ESP32\")",
+      "Bash(__NEW_LINE_976e52a4554c668c__ cp:*)",
+      "Bash(while read:*)",
+      "Bash(do grep:*)",
+      "Bash(done)",
+      "Bash(SRC=\"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040\")",
+      "Bash(DST=\"//192.168.6.59/config/esphome\")",
+      "Bash(__NEW_LINE_bc83d9e3ba094630__ cp:*)"
     ],
     "additionalDirectories": [
       "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets\\hvac",
-      "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets\\home"
+      "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets\\home",
+      "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets"
     ]
   }
 }

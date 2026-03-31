@@ -163,13 +163,14 @@ lvgl:
                   width: 100
                   height: 100
                   radius: 10
+                  pad_all: 0
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:
                     - label:
                         align: CENTER
                         text_color: color_steel_blue
-                        text_font: fan_icons_90
+                        text_font: fan_icons_72
                         text: "\U0000E901"    # ceiling-fan
                   on_press:
                     - lvgl.page.show:
@@ -185,6 +186,7 @@ lvgl:
                   width: 100
                   height: 100
                   radius: 10
+                  pad_all: 0
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:
@@ -208,6 +210,7 @@ lvgl:
                   width: 100
                   height: 100
                   radius: 10
+                  pad_all: 0
                   bg_color: color_slate_blue_gray
                   shadow_opa: TRANSP
                   widgets:

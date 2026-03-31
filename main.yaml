@@ -239,6 +239,9 @@ substitutions:
 
 packages:
 
+  # ── Display name preferences — edit this file to rename pages and buttons ──
+  preferences:        !include Guition-ESP32/widgets/preferences.yaml
+
   # ── Hardware core ──────────────────────────────────────────────────────────
   hardware: !include Guition-ESP32/hardware.yaml
 

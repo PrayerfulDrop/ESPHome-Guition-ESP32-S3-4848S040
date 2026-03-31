@@ -9,6 +9,9 @@
 
 substitutions:
   # Safe defaults — overridden by main.yaml
+  people_page_title:  "People"
+  person_away_label:  "Away"
+
   person_entity_1:   "sensor.disabled"
   person_initials_1: ""
   person_entity_2:   "sensor.disabled"
@@ -102,7 +105,7 @@ lvgl:
             y: 20
             text_font: nunito_20
             text_color: color_misty_blue
-            text: "People"
+            text: "${people_page_title}"
 
         # ── Divider under title ──────────────────────────────────────────────
         - obj:
@@ -195,7 +198,7 @@ lvgl:
                         x: 20
                         text_font: nunito_16
                         text_color: color_misty_blue
-                        text: "Away"
+                        text: "${person_away_label}"
 
         # ── Card 2 (top-right) ───────────────────────────────────────────────
         - obj:
@@ -270,7 +273,7 @@ lvgl:
                         x: 20
                         text_font: nunito_16
                         text_color: color_misty_blue
-                        text: "Away"
+                        text: "${person_away_label}"
 
         # ── Card 3 (bottom-left) ─────────────────────────────────────────────
         - obj:
@@ -345,7 +348,7 @@ lvgl:
                         x: 20
                         text_font: nunito_16
                         text_color: color_misty_blue
-                        text: "Away"
+                        text: "${person_away_label}"
 
         # ── Card 4 (bottom-right) ────────────────────────────────────────────
         - obj:
@@ -420,4 +423,4 @@ lvgl:
                         x: 20
                         text_font: nunito_16
                         text_color: color_misty_blue
-                        text: "Away"
+                        text: "${person_away_label}"

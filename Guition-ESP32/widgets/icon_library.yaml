@@ -58,3 +58,8 @@ substitutions:
   play_circle_font:          "mdi_90"
   blinds:                    "\U000F012F"
   blinds_font:               "mdi_90"
+
+  # ── 72px font references — used by lights_config.yaml for smaller tile icons ─
+  # Double-expansion resolves: ${${light_icon_font_N}} → ${icons_72_ref} → "icons_72"
+  icons_72_ref:              "icons_72"
+  mdi_72_ref:                "mdi_72"
