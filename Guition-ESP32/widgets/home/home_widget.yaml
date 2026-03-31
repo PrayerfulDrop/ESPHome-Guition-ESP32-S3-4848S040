@@ -12,6 +12,12 @@ substitutions:
   # Notification banner entity — safe default
   notification_entity: "sensor.disabled"
 
+  # Calendar — standard entity names from the provided HA template
+  calendar_entity:   "sensor.calendar_upcoming_event_1"
+  calendar_entity_2: "sensor.calendar_upcoming_event_2"
+  calendar_entity_3: "sensor.calendar_upcoming_event_3"
+  calendar_entity_4: "sensor.calendar_upcoming_event_4"
+
   lock_icon:               "\U0000e92e"
   air_conditioner_icon:    "\U0000e93b"
   heating_icon:            "\U0000e936"

@@ -9,6 +9,8 @@ substitutions:
   home_icon:  "\U0000e906"
 
   # Safe defaults – overridden per-slot by covers_config.yaml vars
+  cover_icon:      "curtains"
+  cover_icon_font: "curtains_font"
   cover_entity:  "sensor.disabled"
   widget_name:   "cover_default"
 
@@ -176,14 +178,14 @@ lvgl:
             shadow_opa: TRANSP
             radius: 10
             widgets:
-              # Blind icon
+              # Cover icon
               - label:
                   id: ${widget_name}_cover_detail_icon
                   y: 20
                   align: TOP_MID
-                  text_font: mdi_icons_72
+                  text_font: ${${cover_icon_font}}
                   text_color: color_steel_blue
-                  text: "\U000F012F"
+                  text: "${${cover_icon}}"
 
               # Horizontal position bar
               - bar:

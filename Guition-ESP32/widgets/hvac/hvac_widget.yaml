@@ -1,6 +1,7 @@
 substitutions:
   hvac_name:              "hvac"
   temperature_sensor:     "temperature_sensor"
+  hvac_icon:              "\U0000e925"    # combined HVAC nav button icon
   heating_icon:           "\U0000e936"
   air_conditioner_icon:   "\U0000e93b"
   temperature_icon:       "\U0000e939"
@@ -285,12 +286,13 @@ lvgl:
             text: ""
             text_font: nunito_16
 
-        # Arc / meter section
+        # Arc / meter section — constrained to content area (y=49..369, above nav bar)
         - obj:
             id: hvac_bg_main
             width: 250
-            height: 480
-            align: RIGHT_MID
+            height: 320
+            y: 49
+            align: TOP_RIGHT
             pad_all: 0
             bg_opa: TRANSP
             scrollable: false
@@ -302,10 +304,10 @@ lvgl:
 
               - obj:
                   id: hvac_bg_placeholder
-                  radius: 240
-                  x: 235
-                  width: 480
-                  height: 480
+                  radius: 160
+                  x: 155
+                  width: 320
+                  height: 320
                   align: RIGHT_MID
                   bg_color: color_slate_blue_gray
                   pad_all: 0
@@ -315,10 +317,10 @@ lvgl:
 
               - obj:
                   id: hvac_temp_arc_bg
-                  radius: 230
-                  x: 230
-                  width: 460
-                  height: 460
+                  radius: 155
+                  x: 150
+                  width: 310
+                  height: 310
                   align: RIGHT_MID
                   bg_color: 0x607080
                   bg_grad_color: 0x303848
@@ -330,9 +332,9 @@ lvgl:
 
               - meter:
                   id: hvac_meter
-                  x: 200
-                  height: 400
-                  width: 400
+                  x: 130
+                  height: 270
+                  width: 270
                   border_width: 0
                   bg_color: color_slate_blue_gray
                   align: RIGHT_MID
@@ -365,9 +367,9 @@ lvgl:
                   id: hvac_arc_main
                   align: RIGHT_MID
                   arc_width: 40
-                  x: 235
-                  width: 470
-                  height: 470
+                  x: 150
+                  width: 310
+                  height: 310
                   min_value: 50
                   max_value: 90
                   adjustable: true
@@ -396,9 +398,9 @@ lvgl:
                   clickable: false
                   align: RIGHT_MID
                   arc_width: 10
-                  x: 230
-                  width: 450
-                  height: 450
+                  x: 145
+                  width: 300
+                  height: 300
                   min_value: 50
                   max_value: 90
                   adjustable: true

@@ -25,12 +25,12 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 | **HVAC** | Combined heating + cooling widget with arc temperature control; or separate thermostat / AC widgets |
 | **Lights** | Up to 6 configurable slots (`light` / `switch` / `input_boolean`); brightness slider; auto-detected colour temperature slider |
 | **Fans** | Up to 6 configurable fan slots (`fan` / `switch`) with speed control |
-| **Covers** | Up to 6 cover/blind/shutter slots — position bar, Open/Stop/Close buttons, position slider |
-| **Scene shortcuts** | Up to 6 scene/script/automation tiles with configurable labels |
+| **Covers** | Up to 6 cover/blind/shutter slots — position bar, Open/Stop/Close buttons, position slider; per-slot icon configurable by name |
+| **Scene shortcuts** | Up to 6 scene/script/automation tiles with configurable labels and per-slot icons |
 | **Media Player** | Album art, track info, progress bar, playback controls, volume slider |
 | **Vacuum** | Animated robot body, battery, state, start/pause/dock controls |
 | **Alarm Panel** | Disarm / Home / Away / Night / Vacation modes with PIN entry |
-| **Devices hub** | Navigation to Alarm, Media, Vacuum, HVAC, Fans, Shortcuts, and Covers |
+| **Devices hub** | Navigation to Alarm, Media, Vacuum, HVAC, Fans, Shortcuts, and Covers; buttons for Fans, Shortcuts, and Covers are hidden automatically when all their slots are `sensor.disabled` |
 | **Settings** | Language (9 languages), colour theme, 12h/24h clock, °F/°C unit, backlight brightness, auto-sleep timer, screensaver style |
 | **Settings defaults** | Language: English (US) · Theme: Dark · Backlight: 100% · Sleep: 120 s · Clock: 12h · Temp: °F · Screensaver: Digital clock |
 | **Themes** | 6 built-in themes: Cherry Blossom, Dark, Espeon, Ocean, Paris, Patriotic |
@@ -132,7 +132,8 @@ substitutions:
   person_initials_1: "A"
   # unused → person_entity_N: "sensor.disabled"
 
-  # ── LIGHTS / FANS / COVERS — see main.yaml for full slot options ──
+  # ── 4 │ SCENE SHORTCUTS / 5 │ HVAC / 6 │ LIGHTS / 7 │ FANS / 8 │ COVERS ──
+  # See main.yaml for full slot options and icon names
 ```
 
 ### 3 · Home Assistant setup
@@ -185,13 +186,14 @@ template:
 
 > **Timezone note:** Event times are converted to your local timezone using `as_local` before formatting. No UTC conversion is needed — HA handles the local offset automatically.
 
-Then set the calendar entities in your device file:
+The calendar entity names default to `sensor.calendar_upcoming_event_1` through `_4` — which match the template above exactly. No substitutions are needed in your device file if you use the standard names. Only add them if you renamed the sensors:
 
 ```yaml
-  calendar_entity:   "sensor.calendar_upcoming_event_1"
-  calendar_entity_2: "sensor.calendar_upcoming_event_2"
-  calendar_entity_3: "sensor.calendar_upcoming_event_3"
-  calendar_entity_4: "sensor.calendar_upcoming_event_4"
+  # Only needed if your sensor names differ from the defaults:
+  # calendar_entity:   "sensor.my_custom_calendar_1"
+  # calendar_entity_2: "sensor.my_custom_calendar_2"
+  # calendar_entity_3: "sensor.my_custom_calendar_3"
+  # calendar_entity_4: "sensor.my_custom_calendar_4"
 ```
 
 **d) Create the notification helper**
@@ -222,46 +224,67 @@ esphome run living-room.yaml
 
 ![HVAC Widget](screenshots/hvac-widget.png)
 
-Uncomment the block that matches your system in both the `substitutions:` section and the `packages:` section of your device file:
+Set the entity substitution(s) and uncomment the matching `devices:` / `hvac:` package lines in the ENGINE block of your device file. The nav button icon is set automatically — no `hvac_icon` needed.
 
-| Option | Use when… | packages key |
-|---|---|---|
-| **Option 1** (default) | Single HA `climate` entity handles heat + cool | `hvac: hvac_widget.yaml` |
-| **Option 2** | Thermostat only (heat) | `hvac: thermostat_widget.yaml` |
-| **Option 3** | Air conditioner only (cool) | `hvac: air_conditioner_widget.yaml` |
-| **Option 4** | Separate thermostat + AC entities | `thermostat:` + `ac:` + `devices: devices_thermostat_ac.yaml` |
+| Option | Use when… | Entities to set | Package line |
+|---|---|---|---|
+| **Option 1** (default) | Single HA `climate` entity handles heat + cool | `hvac_entity` | `hvac: hvac_widget.yaml` |
+| **Option 2** | Thermostat only (heat) | `thermostat_entity` | `hvac: thermostat_widget.yaml` |
+| **Option 3** | Air conditioner only (cool) | `air_conditioner_entity` | `hvac: air_conditioner_widget.yaml` |
+| **Option 4** | Separate thermostat + AC units | `thermostat_entity` + `air_conditioner_entity` | `devices: hvac_combo_bundle.yaml` (replaces `devices:` + `hvac:`) |
+
+Option 4 is a single package that bundles the devices page and both widgets — page IDs and the theme script page reference are handled automatically.
 
 ---
 
-## Lights, Fans & Covers
+## Lights, Fans, Covers & Scene Shortcuts
 
 | Lights | Fans | Covers |
 |:---:|:---:|:---:|
 | ![Lights Widget](screenshots/lights-widget.png) | ![Fan Widget](screenshots/fan-widget.png) | ![Covers Widget](screenshots/covers-widget.png) |
 
-Up to **6 lights**, **6 fans**, and **6 covers** can be configured. Set unused slots to `sensor.disabled`.
+Up to **6 lights**, **6 fans**, **6 covers**, and **6 scene shortcuts** can be configured. Set unused slots to `sensor.disabled`. All icons are set by name — no unicode codepoints needed.
 
 ```yaml
 # Light slot
 light_entity_1:     "light.living_room"
 light_label_name_1: "Living Room"
-light_type_1:       "light"          # light | switch | input_boolean
-light_icon_1:       "ceiling_lamp"   # ceiling_lamp | ceiling_lamp_variant | night_lamp
-                                     # lightbulb | spotlights_group | desk_lamp
-                                     # pendant_lamp | bed | heart | tv
+light_type_1:       "light"           # light | switch | input_boolean
+light_icon_1:       "ceiling_lamp"    # ceiling_lamp | ceiling_lamp_variant | night_lamp
+                                      # lightbulb | spotlights_group | desk_lamp | pendant_lamp
+                                      # music | curtains | garage | movie_clapper | blinds
+                                      # play_circle | ceiling_fan | floor_fan | bed | heart | tv
 
 # Fan slot
 fan_entity_1:     "fan.ceiling_fan"
 fan_label_name_1: "Ceiling Fan"
-fan_type_1:       "fan"              # fan | switch | input_boolean
-fan_icon_1:       "ceiling_fan"      # ceiling_fan | floor_fan
+fan_type_1:       "fan"               # fan | switch | input_boolean
+fan_icon_1:       "ceiling_fan"       # ceiling_fan | floor_fan | ceiling_lamp | ceiling_lamp_variant
+                                      # night_lamp | lightbulb | spotlights_group | desk_lamp
+                                      # pendant_lamp | music | curtains | garage | movie_clapper
+                                      # blinds | play_circle | bed | heart | tv
 
 # Cover slot
 cover_entity_1:     "cover.living_room_blinds"
 cover_label_name_1: "Living Room"
+cover_icon_1:       "curtains"        # curtains | garage | blinds | ceiling_lamp | ceiling_lamp_variant
+                                      # night_lamp | lightbulb | spotlights_group | desk_lamp
+                                      # pendant_lamp | music | movie_clapper | play_circle
+                                      # ceiling_fan | floor_fan | bed | heart | tv
+
+# Scene / script / automation slot
+scene_entity_1:  "scene.morning"
+scene_label_1:   "Morning"
+scene_type_1:    "scene"              # scene | script | automation
+scene_icon_1:    "movie_clapper"      # movie_clapper | play_circle | ceiling_lamp | ceiling_lamp_variant
+                                      # night_lamp | lightbulb | spotlights_group | desk_lamp
+                                      # pendant_lamp | music | curtains | garage | blinds
+                                      # ceiling_fan | floor_fan | bed | heart | tv
 ```
 
 The light detail page automatically shows a colour temperature slider the first time HA sends a `color_temp` attribute.
+
+Each slot has its own independently configurable icon. All icon names resolve to the correct glyph and font automatically via the shared icon library — no raw unicode or font IDs required.
 
 ---
 

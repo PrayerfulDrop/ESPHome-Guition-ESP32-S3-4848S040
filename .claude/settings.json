@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/devices.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/devices.yaml\")",
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/icon_library.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/icon_library.yaml\")",
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/hvac/devices_thermostat_ac.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/hvac/devices_thermostat_ac.yaml\")",
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/cover/cover_widget.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/cover/cover_widget.yaml\")",
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/cover/covers_config.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/cover/covers_config.yaml\")",
+      "Bash(cp \"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/fan/fans_panel.yaml\" \"//192.168.6.59/config/esphome/Guition-ESP32/widgets/fan/fans_panel.yaml\")",
+      "Bash(LOCAL=\"c:/Users/aawar/OneDrive - Microsoft/Documents/GitHub/ESPHome-Guition-ESP32-S3-4848S040/Guition-ESP32/widgets/hvac\")",
+      "Bash(NET=\"//192.168.6.59/config/esphome/Guition-ESP32/widgets/hvac\")",
+      "Bash(cp \"$LOCAL/hvac_widget.yaml\" \"$NET/hvac_widget.yaml\")",
+      "Bash(cp \"$LOCAL/thermostat_widget.yaml\" \"$NET/thermostat_widget.yaml\")",
+      "Bash(cp \"$LOCAL/air_conditioner_widget.yaml\" \"$NET/air_conditioner_widget.yaml\")"
+    ],
+    "additionalDirectories": [
+      "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets\\hvac",
+      "\\\\192.168.6.59\\config\\esphome\\Guition-ESP32\\widgets\\home"
+    ]
+  }
+}

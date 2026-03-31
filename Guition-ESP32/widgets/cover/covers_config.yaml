@@ -45,7 +45,27 @@ substitutions:
   cover_label_name_5: ""
   cover_label_name_6: ""
 
+  # ── Named icon library ────────────────────────────────────────────────────────
+  # Icons and fonts are defined in icon_library.yaml.  Set cover_icon_N to any
+  # icon name, e.g.:  curtains | garage | blinds
+  # Available icons: curtains, garage, blinds, ceiling_lamp, night_lamp, etc.
+  cover_icon_1:      "curtains"
+  cover_icon_font_1: "curtains_font"
+  cover_icon_2:      "curtains"
+  cover_icon_font_2: "curtains_font"
+  cover_icon_3:      "curtains"
+  cover_icon_font_3: "curtains_font"
+  cover_icon_4:      "curtains"
+  cover_icon_font_4: "curtains_font"
+  cover_icon_5:      "curtains"
+  cover_icon_font_5: "curtains_font"
+  cover_icon_6:      "curtains"
+  cover_icon_font_6: "curtains_font"
+
 packages:
+  # Shared icon codepoints and font IDs
+  icon_library: !include ../icon_library.yaml
+
   # Tile grid page
   covers_panel: !include covers_panel.yaml
 
@@ -54,35 +74,47 @@ packages:
   cover_1: !include
     file: cover_widget.yaml
     vars:
-      cover_entity: "${cover_entity_1}"
-      widget_name:  "${cover_widget_name_1}"
+      cover_entity:    "${cover_entity_1}"
+      cover_icon:      "${cover_icon_1}"
+      cover_icon_font: "${cover_icon_font_1}"
+      widget_name:     "${cover_widget_name_1}"
 
   cover_2: !include
     file: cover_widget.yaml
     vars:
-      cover_entity: "${cover_entity_2}"
-      widget_name:  "${cover_widget_name_2}"
+      cover_entity:    "${cover_entity_2}"
+      cover_icon:      "${cover_icon_2}"
+      cover_icon_font: "${cover_icon_font_2}"
+      widget_name:     "${cover_widget_name_2}"
 
   cover_3: !include
     file: cover_widget.yaml
     vars:
-      cover_entity: "${cover_entity_3}"
-      widget_name:  "${cover_widget_name_3}"
+      cover_entity:    "${cover_entity_3}"
+      cover_icon:      "${cover_icon_3}"
+      cover_icon_font: "${cover_icon_font_3}"
+      widget_name:     "${cover_widget_name_3}"
 
   cover_4: !include
     file: cover_widget.yaml
     vars:
-      cover_entity: "${cover_entity_4}"
-      widget_name:  "${cover_widget_name_4}"
+      cover_entity:    "${cover_entity_4}"
+      cover_icon:      "${cover_icon_4}"
+      cover_icon_font: "${cover_icon_font_4}"
+      widget_name:     "${cover_widget_name_4}"
 
   cover_5: !include
     file: cover_widget.yaml
     vars:
-      cover_entity: "${cover_entity_5}"
-      widget_name:  "${cover_widget_name_5}"
+      cover_entity:    "${cover_entity_5}"
+      cover_icon:      "${cover_icon_5}"
+      cover_icon_font: "${cover_icon_font_5}"
+      widget_name:     "${cover_widget_name_5}"
 
   cover_6: !include
     file: cover_widget.yaml
     vars:
-      cover_entity: "${cover_entity_6}"
-      widget_name:  "${cover_widget_name_6}"
+      cover_entity:    "${cover_entity_6}"
+      cover_icon:      "${cover_icon_6}"
+      cover_icon_font: "${cover_icon_font_6}"
+      widget_name:     "${cover_widget_name_6}"

@@ -11,16 +11,30 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 substitutions:
-  music_icon:     "\U0000e91b"    # music note  (icons_72)
-  vacuum_icon:    "\U0000e922"    # vacuum      (icons_72)
-  shortcuts_icon: "\U000F0A62"    # mdi play-circle (mdi_icons_72)
-  covers_icon:    "\U000F012F"    # mdi blinds  (mdi_icons_72)
+  music_icon:   "\U0000e91b"    # music note  (icons_v2 / icons_90)
+  vacuum_icon:  "\U0000e922"    # vacuum      (icons_v2 / icons_72)
+
+  # ── Shortcuts / Scenes nav button icon ────────────────────────────────────
+  # Set shortcuts_icon to any name from the icon library (icon_library.yaml).
+  # Common options:  movie_clapper  |  play_circle
+  # The matching font is resolved automatically.
+  shortcuts_icon:      "movie_clapper"
+  shortcuts_icon_font: "movie_clapper_font"
+
+  # ── Covers nav button icon ─────────────────────────────────────────────────
+  # Set covers_icon to any name from the icon library.
+  # Common options:  curtains  |  garage  |  blinds
+  # The matching font is resolved automatically.
+  covers_icon:      "curtains"
+  covers_icon_font: "curtains_font"
+
   # hvac_icon is defined in main.yaml — set it to match your HVAC type:
   #   "\U0000e925"  thermostat / combined HVAC
   #   "\U0000e93b"  air conditioner only
 
 
 packages:
+  icon_library: !include icon_library.yaml
   media_player: !include media_player/media_player.yaml
   vacuum:       !include vacuum/vacuum_widget.yaml
   alarm_panel:  !include alarm_panel/alarm_panel.yaml
@@ -155,7 +169,7 @@ lvgl:
                     - label:
                         align: CENTER
                         text_color: color_steel_blue
-                        text_font: fan_icons_72
+                        text_font: fan_icons_90
                         text: "\U0000E901"    # ceiling-fan
                   on_press:
                     - lvgl.page.show:
@@ -177,8 +191,8 @@ lvgl:
                     - label:
                         align: CENTER
                         text_color: color_steel_blue
-                        text_font: mdi_icons_72
-                        text: "${shortcuts_icon}"
+                        text_font: ${${shortcuts_icon_font}}
+                        text: "${${shortcuts_icon}}"
                   on_press:
                     - lvgl.page.show:
                         id: shortcuts_page
@@ -200,8 +214,8 @@ lvgl:
                     - label:
                         align: CENTER
                         text_color: color_steel_blue
-                        text_font: mdi_icons_72
-                        text: "${covers_icon}"
+                        text_font: ${${covers_icon_font}}
+                        text: "${${covers_icon}}"
                   on_press:
                     - lvgl.page.show:
                         id: covers_group_page

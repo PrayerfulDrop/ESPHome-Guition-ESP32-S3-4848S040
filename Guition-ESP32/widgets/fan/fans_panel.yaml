@@ -278,11 +278,18 @@ esphome:
             { "${fan_entity_6}", id(${fan_widget_name_6}_btn) },
           };
 
+          bool any_fan_enabled = false;
           for (auto& slot : slots) {
             if (std::string(slot.entity) == "sensor.disabled") {
               lv_obj_add_flag(slot.btn, LV_OBJ_FLAG_HIDDEN);
               lv_obj_clear_flag(slot.btn, LV_OBJ_FLAG_CLICKABLE);
+            } else {
+              any_fan_enabled = true;
             }
+          }
+          if (!any_fan_enabled) {
+            lv_obj_add_flag(id(fans_page_btn), LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(id(fans_page_btn), LV_OBJ_FLAG_CLICKABLE);
           }
 
 

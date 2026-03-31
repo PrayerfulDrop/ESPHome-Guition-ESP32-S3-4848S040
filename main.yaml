@@ -56,73 +56,70 @@ substitutions:
 
   # ── 4 │ SCENE SHORTCUTS  (up to 6 slots) ─────────────────────────────────────
   #  scene_type_N : scene | script | automation
+  #  scene_icon_N : movie_clapper | play_circle | ceiling_lamp | ceiling_lamp_variant
+  #                 night_lamp | lightbulb | spotlights_group | desk_lamp | pendant_lamp
+  #                 music | curtains | garage | blinds | ceiling_fan | floor_fan
+  #                 bed | heart | tv
   #  Unused slots → set scene_entity_N: "sensor.disabled"
   #
   scene_entity_1:  "scene.morning"
   scene_label_1:   "Morning"
   scene_type_1:    "scene"
+  scene_icon_1:    "movie_clapper"
 
   scene_entity_2:  "scene.evening"
   scene_label_2:   "Evening"
   scene_type_2:    "scene"
+  scene_icon_2:    "movie_clapper"
 
   scene_entity_3:  "scene.movie_night"
   scene_label_3:   "Movie Night"
   scene_type_3:    "scene"
+  scene_icon_3:    "movie_clapper"
 
   scene_entity_4:  "scene.good_night"
   scene_label_4:   "Good Night"
   scene_type_4:    "scene"
+  scene_icon_4:    "movie_clapper"
 
   scene_entity_5:  "sensor.disabled"
   scene_label_5:   ""
   scene_type_5:    "scene"
+  scene_icon_5:    "movie_clapper"
 
   scene_entity_6:  "sensor.disabled"
   scene_label_6:   ""
   scene_type_6:    "scene"
+  scene_icon_6:    "movie_clapper"
 
 
-  # ── 4 │ CALENDAR  (up to 4 upcoming events) ──────────────────────────────────
-  # Requires template sensors in Home Assistant.
-  # See configuration.yaml in this project for ready-to-paste HA templates.
-  calendar_entity:   "sensor.calendar_upcoming_event_1"
-  calendar_entity_2: "sensor.calendar_upcoming_event_2"
-  calendar_entity_3: "sensor.calendar_upcoming_event_3"
-  calendar_entity_4: "sensor.calendar_upcoming_event_4"
-
-
-  # ── 4 │ HVAC ─────────────────────────────────────────────────────────────────
+  # ── 5 │ HVAC ─────────────────────────────────────────────────────────────────
   #
   #  Pick ONE configuration.  Set the entity/entities below, then uncomment the
   #  matching packages in the ENGINE block further down this file.
+  #  The nav button icon is set automatically based on the widget type selected.
   #
   # ── Option 1: Combined HVAC  (heating + cooling via HA entity) ── DEFAULT ────
   hvac_entity: "climate.hvac"
-  hvac_icon:   "\U0000e925"
   #
   # ── Option 2: Thermostat only  (heating) ─────────────────────────────────────
   # thermostat_entity: "climate.upstairs_heat"
-  # hvac_icon:         "\U0000e925"
   #
   # ── Option 3: Air conditioner only  (cooling) ────────────────────────────────
   # air_conditioner_entity: "climate.downstairs_cool"
-  # hvac_icon:              "\U0000e93b"
   #
   # ── Option 4: Thermostat + Air conditioner  (separate units) ─────────────────
   # thermostat_entity:      "climate.upstairs_heat"
   # air_conditioner_entity: "climate.downstairs_cool"
-  # thermostat_page_id:     "thermostat_page"
-  # ac_page_id:             "ac_page"
-  # hvac_page_ref:          "id(thermostat_page)->obj, id(ac_page)->obj"
 
 
-  # ── 5 │ LIGHTS  (up to 6 slots) ──────────────────────────────────────────────
+  # ── 6 │ LIGHTS  (up to 6 slots) ──────────────────────────────────────────────
   #
-  #  light_type  : light | switch | input_boolean
-  #  light_icon  : ceiling_lamp | ceiling_lamp_variant | night_lamp | lightbulb
-  #                spotlights_group | desk_lamp | pendant_lamp
-  #                bed | heart | tv
+  #  light_type : light | switch | input_boolean
+  #  light_icon : ceiling_lamp | ceiling_lamp_variant | night_lamp | lightbulb
+  #               spotlights_group | desk_lamp | pendant_lamp | music
+  #               curtains | garage | movie_clapper | blinds | play_circle
+  #               ceiling_fan | floor_fan | bed | heart | tv
   #
   #  Unused slots → set light_entity_N: "sensor.disabled"
   #
@@ -157,10 +154,13 @@ substitutions:
   light_icon_6:       ""
 
 
-  # ── 6 │ FANS  (up to 6 slots) ────────────────────────────────────────────────
+  # ── 7 │ FANS  (up to 6 slots) ────────────────────────────────────────────────
   #
-  #  fan_type  : fan | switch | input_boolean
-  #  fan_icon  : ceiling_fan | floor_fan  (or any icon from the light library)
+  #  fan_type : fan | switch | input_boolean
+  #  fan_icon : ceiling_fan | floor_fan | ceiling_lamp | ceiling_lamp_variant
+  #             night_lamp | lightbulb | spotlights_group | desk_lamp | pendant_lamp
+  #             music | curtains | garage | movie_clapper | blinds | play_circle
+  #             bed | heart | tv
   #
   #  Unused slots → set fan_entity_N: "sensor.disabled"
   #
@@ -195,31 +195,42 @@ substitutions:
   fan_icon_6:       ""
 
 
-  # ── 7 │ COVERS  (up to 6 slots) ──────────────────────────────────────────────
+  # ── 8 │ COVERS  (up to 6 slots) ──────────────────────────────────────────────
   #
   #  Supports any HA cover entity: blinds, roller shutters, curtains, garage doors.
   #  The detail page shows a position bar, Open/Stop/Close buttons, and a position
   #  slider.  Position is 0 (closed) → 100 (fully open).
   #
+  #  cover_icon : curtains | garage | blinds | ceiling_lamp | ceiling_lamp_variant
+  #               night_lamp | lightbulb | spotlights_group | desk_lamp | pendant_lamp
+  #               music | movie_clapper | play_circle | ceiling_fan | floor_fan
+  #               bed | heart | tv
+  #
   #  Unused slots → set cover_entity_N: "sensor.disabled"
   #
   cover_entity_1:     "sensor.disabled"
   cover_label_name_1: ""
+  cover_icon_1:       "curtains"
 
   cover_entity_2:     "sensor.disabled"
   cover_label_name_2: ""
+  cover_icon_2:       "curtains"
 
   cover_entity_3:     "sensor.disabled"
   cover_label_name_3: ""
+  cover_icon_3:       "curtains"
 
   cover_entity_4:     "sensor.disabled"
   cover_label_name_4: ""
+  cover_icon_4:       "curtains"
 
   cover_entity_5:     "sensor.disabled"
   cover_label_name_5: ""
+  cover_icon_5:       "curtains"
 
   cover_entity_6:     "sensor.disabled"
   cover_label_name_6: ""
+  cover_icon_6:       "curtains"
 
 
 # ╔══════════════════════════════════════════════════════════════════════════════╗
@@ -256,6 +267,4 @@ packages:
   # hvac:    !include Guition-ESP32/widgets/hvac/air_conditioner_widget.yaml
   #
   # Option 4: Thermostat + Air conditioner  (two separate units)
-  # devices:      !include Guition-ESP32/widgets/hvac/devices_thermostat_ac.yaml
-  # thermostat:   !include Guition-ESP32/widgets/hvac/thermostat_widget.yaml
-  # ac:           !include Guition-ESP32/widgets/hvac/air_conditioner_widget.yaml
+  # devices: !include Guition-ESP32/widgets/hvac/hvac_combo_bundle.yaml
