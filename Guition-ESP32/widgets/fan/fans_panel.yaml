@@ -1,25 +1,21 @@
 substitutions:
 
-  # fan_icons.ttf glyphs
-  ceiling_fan_icon: "\U0000E901"   # ceiling-fan  (U+E901)
-  floor_fan_icon:   "\U0000E900"   # floor-fan    (U+E900)
-
   # Per-slot icon defaults – use named icons from fans_config.yaml, e.g.:
   #   fan_icon_1:      "ceiling_fan"
   #   fan_icon_font_1: "${ceiling_fan_font}"
   # Named icons and their fonts are defined in fans_config.yaml substitutions.
-  fan_icon_1:      "\U0000E901"
-  fan_icon_font_1: "fan_icons_90"
-  fan_icon_2:      "\U0000E901"
-  fan_icon_font_2: "fan_icons_90"
-  fan_icon_3:      "\U0000E901"
-  fan_icon_font_3: "fan_icons_90"
-  fan_icon_4:      "\U0000E900"
-  fan_icon_font_4: "fan_icons_90"
-  fan_icon_5:      "\U0000E900"
-  fan_icon_font_5: "fan_icons_90"
-  fan_icon_6:      "\U0000E900"
-  fan_icon_font_6: "fan_icons_90"
+  fan_icon_1:      "ceiling_fan"
+  fan_icon_font_1: "ceiling_fan_font"
+  fan_icon_2:      "ceiling_fan"
+  fan_icon_font_2: "ceiling_fan_font"
+  fan_icon_3:      "ceiling_fan"
+  fan_icon_font_3: "ceiling_fan_font"
+  fan_icon_4:      "ceiling_fan"
+  fan_icon_font_4: "ceiling_fan_font"
+  fan_icon_5:      "ceiling_fan"
+  fan_icon_font_5: "ceiling_fan_font"
+  fan_icon_6:      "ceiling_fan"
+  fan_icon_font_6: "ceiling_fan_font"
 
   # Sentinel – leave unused slots as "sensor.disabled" in main.yaml and
   # this file will hide those buttons automatically on boot.
@@ -94,7 +90,7 @@ lvgl:
             x: 20
             y: 60
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -103,15 +99,15 @@ lvgl:
             widgets:
               - label:
                   id: ${fan_widget_name_1}_fan_on
-                  align: CENTER
-                  y: 30
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_1}}
                   text: "${${fan_icon_1}}"
               - label:
                   id: ${fan_widget_name_1}_label_name
-                  align: TOP_MID
-                  y: 8
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_1}"
@@ -122,7 +118,7 @@ lvgl:
             x: 170
             y: 60
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -131,15 +127,15 @@ lvgl:
             widgets:
               - label:
                   id: ${fan_widget_name_2}_fan_on
-                  align: CENTER
-                  y: 30
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_2}}
                   text: "${${fan_icon_2}}"
               - label:
                   id: ${fan_widget_name_2}_label_name
-                  align: TOP_MID
-                  y: 8
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_2}"
@@ -150,7 +146,7 @@ lvgl:
             x: 320
             y: 60
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -159,15 +155,15 @@ lvgl:
             widgets:
               - label:
                   id: ${fan_widget_name_3}_fan_on
-                  align: CENTER
-                  y: 30
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_3}}
                   text: "${${fan_icon_3}}"
               - label:
                   id: ${fan_widget_name_3}_label_name
-                  align: TOP_MID
-                  y: 8
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_3}"
@@ -176,9 +172,9 @@ lvgl:
         - button:
             id: ${fan_widget_name_4}_btn
             x: 20
-            y: 230
+            y: 220
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -187,15 +183,15 @@ lvgl:
             widgets:
               - label:
                   id: ${fan_widget_name_4}_fan_on
-                  align: CENTER
-                  y: 30
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_4}}
                   text: "${${fan_icon_4}}"
               - label:
                   id: ${fan_widget_name_4}_label_name
-                  align: TOP_MID
-                  y: 8
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_4}"
@@ -204,9 +200,9 @@ lvgl:
         - button:
             id: ${fan_widget_name_5}_btn
             x: 170
-            y: 230
+            y: 220
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -215,15 +211,15 @@ lvgl:
             widgets:
               - label:
                   id: ${fan_widget_name_5}_fan_on
-                  align: CENTER
-                  y: 30
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_5}}
                   text: "${${fan_icon_5}}"
               - label:
                   id: ${fan_widget_name_5}_label_name
-                  align: TOP_MID
-                  y: 8
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_5}"
@@ -232,9 +228,9 @@ lvgl:
         - button:
             id: ${fan_widget_name_6}_btn
             x: 320
-            y: 230
+            y: 220
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -243,15 +239,15 @@ lvgl:
             widgets:
               - label:
                   id: ${fan_widget_name_6}_fan_on
-                  align: CENTER
-                  y: 30
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${fan_icon_font_6}}
                   text: "${${fan_icon_6}}"
               - label:
                   id: ${fan_widget_name_6}_label_name
-                  align: TOP_MID
-                  y: 8
+                  align: BOTTOM_MID
+                  y: -8
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "${fan_label_name_6}"

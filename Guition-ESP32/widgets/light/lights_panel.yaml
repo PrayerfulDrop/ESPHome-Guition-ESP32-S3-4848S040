@@ -114,7 +114,8 @@ lvgl:
             widgets:
               - label:
                   id: ${light_widget_name_1}_light_on
-                  align: CENTER
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${light_icon_font_1}}
                   text: "${${light_icon_1}}"
@@ -141,7 +142,8 @@ lvgl:
             widgets:
               - label:
                   id: ${light_widget_name_2}_light_on
-                  align: CENTER
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${light_icon_font_2}}
                   text: "${${light_icon_2}}"
@@ -168,7 +170,8 @@ lvgl:
             widgets:
               - label:
                   id: ${light_widget_name_3}_light_on
-                  align: CENTER
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${light_icon_font_3}}
                   text: "${${light_icon_3}}"
@@ -195,7 +198,8 @@ lvgl:
             widgets:
               - label:
                   id: ${light_widget_name_4}_light_on
-                  align: CENTER
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${light_icon_font_4}}
                   text: "${${light_icon_4}}"
@@ -222,7 +226,8 @@ lvgl:
             widgets:
               - label:
                   id: ${light_widget_name_5}_light_on
-                  align: CENTER
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${light_icon_font_5}}
                   text: "${${light_icon_5}}"
@@ -249,7 +254,8 @@ lvgl:
             widgets:
               - label:
                   id: ${light_widget_name_6}_light_on
-                  align: CENTER
+                  align: TOP_MID
+                  y: 8
                   text_color: color_steel_blue
                   text_font: ${${light_icon_font_6}}
                   text: "${${light_icon_6}}"

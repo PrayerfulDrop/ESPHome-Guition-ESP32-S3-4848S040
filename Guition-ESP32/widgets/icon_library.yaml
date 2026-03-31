@@ -47,11 +47,11 @@ substitutions:
   tv:                        "\U000F07F4"
   tv_font:                   "mdi_90"
 
-  # ── fan_icons.ttf  (font id: fan_icons_90) ───────────────────────────────
-  ceiling_fan:               "\U0000E901"
-  ceiling_fan_font:          "fan_icons_90"
-  floor_fan:                 "\U0000E900"
-  floor_fan_font:            "fan_icons_90"
+  # ── mdi.ttf  (font id: mdi_90) — fan icons ───────────────────────────────
+  ceiling_fan:               "\U000F0CF4"
+  ceiling_fan_font:          "mdi_90"
+  floor_fan:                 "\U000F0A31"
+  floor_fan_font:            "mdi_90"
 
   # ── mdi.ttf  (font id: mdi_90) — extra nav-icon options ──────────────────
   play_circle:               "\U000F0A62"

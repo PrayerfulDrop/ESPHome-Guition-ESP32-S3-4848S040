@@ -386,23 +386,23 @@ lvgl:
                   text_color: color_misty_blue
                   text: "--°"
 
-              # Rain probability – top right
-              - label:
-                  id: fc_precip_0
-                  x: -14
-                  y: -18
-                  align: RIGHT_MID
-                  text_font: nunito_20
-                  text_color: color_sky_blue
-                  text: "--%"
+              # Rain probability – top right (label above, value below)
               - label:
                   id: forecast_rain_lbl
                   x: -14
-                  y: 12
+                  y: -18
                   align: RIGHT_MID
                   text_font: nunito_16
                   text_color: color_steel_blue
                   text: "${forecast_rain_label}"
+              - label:
+                  id: fc_precip_0
+                  x: -14
+                  y: 12
+                  align: RIGHT_MID
+                  text_font: nunito_20
+                  text_color: color_sky_blue
+                  text: "--%"
 
         # ── Four day cards (equal width, full row) ────────────────────────────
         # 4 cards × 100px + 3 gaps × 8px + 20px left margin + 8px right margin = 448 ≈ fits

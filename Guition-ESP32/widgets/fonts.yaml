@@ -309,6 +309,8 @@
     "\U000F099D", # shield lock
     "\U000F0A62", # play-circle  (shortcuts / scenes button)
     "\U000F012F", # blinds       (covers button)
+    "\U000F0CF4", # ceiling-fan  (fans nav button)
+    "\U000F0A31", # fan          (floor fan tile icon)
   ]
 
 - file: "Guition-ESP32/fonts/mdi.ttf"
@@ -333,7 +335,10 @@
     "\U000F07F4", # tv
     "\U000F0A62", # play-circle  (shortcuts nav icon option)
     "\U000F012F", # blinds       (covers nav icon option)
+    "\U000F0CF4", # ceiling-fan  (fan tile icon)
+    "\U000F0A31", # fan          (floor fan tile icon)
   ]
+
 - file: "Guition-ESP32/fonts/fan_icons.ttf"
   id: fan_icons_72
   size: 72

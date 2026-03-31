@@ -84,7 +84,7 @@ lvgl:
             x: 20
             y: 60
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -93,17 +93,17 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_1}_cover_tile_icon
-                  align: CENTER
-                  y: -10
+                  align: TOP_MID
+                  y: 8
                   text_font: ${${cover_icon_font_1}}
                   text_color: color_steel_blue
                   text: "${${cover_icon_1}}"
               - label:
                   id: ${cover_widget_name_1}_label_name
                   align: BOTTOM_MID
-                  y: -12
+                  y: -8
                   width: 130
-                  text_font: nunito_18
+                  text_font: nunito_16
                   text_color: color_misty_blue
                   text_align: CENTER
                   long_mode: WRAP
@@ -115,7 +115,7 @@ lvgl:
             x: 170
             y: 60
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -124,17 +124,17 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_2}_cover_tile_icon
-                  align: CENTER
-                  y: -10
+                  align: TOP_MID
+                  y: 8
                   text_font: ${${cover_icon_font_2}}
                   text_color: color_steel_blue
                   text: "${${cover_icon_2}}"
               - label:
                   id: ${cover_widget_name_2}_label_name
                   align: BOTTOM_MID
-                  y: -12
+                  y: -8
                   width: 130
-                  text_font: nunito_18
+                  text_font: nunito_16
                   text_color: color_misty_blue
                   text_align: CENTER
                   long_mode: WRAP
@@ -146,7 +146,7 @@ lvgl:
             x: 320
             y: 60
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -155,17 +155,17 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_3}_cover_tile_icon
-                  align: CENTER
-                  y: -10
+                  align: TOP_MID
+                  y: 8
                   text_font: ${${cover_icon_font_3}}
                   text_color: color_steel_blue
                   text: "${${cover_icon_3}}"
               - label:
                   id: ${cover_widget_name_3}_label_name
                   align: BOTTOM_MID
-                  y: -12
+                  y: -8
                   width: 130
-                  text_font: nunito_18
+                  text_font: nunito_16
                   text_color: color_misty_blue
                   text_align: CENTER
                   long_mode: WRAP
@@ -175,9 +175,9 @@ lvgl:
         - button:
             id: ${cover_widget_name_4}_btn
             x: 20
-            y: 230
+            y: 220
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -186,17 +186,17 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_4}_cover_tile_icon
-                  align: CENTER
-                  y: -10
+                  align: TOP_MID
+                  y: 8
                   text_font: ${${cover_icon_font_4}}
                   text_color: color_steel_blue
                   text: "${${cover_icon_4}}"
               - label:
                   id: ${cover_widget_name_4}_label_name
                   align: BOTTOM_MID
-                  y: -12
+                  y: -8
                   width: 130
-                  text_font: nunito_18
+                  text_font: nunito_16
                   text_color: color_misty_blue
                   text_align: CENTER
                   long_mode: WRAP
@@ -206,9 +206,9 @@ lvgl:
         - button:
             id: ${cover_widget_name_5}_btn
             x: 170
-            y: 230
+            y: 220
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -217,17 +217,17 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_5}_cover_tile_icon
-                  align: CENTER
-                  y: -10
+                  align: TOP_MID
+                  y: 8
                   text_font: ${${cover_icon_font_5}}
                   text_color: color_steel_blue
                   text: "${${cover_icon_5}}"
               - label:
                   id: ${cover_widget_name_5}_label_name
                   align: BOTTOM_MID
-                  y: -12
+                  y: -8
                   width: 130
-                  text_font: nunito_18
+                  text_font: nunito_16
                   text_color: color_misty_blue
                   text_align: CENTER
                   long_mode: WRAP
@@ -237,9 +237,9 @@ lvgl:
         - button:
             id: ${cover_widget_name_6}_btn
             x: 320
-            y: 230
+            y: 220
             width: 140
-            height: 150
+            height: 130
             align: TOP_LEFT
             bg_color: color_steel_blue
             bg_opa: 20%
@@ -248,17 +248,17 @@ lvgl:
             widgets:
               - label:
                   id: ${cover_widget_name_6}_cover_tile_icon
-                  align: CENTER
-                  y: -10
+                  align: TOP_MID
+                  y: 8
                   text_font: ${${cover_icon_font_6}}
                   text_color: color_steel_blue
                   text: "${${cover_icon_6}}"
               - label:
                   id: ${cover_widget_name_6}_label_name
                   align: BOTTOM_MID
-                  y: -12
+                  y: -8
                   width: 130
-                  text_font: nunito_18
+                  text_font: nunito_16
                   text_color: color_misty_blue
                   text_align: CENTER
                   long_mode: WRAP

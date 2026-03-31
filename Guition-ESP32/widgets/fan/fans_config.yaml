@@ -99,12 +99,12 @@ substitutions:
   fan_icon_font_2: "ceiling_fan_font"
   fan_icon_3:      "ceiling_fan"
   fan_icon_font_3: "ceiling_fan_font"
-  fan_icon_4:      "floor_fan"
-  fan_icon_font_4: "floor_fan_font"
-  fan_icon_5:      "floor_fan"
-  fan_icon_font_5: "floor_fan_font"
-  fan_icon_6:      "floor_fan"
-  fan_icon_font_6: "floor_fan_font"
+  fan_icon_4:      "ceiling_fan"
+  fan_icon_font_4: "ceiling_fan_font"
+  fan_icon_5:      "ceiling_fan"
+  fan_icon_font_5: "ceiling_fan_font"
+  fan_icon_6:      "ceiling_fan"
+  fan_icon_font_6: "ceiling_fan_font"
 
 packages:
   # Shared icon codepoints and font IDs (also used by lights_config)

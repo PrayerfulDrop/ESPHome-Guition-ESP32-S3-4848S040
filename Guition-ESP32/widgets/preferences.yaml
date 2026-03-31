@@ -27,13 +27,13 @@ substitutions:
 
   # ── Page titles ───────────────────────────────────────────────────────────────
   alarm_panel_page_title:  "Alarm Panel"
-  covers_page_title:       "Covers"
+  covers_page_title:       "Cover Controls"
   fans_page_title:         "Fan Controls"
-  lights_page_title:       "Lights"
-  hvac_page_title:         "HVAC"
+  lights_page_title:       "Light Controls"
+  hvac_page_title:         "HVAC Controls"
   thermostat_page_title:   "Thermostat"
   ac_page_title:           "Air Conditioner"
-  shortcuts_page_title:    "Scenes"
+  shortcuts_page_title:    "Scene Controls"
   people_page_title:       "People"
   forecast_page_title:     "5-Day Forecast"
 
