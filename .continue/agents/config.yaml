@@ -1,0 +1,10 @@
+name: OpenClaw Config
+version: 1.0.0
+schema: v1
+
+models:
+  - name: OpenClaw
+    provider: openai
+    model: openclaw/default
+    apiBase: http://192.168.6.189:18789/v1
+    apiKey: a9cd77945c58144cad9b64700f339de3291d19f011edd7fa
