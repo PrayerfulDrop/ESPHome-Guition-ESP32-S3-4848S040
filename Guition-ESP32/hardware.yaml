@@ -476,7 +476,7 @@ lvgl:
                 width: 416
                 text_font: nunito_16
                 text_color: color_steel_blue
-                text: "Home Assistant Notification:"
+                text: "Home Assistant Announcement:"
             - obj:
                 align: TOP_LEFT
                 x: 12
