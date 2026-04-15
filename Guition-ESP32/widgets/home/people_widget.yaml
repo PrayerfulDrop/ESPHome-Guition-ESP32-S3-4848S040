@@ -46,6 +46,8 @@ esphome:
             lv_obj_add_flag(id(person_indicator_3), LV_OBJ_FLAG_HIDDEN);
           if (std::string("${person_entity_4}") == "sensor.disabled")
             lv_obj_add_flag(id(person_indicator_4), LV_OBJ_FLAG_HIDDEN);
+          // pad_column is not a YAML-exposed property — set gap between flex items here
+          lv_obj_set_style_pad_column(id(person_indicators_container), 8, 0);
 
 
 # ── Person name text sensors (friendly_name attribute from HA) ────────────────
