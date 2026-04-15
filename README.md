@@ -75,7 +75,7 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 ## Requirements
 
 - **Hardware** — Guition ESP32-S3-4848S040 (480×480 capacitive touch display)
-- **ESPHome** — 2024.6.0 or later
+- **ESPHome** — 2026.4.0 or later (ships with LVGL v9.5.0)
 - **Home Assistant** — any recent version with the ESPHome integration
 - **HA Custom Component** — [display-tools](https://github.com/alaltitov/homeassistant-display-tools) (required for translations and cover/media support)
 

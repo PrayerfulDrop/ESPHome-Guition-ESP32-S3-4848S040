@@ -100,9 +100,9 @@ text_sensor:
       then:
         - lambda: |-
             lv_color_t c = (x == "home") ? lv_color_hex(0x5CA848) : lv_color_hex(0x606682);
-            lv_obj_set_style_text_color(id(person_indicator_1), c, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_color(id(people_avatar_1), c, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_color(id(people_status_dot_1), c, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_color(id(person_indicator_1), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
+            lv_obj_set_style_bg_color(id(people_avatar_1), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
+            lv_obj_set_style_bg_color(id(people_status_dot_1), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
             lv_label_set_text(id(people_status_text_1), (x == "home") ? "Home" : "Away");
   - platform: homeassistant
     id: person_state_2
@@ -111,9 +111,9 @@ text_sensor:
       then:
         - lambda: |-
             lv_color_t c = (x == "home") ? lv_color_hex(0x5CA848) : lv_color_hex(0x606682);
-            lv_obj_set_style_text_color(id(person_indicator_2), c, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_color(id(people_avatar_2), c, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_color(id(people_status_dot_2), c, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_color(id(person_indicator_2), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
+            lv_obj_set_style_bg_color(id(people_avatar_2), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
+            lv_obj_set_style_bg_color(id(people_status_dot_2), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
             lv_label_set_text(id(people_status_text_2), (x == "home") ? "Home" : "Away");
   - platform: homeassistant
     id: person_state_3
@@ -122,9 +122,9 @@ text_sensor:
       then:
         - lambda: |-
             lv_color_t c = (x == "home") ? lv_color_hex(0x5CA848) : lv_color_hex(0x606682);
-            lv_obj_set_style_text_color(id(person_indicator_3), c, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_color(id(people_avatar_3), c, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_color(id(people_status_dot_3), c, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_color(id(person_indicator_3), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
+            lv_obj_set_style_bg_color(id(people_avatar_3), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
+            lv_obj_set_style_bg_color(id(people_status_dot_3), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
             lv_label_set_text(id(people_status_text_3), (x == "home") ? "Home" : "Away");
   - platform: homeassistant
     id: person_state_4
@@ -133,9 +133,9 @@ text_sensor:
       then:
         - lambda: |-
             lv_color_t c = (x == "home") ? lv_color_hex(0x5CA848) : lv_color_hex(0x606682);
-            lv_obj_set_style_text_color(id(person_indicator_4), c, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_color(id(people_avatar_4), c, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_color(id(people_status_dot_4), c, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_color(id(person_indicator_4), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
+            lv_obj_set_style_bg_color(id(people_avatar_4), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
+            lv_obj_set_style_bg_color(id(people_status_dot_4), c, (lv_style_selector_t)((uint32_t)LV_PART_MAIN | (uint32_t)LV_STATE_DEFAULT));
             lv_label_set_text(id(people_status_text_4), (x == "home") ? "Home" : "Away");
 
   # Notification banner — triggered by writing to input_text.display_notification in HA
