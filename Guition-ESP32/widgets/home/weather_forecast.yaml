@@ -193,21 +193,21 @@ script:
       - lambda: |-
           std::string cond = id(forecast_condition_0);
           bool night = (id(sun_state_sensor).state == "below_horizon");
-          const lv_img_dsc_t* src = cloudy_img->get_lv_img_dsc(); // fallback
-          if      (cond == "sunny")            src = sunny_img->get_lv_img_dsc();
-          else if (cond == "clear-night")      src = clear_night_img->get_lv_img_dsc();
-          else if (cond == "cloudy")           src = cloudy_img->get_lv_img_dsc();
-          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_img_dsc() : partlycloudy_sun_img->get_lv_img_dsc();
-          else if (cond == "rainy")            src = rainy_img->get_lv_img_dsc();
-          else if (cond == "pouring")          src = pouring_img->get_lv_img_dsc();
-          else if (cond == "lightning")        src = lightning_img->get_lv_img_dsc();
-          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_img_dsc();
-          else if (cond == "snowy")            src = snowy_img->get_lv_img_dsc();
-          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_img_dsc();
-          else if (cond == "fog")              src = fog_img->get_lv_img_dsc();
-          else if (cond == "hail")             src = hail_img->get_lv_img_dsc();
-          else if (cond == "windy")            src = windy_img->get_lv_img_dsc();
-          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_img_dsc();
+          const lv_img_dsc_t* src = cloudy_img->get_lv_image_dsc(); // fallback
+          if      (cond == "sunny")            src = sunny_img->get_lv_image_dsc();
+          else if (cond == "clear-night")      src = clear_night_img->get_lv_image_dsc();
+          else if (cond == "cloudy")           src = cloudy_img->get_lv_image_dsc();
+          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_image_dsc() : partlycloudy_sun_img->get_lv_image_dsc();
+          else if (cond == "rainy")            src = rainy_img->get_lv_image_dsc();
+          else if (cond == "pouring")          src = pouring_img->get_lv_image_dsc();
+          else if (cond == "lightning")        src = lightning_img->get_lv_image_dsc();
+          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_image_dsc();
+          else if (cond == "snowy")            src = snowy_img->get_lv_image_dsc();
+          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_image_dsc();
+          else if (cond == "fog")              src = fog_img->get_lv_image_dsc();
+          else if (cond == "hail")             src = hail_img->get_lv_image_dsc();
+          else if (cond == "windy")            src = windy_img->get_lv_image_dsc();
+          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_image_dsc();
           lv_img_set_src(id(fc_icon_0), src);
 
   - id: update_forecast_icon_1
@@ -215,21 +215,21 @@ script:
       - lambda: |-
           std::string cond = id(forecast_condition_1);
           bool night = (id(sun_state_sensor).state == "below_horizon");
-          const lv_img_dsc_t* src = cloudy_img->get_lv_img_dsc(); // fallback
-          if      (cond == "sunny")            src = sunny_img->get_lv_img_dsc();
-          else if (cond == "clear-night")      src = clear_night_img->get_lv_img_dsc();
-          else if (cond == "cloudy")           src = cloudy_img->get_lv_img_dsc();
-          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_img_dsc() : partlycloudy_sun_img->get_lv_img_dsc();
-          else if (cond == "rainy")            src = rainy_img->get_lv_img_dsc();
-          else if (cond == "pouring")          src = pouring_img->get_lv_img_dsc();
-          else if (cond == "lightning")        src = lightning_img->get_lv_img_dsc();
-          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_img_dsc();
-          else if (cond == "snowy")            src = snowy_img->get_lv_img_dsc();
-          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_img_dsc();
-          else if (cond == "fog")              src = fog_img->get_lv_img_dsc();
-          else if (cond == "hail")             src = hail_img->get_lv_img_dsc();
-          else if (cond == "windy")            src = windy_img->get_lv_img_dsc();
-          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_img_dsc();
+          const lv_img_dsc_t* src = cloudy_img->get_lv_image_dsc(); // fallback
+          if      (cond == "sunny")            src = sunny_img->get_lv_image_dsc();
+          else if (cond == "clear-night")      src = clear_night_img->get_lv_image_dsc();
+          else if (cond == "cloudy")           src = cloudy_img->get_lv_image_dsc();
+          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_image_dsc() : partlycloudy_sun_img->get_lv_image_dsc();
+          else if (cond == "rainy")            src = rainy_img->get_lv_image_dsc();
+          else if (cond == "pouring")          src = pouring_img->get_lv_image_dsc();
+          else if (cond == "lightning")        src = lightning_img->get_lv_image_dsc();
+          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_image_dsc();
+          else if (cond == "snowy")            src = snowy_img->get_lv_image_dsc();
+          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_image_dsc();
+          else if (cond == "fog")              src = fog_img->get_lv_image_dsc();
+          else if (cond == "hail")             src = hail_img->get_lv_image_dsc();
+          else if (cond == "windy")            src = windy_img->get_lv_image_dsc();
+          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_image_dsc();
           lv_img_set_src(id(fc_icon_1), src);
 
   - id: update_forecast_icon_2
@@ -237,21 +237,21 @@ script:
       - lambda: |-
           std::string cond = id(forecast_condition_2);
           bool night = (id(sun_state_sensor).state == "below_horizon");
-          const lv_img_dsc_t* src = cloudy_img->get_lv_img_dsc(); // fallback
-          if      (cond == "sunny")            src = sunny_img->get_lv_img_dsc();
-          else if (cond == "clear-night")      src = clear_night_img->get_lv_img_dsc();
-          else if (cond == "cloudy")           src = cloudy_img->get_lv_img_dsc();
-          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_img_dsc() : partlycloudy_sun_img->get_lv_img_dsc();
-          else if (cond == "rainy")            src = rainy_img->get_lv_img_dsc();
-          else if (cond == "pouring")          src = pouring_img->get_lv_img_dsc();
-          else if (cond == "lightning")        src = lightning_img->get_lv_img_dsc();
-          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_img_dsc();
-          else if (cond == "snowy")            src = snowy_img->get_lv_img_dsc();
-          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_img_dsc();
-          else if (cond == "fog")              src = fog_img->get_lv_img_dsc();
-          else if (cond == "hail")             src = hail_img->get_lv_img_dsc();
-          else if (cond == "windy")            src = windy_img->get_lv_img_dsc();
-          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_img_dsc();
+          const lv_img_dsc_t* src = cloudy_img->get_lv_image_dsc(); // fallback
+          if      (cond == "sunny")            src = sunny_img->get_lv_image_dsc();
+          else if (cond == "clear-night")      src = clear_night_img->get_lv_image_dsc();
+          else if (cond == "cloudy")           src = cloudy_img->get_lv_image_dsc();
+          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_image_dsc() : partlycloudy_sun_img->get_lv_image_dsc();
+          else if (cond == "rainy")            src = rainy_img->get_lv_image_dsc();
+          else if (cond == "pouring")          src = pouring_img->get_lv_image_dsc();
+          else if (cond == "lightning")        src = lightning_img->get_lv_image_dsc();
+          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_image_dsc();
+          else if (cond == "snowy")            src = snowy_img->get_lv_image_dsc();
+          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_image_dsc();
+          else if (cond == "fog")              src = fog_img->get_lv_image_dsc();
+          else if (cond == "hail")             src = hail_img->get_lv_image_dsc();
+          else if (cond == "windy")            src = windy_img->get_lv_image_dsc();
+          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_image_dsc();
           lv_img_set_src(id(fc_icon_2), src);
 
   - id: update_forecast_icon_3
@@ -259,21 +259,21 @@ script:
       - lambda: |-
           std::string cond = id(forecast_condition_3);
           bool night = (id(sun_state_sensor).state == "below_horizon");
-          const lv_img_dsc_t* src = cloudy_img->get_lv_img_dsc(); // fallback
-          if      (cond == "sunny")            src = sunny_img->get_lv_img_dsc();
-          else if (cond == "clear-night")      src = clear_night_img->get_lv_img_dsc();
-          else if (cond == "cloudy")           src = cloudy_img->get_lv_img_dsc();
-          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_img_dsc() : partlycloudy_sun_img->get_lv_img_dsc();
-          else if (cond == "rainy")            src = rainy_img->get_lv_img_dsc();
-          else if (cond == "pouring")          src = pouring_img->get_lv_img_dsc();
-          else if (cond == "lightning")        src = lightning_img->get_lv_img_dsc();
-          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_img_dsc();
-          else if (cond == "snowy")            src = snowy_img->get_lv_img_dsc();
-          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_img_dsc();
-          else if (cond == "fog")              src = fog_img->get_lv_img_dsc();
-          else if (cond == "hail")             src = hail_img->get_lv_img_dsc();
-          else if (cond == "windy")            src = windy_img->get_lv_img_dsc();
-          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_img_dsc();
+          const lv_img_dsc_t* src = cloudy_img->get_lv_image_dsc(); // fallback
+          if      (cond == "sunny")            src = sunny_img->get_lv_image_dsc();
+          else if (cond == "clear-night")      src = clear_night_img->get_lv_image_dsc();
+          else if (cond == "cloudy")           src = cloudy_img->get_lv_image_dsc();
+          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_image_dsc() : partlycloudy_sun_img->get_lv_image_dsc();
+          else if (cond == "rainy")            src = rainy_img->get_lv_image_dsc();
+          else if (cond == "pouring")          src = pouring_img->get_lv_image_dsc();
+          else if (cond == "lightning")        src = lightning_img->get_lv_image_dsc();
+          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_image_dsc();
+          else if (cond == "snowy")            src = snowy_img->get_lv_image_dsc();
+          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_image_dsc();
+          else if (cond == "fog")              src = fog_img->get_lv_image_dsc();
+          else if (cond == "hail")             src = hail_img->get_lv_image_dsc();
+          else if (cond == "windy")            src = windy_img->get_lv_image_dsc();
+          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_image_dsc();
           lv_img_set_src(id(fc_icon_3), src);
 
   - id: update_forecast_icon_4
@@ -281,21 +281,21 @@ script:
       - lambda: |-
           std::string cond = id(forecast_condition_4);
           bool night = (id(sun_state_sensor).state == "below_horizon");
-          const lv_img_dsc_t* src = cloudy_img->get_lv_img_dsc(); // fallback
-          if      (cond == "sunny")            src = sunny_img->get_lv_img_dsc();
-          else if (cond == "clear-night")      src = clear_night_img->get_lv_img_dsc();
-          else if (cond == "cloudy")           src = cloudy_img->get_lv_img_dsc();
-          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_img_dsc() : partlycloudy_sun_img->get_lv_img_dsc();
-          else if (cond == "rainy")            src = rainy_img->get_lv_img_dsc();
-          else if (cond == "pouring")          src = pouring_img->get_lv_img_dsc();
-          else if (cond == "lightning")        src = lightning_img->get_lv_img_dsc();
-          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_img_dsc();
-          else if (cond == "snowy")            src = snowy_img->get_lv_img_dsc();
-          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_img_dsc();
-          else if (cond == "fog")              src = fog_img->get_lv_img_dsc();
-          else if (cond == "hail")             src = hail_img->get_lv_img_dsc();
-          else if (cond == "windy")            src = windy_img->get_lv_img_dsc();
-          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_img_dsc();
+          const lv_img_dsc_t* src = cloudy_img->get_lv_image_dsc(); // fallback
+          if      (cond == "sunny")            src = sunny_img->get_lv_image_dsc();
+          else if (cond == "clear-night")      src = clear_night_img->get_lv_image_dsc();
+          else if (cond == "cloudy")           src = cloudy_img->get_lv_image_dsc();
+          else if (cond == "partlycloudy")     src = night ? partlycloudy_moon_img->get_lv_image_dsc() : partlycloudy_sun_img->get_lv_image_dsc();
+          else if (cond == "rainy")            src = rainy_img->get_lv_image_dsc();
+          else if (cond == "pouring")          src = pouring_img->get_lv_image_dsc();
+          else if (cond == "lightning")        src = lightning_img->get_lv_image_dsc();
+          else if (cond == "lightning-rainy")  src = lightning_rainy_img->get_lv_image_dsc();
+          else if (cond == "snowy")            src = snowy_img->get_lv_image_dsc();
+          else if (cond == "snowy-rainy")      src = snowy_rainy_img->get_lv_image_dsc();
+          else if (cond == "fog")              src = fog_img->get_lv_image_dsc();
+          else if (cond == "hail")             src = hail_img->get_lv_image_dsc();
+          else if (cond == "windy")            src = windy_img->get_lv_image_dsc();
+          else if (cond == "windy-variant")    src = windy_variant_img->get_lv_image_dsc();
           lv_img_set_src(id(fc_icon_4), src);
 
 # ── LVGL forecast page ────────────────────────────────────────────────────────
