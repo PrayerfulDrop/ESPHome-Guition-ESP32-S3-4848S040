@@ -28,6 +28,7 @@ esphome:
     priority: -200
     then:
       - lambda: |-
+          // People page cards
           if (std::string("${person_entity_1}") == "sensor.disabled")
             lv_obj_add_flag(id(people_card_1), LV_OBJ_FLAG_HIDDEN);
           if (std::string("${person_entity_2}") == "sensor.disabled")
@@ -36,6 +37,15 @@ esphome:
             lv_obj_add_flag(id(people_card_3), LV_OBJ_FLAG_HIDDEN);
           if (std::string("${person_entity_4}") == "sensor.disabled")
             lv_obj_add_flag(id(people_card_4), LV_OBJ_FLAG_HIDDEN);
+          // Top bar flex indicators — hidden items are excluded from flex layout
+          if (std::string("${person_entity_1}") == "sensor.disabled")
+            lv_obj_add_flag(id(person_indicator_1), LV_OBJ_FLAG_HIDDEN);
+          if (std::string("${person_entity_2}") == "sensor.disabled")
+            lv_obj_add_flag(id(person_indicator_2), LV_OBJ_FLAG_HIDDEN);
+          if (std::string("${person_entity_3}") == "sensor.disabled")
+            lv_obj_add_flag(id(person_indicator_3), LV_OBJ_FLAG_HIDDEN);
+          if (std::string("${person_entity_4}") == "sensor.disabled")
+            lv_obj_add_flag(id(person_indicator_4), LV_OBJ_FLAG_HIDDEN);
 
 
 # ── Person name text sensors (friendly_name attribute from HA) ────────────────
