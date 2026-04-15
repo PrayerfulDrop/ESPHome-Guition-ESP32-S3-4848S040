@@ -350,7 +350,6 @@ lvgl:
                   width: SIZE_CONTENT
                   height: 40
                   pad_all: 0
-                  pad_column: 8
                   bg_opa: TRANSP
                   border_opa: TRANSP
                   shadow_opa: TRANSP
