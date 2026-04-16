@@ -232,6 +232,7 @@ lvgl:
             # ── Style 0 : Digital clock ─────────────────────────────────────
             - obj:
                 id: ss_digital
+                hidden: true
                 width: 480
                 height: 480
                 bg_opa: TRANSP
