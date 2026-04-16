@@ -56,6 +56,10 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 |:---:|:---:|:---:|
 | ![Settings 3](screenshots/settings-widget3.png) | ![5-Day Weather](screenshots/5-day-weather.png) | ![People Widget](screenshots/people-widget.png) |
 
+| Home (Flip Clock Style) | | |
+|:---:|:---:|:---:|
+| ![Home Flip Clock](screenshots/home-digital-flip.png) | | |
+
 ---
 
 ## Themes
@@ -448,7 +452,9 @@ Displays current conditions with a title-cased state and a **5-day forecast** sh
 
 ## Screensaver
 
-![Screensaver Clock](screenshots/screensaver-clock.png)
+| Digital | Flip |
+|:---:|:---:|
+| ![Screensaver Digital](screenshots/screensaver-clock.png) | ![Screensaver Flip](screenshots/screensaver-flip.png) |
 
 Three screensaver styles are available, selectable from **Settings → Screensaver**:
 
@@ -459,7 +465,7 @@ Three screensaver styles are available, selectable from **Settings → Screensav
 | **None** | Screen dims to near-off (backlight ~1%) |
 
 - The screensaver activates after the configured idle timeout (default **120 s**)
-- **Digital / Flip**: brightness adjusts automatically — 90% during the day (08:00–19:59), 10% at night (20:00–07:59)
+- **Digital / Flip**: backlight set to **60%** when the screensaver is active
 - **None**: backlight dims to ~1% — the screen is effectively off but touch still works
 - Tapping anywhere dismisses the screensaver, restores backlight to the saved user brightness, and navigates to the **Home** page
 - **Show Calendar Events** (Settings checkbox) — when enabled, the next 3 upcoming events are overlaid below the clock on both Digital and Flip styles

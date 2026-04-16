@@ -931,16 +931,16 @@ script:
 
   - id: screensaver_update
     then:
-      # Hide all clock containers and the shared events panel first
-      - lvgl.widget.hide: ss_digital
-      - lvgl.widget.hide: ss_flip
-      - lvgl.widget.hide: ss_events
+      # Use if/else so the active style is shown directly — never hidden-then-reshown.
+      # In LVGL 9 a hide+show in the same render pass can cause the re-draw to be skipped.
       - if:
           condition:
             lambda: return id(screensaver_style) == 0;
           then:
+            # Style 0 — Digital: show digital, hide flip + events
             - lvgl.widget.show: ss_digital
-            # Reposition clock based on whether calendar events are shown
+            - lvgl.widget.hide: ss_flip
+            - lvgl.widget.hide: ss_events
             - if:
                 condition:
                   lambda: return id(screensaver_show_calendar);
@@ -976,29 +976,36 @@ script:
                   static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
                   snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[now.day_of_week - 1], months[now.month - 1], now.day_of_month, now.year);
                   return buf;
-      - if:
-          condition:
-            lambda: return id(screensaver_style) == 1;
-          then:
-            - lvgl.widget.show: ss_flip
-            # Reposition panels based on whether calendar events are shown
+          else:
+            # Not style 0 — digital is never needed, hide it
+            - lvgl.widget.hide: ss_digital
             - if:
                 condition:
-                  lambda: return id(screensaver_show_calendar);
+                  lambda: return id(screensaver_style) == 1;
                 then:
-                  - lambda: |-
-                      lv_obj_align(id(ss_flip_panels), LV_ALIGN_CENTER, 0, -110);
-                      lv_obj_align(id(ss_flip_seam),   LV_ALIGN_CENTER, 0, -110);
-                      lv_obj_align(id(ss_flip_date),   LV_ALIGN_CENTER, 0, 10);
-                  - lvgl.widget.show: ss_events
-                  - script.execute: screensaver_update_calendar_events
+                  # Style 1 — Flip: show flip, hide events
+                  - lvgl.widget.show: ss_flip
+                  - lvgl.widget.hide: ss_events
+                  - if:
+                      condition:
+                        lambda: return id(screensaver_show_calendar);
+                      then:
+                        - lambda: |-
+                            lv_obj_align(id(ss_flip_panels), LV_ALIGN_CENTER, 0, -110);
+                            lv_obj_align(id(ss_flip_seam),   LV_ALIGN_CENTER, 0, -110);
+                            lv_obj_align(id(ss_flip_date),   LV_ALIGN_CENTER, 0, 10);
+                        - lvgl.widget.show: ss_events
+                        - script.execute: screensaver_update_calendar_events
+                      else:
+                        - lambda: |-
+                            lv_obj_align(id(ss_flip_panels), LV_ALIGN_CENTER, 0, 0);
+                            lv_obj_align(id(ss_flip_seam),   LV_ALIGN_CENTER, 0, 0);
+                            lv_obj_align(id(ss_flip_date),   LV_ALIGN_CENTER, 0, 110);
+                  - script.execute: screensaver_update_flip
                 else:
-                  - lambda: |-
-                      lv_obj_align(id(ss_flip_panels), LV_ALIGN_CENTER, 0, 0);
-                      lv_obj_align(id(ss_flip_seam),   LV_ALIGN_CENTER, 0, 0);
-                      lv_obj_align(id(ss_flip_date),   LV_ALIGN_CENTER, 0, 110);
-            - script.execute: screensaver_update_flip
-      # Style 2 = None: everything stays hidden; backlight is dimmed by on_idle handler
+                  # Style 2 — None: hide everything; backlight dimmed by on_idle handler
+                  - lvgl.widget.hide: ss_flip
+                  - lvgl.widget.hide: ss_events
 
   - id: screensaver_update_flip
     then:
