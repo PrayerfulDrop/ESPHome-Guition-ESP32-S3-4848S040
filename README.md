@@ -52,9 +52,9 @@ A complete, production-ready smart home dashboard for the **Guition ESP32-S3-484
 |:---:|:---:|:---:|
 | ![Devices](screenshots/devices-widget.png) | ![Settings 1](screenshots/settings-widget1.png) | ![Settings 2](screenshots/settings-widget2.png) |
 
-| 5-Day Weather Forecast | People |
-|:---:|:---:|
-| ![5-Day Weather](screenshots/5-day-weather.png) | ![People Widget](screenshots/people-widget.png) |
+| Settings (3) | 5-Day Weather Forecast | People |
+|:---:|:---:|:---:|
+| ![Settings 3](screenshots/settings-widget3.png) | ![5-Day Weather](screenshots/5-day-weather.png) | ![People Widget](screenshots/people-widget.png) |
 
 ---
 
