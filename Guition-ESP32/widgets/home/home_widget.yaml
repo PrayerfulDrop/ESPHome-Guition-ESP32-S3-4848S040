@@ -323,31 +323,37 @@ lvgl:
             width: 440
             height: 40
             align: TOP_MID
-            pad_all: 0
+            pad_top: 0
+            pad_bottom: 0
+            pad_left: 12
+            pad_right: 8
             bg_color: color_steel_blue
             bg_opa: 20%
             border_opa: TRANSP
             border_width: 0
             shadow_opa: TRANSP
             radius: 10
+            layout:
+              type: FLEX
+              flex_flow: ROW
+              flex_align_main: START
+              flex_align_cross: CENTER
+              flex_align_track: CENTER
             widgets:
 
-              # date
+              # date — left-anchored by flex layout
               - label:
                   id: display_date
-                  x: 20
-                  align: LEFT_MID
                   text_font: nunito_16
                   text_color: color_misty_blue
                   text: "31.01"
 
-              # Person presence indicators (up to 4) — flex row, centered in bar
-              # align: CENTER keeps the group centered regardless of date text width or
-              # how many slots are active. Disabled slots are hidden at boot (people_widget.yaml).
+              # Person presence indicators — flex_grow:1 fills all space between date and icons,
+              # centering initials in the true visual midpoint regardless of date text width.
+              # Disabled slots are hidden at boot (people_widget.yaml).
               - obj:
                   id: person_indicators_container
-                  align: CENTER
-                  width: SIZE_CONTENT
+                  flex_grow: 1
                   height: 40
                   pad_all: 0
                   bg_opa: TRANSP
@@ -388,60 +394,72 @@ lvgl:
                         text_color: color_steel_blue
                         text: "${person_initials_4}"
 
-              # Wi-Fi status — tap to open system info
-              - label:
-                  id: wifi_status
-                  align: RIGHT_MID
-                  x: -20
-                  text: "${wifi_100_icon}"
-                  text_color: color_steel_blue
-                  text_font: icons_24
-                  clickable: true
-                  on_click:
-                    - lvgl.page.show:
-                        id: system_info_page
-                        animation: OUT_RIGHT
-                        time: 300ms
+              # Right-side status icons — grouped so person_indicators_container can
+              # flex_grow to fill the true middle space between date and this group.
+              - obj:
+                  id: status_icons_container
+                  width: SIZE_CONTENT
+                  height: 40
+                  pad_all: 0
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  shadow_opa: TRANSP
+                  layout:
+                    type: FLEX
+                    flex_flow: ROW
+                    flex_align_main: CENTER
+                    flex_align_cross: CENTER
+                    flex_align_track: CENTER
+                  widgets:
 
-              # Home Assistant status
-              - label:
-                  id: ha_status
-                  align: RIGHT_MID
-                  x: -60
-                  text: "${ha_icon}"
-                  text_color: color_steel_blue
-                  text_font: icons_24
+                    # Alarm panel status — color/icon match alarm state; tap to open alarm panel
+                    - label:
+                        id: alarm_panel_status
+                        text: "${shield_arming_icon}"
+                        text_color: color_steel_blue
+                        text_font: mdi_icons_24
+                        clickable: true
+                        on_click:
+                          - lvgl.page.show:
+                              id: alarm_panel_page
+                              animation: OUT_RIGHT
+                              time: 300ms
 
+                    # HVAC status — color: heating=orange, cooling=sky-blue, off=gray; tap to open HVAC
+                    - label:
+                        id: hvac_status
+                        pad_left: 16
+                        text: "${hvac_icon}"
+                        text_color: color_steel_blue
+                        text_font: icons_24
+                        clickable: true
+                        on_click:
+                          - lvgl.page.show:
+                              id: hvac_page
+                              animation: OUT_RIGHT
+                              time: 300ms
 
-              # HVAC status — color: heating=orange, cooling=sky-blue, off=gray; tap to open HVAC
-              - label:
-                  id: hvac_status
-                  align: RIGHT_MID
-                  x: -100
-                  text: "${hvac_icon}"
-                  text_color: color_steel_blue
-                  text_font: icons_24
-                  clickable: true
-                  on_click:
-                    - lvgl.page.show:
-                        id: hvac_page
-                        animation: OUT_RIGHT
-                        time: 300ms
+                    # Home Assistant status
+                    - label:
+                        id: ha_status
+                        pad_left: 16
+                        text: "${ha_icon}"
+                        text_color: color_steel_blue
+                        text_font: icons_24
 
-              # Alarm panel status — color/icon match alarm state; tap to open alarm panel
-              - label:
-                  id: alarm_panel_status
-                  align: RIGHT_MID
-                  x: -140
-                  text: "${shield_arming_icon}"
-                  text_color: color_steel_blue
-                  text_font: mdi_icons_24
-                  clickable: true
-                  on_click:
-                    - lvgl.page.show:
-                        id: alarm_panel_page
-                        animation: OUT_RIGHT
-                        time: 300ms
+                    # Wi-Fi status — tap to open system info
+                    - label:
+                        id: wifi_status
+                        pad_left: 16
+                        text: "${wifi_100_icon}"
+                        text_color: color_steel_blue
+                        text_font: icons_24
+                        clickable: true
+                        on_click:
+                          - lvgl.page.show:
+                              id: system_info_page
+                              animation: OUT_RIGHT
+                              time: 300ms
 
         # time
         - obj:
@@ -890,7 +908,7 @@ script:
                 text: !lambda |-
                   static char date_buf[32];
                   auto now = id(homeassistant_time).now();
-                  static const char* days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                  static const char* days[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
                   snprintf(date_buf, sizeof(date_buf), "%s, %d/%02d/%04d", days[(now.day_of_week)-1], now.month, now.day_of_month, now.year);
                   return date_buf;
 
