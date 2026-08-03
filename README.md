@@ -193,7 +193,7 @@ substitutions:
   # ── 1 │ DEVICE ────────────────────────────────────────────────────
   esphome_name:          "living-room"          # hostname — lowercase, hyphens only
   esphome_friendly_name: "Living Room Display"
-  ota_password:          !secret display_ota    # per-device OTA password
+  ota_password:          !secret display_ota    # or a device-specific secret
   ha_server:             "http://homeassistant.local:8123"
   time_zone:             "America/New_York"     # IANA tz name
 

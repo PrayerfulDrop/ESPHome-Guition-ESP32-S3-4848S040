@@ -12,8 +12,9 @@
 substitutions:
   # ── 1 │ DEVICE ───────────────────────────────────────────────────────────────
   # esphome_name : lowercase letters, numbers and hyphens only (used as hostname)
-  # ota_password : the OTA password for this device. One secret per device, so a
-  #                second display does not have to share the first one's password.
+  # ota_password : OTA password for this device. Defaults to the shared
+  #                display_ota secret; point it at a device-specific secret if you
+  #                want each display to have its own.
   # ha_server    : full URL to your Home Assistant instance
   # time_zone    : IANA timezone name — https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   #                Examples: America/New_York  America/Chicago  America/Denver  America/Los_Angeles
