@@ -77,7 +77,7 @@ api:
 
 ota:
   - platform: esphome
-    password: !secret display_ota
+    password: ${ota_password}
     on_begin:
       # Stop every script that may call lvgl.* APIs.  If any of these fire
       # after lvgl.pause they write into the framebuffer while DMA is actively
