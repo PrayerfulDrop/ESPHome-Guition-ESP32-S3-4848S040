@@ -2,13 +2,15 @@
   ########### LOGO ############
   #############################
 
-- file: 'Guition-ESP32/img/loading/homeassistant.png'
+- platform: file
+  file: 'Guition-ESP32/img/loading/homeassistant.png'
   id: ha_img
   type: rgb565
   resize: 400x82
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/loading/esphome.png'
+- platform: file
+  file: 'Guition-ESP32/img/loading/esphome.png'
   id: esphome_img
   type: rgb565
   resize: 320x95
@@ -18,12 +20,14 @@
   ########## LIGHT ############
   ############################# 
 
-- file: 'Guition-ESP32/img/light/lightbulb.png'
+- platform: file
+  file: 'Guition-ESP32/img/light/lightbulb.png'
   id: lightbulb_image
   type: rgb565
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/light/rgb_ring.png'
+- platform: file
+  file: 'Guition-ESP32/img/light/rgb_ring.png'
   id: rgb_img
   type: rgb565
   transparency: alpha_channel
@@ -32,109 +36,127 @@
   ########## VACUUM ###########
   #############################
 
-- file: 'Guition-ESP32/img/vacuum/vacuum.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum.png'
   id: vacuum_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_0_10.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_0_10.png'
   id: vacuum_0_10_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_0_20.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_0_20.png'
   id: vacuum_0_20_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_0_30.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_0_30.png'
   id: vacuum_0_30_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_5.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_5.png'
   id: vacuum_5_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_10.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_10.png'
   id: vacuum_10_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_15.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_15.png'
   id: vacuum_15_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_20.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_20.png'
   id: vacuum_20_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_20_10.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_20_10.png'
   id: vacuum_20_10_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_20_20.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_20_20.png'
   id: vacuum_20_20_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_20_30.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_20_30.png'
   id: vacuum_20_30_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_355.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_355.png'
   id: vacuum_355_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_350.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_350.png'
   id: vacuum_350_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_345.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_345.png'
   id: vacuum_345_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_340.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_340.png'
   id: vacuum_340_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_340_10.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_340_10.png'
   id: vacuum_340_10_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_340_20.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_340_20.png'
   id: vacuum_340_20_img
   type: rgb565
   resize: 160x160
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/vacuum/vacuum_340_30.png'
+- platform: file
+  file: 'Guition-ESP32/img/vacuum/vacuum_340_30.png'
   id: vacuum_340_30_img
   type: rgb565
   resize: 160x160
@@ -144,91 +166,106 @@
   ########## WEATHER ##########
   #############################
 
-- file: 'Guition-ESP32/img/weather/sunny.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/sunny.png'
   id: sunny_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/clear_night.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/clear_night.png'
   id: clear_night_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/cloudy.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/cloudy.png'
   id: cloudy_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/partlycloudy_sun.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/partlycloudy_sun.png'
   id: partlycloudy_sun_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/partlycloudy_moon.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/partlycloudy_moon.png'
   id: partlycloudy_moon_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/rainy.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/rainy.png'
   id: rainy_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/pouring.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/pouring.png'
   id: pouring_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/snowy.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/snowy.png'
   id: snowy_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/snowy_rainy.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/snowy_rainy.png'
   id: snowy_rainy_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/fog.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/fog.png'
   id: fog_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/hail.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/hail.png'
   id: hail_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/lightning.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/lightning.png'
   id: lightning_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/lightning_rainy.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/lightning_rainy.png'
   id: lightning_rainy_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/windy.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/windy.png'
   id: windy_img
   type: rgb565
   resize: 80x80
   transparency: alpha_channel
 
-- file: 'Guition-ESP32/img/weather/windy_variant.png'
+- platform: file
+  file: 'Guition-ESP32/img/weather/windy_variant.png'
   id: windy_variant_img
   type: rgb565
   resize: 80x80
@@ -238,52 +275,62 @@
   ########## FLAGS ############
   #############################
 
-- file: 'Guition-ESP32/img/flags/de.png'
+- platform: file
+  file: 'Guition-ESP32/img/flags/de.png'
   id: flags_de_img
   type: rgb565
   resize: 60x80
 
-- file: 'Guition-ESP32/img/flags/es.png'
+- platform: file
+  file: 'Guition-ESP32/img/flags/es.png'
   id: flags_es_img
   type: rgb565
   resize: 60x80
 
-- file: 'Guition-ESP32/img/flags/fr.png'
+- platform: file
+  file: 'Guition-ESP32/img/flags/fr.png'
   id: flags_fr_img
   type: rgb565
   resize: 60x80
 
-- file: 'Guition-ESP32/img/flags/gb.png'
+- platform: file
+  file: 'Guition-ESP32/img/flags/gb.png'
   id: flags_gb_img
   type: rgb565
   resize: 60x80
 
-- file: 'Guition-ESP32/img/flags/it.png'
+- platform: file
+  file: 'Guition-ESP32/img/flags/it.png'
   id: flags_it_img
   type: rgb565
   resize: 60x80
 
-- file: 'Guition-ESP32/img/flags/kr.png'
+- platform: file
+  file: 'Guition-ESP32/img/flags/kr.png'
   id: flags_kr_img
   type: rgb565
   resize: 60x80
 
-- file: 'Guition-ESP32/img/flags/pt.png'
+- platform: file
+  file: 'Guition-ESP32/img/flags/pt.png'
   id: flags_pt_img
   type: rgb565
   resize: 60x80
 
-- file: 'Guition-ESP32/img/flags/ru.png'
+- platform: file
+  file: 'Guition-ESP32/img/flags/ru.png'
   id: flags_ru_img
   type: rgb565
   resize: 60x80
 
-- file: 'Guition-ESP32/img/flags/us.png'
+- platform: file
+  file: 'Guition-ESP32/img/flags/us.png'
   id: flags_us_img
   type: rgb565
   resize: 60x80
 
-- file: 'Guition-ESP32/img/flags/pl.png'
+- platform: file
+  file: 'Guition-ESP32/img/flags/pl.png'
   id: flags_pl_img
   type: rgb565
   resize: 60x80
@@ -292,47 +339,58 @@
   ########## BATTERY ##########
   #############################
 
-- file: 'Guition-ESP32/img/battery/battery_very_high.png'
+- platform: file
+  file: 'Guition-ESP32/img/battery/battery_very_high.png'
   id: battery_very_high_img
   type: rgb565
 
-- file: 'Guition-ESP32/img/battery/battery_high.png'
+- platform: file
+  file: 'Guition-ESP32/img/battery/battery_high.png'
   id: battery_high_img
   type: rgb565
 
-- file: 'Guition-ESP32/img/battery/battery_middle.png'
+- platform: file
+  file: 'Guition-ESP32/img/battery/battery_middle.png'
   id: battery_middle_img
   type: rgb565
 
-- file: 'Guition-ESP32/img/battery/battery_low.png'
+- platform: file
+  file: 'Guition-ESP32/img/battery/battery_low.png'
   id: battery_low_img
   type: rgb565
 
-- file: 'Guition-ESP32/img/battery/battery_very_low.png'
+- platform: file
+  file: 'Guition-ESP32/img/battery/battery_very_low.png'
   id: battery_very_low_img
   type: rgb565
 
-- file: 'Guition-ESP32/img/battery/battery_empty.png'
+- platform: file
+  file: 'Guition-ESP32/img/battery/battery_empty.png'
   id: battery_empty_img
   type: rgb565
 
-- file: 'Guition-ESP32/img/battery/battery_80.png'
+- platform: file
+  file: 'Guition-ESP32/img/battery/battery_80.png'
   id: battery_80_img
   type: rgb565
 
-- file: 'Guition-ESP32/img/battery/battery_60.png'
+- platform: file
+  file: 'Guition-ESP32/img/battery/battery_60.png'
   id: battery_60_img
   type: rgb565
 
-- file: 'Guition-ESP32/img/battery/battery_40.png'
+- platform: file
+  file: 'Guition-ESP32/img/battery/battery_40.png'
   id: battery_40_img
   type: rgb565
 
-- file: 'Guition-ESP32/img/battery/battery_20.png'
+- platform: file
+  file: 'Guition-ESP32/img/battery/battery_20.png'
   id: battery_20_img
   type: rgb565
 
-- file: 'Guition-ESP32/img/battery/battery_0.png'
+- platform: file
+  file: 'Guition-ESP32/img/battery/battery_0.png'
   id: battery_0_img
   type: rgb565
 
@@ -340,7 +398,8 @@
   ########## PARIS ############
   #############################
 
-- file: 'Guition-ESP32/img/paris_tower.png'
+- platform: file
+  file: 'Guition-ESP32/img/paris_tower.png'
   id: paris_tower_img
   type: rgb565
   transparency: alpha_channel
@@ -349,7 +408,8 @@
   ########## ESPEON ############
   #############################
 
-- file: 'Guition-ESP32/img/espeon_bg.png'
+- platform: file
+  file: 'Guition-ESP32/img/espeon_bg.png'
   id: espeon_bg_img
   type: rgb565
 
@@ -357,7 +417,8 @@
   ####### PATRIOTIC ############
   #############################
 
-- file: 'Guition-ESP32/img/patriotic_bg.png'
+- platform: file
+  file: 'Guition-ESP32/img/patriotic_bg.png'
   id: patriotic_bg_img
   type: rgb565
 
@@ -365,7 +426,8 @@
   ##### CHERRY BLOSSOM #########
   #############################
 
-- file: 'Guition-ESP32/img/cherry_bg.png'
+- platform: file
+  file: 'Guition-ESP32/img/cherry_bg.png'
   id: cherry_bg_img
   type: rgb565
 
