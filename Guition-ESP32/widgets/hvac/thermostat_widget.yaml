@@ -175,6 +175,8 @@ lvgl:
 
   pages:
     - id: ${thermostat_page_id}
+      on_load:
+        - script.execute: apply_thermostat_ui_labels
       bg_color: color_slate_blue_gray
       widgets:
         # ── Page title ──────────────────────────────────────────────────────
@@ -682,6 +684,14 @@ script:
           int l = id(current_language);
           if (l < 0 || l > 8) l = 7;
           lv_label_set_text(id(thermostat_header), t[l]);
+          // Temperature unit
+          bool use_c = (id(temp_unit) == 1);
+          lv_label_set_text(id(thermostat_target_temperature_measurement), use_c ? "°C" : "°F");
+          int t_min = use_c ? 10 : 50;
+          int t_max = use_c ? 35 : 90;
+          lv_arc_set_range(id(thermostat_arc_main), t_min, t_max);
+          lv_arc_set_range(id(thermostat_arc_current_temp), t_min, t_max);
+          lv_scale_set_range(id(thermostat_meter), t_min, t_max);
 
 select:
   - platform: lvgl

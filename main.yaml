@@ -123,35 +123,41 @@ substitutions:
   #
   #  Unused slots → set light_entity_N: "sensor.disabled"
   #
-  light_entity_1:     "light.yourmainlight"
-  light_label_name_1: "Main Lights"
-  light_type_1:       "light"
-  light_icon_1:       "ceiling_lamp"
+  light_entity_1:      "light.yourmainlight"
+  light_label_name_1:  "Main Lights"
+  light_type_1:        "light"
+  light_icon_1:        "ceiling_lamp"
+  light_icon_font_1:   "ceiling_lamp_font"   # change when you change light_icon_1
 
-  light_entity_2:     "light.yourlamps"
-  light_label_name_2: "Lamps"
-  light_type_2:       "light"
-  light_icon_2:       "night_lamp"
+  light_entity_2:      "light.yourlamps"
+  light_label_name_2:  "Lamps"
+  light_type_2:        "light"
+  light_icon_2:        "night_lamp"
+  light_icon_font_2:   "night_lamp_font"     # change when you change light_icon_2
 
-  light_entity_3:     "light.yournightlight"
-  light_label_name_3: "Night Light"
-  light_type_3:       "switch"
-  light_icon_3:       "night_lamp"
+  light_entity_3:      "light.yournightlight"
+  light_label_name_3:  "Night Light"
+  light_type_3:        "switch"
+  light_icon_3:        "night_lamp"
+  light_icon_font_3:   "night_lamp_font"     # change when you change light_icon_3
 
-  light_entity_4:     "input_boolean.yourbedtime"
-  light_label_name_4: "Bedtime"
-  light_type_4:       "input_boolean"
-  light_icon_4:       "bed"
+  light_entity_4:      "input_boolean.yourbedtime"
+  light_label_name_4:  "Bedtime"
+  light_type_4:        "input_boolean"
+  light_icon_4:        "bed"
+  light_icon_font_4:   "mdi_72_ref"          # change when you change light_icon_4
 
-  light_entity_5:     "sensor.disabled"
-  light_label_name_5: ""
-  light_type_5:       ""
-  light_icon_5:       ""
+  light_entity_5:      "sensor.disabled"
+  light_label_name_5:  ""
+  light_type_5:        ""
+  light_icon_5:        ""
+  light_icon_font_5:   "icons_72_ref"        # change when you change light_icon_5
 
-  light_entity_6:     "sensor.disabled"
-  light_label_name_6: ""
-  light_type_6:       ""
-  light_icon_6:       ""
+  light_entity_6:      "sensor.disabled"
+  light_label_name_6:  ""
+  light_type_6:        ""
+  light_icon_6:        ""
+  light_icon_font_6:   "icons_72_ref"        # change when you change light_icon_6
 
 
   # ── 7 │ FANS  (up to 6 slots) ────────────────────────────────────────────────
@@ -231,6 +237,33 @@ substitutions:
   cover_entity_6:     "sensor.disabled"
   cover_label_name_6: ""
   cover_icon_6:       "curtains"
+
+
+# ── 9 │ RELAYS  (optional — hardware relay board on GPIO40 / GPIO2 / GPIO1) ───
+#
+# Uncomment the switch block below to expose the three onboard relays as
+# Home Assistant switch entities.  Wire Relay 1 to GPIO40, Relay 2 to GPIO2,
+# and Relay 3 to GPIO1 (matches the Guition-ESP32-S3-4848S040 relay header).
+#
+# switch:
+#   - platform: gpio
+#     id: relay_1
+#     name: "Relay 1"
+#     pin:
+#       number: GPIO40
+#       inverted: false
+#   - platform: gpio
+#     id: relay_2
+#     name: "Relay 2"
+#     pin:
+#       number: GPIO2
+#       inverted: false
+#   - platform: gpio
+#     id: relay_3
+#     name: "Relay 3"
+#     pin:
+#       number: GPIO1
+#       inverted: false
 
 
 # ╔══════════════════════════════════════════════════════════════════════════════╗

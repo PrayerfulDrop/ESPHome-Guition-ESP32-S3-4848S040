@@ -161,6 +161,8 @@ lvgl:
 
   pages:
     - id: hvac_page
+      on_load:
+        - script.execute: apply_hvac_ui_labels
       bg_color: color_slate_blue_gray
       widgets:
         # ── Page title ──────────────────────────────────────────────────────
@@ -630,6 +632,14 @@ script:
           lv_label_set_text(id(hvac_header),        t[l][0]);
           lv_label_set_text(id(hvac_fan_auto_lbl),  t[l][1]);
           lv_label_set_text(id(hvac_fan_on_lbl),    t[l][2]);
+          // Temperature unit
+          bool use_c = (id(temp_unit) == 1);
+          lv_label_set_text(id(hvac_target_temperature_measurement), use_c ? "°C" : "°F");
+          int t_min = use_c ? 10 : 50;
+          int t_max = use_c ? 35 : 90;
+          lv_arc_set_range(id(hvac_arc_main), t_min, t_max);
+          lv_arc_set_range(id(hvac_arc_current_temp), t_min, t_max);
+          lv_scale_set_range(id(hvac_meter), t_min, t_max);
 
 select:
   - platform: lvgl

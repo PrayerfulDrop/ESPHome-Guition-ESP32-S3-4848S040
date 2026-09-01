@@ -908,8 +908,20 @@ script:
                 text: !lambda |-
                   static char date_buf[32];
                   auto now = id(homeassistant_time).now();
-                  static const char* days[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-                  snprintf(date_buf, sizeof(date_buf), "%s, %d/%02d/%04d", days[(now.day_of_week)-1], now.month, now.day_of_month, now.year);
+                  int lang = id(current_language);
+                  if (lang < 0 || lang > 8) lang = 7;
+                  static const char* days[9][7] = {
+                    {"So","Mo","Di","Mi","Do","Fr","Sa"},
+                    {"dom","lun","mar","mié","jue","vie","sáb"},
+                    {"dim","lun","mar","mer","jeu","ven","sam"},
+                    {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"},
+                    {"dom","lun","mar","mer","gio","ven","sab"},
+                    {"dom","seg","ter","qua","qui","sex","sáb"},
+                    {"вс","пн","вт","ср","чт","пт","сб"},
+                    {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"},
+                    {"ndz","pon","wt","śr","czw","pt","sob"},
+                  };
+                  snprintf(date_buf, sizeof(date_buf), "%s, %d/%02d/%04d", days[lang][(now.day_of_week)-1], now.month, now.day_of_month, now.year);
                   return date_buf;
 
   - id: notification_dismiss
@@ -972,9 +984,31 @@ script:
                 text: !lambda |-
                   static char buf[40];
                   auto now = id(homeassistant_time).now();
-                  static const char* days[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
-                  static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
-                  snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[now.day_of_week - 1], months[now.month - 1], now.day_of_month, now.year);
+                  int lang = id(current_language);
+                  if (lang < 0 || lang > 8) lang = 7;
+                  static const char* days[9][7] = {
+                    {"Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"},
+                    {"domingo","lunes","martes","miércoles","jueves","viernes","sábado"},
+                    {"dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"},
+                    {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+                    {"domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"},
+                    {"domingo","segunda","terça","quarta","quinta","sexta","sábado"},
+                    {"воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"},
+                    {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+                    {"niedziela","poniedziałek","wtorek","środa","czwartek","piątek","sobota"},
+                  };
+                  static const char* months[9][12] = {
+                    {"Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"},
+                    {"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"},
+                    {"janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"},
+                    {"January","February","March","April","May","June","July","August","September","October","November","December"},
+                    {"gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"},
+                    {"janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"},
+                    {"январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"},
+                    {"January","February","March","April","May","June","July","August","September","October","November","December"},
+                    {"styczeń","luty","marzec","kwiecień","maj","czerwiec","lipiec","sierpień","wrzesień","październik","listopad","grudzień"},
+                  };
+                  snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[lang][now.day_of_week - 1], months[lang][now.month - 1], now.day_of_month, now.year);
                   return buf;
           else:
             # Not style 0 — digital is never needed, hide it
@@ -1038,9 +1072,31 @@ script:
           text: !lambda |-
             static char buf[40];
             auto now = id(homeassistant_time).now();
-            static const char* days[] = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
-            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
-            snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[now.day_of_week - 1], months[now.month - 1], now.day_of_month, now.year);
+            int lang = id(current_language);
+            if (lang < 0 || lang > 8) lang = 7;
+            static const char* days[9][7] = {
+              {"Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"},
+              {"domingo","lunes","martes","miércoles","jueves","viernes","sábado"},
+              {"dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"},
+              {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+              {"domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"},
+              {"domingo","segunda","terça","quarta","quinta","sexta","sábado"},
+              {"воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"},
+              {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+              {"niedziela","poniedziałek","wtorek","środa","czwartek","piątek","sobota"},
+            };
+            static const char* months[9][12] = {
+              {"Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"},
+              {"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"},
+              {"janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"},
+              {"January","February","March","April","May","June","July","August","September","October","November","December"},
+              {"gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"},
+              {"janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"},
+              {"январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"},
+              {"January","February","March","April","May","June","July","August","September","October","November","December"},
+              {"styczeń","luty","marzec","kwiecień","maj","czerwiec","lipiec","sierpień","wrzesień","październik","listopad","grudzień"},
+            };
+            snprintf(buf, sizeof(buf), "%s, %s %d, %d", days[lang][now.day_of_week - 1], months[lang][now.month - 1], now.day_of_month, now.year);
             return buf;
 
   - id: screensaver_update_calendar_events
@@ -1051,8 +1107,30 @@ script:
             std::string s = id(cal_start_1).state;
             std::string e = id(cal_end_1).state;
             if (s.empty()) return std::string(" ");
-            static const char* days[]   = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
-            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            int lang = id(current_language);
+            if (lang < 0 || lang > 8) lang = 7;
+            static const char* days[9][7] = {
+              {"Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"},
+              {"domingo","lunes","martes","miércoles","jueves","viernes","sábado"},
+              {"dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"},
+              {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+              {"domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"},
+              {"domingo","segunda","terça","quarta","quinta","sexta","sábado"},
+              {"воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"},
+              {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+              {"niedziela","poniedziałek","wtorek","środa","czwartek","piątek","sobota"},
+            };
+            static const char* months[9][12] = {
+              {"Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"},
+              {"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"},
+              {"janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"},
+              {"January","February","March","April","May","June","July","August","September","October","November","December"},
+              {"gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"},
+              {"janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"},
+              {"январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"},
+              {"January","February","March","April","May","June","July","August","September","October","November","December"},
+              {"styczeń","luty","marzec","kwiecień","maj","czerwiec","lipiec","sierpień","wrzesień","październik","listopad","grudzień"},
+            };
             struct tm ts = {};
             bool all_day = (s.size() <= 10);
             const char *r;
@@ -1065,7 +1143,7 @@ script:
             if (!r) return std::string(" ");
             char buf[64];
             if (all_day) {
-              snprintf(buf, sizeof(buf), "%s, %s %d : all day", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday);
+              snprintf(buf, sizeof(buf), "%s, %s %d : all day", days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday);
             } else {
               int hs = (ts.tm_hour % 12 == 0) ? 12 : ts.tm_hour % 12;
               struct tm te = {};
@@ -1077,11 +1155,11 @@ script:
                 has_end = (re != nullptr);
               }
               if (!has_end) {
-                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
+                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d", days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
               } else {
                 int he = (te.tm_hour % 12 == 0) ? 12 : te.tm_hour % 12;
                 snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d-%d:%02d%s",
-                  days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday,
+                  days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday,
                   hs, ts.tm_min, he, te.tm_min, (te.tm_hour >= 12) ? "PM" : "AM");
               }
             }
@@ -1096,8 +1174,30 @@ script:
             std::string s = id(cal_start_2).state;
             std::string e = id(cal_end_2).state;
             if (s.empty()) return std::string(" ");
-            static const char* days[]   = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
-            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            int lang = id(current_language);
+            if (lang < 0 || lang > 8) lang = 7;
+            static const char* days[9][7] = {
+              {"Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"},
+              {"domingo","lunes","martes","miércoles","jueves","viernes","sábado"},
+              {"dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"},
+              {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+              {"domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"},
+              {"domingo","segunda","terça","quarta","quinta","sexta","sábado"},
+              {"воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"},
+              {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+              {"niedziela","poniedziałek","wtorek","środa","czwartek","piątek","sobota"},
+            };
+            static const char* months[9][12] = {
+              {"Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"},
+              {"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"},
+              {"janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"},
+              {"January","February","March","April","May","June","July","August","September","October","November","December"},
+              {"gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"},
+              {"janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"},
+              {"январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"},
+              {"January","February","March","April","May","June","July","August","September","October","November","December"},
+              {"styczeń","luty","marzec","kwiecień","maj","czerwiec","lipiec","sierpień","wrzesień","październik","listopad","grudzień"},
+            };
             struct tm ts = {};
             bool all_day = (s.size() <= 10);
             const char *r;
@@ -1110,7 +1210,7 @@ script:
             if (!r) return std::string(" ");
             char buf[64];
             if (all_day) {
-              snprintf(buf, sizeof(buf), "%s, %s %d : all day", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday);
+              snprintf(buf, sizeof(buf), "%s, %s %d : all day", days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday);
             } else {
               int hs = (ts.tm_hour % 12 == 0) ? 12 : ts.tm_hour % 12;
               struct tm te = {};
@@ -1122,11 +1222,11 @@ script:
                 has_end = (re != nullptr);
               }
               if (!has_end) {
-                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
+                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d", days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
               } else {
                 int he = (te.tm_hour % 12 == 0) ? 12 : te.tm_hour % 12;
                 snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d-%d:%02d%s",
-                  days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday,
+                  days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday,
                   hs, ts.tm_min, he, te.tm_min, (te.tm_hour >= 12) ? "PM" : "AM");
               }
             }
@@ -1141,8 +1241,30 @@ script:
             std::string s = id(cal_start_3).state;
             std::string e = id(cal_end_3).state;
             if (s.empty()) return std::string(" ");
-            static const char* days[]   = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
-            static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+            int lang = id(current_language);
+            if (lang < 0 || lang > 8) lang = 7;
+            static const char* days[9][7] = {
+              {"Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"},
+              {"domingo","lunes","martes","miércoles","jueves","viernes","sábado"},
+              {"dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"},
+              {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+              {"domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"},
+              {"domingo","segunda","terça","quarta","quinta","sexta","sábado"},
+              {"воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"},
+              {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+              {"niedziela","poniedziałek","wtorek","środa","czwartek","piątek","sobota"},
+            };
+            static const char* months[9][12] = {
+              {"Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"},
+              {"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"},
+              {"janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"},
+              {"January","February","March","April","May","June","July","August","September","October","November","December"},
+              {"gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"},
+              {"janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"},
+              {"январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"},
+              {"January","February","March","April","May","June","July","August","September","October","November","December"},
+              {"styczeń","luty","marzec","kwiecień","maj","czerwiec","lipiec","sierpień","wrzesień","październik","listopad","grudzień"},
+            };
             struct tm ts = {};
             bool all_day = (s.size() <= 10);
             const char *r;
@@ -1155,7 +1277,7 @@ script:
             if (!r) return std::string(" ");
             char buf[64];
             if (all_day) {
-              snprintf(buf, sizeof(buf), "%s, %s %d : all day", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday);
+              snprintf(buf, sizeof(buf), "%s, %s %d : all day", days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday);
             } else {
               int hs = (ts.tm_hour % 12 == 0) ? 12 : ts.tm_hour % 12;
               struct tm te = {};
@@ -1167,11 +1289,11 @@ script:
                 has_end = (re != nullptr);
               }
               if (!has_end) {
-                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d", days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
+                snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d", days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
               } else {
                 int he = (te.tm_hour % 12 == 0) ? 12 : te.tm_hour % 12;
                 snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d-%d:%02d%s",
-                  days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday,
+                  days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday,
                   hs, ts.tm_min, he, te.tm_min, (te.tm_hour >= 12) ? "PM" : "AM");
               }
             }
@@ -1269,8 +1391,30 @@ script:
             if (!r) { t = {}; r = strptime(s.c_str(), "%Y-%m-%d %H:%M:%S", &t); }
             return r != nullptr;
           };
-          static const char* days[]   = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
-          static const char* months[] = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+          int lang = id(current_language);
+          if (lang < 0 || lang > 8) lang = 7;
+          static const char* days[9][7] = {
+            {"Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"},
+            {"domingo","lunes","martes","miércoles","jueves","viernes","sábado"},
+            {"dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"},
+            {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+            {"domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"},
+            {"domingo","segunda","terça","quarta","quinta","sexta","sábado"},
+            {"воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"},
+            {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"},
+            {"niedziela","poniedziałek","wtorek","środa","czwartek","piątek","sobota"},
+          };
+          static const char* months[9][12] = {
+            {"Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"},
+            {"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"},
+            {"janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"},
+            {"January","February","March","April","May","June","July","August","September","October","November","December"},
+            {"gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"},
+            {"janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"},
+            {"январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"},
+            {"January","February","March","April","May","June","July","August","September","October","November","December"},
+            {"styczeń","luty","marzec","kwiecień","maj","czerwiec","lipiec","sierpień","wrzesień","październik","listopad","grudzień"},
+          };
           struct CalEvent { std::string title, start, end_t; };
           std::vector<CalEvent> events = {
             { id(cal_title_1).state, id(cal_start_1).state, id(cal_end_1).state },
@@ -1302,18 +1446,18 @@ script:
             char buf[80];
             if (all_day) {
               snprintf(buf, sizeof(buf), "%s, %s %d : all day",
-                days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday);
+                days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday);
             } else {
               int hs = (ts.tm_hour % 12 == 0) ? 12 : ts.tm_hour % 12;
               bool has_end = !ev.end_t.empty() && ev.end_t.size() > 10 &&
                 parse_tm(ev.end_t, te, false);
               if (!has_end) {
                 snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d",
-                  days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
+                  days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday, hs, ts.tm_min);
               } else {
                 int he = (te.tm_hour % 12 == 0) ? 12 : te.tm_hour % 12;
                 snprintf(buf, sizeof(buf), "%s, %s %d : %d:%02d-%d:%02d%s",
-                  days[ts.tm_wday], months[ts.tm_mon], ts.tm_mday,
+                  days[lang][ts.tm_wday], months[lang][ts.tm_mon], ts.tm_mday,
                   hs, ts.tm_min, he, te.tm_min, (te.tm_hour >= 12) ? "PM" : "AM");
               }
             }
