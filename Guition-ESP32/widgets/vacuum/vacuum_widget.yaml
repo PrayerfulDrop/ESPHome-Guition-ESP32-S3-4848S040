@@ -137,7 +137,11 @@ text_sensor:
 
           auto dropdown = id(vacuum_fan_speed_dropdown);
           if (dropdown != nullptr) {
-            dropdown->set_options(options);
+            esphome::FixedVector<const char*> fv;
+            for (const auto& s : id(vacuum_fan_speeds)) {
+              fv.push_back(s.c_str());
+            }
+            dropdown->set_options(std::move(fv));
           }
 
 

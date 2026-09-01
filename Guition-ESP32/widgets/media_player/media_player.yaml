@@ -524,8 +524,9 @@ binary_sensor:
                 id: media_player_mute_label
                 text: "${volume_on_icon}"
 
-online_image:
-  - url: "https://www.example.com/example.jpeg"
+image:
+  - platform: online_image
+    url: "https://www.example.com/example.jpeg"
     format: JPEG
     type: RGB565
     resize: 120x120
